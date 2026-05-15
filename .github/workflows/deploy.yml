@@ -17,7 +17,7 @@ jobs:
       - name: Link Vercel project
         run: |
           mkdir -p .vercel
-          echo '{"projectId":"${{ secrets.VERCEL_PROJECT_ID }}","orgId":"${{ secrets.VERCEL_ORG_ID }}"}' > .vercel/project.json
+          echo '{"projectId":"prj_WSfebMrqmkGFSvh3CfLmAitVYgje","orgId":"team_EBhikDcBBDcyviByUlFAxPvs"}' > .vercel/project.json
         working-directory: frontend
 
       - name: Deploy to Vercel
