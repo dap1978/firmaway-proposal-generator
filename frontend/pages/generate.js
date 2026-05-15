@@ -1,0 +1,179 @@
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
+import api from '../api';
+
+const C = {
+  bg: '#FFFFFF', warm: '#FFFBF5', cardBg: '#FEF1E0',
+  ink: '#31353D', muted: 'rgba(49,53,61,0.45)',
+  orange: '#F15A2F', orangeSoft: '#FDEEE9',
+  border: 'rgba(49,53,61,0.12)', dark: '#3A4557',
+};
+
+const nav = {
+  display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+  padding: '0 32px', height: 56, background: C.dark, position: 'fixed',
+  top: 0, left: 0, right: 0, zIndex: 100,
+};
+
+export default function Generate() {
+  const router = useRouter();
+  const [user, setUser] = useState(null);
+  const [transcript, setTranscript] = useState('');
+  const [language, setLanguage] = useState('es');
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+
+  useEffect(() => {
+    const saved = localStorage.getItem('fw_user');
+    if (!saved) { router.replace('/'); return; }
+    const u = JSON.parse(saved);
+    setUser(u);
+    setLanguage(u.language || 'es');
+  }, []);
+
+  async function handleGenerate() {
+    if (transcript.trim().length < 50) {
+      setError('La transcripción es demasiado corta. Pegá la llamada completa.');
+      return;
+    }
+    setError('');
+    setLoading(true);
+    try {
+      const { data } = await api.post('/proposals/generate', {
+        transcript,
+        language,
+        commercial_name: user?.name,
+      });
+      router.push(`/preview/${data.id}`);
+    } catch (err) {
+      setError(err.response?.data?.error || 'Error al generar la propuesta. Intentá de nuevo.');
+      setLoading(false);
+    }
+  }
+
+  function handleLogout() {
+    localStorage.removeItem('fw_user');
+    router.push('/');
+  }
+
+  return (
+    <div style={{ background: C.warm, minHeight: '100vh' }}>
+      {/* Navbar */}
+      <nav style={nav}>
+        <div style={{ fontWeight: 700, fontSize: 17, letterSpacing: '-0.03em', color: '#fff' }}>
+          Firmaway<span style={{ color: C.orange }}>.</span>
+        </div>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+          {user && (
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+              <div style={{ width: 28, height: 28, borderRadius: '50%', background: C.orange, color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 700, fontSize: 12 }}>
+                {user.name?.charAt(0)}
+              </div>
+              <span style={{ color: 'rgba(255,255,255,0.8)', fontSize: 13, fontWeight: 500 }}>{user.name}</span>
+            </div>
+          )}
+          <button onClick={() => router.push('/history')} style={{ background: 'rgba(255,255,255,0.1)', border: 'none', borderRadius: 8, padding: '6px 14px', color: '#fff', fontSize: 13, fontWeight: 500, cursor: 'pointer' }}>
+            Historial
+          </button>
+          <button onClick={handleLogout} style={{ background: 'transparent', border: 'none', color: 'rgba(255,255,255,0.5)', fontSize: 12, cursor: 'pointer' }}>
+            Cambiar usuario
+          </button>
+        </div>
+      </nav>
+
+      {/* Contenido */}
+      <div style={{ paddingTop: 88, paddingBottom: 48, maxWidth: 780, margin: '0 auto', padding: '88px 24px 48px' }}>
+        <div style={{ marginBottom: 32 }}>
+          <h1 style={{ fontSize: 28, fontWeight: 800, letterSpacing: '-0.04em', color: C.ink, marginBottom: 6 }}>
+            Nueva propuesta
+          </h1>
+          <p style={{ fontSize: 14, color: C.muted }}>
+            Pegá la transcripción de la llamada y Claude va a generar la propuesta completa.
+          </p>
+        </div>
+
+        {/* Card principal */}
+        <div style={{ background: C.bg, border: `1.5px solid ${C.border}`, borderRadius: 16, padding: 28, boxShadow: `4px 4px 0px 0px ${C.border}`, marginBottom: 20 }}>
+          {/* Idioma */}
+          <div style={{ marginBottom: 20 }}>
+            <label style={{ display: 'block', fontSize: 11, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.07em', color: C.muted, marginBottom: 8 }}>
+              Idioma de la propuesta
+            </label>
+            <div style={{ display: 'flex', gap: 10 }}>
+              {[{ value: 'es', label: '🇦🇷 Español' }, { value: 'pt', label: '🇧🇷 Português' }].map(opt => (
+                <button
+                  key={opt.value}
+                  onClick={() => setLanguage(opt.value)}
+                  style={{
+                    padding: '8px 18px', borderRadius: 8, cursor: 'pointer', fontSize: 13, fontWeight: 600,
+                    background: language === opt.value ? C.orangeSoft : C.warm,
+                    border: `1.5px solid ${language === opt.value ? C.orange : C.border}`,
+                    color: language === opt.value ? C.orange : C.ink,
+                    boxShadow: language === opt.value ? `2px 2px 0px 0px ${C.orange}` : 'none',
+                  }}
+                >
+                  {opt.label}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Transcripción */}
+          <div>
+            <label style={{ display: 'block', fontSize: 11, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.07em', color: C.muted, marginBottom: 8 }}>
+              Transcripción de la llamada
+            </label>
+            <textarea
+              value={transcript}
+              onChange={e => setTranscript(e.target.value)}
+              placeholder="Pegá acá la transcripción completa de la llamada SAMU..."
+              rows={16}
+              style={{
+                width: '100%', padding: '14px 16px', borderRadius: 10,
+                border: `1.5px solid ${C.border}`, background: C.warm,
+                fontSize: 14, lineHeight: '22px', color: C.ink,
+                resize: 'vertical', outline: 'none', fontFamily: 'inherit',
+              }}
+              onFocus={e => e.target.style.borderColor = C.orange}
+              onBlur={e => e.target.style.borderColor = C.border}
+            />
+            <div style={{ fontSize: 12, color: C.muted, marginTop: 6 }}>
+              {transcript.length > 0 && `${transcript.split(/\s+/).filter(Boolean).length} palabras`}
+            </div>
+          </div>
+        </div>
+
+        {/* Error */}
+        {error && (
+          <div style={{ background: '#FFF0EE', border: `1.5px solid ${C.orange}`, borderRadius: 10, padding: '12px 16px', marginBottom: 16, fontSize: 13, color: C.orange }}>
+            {error}
+          </div>
+        )}
+
+        {/* Botón */}
+        <button
+          onClick={handleGenerate}
+          disabled={loading || transcript.trim().length < 50}
+          style={{
+            width: '100%', padding: '16px', borderRadius: 12,
+            background: loading || transcript.trim().length < 50 ? 'rgba(49,53,61,0.15)' : C.orange,
+            color: loading || transcript.trim().length < 50 ? C.muted : '#fff',
+            border: 'none', fontWeight: 700, fontSize: 16,
+            cursor: loading || transcript.trim().length < 50 ? 'not-allowed' : 'pointer',
+            letterSpacing: '-0.01em',
+            boxShadow: loading || transcript.trim().length < 50 ? 'none' : `4px 4px 0px 0px rgba(241,90,47,0.3)`,
+            transition: 'all 0.15s',
+          }}
+        >
+          {loading ? '⏳ Generando propuesta con Claude...' : '✦ Generar propuesta'}
+        </button>
+
+        {loading && (
+          <p style={{ textAlign: 'center', fontSize: 13, color: C.muted, marginTop: 12 }}>
+            Claude está analizando la llamada. Esto tarda entre 15 y 30 segundos.
+          </p>
+        )}
+      </div>
+    </div>
+  );
+}
