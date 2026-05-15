@@ -43,6 +43,7 @@ export default function Generate() {
         transcript,
         language,
         commercial_name: user?.name,
+        commercial_nickname: user?.nickname,
       });
       router.push(`/preview/${data.id}`);
     } catch (err) {

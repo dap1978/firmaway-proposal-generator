@@ -272,8 +272,6 @@ function renderTemplate(data) {
     CAP01_TITULO: t.cap01Titulo,
     BENEFICIOS_TITULO: t.beneficiosTitulo,
     CUERPO_CAP01: final.cuerpo_cap01 || data.cuerpo_cap01 || '',
-    QUOTE_TEXTO: final.quote_texto || data.quote_texto || '',
-    QUOTE_AUTOR: final.quote_autor || data.quote_autor || '',
     BENEFICIOS_LIST: buildBenefitsList(pkg, lang),
     CAP02_CHIP: t.cap02Chip,
     CAP02_SUB: t.cap02Sub,

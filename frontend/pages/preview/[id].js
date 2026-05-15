@@ -75,7 +75,6 @@ export default function Preview() {
         headline_line2:    src.headline_line2 || '',
         headline_highlight: src.headline_highlight || '',
         cuerpo_cap01:      src.cuerpo_cap01 || '',
-        quote_texto:       src.quote_texto || '',
       });
     });
   }, [id]);
@@ -221,19 +220,6 @@ export default function Preview() {
                 onBlur={e => e.target.style.borderColor = C.border}
               />
             ))}
-          </div>
-
-          {/* Quote */}
-          <div style={{ marginBottom: 14 }}>
-            <label style={{ display: 'block', fontSize: 11, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.06em', color: C.muted, marginBottom: 5 }}>Quote del lead</label>
-            <textarea
-              value={edits.quote_texto || ''}
-              onChange={e => setEdits(p => ({ ...p, quote_texto: e.target.value }))}
-              rows={3}
-              style={{ ...inp }}
-              onFocus={e => e.target.style.borderColor = C.orange}
-              onBlur={e => e.target.style.borderColor = C.border}
-            />
           </div>
 
           {/* Cuerpo Cap 01 */}

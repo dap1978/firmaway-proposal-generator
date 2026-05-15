@@ -15,7 +15,7 @@ async function nextProposalNumber() {
 
 // ── POST /api/proposals/generate ──────────────────────────────────────────
 router.post('/generate', async (req, res) => {
-  const { transcript, language = 'es', commercial_name } = req.body;
+  const { transcript, language = 'es', commercial_name, commercial_nickname: senderNickname } = req.body;
 
   if (!transcript || transcript.trim().length < 50) {
     return res.status(400).json({ error: 'La transcripción es demasiado corta.' });
@@ -23,6 +23,16 @@ router.post('/generate', async (req, res) => {
 
   try {
     const aiData = await generateProposal(transcript, language);
+
+    // Usar el nickname del usuario logueado (tiene precedencia sobre el detectado por Claude)
+    const nickname = senderNickname || aiData.commercial_nickname || 'Seba';
+    aiData.commercial_nickname = nickname;
+
+    // Firmar el mensaje de WhatsApp con el nombre real del que envía
+    if (aiData.whatsapp_draft && !aiData.whatsapp_draft.includes(nickname)) {
+      aiData.whatsapp_draft = aiData.whatsapp_draft.trimEnd() + `\n— ${nickname}`;
+    }
+
     const proposalNumber = await nextProposalNumber();
 
     const { rows } = await db.query(

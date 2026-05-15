@@ -14,34 +14,61 @@ const C = {
   dark:        '#3A4557',
 };
 
+const DEFAULT_USERS = [
+  { id: 'sebastian', name: 'Sebastián Bedoya', nickname: 'Seba' },
+  { id: 'paola',     name: 'Paola Marcano',    nickname: 'Paola' },
+  { id: 'daniel',    name: 'Daniel',            nickname: 'Daniel' },
+  { id: 'tatiana',   name: 'Tatiana',           nickname: 'Tatiana', language: 'pt' },
+  { id: 'ivana',     name: 'Ivana',             nickname: 'Ivana' },
+];
+
 export default function Home() {
   const router = useRouter();
   const [users, setUsers] = useState([]);
   const [selected, setSelected] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [showAddForm, setShowAddForm] = useState(false);
+  const [newName, setNewName] = useState('');
+  const [newNickname, setNewNickname] = useState('');
 
   useEffect(() => {
-    // Si ya hay usuario guardado, ir directo a /generate
     const saved = localStorage.getItem('fw_user');
-    if (saved) {
-      router.replace('/generate');
-      return;
-    }
+    if (saved) { router.replace('/generate'); return; }
+
+    // Cargar usuarios custom guardados en localStorage
+    const custom = JSON.parse(localStorage.getItem('fw_custom_users') || '[]');
+
     api.get('/users')
-      .then(r => setUsers(r.data))
-      .catch(() => setUsers([
-        { id: 'sebastian', name: 'Sebastián Bedoya', nickname: 'Seba' },
-        { id: 'paola',     name: 'Paola Marcano',    nickname: 'Paola' },
-        { id: 'daniel',    name: 'Daniel',            nickname: 'Daniel' },
-        { id: 'tatiana',   name: 'Tatiana',           nickname: 'Tatiana' },
-        { id: 'ivana',     name: 'Ivana',             nickname: 'Ivana' },
-      ]))
+      .then(r => setUsers([...r.data, ...custom]))
+      .catch(() => setUsers([...DEFAULT_USERS, ...custom]))
       .finally(() => setLoading(false));
   }, []);
 
   function handleSelect(user) {
     localStorage.setItem('fw_user', JSON.stringify(user));
     router.push('/generate');
+  }
+
+  function handleAddUser() {
+    const name = newName.trim();
+    const nickname = newNickname.trim() || name.split(' ')[0];
+    if (!name) return;
+
+    const newUser = {
+      id: `custom_${Date.now()}`,
+      name,
+      nickname,
+    };
+
+    // Persistir en localStorage
+    const existing = JSON.parse(localStorage.getItem('fw_custom_users') || '[]');
+    const updated = [...existing, newUser];
+    localStorage.setItem('fw_custom_users', JSON.stringify(updated));
+
+    setUsers(prev => [...prev, newUser]);
+    setNewName('');
+    setNewNickname('');
+    setShowAddForm(false);
   }
 
   if (loading) return (
@@ -80,6 +107,7 @@ export default function Home() {
         </p>
 
         <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+          {/* Usuarios existentes */}
           {users.map(user => (
             <button
               key={user.id}
@@ -124,6 +152,111 @@ export default function Home() {
               </div>
             </button>
           ))}
+
+          {/* Formulario agregar nuevo */}
+          {showAddForm ? (
+            <div style={{
+              border: `1.5px solid ${C.orange}`,
+              borderRadius: 12,
+              padding: '16px 18px',
+              background: C.orangeSoft,
+              boxShadow: `3px 3px 0px 0px ${C.orange}`,
+              display: 'flex',
+              flexDirection: 'column',
+              gap: 10,
+            }}>
+              <div style={{ fontSize: 12, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em', color: C.orange }}>
+                Nuevo usuario
+              </div>
+              <input
+                autoFocus
+                value={newName}
+                onChange={e => setNewName(e.target.value)}
+                placeholder="Nombre completo (ej: Lucía García)"
+                style={{
+                  padding: '9px 12px', borderRadius: 8,
+                  border: `1.5px solid ${C.border}`, background: C.bg,
+                  fontSize: 13, color: C.ink, outline: 'none', fontFamily: 'inherit',
+                }}
+                onFocus={e => e.target.style.borderColor = C.orange}
+                onBlur={e => e.target.style.borderColor = C.border}
+                onKeyDown={e => e.key === 'Enter' && handleAddUser()}
+              />
+              <input
+                value={newNickname}
+                onChange={e => setNewNickname(e.target.value)}
+                placeholder={`Apodo para WhatsApp (ej: Lucía) — opcional`}
+                style={{
+                  padding: '9px 12px', borderRadius: 8,
+                  border: `1.5px solid ${C.border}`, background: C.bg,
+                  fontSize: 13, color: C.ink, outline: 'none', fontFamily: 'inherit',
+                }}
+                onFocus={e => e.target.style.borderColor = C.orange}
+                onBlur={e => e.target.style.borderColor = C.border}
+                onKeyDown={e => e.key === 'Enter' && handleAddUser()}
+              />
+              <div style={{ display: 'flex', gap: 8 }}>
+                <button
+                  onClick={handleAddUser}
+                  disabled={!newName.trim()}
+                  style={{
+                    flex: 1, padding: '9px', borderRadius: 8, cursor: newName.trim() ? 'pointer' : 'not-allowed',
+                    background: newName.trim() ? C.orange : 'rgba(49,53,61,0.15)',
+                    border: 'none', color: newName.trim() ? '#fff' : C.muted,
+                    fontSize: 13, fontWeight: 700,
+                  }}
+                >
+                  Guardar
+                </button>
+                <button
+                  onClick={() => { setShowAddForm(false); setNewName(''); setNewNickname(''); }}
+                  style={{
+                    padding: '9px 16px', borderRadius: 8, cursor: 'pointer',
+                    background: 'transparent', border: `1.5px solid ${C.border}`,
+                    color: C.muted, fontSize: 13,
+                  }}
+                >
+                  Cancelar
+                </button>
+              </div>
+            </div>
+          ) : (
+            <button
+              onClick={() => setShowAddForm(true)}
+              style={{
+                background: 'transparent',
+                border: `1.5px dashed ${C.border}`,
+                borderRadius: 12,
+                padding: '13px 18px',
+                cursor: 'pointer',
+                textAlign: 'left',
+                display: 'flex',
+                alignItems: 'center',
+                gap: 12,
+                color: C.muted,
+                fontSize: 14,
+                transition: 'all 0.15s',
+              }}
+              onMouseEnter={e => {
+                e.currentTarget.style.borderColor = C.orange;
+                e.currentTarget.style.color = C.orange;
+              }}
+              onMouseLeave={e => {
+                e.currentTarget.style.borderColor = C.border;
+                e.currentTarget.style.color = C.muted;
+              }}
+            >
+              <div style={{
+                width: 36, height: 36, borderRadius: '50%',
+                background: 'transparent', border: `1.5px dashed ${C.border}`,
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                fontSize: 20, flexShrink: 0,
+              }}>
+                +
+              </div>
+              <span style={{ fontWeight: 500 }}>Agregar nombre nuevo</span>
+            </button>
+          )}
         </div>
       </div>
     </div>

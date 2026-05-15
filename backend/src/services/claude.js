@@ -59,8 +59,6 @@ OUTPUT — SOLO JSON VÁLIDO, SIN MARKDOWN, SIN TEXTO ADICIONAL
   "headline_line2": "Segunda línea del titular (máx 5 palabras)",
   "headline_highlight": "Frase final destacada en naranja en la portada (ej: LLC en EE.UU.)",
   "cuerpo_cap01": "Párrafo de 3-4 oraciones personalizado según lo hablado en la llamada. Mencionar detalles específicos del lead (negocio, situación, objetivo). Lenguaje neutro, sin voseos.",
-  "quote_texto": "La frase más poderosa o reveladora del lead durante la llamada, lo más literal posible",
-  "quote_autor": "Sus palabras durante la llamada con [Nombre Comercial] · [Mes Año]",
   "package": "starter | pro | all_in",
   "commercial_name": "Nombre completo del comercial detectado",
   "commercial_nickname": "Apodo del comercial",
@@ -74,7 +72,7 @@ OUTPUT — SOLO JSON VÁLIDO, SIN MARKDOWN, SIN TEXTO ADICIONAL
   ],
   "email_subject": "Asunto del email de seguimiento con propuesta",
   "email_draft": "Email formal completo. Mencionar propuesta adjunta. Lenguaje neutro, sin voseos. Referenciar detalles específicos de la llamada. Firma con nombre del comercial y datos de contacto de Firmaway.",
-  "whatsapp_draft": "Mensaje corto y humano para WhatsApp. Basado en la conversación real. Sin voseos. Máximo 3 líneas. Tono cálido y personal, como si el comercial escribiera desde su teléfono."
+  "whatsapp_draft": "Mensaje corto y humano para WhatsApp. Basado en la conversación real. Sin voseos. Máximo 3 líneas. Tono cálido y personal, como si el comercial escribiera desde su teléfono. NO incluir firma ni nombre al final — se agrega por separado."
 }`;
 }
 
@@ -110,7 +108,7 @@ async function generateProposal(transcript, language = 'es') {
   }
 
   // Validar campos mínimos requeridos
-  const required = ['lead_name', 'package', 'cuerpo_cap01', 'quote_texto', 'email_draft', 'whatsapp_draft'];
+  const required = ['lead_name', 'package', 'cuerpo_cap01', 'email_draft', 'whatsapp_draft'];
   for (const field of required) {
     if (!data[field]) {
       throw new Error(`Campo requerido faltante en respuesta de Claude: ${field}`);
