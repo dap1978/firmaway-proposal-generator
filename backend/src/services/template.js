@@ -8,7 +8,7 @@ const STATE_FEES = {
   new_mexico: 0,
   wyoming: 62,
   delaware: 300,
-  florida: 0,
+  florida: 132,
   texas: 0,
 };
 
@@ -37,7 +37,7 @@ const i18n = {
     cap02Titulo: 'Elegí el plan\nque mejor te queda.',
     tablaNota: '* Paquete recomendado destacado en naranja. Wyoming no expone los nombres de los socios en registros públicos.',
     cap03Chip: 'Cap. 03',
-    cap03Sub: 'Por qué Firmaway',
+    cap03Sub: 'Por qué <strong>Firmaway</strong>',
     cap03Titulo: 'Más de 2.000 empresas\nya operan con nosotros.',
     stat1: 'LLCs formadas',
     stat2: 'Calificación promedio',
@@ -58,7 +58,7 @@ const i18n = {
       'Constitución de sociedad',
       'Cuenta bancaria (Mercury)',
       'EIN / Tax ID federal',
-      'Registered Agent (1 año)',
+      'Agente Registrado gratis por 1 año',
       'Operating Agreement',
       'Soporte gratis e ilimitado',
       'Obligaciones año 1 incluidas',
@@ -66,18 +66,18 @@ const i18n = {
     beneficios: {
       starter: [
         ['LLC en Nuevo México', 'el estado más accesible, sin reporte anual y sin fee estatal.'],
-        ['Registered Agent (1 año)', 'dirección postal en EE.UU. para correspondencia oficial.'],
+        ['Agente Registrado gratis por 1 año', 'dirección postal en EE.UU. para correspondencia oficial.'],
         ['Soporte gratis e ilimitado', 'equipo disponible de lunes a viernes para cualquier consulta.'],
       ],
       pro: [
-        ['LLC en Wyoming', 'el estado más recomendado: privacidad de socios, baja burocracia y baja administrativa flexible por $490 (al día de hoy).'],
-        ['Cuenta Mercury incluida', 'neobanco 100% online, tarjeta Visa física y virtual, ACH y SWIFT para operar globalmente.'],
+        ['LLC en Wyoming', 'el estado más recomendado: privacidad de socios y baja burocracia.'],
+        ['Cuenta Mercury incluida', 'el mejor banco para operar con una LLC, tarjeta de débito Visa física y virtual, ACH y SWIFT para operar globalmente.'],
         ['EIN / Tax ID federal', 'número de identificación fiscal necesario para abrir la cuenta bancaria y operar ante el IRS.'],
         ['Soporte gratis e ilimitado', 'equipo disponible de lunes a viernes para cualquier consulta sobre tu LLC.'],
       ],
       all_in: [
-        ['LLC en Wyoming', 'privacidad de socios, baja burocracia y baja administrativa flexible por $490 (al día de hoy).'],
-        ['Cuenta Mercury incluida', 'neobanco 100% online, tarjeta Visa física y virtual, ACH y SWIFT.'],
+        ['LLC en Wyoming', 'privacidad de socios y baja burocracia.'],
+        ['Cuenta Mercury incluida', 'el mejor banco para operar con una LLC, tarjeta de débito Visa física y virtual, ACH y SWIFT.'],
         ['EIN / Tax ID federal', 'gestión completa ante el IRS por Firmaway.'],
         ['Obligaciones año 1 incluidas', 'declaración, renovación del agente registrado y reporte anual. Hasta 2028 sin costos adicionales.'],
         ['Soporte gratis e ilimitado', 'equipo disponible de lunes a viernes para cualquier consulta.'],
@@ -102,7 +102,7 @@ const i18n = {
     cap02Titulo: 'Escolha o plano\nque mais combina com você.',
     tablaNota: '* Pacote recomendado destacado em laranja. Wyoming não expõe os nomes dos sócios em registros públicos.',
     cap03Chip: 'Cap. 03',
-    cap03Sub: 'Por que a Firmaway',
+    cap03Sub: 'Por que a <strong>Firmaway</strong>',
     cap03Titulo: 'Mais de 2.000 empresas\njá operam conosco.',
     stat1: 'LLCs formadas',
     stat2: 'Avaliação média',
@@ -123,7 +123,7 @@ const i18n = {
       'Constituição da empresa',
       'Conta bancária (Mercury)',
       'EIN / Tax ID federal',
-      'Agente Registrado (1 ano)',
+      'Agente Registrado grátis por 1 ano',
       'Operating Agreement',
       'Suporte gratuito e ilimitado',
       'Obrigações do ano 1 incluídas',
@@ -131,18 +131,18 @@ const i18n = {
     beneficios: {
       starter: [
         ['LLC no Novo México', 'o estado mais acessível, sem relatório anual e sem taxa estadual.'],
-        ['Agente Registrado (1 ano)', 'endereço postal nos EUA para correspondência oficial.'],
+        ['Agente Registrado grátis por 1 ano', 'endereço postal nos EUA para correspondência oficial.'],
         ['Suporte gratuito e ilimitado', 'equipe disponível de segunda a sexta para qualquer dúvida.'],
       ],
       pro: [
-        ['LLC no Wyoming', 'o estado mais recomendado: privacidade dos sócios, menos burocracia e encerramento administrativo por $490 (até hoje).'],
-        ['Conta Mercury incluída', 'neobank 100% online, cartão Visa físico e virtual, ACH e SWIFT para operar globalmente.'],
+        ['LLC no Wyoming', 'o estado mais recomendado: privacidade dos sócios e menos burocracia.'],
+        ['Conta Mercury incluída', 'o melhor banco para operar com uma LLC, cartão de débito Visa físico e virtual, ACH e SWIFT para operar globalmente.'],
         ['EIN / Tax ID federal', 'número de identificação fiscal necessário para abrir a conta bancária e operar junto ao IRS.'],
         ['Suporte gratuito e ilimitado', 'equipe disponível de segunda a sexta para qualquer dúvida sobre sua LLC.'],
       ],
       all_in: [
-        ['LLC no Wyoming', 'privacidade dos sócios, menos burocracia e encerramento administrativo por $490 (até hoje).'],
-        ['Conta Mercury incluída', 'neobank 100% online, cartão Visa físico e virtual, ACH e SWIFT.'],
+        ['LLC no Wyoming', 'privacidade dos sócios e menos burocracia.'],
+        ['Conta Mercury incluída', 'o melhor banco para operar com uma LLC, cartão de débito Visa físico e virtual, ACH e SWIFT.'],
         ['EIN / Tax ID federal', 'gestão completa junto ao IRS pela Firmaway.'],
         ['Obrigações do ano 1 incluídas', 'declaração, renovação do agente registrado e relatório anual. Sem custos adicionais até 2028.'],
         ['Suporte gratuito e ilimitado', 'equipe disponível de segunda a sexta para qualquer dúvida.'],
@@ -268,8 +268,8 @@ function buildAnnualObligations(pkg, state, lang) {
 
   const title    = isEs ? 'Obligaciones anuales (desde año 2)' : 'Obrigações anuais (a partir do ano 2)';
   const mainText = isEs
-    ? `USD 699 anuales + impuestos${feeText}`
-    : `USD 699 anuais + impostos${feeText}`;
+    ? `USD 699 anuales (a la fecha)${feeText}`
+    : `USD 699 anuais (até o momento)${feeText}`;
 
   return `
 <div style="margin-top:20px; padding:14px 16px; background:#FFFBF5; border:1.5px solid rgba(49,53,61,0.12); border-radius:8px;">
