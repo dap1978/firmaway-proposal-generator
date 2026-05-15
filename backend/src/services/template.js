@@ -3,6 +3,20 @@ const path = require('path');
 
 const TEMPLATE_PATH = path.join(__dirname, '../templates/proposal.html');
 
+// ── Constantes de estados ──────────────────────────────────────────────────
+const STATE_FEES = {
+  new_mexico: 0,
+  wyoming: 62,
+  delaware: 300,
+  florida: 0,
+  texas: 0,
+};
+
+const STATE_LABELS = {
+  es: { new_mexico: 'Nuevo México', wyoming: 'Wyoming', delaware: 'Delaware', florida: 'Florida', texas: 'Texas' },
+  pt: { new_mexico: 'Novo México',  wyoming: 'Wyoming', delaware: 'Delaware', florida: 'Florida', texas: 'Texas' },
+};
+
 // ── Textos por idioma ──────────────────────────────────────────────────────
 const i18n = {
   es: {
@@ -230,6 +244,72 @@ function buildBenefitsList(pkg, lang) {
     </li>`).join('');
 }
 
+// ── Obligaciones anuales ───────────────────────────────────────────────────
+function buildAnnualObligations(pkg, state, lang) {
+  const isEs = lang !== 'pt';
+  const stateLabel = (STATE_LABELS[lang] || STATE_LABELS.es)[state] || 'Wyoming';
+  const fee = STATE_FEES[state] ?? 0;
+
+  if (pkg === 'all_in') {
+    const title = isEs ? 'Obligaciones anuales' : 'Obrigações anuais';
+    const text  = isEs
+      ? 'Las obligaciones del año 1 ya están incluidas en tu paquete All In. ✓'
+      : 'As obrigações do ano 1 já estão incluídas no seu pacote All In. ✓';
+    return `
+<div style="margin-top:20px; padding:14px 16px; background:#F0FDF4; border:1.5px solid #86EFAC; border-radius:8px;">
+  <p style="font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:0.07em; color:#15803D; margin:0 0 6px 0;">${title}</p>
+  <p style="font-size:12px; color:#15803D; font-weight:600; margin:0;">${text}</p>
+</div>`;
+  }
+
+  const feeText = fee > 0
+    ? (isEs ? ` + fee estatal ${stateLabel}: <strong>USD ${fee}</strong>` : ` + taxa estadual ${stateLabel}: <strong>USD ${fee}</strong>`)
+    : (isEs ? ` (sin fee estatal en ${stateLabel})` : ` (sem taxa estadual no ${stateLabel})`);
+
+  const title    = isEs ? 'Obligaciones anuales (desde año 2)' : 'Obrigações anuais (a partir do ano 2)';
+  const mainText = isEs
+    ? `USD 699 anuales + impuestos${feeText}`
+    : `USD 699 anuais + impostos${feeText}`;
+
+  return `
+<div style="margin-top:20px; padding:14px 16px; background:#FFFBF5; border:1.5px solid rgba(49,53,61,0.12); border-radius:8px;">
+  <p style="font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:0.07em; color:rgba(49,53,61,0.45); margin:0 0 6px 0;">${title}</p>
+  <p style="font-size:12px; color:#31353D; margin:0;">${mainText}</p>
+</div>`;
+}
+
+// ── Documentación necesaria ────────────────────────────────────────────────
+function buildRequirements(lang) {
+  const isEs = lang !== 'pt';
+  const title = isEs ? 'Documentación necesaria' : 'Documentação necessária';
+
+  const items = isEs
+    ? [
+        'Pasaporte vigente',
+        'Factura de servicio básico a tu nombre',
+        'Extracto bancario personal con no más de 60 días de antigüedad',
+        'LinkedIn personal o corporativo',
+      ]
+    : [
+        'Passaporte válido',
+        'Conta de serviço básico em seu nome',
+        'Extrato bancário pessoal com no máximo 60 dias',
+        'LinkedIn pessoal ou corporativo',
+      ];
+
+  const liItems = items
+    .map(item => `<li style="font-size:12px; color:#31353D; margin-bottom:5px;">${item}</li>`)
+    .join('');
+
+  return `
+<div style="margin-top:16px; padding:14px 16px; background:#F0F9FF; border:1.5px solid #BAE6FD; border-radius:8px;">
+  <p style="font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:0.07em; color:#0369A1; margin:0 0 10px 0;">${title}</p>
+  <ul style="margin:0; padding-left:18px;">
+    ${liItems}
+  </ul>
+</div>`;
+}
+
 // ── Función principal ──────────────────────────────────────────────────────
 function renderTemplate(data) {
   const lang = data.language || 'es';
@@ -245,6 +325,17 @@ function renderTemplate(data) {
   const fechaMes = `${months[lang][now.getMonth()]} ${now.getFullYear()}`;
 
   const final = data.final_data || data.generated_data || {};
+
+  // Estado y nickname para personalización dinámica
+  const state      = final.state_recommended || data.state_recommended || (pkg === 'starter' ? 'new_mexico' : 'wyoming');
+  const stateLabel = (STATE_LABELS[lang] || STATE_LABELS.es)[state] || 'Wyoming';
+  const nickname   = final.commercial_nickname || data.commercial_nickname || 'Seba';
+
+  // WA text personalizado con el nombre del comercial
+  const waTextRaw = lang === 'pt'
+    ? `Oi ${nickname}, quero abrir minha LLC`
+    : `Hola ${nickname}, quiero avanzar con mi LLC`;
+  const waText = encodeURIComponent(waTextRaw).replace(/%20/g, '+');
 
   const vars = {
     LANG: lang,
@@ -262,6 +353,7 @@ function renderTemplate(data) {
     KPI_PLAZO_LABEL: t.kpiPlazo,
     KPI_PLAZO: t.plazo,
     KPI_ESTADO_LABEL: t.kpiEstado,
+    KPI_ESTADO: stateLabel,
     FOOTER_PREPARADA_LABEL: t.footerPreparada,
     FOOTER_FECHA_LABEL: t.footerFecha,
     COMERCIAL_NOMBRE: final.commercial_name || data.commercial_name || 'Sebastián Bedoya',
@@ -278,6 +370,8 @@ function renderTemplate(data) {
     CAP02_TITULO: t.cap02Titulo,
     PRICING_TABLE: buildPricingTable(pkg, lang),
     TABLA_NOTA: t.tablaNota,
+    ANNUAL_OBLIGATIONS: buildAnnualObligations(pkg, state, lang),
+    REQUIREMENTS_SECTION: buildRequirements(lang),
     CAP03_CHIP: t.cap03Chip,
     CAP03_SUB: t.cap03Sub,
     CAP03_TITULO: t.cap03Titulo,
@@ -292,7 +386,7 @@ function renderTemplate(data) {
     CTA_TITULO: t.ctaTitulo,
     CTA_SUBTITULO: t.ctaSubtitulo,
     CTA_BOTON: t.ctaBoton,
-    WA_TEXT: t.waText,
+    WA_TEXT: waText,
   };
 
   let html = fs.readFileSync(TEMPLATE_PATH, 'utf-8');

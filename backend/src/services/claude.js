@@ -37,6 +37,14 @@ LÓGICA DE RECOMENDACIÓN DE PAQUETE:
 • all_in → si el lead mencionó preocupación por obligaciones futuras, costos anuales, o quiere "todo incluido"
 • En caso de duda: recomendar "pro"
 
+LÓGICA DE RECOMENDACIÓN DE ESTADO:
+• wyoming → defecto para paquetes Pro/All In (privacidad de socios, bajo costo anual USD 62, muy recomendado)
+• new_mexico → defecto para Starter, o si el lead quiere costo mínimo sin fee estatal
+• delaware → si el lead mencionó inversores, venture capital, startups tech, o quiere LLC "de Delaware"
+• florida → si el lead está físicamente basado en Florida o tiene operaciones activas allí
+• texas → si el lead mencionó Texas específicamente
+• En caso de duda: wyoming
+
 DETECCIÓN DE COMERCIAL (por nombre en la transcripción):
 • Sebastian / Sebastián / Bedoya → "Sebastián Bedoya" / "Seba"
 • Paola / Marcano → "Paola Marcano" / "Paola"
@@ -60,6 +68,7 @@ OUTPUT — SOLO JSON VÁLIDO, SIN MARKDOWN, SIN TEXTO ADICIONAL
   "headline_highlight": "Frase final destacada en naranja en la portada (ej: LLC en EE.UU.)",
   "cuerpo_cap01": "Párrafo de 3-4 oraciones personalizado según lo hablado en la llamada. Mencionar detalles específicos del lead (negocio, situación, objetivo). Lenguaje neutro, sin voseos.",
   "package": "starter | pro | all_in",
+  "state_recommended": "new_mexico | wyoming | delaware | florida | texas — estado más conveniente según el perfil del lead",
   "commercial_name": "Nombre completo del comercial detectado",
   "commercial_nickname": "Apodo del comercial",
   "urgency_score": "alto | medio | bajo",
@@ -118,6 +127,11 @@ async function generateProposal(transcript, language = 'es') {
   // Normalizar paquete
   if (!['starter', 'pro', 'all_in'].includes(data.package)) {
     data.package = 'pro';
+  }
+
+  // Normalizar estado
+  if (!['new_mexico', 'wyoming', 'delaware', 'florida', 'texas'].includes(data.state_recommended)) {
+    data.state_recommended = data.package === 'starter' ? 'new_mexico' : 'wyoming';
   }
 
   // Precio según paquete

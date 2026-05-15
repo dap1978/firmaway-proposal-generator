@@ -15,10 +15,23 @@ const PACKAGES = [
   { value: 'all_in',  label: 'All In — USD 1.199' },
 ];
 
+const STATES = [
+  { value: 'wyoming',    label: 'Wyoming',     fee: 62  },
+  { value: 'new_mexico', label: 'Nuevo México', fee: 0   },
+  { value: 'delaware',   label: 'Delaware',     fee: 300 },
+  { value: 'florida',    label: 'Florida',      fee: 0   },
+  { value: 'texas',      label: 'Texas',        fee: 0   },
+];
+
+const STATE_NAMES = {
+  new_mexico: 'Nuevo México', wyoming: 'Wyoming',
+  delaware: 'Delaware', florida: 'Florida', texas: 'Texas',
+};
+
 const URGENCY_COLORS = {
-  alto: { bg: '#FFF0EE', text: C.orange, border: C.orange },
+  alto:  { bg: '#FFF0EE', text: C.orange,  border: C.orange  },
   medio: { bg: '#FFF8E7', text: '#B45309', border: '#F59E0B' },
-  bajo: { bg: '#F0F9FF', text: '#0369A1', border: '#38BDF8' },
+  bajo:  { bg: '#F0F9FF', text: '#0369A1', border: '#38BDF8' },
 };
 
 const inp = {
@@ -28,6 +41,37 @@ const inp = {
   outline: 'none', resize: 'vertical',
 };
 
+// ── Email cliente-side (se regenera sin llamar a Claude) ──────────────────
+function buildEmailSubject(edits, pkg) {
+  const pkgNames = { starter: 'Starter', pro: 'Pro', all_in: 'All In' };
+  const name = edits.lead_name || 'Lead';
+  return `Propuesta Firmaway · LLC ${pkgNames[pkg] || 'Pro'} para ${name}`;
+}
+
+function buildEmailDraft(edits, pkg, aiData) {
+  const pkgNames  = { starter: 'Starter', pro: 'Pro', all_in: 'All In' };
+  const pkgPrices = { starter: 499, pro: 645, all_in: 1199 };
+
+  const name           = edits.lead_name || 'Lead';
+  const pkgName        = pkgNames[pkg] || 'Pro';
+  const price          = pkgPrices[pkg] || 645;
+  const stateName      = STATE_NAMES[edits.state_recommended || 'wyoming'] || 'Wyoming';
+  const commercialName = aiData.commercial_name || 'Sebastián Bedoya';
+  const lang           = aiData.language || 'es';
+
+  // Usa la primera oración del párrafo personalizado como contexto
+  const cuerpo       = edits.cuerpo_cap01 || '';
+  const firstPart    = cuerpo.split(/[.!?]\s/)[0].trim();
+  const contextLine  = firstPart ? `${firstPart}.\n\n` : '';
+
+  if (lang === 'pt') {
+    return `Olá ${name},\n\n${contextLine}Como combinamos, segue a proposta para a sua LLC nos EUA com o pacote ${pkgName} (USD ${price}), constituída no estado de ${stateName}.\n\nPara qualquer dúvida, me chame pelo WhatsApp ou responda este e-mail.\n\n${commercialName}\nFirmaway · firmaway.us | +1 689 242 2109`;
+  }
+
+  return `Hola ${name},\n\n${contextLine}Como prometí, te mando la propuesta para tu LLC en EE.UU. con el paquete ${pkgName} (USD ${price}), con formación en ${stateName}.\n\nCualquier consulta, escribime por WhatsApp o respondé este mail.\n\n${commercialName}\nFirmaway · firmaway.us | +1 689 242 2109`;
+}
+
+// ── Componentes ───────────────────────────────────────────────────────────
 function CopyButton({ text, label = 'Copiar' }) {
   const [copied, setCopied] = useState(false);
   function copy() {
@@ -67,7 +111,7 @@ function CopyLinkButton({ token }) {
       color: copied ? '#2E7D32' : C.ink,
       textAlign: 'left', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
     }}>
-      {copied ? '✓ Link copiado' : `🔗 Copiar link público`}
+      {copied ? '✓ Link copiado' : '🔗 Copiar link público'}
     </button>
   );
 }
@@ -75,13 +119,13 @@ function CopyLinkButton({ token }) {
 export default function Preview() {
   const router = useRouter();
   const { id } = router.query;
-  const [proposal, setProposal] = useState(null);
-  const [edits, setEdits] = useState({});
-  const [pkg, setPkg] = useState('pro');
+  const [proposal, setProposal]   = useState(null);
+  const [edits, setEdits]         = useState({});
+  const [pkg, setPkg]             = useState('pro');
   const [activeTab, setActiveTab] = useState('email');
-  const [saving, setSaving] = useState(false);
+  const [saving, setSaving]       = useState(false);
   const [downloading, setDownloading] = useState(false);
-  const [sending, setSending] = useState(false);
+  const [sending, setSending]     = useState(false);
   const [previewKey, setPreviewKey] = useState(0);
   const saveTimer = useRef(null);
   const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001/api';
@@ -93,12 +137,13 @@ export default function Preview() {
       setPkg(data.package || 'pro');
       const src = data.final_data || data.generated_data || {};
       setEdits({
-        lead_name:         src.lead_name || '',
-        lead_detail:       src.lead_detail || '',
-        headline_line1:    src.headline_line1 || '',
-        headline_line2:    src.headline_line2 || '',
+        lead_name:          src.lead_name || '',
+        lead_detail:        src.lead_detail || '',
+        headline_line1:     src.headline_line1 || '',
+        headline_line2:     src.headline_line2 || '',
         headline_highlight: src.headline_highlight || '',
-        cuerpo_cap01:      src.cuerpo_cap01 || '',
+        cuerpo_cap01:       src.cuerpo_cap01 || '',
+        state_recommended:  src.state_recommended || (data.package === 'starter' ? 'new_mexico' : 'wyoming'),
       });
     });
   }, [id]);
@@ -129,25 +174,17 @@ export default function Preview() {
     try {
       const { data } = await api.post(`/proposals/${id}/send`);
       setProposal(p => ({ ...p, status: data.status, sent_at: data.sent_at }));
-    } catch (e) {
+    } catch {
       alert('Error al marcar como enviada.');
     } finally {
       setSending(false);
     }
   }
 
-  function copyPublicLink() {
-    if (!proposal?.public_token) return;
-    const link = `${window.location.origin}/p/${proposal.public_token}`;
-    navigator.clipboard.writeText(link);
-  }
-
   async function handleDownload() {
     setDownloading(true);
     try {
-      // Guardar primero
       await api.patch(`/proposals/${id}`, { final_data: edits, package: pkg });
-      // Descargar PDF
       const response = await api.post(`/proposals/${id}/pdf`, {}, { responseType: 'blob' });
       const url = window.URL.createObjectURL(new Blob([response.data], { type: 'application/pdf' }));
       const a = document.createElement('a');
@@ -155,7 +192,7 @@ export default function Preview() {
       a.download = `propuesta-${proposal?.proposal_number}-${(edits.lead_name || 'lead').replace(/\s+/g, '-').toLowerCase()}.pdf`;
       a.click();
       window.URL.revokeObjectURL(url);
-    } catch (e) {
+    } catch {
       alert('Error al generar el PDF. Intentá de nuevo.');
     } finally {
       setDownloading(false);
@@ -168,9 +205,13 @@ export default function Preview() {
     </div>
   );
 
-  const aiData = proposal.final_data || proposal.generated_data || {};
-  const urgency = aiData.urgency_score || 'medio';
+  const aiData       = proposal.final_data || proposal.generated_data || {};
+  const urgency      = aiData.urgency_score || 'medio';
   const urgencyColor = URGENCY_COLORS[urgency] || URGENCY_COLORS.medio;
+
+  // Email computado client-side — se actualiza con cada edición del panel
+  const emailSubject = buildEmailSubject(edits, pkg);
+  const emailDraft   = buildEmailDraft(edits, pkg, aiData);
 
   return (
     <div style={{ background: C.warm, minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
@@ -286,10 +327,26 @@ export default function Preview() {
             </select>
           </div>
 
+          {/* Estado recomendado */}
+          <div style={{ marginBottom: 14 }}>
+            <label style={{ display: 'block', fontSize: 11, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.06em', color: C.muted, marginBottom: 5 }}>Estado recomendado</label>
+            <select
+              value={edits.state_recommended || 'wyoming'}
+              onChange={e => setEdits(p => ({ ...p, state_recommended: e.target.value }))}
+              style={{ ...inp, cursor: 'pointer' }}
+            >
+              {STATES.map(s => (
+                <option key={s.value} value={s.value}>
+                  {s.label}{s.fee > 0 ? ` – $${s.fee} est.` : ' – gratis'}
+                </option>
+              ))}
+            </select>
+          </div>
+
           {/* Lead */}
           {[
-            { key: 'lead_name',    label: 'Nombre del lead' },
-            { key: 'lead_detail',  label: 'Detalle del cliente' },
+            { key: 'lead_name',   label: 'Nombre del lead' },
+            { key: 'lead_detail', label: 'Detalle del cliente' },
           ].map(({ key, label }) => (
             <div key={key} style={{ marginBottom: 14 }}>
               <label style={{ display: 'block', fontSize: 11, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.06em', color: C.muted, marginBottom: 5 }}>{label}</label>
@@ -353,24 +410,24 @@ export default function Preview() {
               ))}
             </div>
 
-            {/* Email */}
+            {/* Email — se regenera desde edits (sin llamada a Claude) */}
             {activeTab === 'email' && (
               <div>
                 <div style={{ marginBottom: 10 }}>
                   <div style={{ fontSize: 11, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.06em', color: C.muted, marginBottom: 4 }}>Asunto</div>
                   <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
                     <div style={{ flex: 1, padding: '8px 12px', background: C.warm, borderRadius: 8, fontSize: 13, color: C.ink, border: `1px solid ${C.border}` }}>
-                      {aiData.email_subject || ''}
+                      {emailSubject}
                     </div>
-                    <CopyButton text={aiData.email_subject || ''} label="Copiar" />
+                    <CopyButton text={emailSubject} label="Copiar" />
                   </div>
                 </div>
                 <div style={{ fontSize: 11, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.06em', color: C.muted, marginBottom: 6 }}>Cuerpo del email</div>
                 <div style={{ background: C.warm, borderRadius: 10, padding: '12px 14px', fontSize: 13, lineHeight: '20px', color: C.ink, border: `1px solid ${C.border}`, whiteSpace: 'pre-wrap', maxHeight: 280, overflowY: 'auto' }}>
-                  {aiData.email_draft || ''}
+                  {emailDraft}
                 </div>
                 <div style={{ marginTop: 10 }}>
-                  <CopyButton text={aiData.email_draft || ''} label="Copiar email completo" />
+                  <CopyButton text={emailDraft} label="Copiar email completo" />
                 </div>
               </div>
             )}
