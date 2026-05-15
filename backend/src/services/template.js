@@ -35,7 +35,7 @@ const i18n = {
     cap02Chip: 'Cap. 02',
     cap02Sub: 'Tabla comparativa',
     cap02Titulo: 'Elegí el plan\nque mejor te queda.',
-    tablaNota: '* Paquete recomendado destacado en naranja. Wyoming no expone los nombres de los socios en registros públicos.',
+    tablaNota: '* Paquete recomendado destacado en naranja.',
     cap03Chip: 'Cap. 03',
     cap03Sub: 'Por qué <strong>Firmaway</strong>',
     cap03Titulo: 'Más de 2.000 empresas\nya operan con nosotros.',
@@ -62,6 +62,8 @@ const i18n = {
       'Operating Agreement',
       'Soporte gratis e ilimitado',
       'Obligaciones año 1 incluidas',
+      'Estado de formación',
+      'Miembros',
     ],
     beneficios: {
       starter: [
@@ -100,7 +102,7 @@ const i18n = {
     cap02Chip: 'Cap. 02',
     cap02Sub: 'Tabela comparativa',
     cap02Titulo: 'Escolha o plano\nque mais combina com você.',
-    tablaNota: '* Pacote recomendado destacado em laranja. Wyoming não expõe os nomes dos sócios em registros públicos.',
+    tablaNota: '* Pacote recomendado destacado em laranja.',
     cap03Chip: 'Cap. 03',
     cap03Sub: 'Por que a <strong>Firmaway</strong>',
     cap03Titulo: 'Mais de 2.000 empresas\njá operam conosco.',
@@ -127,6 +129,8 @@ const i18n = {
       'Operating Agreement',
       'Suporte gratuito e ilimitado',
       'Obrigações do ano 1 incluídas',
+      'Estado de formação',
+      'Membros',
     ],
     beneficios: {
       starter: [
@@ -155,31 +159,37 @@ const i18n = {
 function buildPricingTable(pkg, lang) {
   const t = i18n[lang];
   const names = t.paqueteNombres;
-
-  const isStarter = pkg === 'starter';
-  const isPro = pkg === 'pro';
-  const isAllIn = pkg === 'all_in';
+  const isEs = lang !== 'pt';
 
   const thClass = (col) => col === pkg ? 'col-recommended' : '';
   const tdClass = (col) => col === pkg ? 'highlight' : '';
 
   const check = '<span class="check-mark">✓</span>';
-  const dash = '<span class="dash-mark">–</span>';
+  const dash  = '<span class="dash-mark">–</span>';
 
-  // Filas: [starter, pro, all_in]
-  const rows = [
+  // ── Filas de features (✓/✗) — [starter, pro, all_in]
+  // Starter incluye todo igual que Pro; diferencia es estado y nº de miembros
+  const featureRows = [
     [check, check, check],   // Constitución
-    [dash, check, check],    // Mercury
-    [dash, check, check],    // EIN
-    [check, check, check],   // Registered Agent
-    [dash, check, check],    // Operating Agreement
-    [check, check, check],   // Soporte gratis e ilimitado
-    [dash, dash, check],     // Obligaciones año 1
+    [check, check, check],   // Mercury
+    [check, check, check],   // EIN
+    [check, check, check],   // Agente Registrado
+    [check, check, check],   // Operating Agreement
+    [check, check, check],   // Soporte
+    [dash,  dash,  check],   // Obligaciones año 1
   ];
 
-  const starterStar = isStarter ? ' ★' : '';
-  const proStar = isPro ? ' ★' : '';
-  const allInStar = isAllIn ? ' ★' : '';
+  // ── Filas diferenciadoras (texto)
+  const estadoRow = isEs
+    ? ['Nuevo México', 'Cualquier estado', 'Cualquier estado']
+    : ['Novo México',  'Qualquer estado',  'Qualquer estado'];
+  const membrosRow = isEs
+    ? ['1 miembro', '2 o más', '2 o más']
+    : ['1 membro',  '2 ou mais', '2 ou mais'];
+
+  const starterStar = pkg === 'starter' ? ' ★' : '';
+  const proStar     = pkg === 'pro'     ? ' ★' : '';
+  const allInStar   = pkg === 'all_in'  ? ' ★' : '';
 
   let html = `<table class="pricing-table">
   <thead>
@@ -192,15 +202,37 @@ function buildPricingTable(pkg, lang) {
   </thead>
   <tbody>`;
 
-  t.features.forEach((feat, i) => {
+  // Primeras 7 filas: features con ✓/✗
+  t.features.slice(0, 7).forEach((feat, i) => {
     html += `
     <tr>
       <td class="feature-name">${feat}</td>
-      <td class="${tdClass('starter')}">${rows[i][0]}</td>
-      <td class="${tdClass('pro')}">${rows[i][1]}</td>
-      <td class="${tdClass('all_in')}">${rows[i][2]}</td>
+      <td class="${tdClass('starter')}">${featureRows[i][0]}</td>
+      <td class="${tdClass('pro')}">${featureRows[i][1]}</td>
+      <td class="${tdClass('all_in')}">${featureRows[i][2]}</td>
     </tr>`;
   });
+
+  // Fila diferenciadora: Estado
+  const diffStyle = 'background:rgba(49,53,61,0.04);';
+  const labelStyle = 'font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.05em; color:var(--ink-light);';
+  const valStyle = 'font-size:12px; font-weight:700; color:var(--ink);';
+  html += `
+    <tr style="${diffStyle}">
+      <td class="feature-name" style="${labelStyle}">${t.features[7]}</td>
+      <td class="${tdClass('starter')}" style="${valStyle}">${estadoRow[0]}</td>
+      <td class="${tdClass('pro')}" style="${valStyle}">${estadoRow[1]}</td>
+      <td class="${tdClass('all_in')}" style="${valStyle}">${estadoRow[2]}</td>
+    </tr>`;
+
+  // Fila diferenciadora: Miembros
+  html += `
+    <tr style="${diffStyle}">
+      <td class="feature-name" style="${labelStyle}">${t.features[8]}</td>
+      <td class="${tdClass('starter')}" style="${valStyle}">${membrosRow[0]}</td>
+      <td class="${tdClass('pro')}" style="${valStyle}">${membrosRow[1]}</td>
+      <td class="${tdClass('all_in')}" style="${valStyle}">${membrosRow[2]}</td>
+    </tr>`;
 
   const priceRow = (col) => {
     const prices = { starter: '499', pro: '645', all_in: '1.199' };
@@ -242,6 +274,46 @@ function buildBenefitsList(pkg, lang) {
       <div class="check-icon">${svgCheck}</div>
       <div><strong>${title}</strong> — ${desc}</div>
     </li>`).join('');
+}
+
+// ── Timeline del proceso ──────────────────────────────────────────────────
+function buildTimeline(lang) {
+  const isEs = lang !== 'pt';
+  const title = isEs ? 'Cómo funciona el proceso' : 'Como funciona o processo';
+
+  const steps = isEs
+    ? [
+        ['1', 'Confirmación de datos',  'Completamos tu perfil y validamos la documentación.',           'Día 1'],
+        ['2', 'Formación de la LLC',    'Presentamos la constitución al estado que elegiste.',           'Días 2–5'],
+        ['3', 'Obtención del EIN',      'Gestionamos tu Tax ID federal ante el IRS.',                   'Días 5–10'],
+        ['4', 'Apertura de Mercury',    'Activamos tu cuenta bancaria y tarjeta de débito Visa.',       'Días 10–15'],
+      ]
+    : [
+        ['1', 'Confirmação dos dados',  'Completamos o perfil e validamos a documentação.',             'Dia 1'],
+        ['2', 'Formação da LLC',        'Enviamos a constituição ao estado que você escolheu.',         'Dias 2–5'],
+        ['3', 'Obtenção do EIN',        'Gerenciamos o Tax ID federal junto ao IRS.',                   'Dias 5–10'],
+        ['4', 'Abertura da Mercury',    'Ativamos a conta bancária e o cartão de débito Visa.',         'Dias 10–15'],
+      ];
+
+  const items = steps.map(([num, stepTitle, desc, days]) => `
+    <div style="display:flex; align-items:flex-start; gap:14px; margin-bottom:14px;">
+      <div style="flex-shrink:0; width:26px; height:26px; border-radius:50%; background:var(--orange); display:flex; align-items:center; justify-content:center;">
+        <span style="font-size:11px; font-weight:800; color:#fff;">${num}</span>
+      </div>
+      <div style="flex:1; padding-top:3px;">
+        <div style="display:flex; justify-content:space-between; align-items:baseline; margin-bottom:2px;">
+          <span style="font-size:13px; font-weight:700; color:var(--ink);">${stepTitle}</span>
+          <span style="font-size:10px; font-weight:600; text-transform:uppercase; letter-spacing:0.05em; color:var(--orange); white-space:nowrap; margin-left:12px;">${days}</span>
+        </div>
+        <p style="font-size:12px; color:var(--ink-light); margin:0; line-height:1.5;">${desc}</p>
+      </div>
+    </div>`).join('');
+
+  return `
+<div style="margin-top:28px; padding-top:20px; border-top:1px solid rgba(49,53,61,0.1);">
+  <p style="font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:0.07em; color:var(--ink-light); margin-bottom:16px;">${title}</p>
+  ${items}
+</div>`;
 }
 
 // ── Obligaciones anuales ───────────────────────────────────────────────────
@@ -362,9 +434,8 @@ function renderTemplate(data) {
     CAP01_CHIP: t.cap01Chip,
     CAP01_SUB: t.cap01Sub,
     CAP01_TITULO: t.cap01Titulo,
-    BENEFICIOS_TITULO: t.beneficiosTitulo,
     CUERPO_CAP01: final.cuerpo_cap01 || data.cuerpo_cap01 || '',
-    BENEFICIOS_LIST: buildBenefitsList(pkg, lang),
+    TIMELINE: buildTimeline(lang),
     CAP02_CHIP: t.cap02Chip,
     CAP02_SUB: t.cap02Sub,
     CAP02_TITULO: t.cap02Titulo,
