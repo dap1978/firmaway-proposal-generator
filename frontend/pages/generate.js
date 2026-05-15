@@ -51,6 +51,23 @@ export default function Generate() {
     }
   }
 
+  function handleFile(e) {
+    const file = e.target.files[0];
+    if (!file) return;
+    if (!file.name.endsWith('.txt')) {
+      setError('Solo se aceptan archivos .txt');
+      return;
+    }
+    const reader = new FileReader();
+    reader.onload = (ev) => {
+      setTranscript(ev.target.result);
+      setError('');
+    };
+    reader.readAsText(file, 'utf-8');
+    // reset input so the same file can be re-selected
+    e.target.value = '';
+  }
+
   function handleLogout() {
     localStorage.removeItem('fw_user');
     router.push('/');
@@ -120,9 +137,20 @@ export default function Generate() {
 
           {/* Transcripción */}
           <div>
-            <label style={{ display: 'block', fontSize: 11, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.07em', color: C.muted, marginBottom: 8 }}>
-              Transcripción de la llamada
-            </label>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
+              <label style={{ fontSize: 11, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.07em', color: C.muted }}>
+                Transcripción de la llamada
+              </label>
+              <label style={{
+                display: 'inline-flex', alignItems: 'center', gap: 6,
+                padding: '5px 12px', borderRadius: 8, cursor: 'pointer',
+                background: C.warm, border: `1.5px solid ${C.border}`,
+                fontSize: 12, fontWeight: 600, color: C.ink,
+              }}>
+                📎 Subir .txt
+                <input type="file" accept=".txt" onChange={handleFile} style={{ display: 'none' }} />
+              </label>
+            </div>
             <textarea
               value={transcript}
               onChange={e => setTranscript(e.target.value)}
