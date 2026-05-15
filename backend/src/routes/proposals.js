@@ -73,17 +73,44 @@ router.post('/generate', async (req, res) => {
   }
 });
 
+// ── GET /api/proposals/stats ── ANTES de /:id ─────────────────────────────
+router.get('/stats', async (req, res) => {
+  try {
+    const { rows } = await db.query(`
+      SELECT
+        p.commercial_name,
+        COUNT(DISTINCT p.id)::int                                          AS total,
+        COUNT(DISTINCT CASE WHEN p.status = 'sent' THEN p.id END)::int    AS sent,
+        COUNT(DISTINCT pv.proposal_id)::int                               AS leads_opened,
+        COUNT(pv.id)::int                                                  AS total_views
+      FROM proposals p
+      LEFT JOIN proposal_views pv ON pv.proposal_id = p.id
+      GROUP BY p.commercial_name
+      ORDER BY sent DESC
+    `);
+    res.json(rows);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
 // ── GET /api/proposals ────────────────────────────────────────────────────
 router.get('/', async (req, res) => {
   try {
-    const { rows } = await db.query(
-      `SELECT id, proposal_number, commercial_name, language,
-              lead_name, lead_detail, package, price,
-              was_edited, urgency_score, created_at
-       FROM proposals
-       ORDER BY created_at DESC
-       LIMIT 200`
-    );
+    const { rows } = await db.query(`
+      SELECT
+        p.id, p.proposal_number, p.commercial_name, p.language,
+        p.lead_name, p.lead_detail, p.package, p.price,
+        p.was_edited, p.urgency_score, p.status, p.sent_at,
+        p.public_token, p.created_at,
+        COUNT(pv.id)::int        AS view_count,
+        MAX(pv.viewed_at)        AS last_viewed_at
+      FROM proposals p
+      LEFT JOIN proposal_views pv ON pv.proposal_id = p.id
+      GROUP BY p.id
+      ORDER BY p.created_at DESC
+      LIMIT 200
+    `);
     res.json(rows);
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -94,7 +121,13 @@ router.get('/', async (req, res) => {
 router.get('/:id', async (req, res) => {
   try {
     const { rows } = await db.query(
-      'SELECT * FROM proposals WHERE id = $1',
+      `SELECT p.*,
+        COUNT(pv.id)::int AS view_count,
+        MAX(pv.viewed_at) AS last_viewed_at
+       FROM proposals p
+       LEFT JOIN proposal_views pv ON pv.proposal_id = p.id
+       WHERE p.id = $1
+       GROUP BY p.id`,
       [req.params.id]
     );
     if (!rows.length) return res.status(404).json({ error: 'No encontrada' });
@@ -161,6 +194,20 @@ router.patch('/:id', async (req, res) => {
   }
 });
 
+// ── POST /api/proposals/:id/send ─────────────────────────────────────────
+router.post('/:id/send', async (req, res) => {
+  try {
+    const { rows } = await db.query(
+      `UPDATE proposals SET status = 'sent', sent_at = NOW() WHERE id = $1 RETURNING *`,
+      [req.params.id]
+    );
+    if (!rows.length) return res.status(404).json({ error: 'No encontrada' });
+    res.json(rows[0]);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
 // ── POST /api/proposals/:id/pdf ───────────────────────────────────────────
 router.post('/:id/pdf', async (req, res) => {
   try {
@@ -180,6 +227,30 @@ router.post('/:id/pdf', async (req, res) => {
     res.send(pdfBuffer);
   } catch (err) {
     console.error('Error generando PDF:', err.message);
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// ── GET /api/proposals/p/:token — vista pública (loguea apertura) ─────────
+// NOTA: debe ir después de los otros GET específicos pero antes de /:id
+// Se registra en /api/proposals/p/:token
+router.get('/p/:token', async (req, res) => {
+  try {
+    const { rows } = await db.query(
+      'SELECT id, proposal_number, lead_name, commercial_name FROM proposals WHERE public_token = $1',
+      [req.params.token]
+    );
+    if (!rows.length) return res.status(404).json({ error: 'Propuesta no encontrada' });
+
+    // Loguear apertura
+    const ip = (req.headers['x-forwarded-for'] || '').split(',')[0].trim() || req.ip || '';
+    await db.query(
+      'INSERT INTO proposal_views (proposal_id, ip, user_agent) VALUES ($1, $2, $3)',
+      [rows[0].id, ip, req.headers['user-agent'] || '']
+    );
+
+    res.json(rows[0]);
+  } catch (err) {
     res.status(500).json({ error: err.message });
   }
 });

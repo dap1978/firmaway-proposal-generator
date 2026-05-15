@@ -54,6 +54,21 @@ async function runMigrations() {
       CREATE SEQUENCE IF NOT EXISTS proposal_seq START 1
     `);
 
+    await db.query(`ALTER TABLE proposals ADD COLUMN IF NOT EXISTS status VARCHAR(20) DEFAULT 'draft'`);
+    await db.query(`ALTER TABLE proposals ADD COLUMN IF NOT EXISTS sent_at TIMESTAMP WITH TIME ZONE`);
+    await db.query(`ALTER TABLE proposals ADD COLUMN IF NOT EXISTS public_token UUID DEFAULT gen_random_uuid()`);
+    await db.query(`UPDATE proposals SET public_token = gen_random_uuid() WHERE public_token IS NULL`);
+
+    await db.query(`
+      CREATE TABLE IF NOT EXISTS proposal_views (
+        id           UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+        proposal_id  UUID REFERENCES proposals(id) ON DELETE CASCADE,
+        viewed_at    TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+        ip           VARCHAR(100),
+        user_agent   TEXT
+      )
+    `);
+
     console.log('✅ Migraciones completadas');
   } catch (err) {
     console.error('❌ Error en migraciones:', err.message);

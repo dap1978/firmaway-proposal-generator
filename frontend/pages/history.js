@@ -15,27 +15,38 @@ const PKG_COLOR = {
   pro:     { bg: C.orangeSoft, text: C.orange, border: C.orange },
   all_in:  { bg: '#F0FDF4', text: '#15803D', border: '#86EFAC' },
 };
-const URGENCY_COLORS = {
-  alto: { bg: '#FFF0EE', text: C.orange },
-  medio: { bg: '#FFF8E7', text: '#B45309' },
-  bajo: { bg: '#F0F9FF', text: '#0369A1' },
-};
 
 function fmt(dateStr) {
+  if (!dateStr) return '—';
   const d = new Date(dateStr);
-  return d.toLocaleDateString('es-AR', { day: '2-digit', month: 'short', year: 'numeric' });
+  return d.toLocaleDateString('es-AR', { day: '2-digit', month: 'short' });
+}
+
+function timeAgo(dateStr) {
+  if (!dateStr) return null;
+  const diff = Date.now() - new Date(dateStr).getTime();
+  const h = Math.floor(diff / 3600000);
+  if (h < 1) return 'hace menos de 1h';
+  if (h < 24) return `hace ${h}h`;
+  const d = Math.floor(h / 24);
+  return `hace ${d}d`;
 }
 
 export default function History() {
   const router = useRouter();
   const [proposals, setProposals] = useState([]);
+  const [stats, setStats] = useState([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
 
   useEffect(() => {
-    api.get('/proposals')
-      .then(r => setProposals(r.data))
-      .finally(() => setLoading(false));
+    Promise.all([
+      api.get('/proposals'),
+      api.get('/proposals/stats'),
+    ]).then(([pRes, sRes]) => {
+      setProposals(pRes.data);
+      setStats(sRes.data);
+    }).finally(() => setLoading(false));
   }, []);
 
   const filtered = proposals.filter(p => {
@@ -58,8 +69,46 @@ export default function History() {
         </button>
       </nav>
 
-      <div style={{ maxWidth: 1100, margin: '0 auto', padding: '36px 24px' }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: 24 }}>
+      <div style={{ maxWidth: 1200, margin: '0 auto', padding: '36px 24px' }}>
+
+        {/* Resumen por colaborador */}
+        {stats.length > 0 && (
+          <div style={{ marginBottom: 32 }}>
+            <div style={{ fontSize: 11, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.07em', color: C.muted, marginBottom: 12 }}>
+              Resumen por colaborador
+            </div>
+            <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
+              {stats.map(s => (
+                <div key={s.commercial_name} style={{
+                  background: C.bg, border: `1.5px solid ${C.border}`, borderRadius: 12,
+                  padding: '14px 20px', boxShadow: `4px 4px 0px 0px ${C.border}`,
+                  minWidth: 180,
+                }}>
+                  <div style={{ fontSize: 14, fontWeight: 700, color: C.ink, marginBottom: 10 }}>
+                    {s.commercial_name}
+                  </div>
+                  <div style={{ display: 'flex', gap: 16 }}>
+                    <div style={{ textAlign: 'center' }}>
+                      <div style={{ fontSize: 22, fontWeight: 800, color: C.ink, letterSpacing: '-0.03em' }}>{s.total}</div>
+                      <div style={{ fontSize: 10, color: C.muted, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em' }}>generadas</div>
+                    </div>
+                    <div style={{ textAlign: 'center' }}>
+                      <div style={{ fontSize: 22, fontWeight: 800, color: C.orange, letterSpacing: '-0.03em' }}>{s.sent}</div>
+                      <div style={{ fontSize: 10, color: C.muted, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em' }}>enviadas</div>
+                    </div>
+                    <div style={{ textAlign: 'center' }}>
+                      <div style={{ fontSize: 22, fontWeight: 800, color: '#0369A1', letterSpacing: '-0.03em' }}>{s.leads_opened}</div>
+                      <div style={{ fontSize: 10, color: C.muted, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em' }}>leads vieron</div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Header tabla */}
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: 16 }}>
           <div>
             <h1 style={{ fontSize: 26, fontWeight: 800, letterSpacing: '-0.04em', color: C.ink, marginBottom: 4 }}>
               Historial de propuestas
@@ -83,14 +132,14 @@ export default function History() {
           <div style={{ textAlign: 'center', padding: 60, color: C.muted, fontSize: 14 }}>Cargando...</div>
         ) : filtered.length === 0 ? (
           <div style={{ textAlign: 'center', padding: 60, color: C.muted, fontSize: 14 }}>
-            {search ? 'No hay propuestas que coincidan con la búsqueda.' : 'Todavía no hay propuestas generadas.'}
+            {search ? 'No hay propuestas que coincidan.' : 'Todavía no hay propuestas generadas.'}
           </div>
         ) : (
           <div style={{ background: C.bg, border: `1.5px solid ${C.border}`, borderRadius: 16, overflow: 'hidden', boxShadow: `4px 4px 0px 0px ${C.border}` }}>
-            {/* Header tabla */}
+            {/* Header columnas */}
             <div style={{
               display: 'grid',
-              gridTemplateColumns: '130px 1fr 140px 90px 80px 80px 100px',
+              gridTemplateColumns: '120px 1fr 130px 80px 90px 110px 100px',
               padding: '10px 20px',
               background: C.cardBg,
               borderBottom: `1.5px solid ${C.border}`,
@@ -101,22 +150,22 @@ export default function History() {
               <div>Lead</div>
               <div>Comercial</div>
               <div>Paquete</div>
-              <div>Urgencia</div>
-              <div>Editada</div>
+              <div>Enviada</div>
+              <div>Aperturas</div>
               <div>Fecha</div>
             </div>
 
             {/* Filas */}
             {filtered.map((p, i) => {
               const pkgColor = PKG_COLOR[p.package] || PKG_COLOR.pro;
-              const urgColor = URGENCY_COLORS[p.urgency_score] || URGENCY_COLORS.medio;
+              const sent = p.status === 'sent';
               return (
                 <div
                   key={p.id}
                   onClick={() => router.push(`/preview/${p.id}`)}
                   style={{
                     display: 'grid',
-                    gridTemplateColumns: '130px 1fr 140px 90px 80px 80px 100px',
+                    gridTemplateColumns: '120px 1fr 130px 80px 90px 110px 100px',
                     padding: '13px 20px',
                     borderBottom: i < filtered.length - 1 ? `1px solid ${C.border}` : 'none',
                     cursor: 'pointer',
@@ -143,17 +192,20 @@ export default function History() {
                       {PKG_LABEL[p.package] || p.package}
                     </span>
                   </div>
-                  <div>
-                    <span style={{
-                      display: 'inline-block', padding: '3px 9px', borderRadius: 999,
-                      background: urgColor.bg, fontSize: 11, fontWeight: 700,
-                      color: urgColor.text, textTransform: 'capitalize',
-                    }}>
-                      {p.urgency_score || '—'}
-                    </span>
+                  <div style={{ fontSize: 12, color: sent ? '#15803D' : C.muted, fontWeight: sent ? 600 : 400 }}>
+                    {sent ? `✓ ${fmt(p.sent_at)}` : '—'}
                   </div>
-                  <div style={{ fontSize: 12, color: p.was_edited ? C.orange : C.muted, fontWeight: p.was_edited ? 600 : 400 }}>
-                    {p.was_edited ? 'Sí' : 'No'}
+                  <div>
+                    {p.view_count > 0 ? (
+                      <div>
+                        <div style={{ fontSize: 12, fontWeight: 600, color: C.ink }}>
+                          👁 {p.view_count} {p.view_count === 1 ? 'vez' : 'veces'}
+                        </div>
+                        <div style={{ fontSize: 10, color: C.muted }}>{timeAgo(p.last_viewed_at)}</div>
+                      </div>
+                    ) : (
+                      <div style={{ fontSize: 12, color: C.muted }}>—</div>
+                    )}
                   </div>
                   <div style={{ fontSize: 12, color: C.muted }}>{fmt(p.created_at)}</div>
                 </div>

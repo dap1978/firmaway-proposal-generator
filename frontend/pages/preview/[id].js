@@ -49,6 +49,29 @@ function CopyButton({ text, label = 'Copiar' }) {
   );
 }
 
+function CopyLinkButton({ token }) {
+  const [copied, setCopied] = useState(false);
+  function copy() {
+    const link = `${window.location.origin}/p/${token}`;
+    navigator.clipboard.writeText(link).then(() => {
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    });
+  }
+  return (
+    <button onClick={copy} style={{
+      width: '100%', padding: '7px 12px', borderRadius: 8, cursor: 'pointer',
+      background: copied ? '#E8F5E9' : C.bg,
+      border: `1.5px solid ${copied ? '#4CAF50' : C.border}`,
+      fontSize: 12, fontWeight: 600,
+      color: copied ? '#2E7D32' : C.ink,
+      textAlign: 'left', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
+    }}>
+      {copied ? '✓ Link copiado' : `🔗 Copiar link público`}
+    </button>
+  );
+}
+
 export default function Preview() {
   const router = useRouter();
   const { id } = router.query;
@@ -58,6 +81,7 @@ export default function Preview() {
   const [activeTab, setActiveTab] = useState('email');
   const [saving, setSaving] = useState(false);
   const [downloading, setDownloading] = useState(false);
+  const [sending, setSending] = useState(false);
   const [previewKey, setPreviewKey] = useState(0);
   const saveTimer = useRef(null);
   const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001/api';
@@ -99,6 +123,24 @@ export default function Preview() {
   useEffect(() => {
     if (proposal) scheduleSync();
   }, [edits, pkg]);
+
+  async function handleMarkSent() {
+    setSending(true);
+    try {
+      const { data } = await api.post(`/proposals/${id}/send`);
+      setProposal(p => ({ ...p, status: data.status, sent_at: data.sent_at }));
+    } catch (e) {
+      alert('Error al marcar como enviada.');
+    } finally {
+      setSending(false);
+    }
+  }
+
+  function copyPublicLink() {
+    if (!proposal?.public_token) return;
+    const link = `${window.location.origin}/p/${proposal.public_token}`;
+    navigator.clipboard.writeText(link);
+  }
 
   async function handleDownload() {
     setDownloading(true);
@@ -163,6 +205,63 @@ export default function Preview() {
 
         {/* ── Columna izquierda: campos editables ── */}
         <div style={{ width: 360, flexShrink: 0, overflowY: 'auto', background: C.bg, borderRight: `1px solid ${C.border}`, padding: '20px 20px 32px' }}>
+
+          {/* Panel envío + link público */}
+          <div style={{ background: C.warm, border: `1.5px solid ${C.border}`, borderRadius: 10, padding: '12px 14px', marginBottom: 14 }}>
+
+            {/* Fila enviada */}
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 10 }}>
+              <div>
+                <div style={{ fontSize: 10, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.07em', color: C.muted, marginBottom: 2 }}>Estado</div>
+                {proposal.status === 'sent' ? (
+                  <div style={{ fontSize: 13, fontWeight: 600, color: '#15803D' }}>
+                    ✓ Enviada {proposal.sent_at ? `· ${new Date(proposal.sent_at).toLocaleDateString('es-AR', { day: '2-digit', month: 'short' })}` : ''}
+                  </div>
+                ) : (
+                  <div style={{ fontSize: 13, color: C.muted }}>No enviada</div>
+                )}
+              </div>
+              {proposal.status !== 'sent' && (
+                <button
+                  onClick={handleMarkSent}
+                  disabled={sending}
+                  style={{
+                    background: C.orange, border: 'none', borderRadius: 7,
+                    padding: '6px 12px', color: '#fff', fontSize: 12,
+                    fontWeight: 700, cursor: sending ? 'not-allowed' : 'pointer',
+                    opacity: sending ? 0.6 : 1,
+                  }}
+                >
+                  {sending ? '...' : 'Marcar enviada'}
+                </button>
+              )}
+            </div>
+
+            {/* Fila vistas */}
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 10, paddingTop: 8, borderTop: `1px solid ${C.border}` }}>
+              <div>
+                <div style={{ fontSize: 10, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.07em', color: C.muted, marginBottom: 2 }}>Aperturas del lead</div>
+                {proposal.view_count > 0 ? (
+                  <div style={{ fontSize: 13, fontWeight: 600, color: C.ink }}>
+                    👁 {proposal.view_count} {proposal.view_count === 1 ? 'vez' : 'veces'}
+                    {proposal.last_viewed_at && (
+                      <span style={{ fontWeight: 400, color: C.muted, fontSize: 12 }}>
+                        {' · última: '}{new Date(proposal.last_viewed_at).toLocaleDateString('es-AR', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' })}
+                      </span>
+                    )}
+                  </div>
+                ) : (
+                  <div style={{ fontSize: 13, color: C.muted }}>No abierta aún</div>
+                )}
+              </div>
+            </div>
+
+            {/* Link público */}
+            <div style={{ paddingTop: 8, borderTop: `1px solid ${C.border}` }}>
+              <div style={{ fontSize: 10, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.07em', color: C.muted, marginBottom: 6 }}>Link para el lead</div>
+              <CopyLinkButton token={proposal.public_token} />
+            </div>
+          </div>
 
           {/* Score urgencia */}
           <div style={{ background: urgencyColor.bg, border: `1.5px solid ${urgencyColor.border}`, borderRadius: 10, padding: '10px 14px', marginBottom: 18 }}>
