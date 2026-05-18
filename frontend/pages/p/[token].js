@@ -1,17 +1,59 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useRouter } from 'next/router';
 import api from '../../api';
+
+const PROPOSAL_WIDTH  = 794;
+const PROPOSAL_HEIGHT = 4200;
+
+// Escala el iframe para que entre en pantalla en mobile
+function ScaledIframe({ src, title }) {
+  const wrapperRef = useRef(null);
+  const [scale, setScale]   = useState(1);
+  const [boxHeight, setBoxHeight] = useState(PROPOSAL_HEIGHT);
+
+  useEffect(() => {
+    function measure() {
+      if (!wrapperRef.current) return;
+      const available = wrapperRef.current.offsetWidth;
+      const s = available < PROPOSAL_WIDTH ? available / PROPOSAL_WIDTH : 1;
+      setScale(s);
+      setBoxHeight(Math.ceil(PROPOSAL_HEIGHT * s));
+    }
+    measure();
+    window.addEventListener('resize', measure);
+    return () => window.removeEventListener('resize', measure);
+  }, []);
+
+  return (
+    <div ref={wrapperRef} style={{ width: '100%', height: boxHeight, position: 'relative' }}>
+      <iframe
+        src={src}
+        title={title}
+        style={{
+          width: PROPOSAL_WIDTH,
+          height: PROPOSAL_HEIGHT,
+          border: 'none',
+          transformOrigin: 'top left',
+          transform: `scale(${scale})`,
+          boxShadow: '0 8px 40px rgba(0,0,0,0.18)',
+          borderRadius: 4,
+          background: '#fff',
+          display: 'block',
+        }}
+      />
+    </div>
+  );
+}
 
 export default function PublicProposal() {
   const router = useRouter();
   const { token } = router.query;
   const [proposal, setProposal] = useState(null);
-  const [error, setError] = useState('');
+  const [error, setError]       = useState('');
   const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001/api';
 
   useEffect(() => {
     if (!token) return;
-    // Llama al backend: loguea la apertura y devuelve el id
     api.get(`/proposals/p/${token}`)
       .then(({ data }) => setProposal(data))
       .catch(() => setError('Esta propuesta no existe o el link es inválido.'));
@@ -32,9 +74,9 @@ export default function PublicProposal() {
   );
 
   return (
-    <div style={{ background: '#E5E7EB', minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '32px 16px 48px' }}>
-      {/* Header mínimo */}
-      <div style={{ width: 794, maxWidth: '100%', marginBottom: 20, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+    <div style={{ background: '#E5E7EB', minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '24px 16px 48px' }}>
+      {/* Header */}
+      <div style={{ width: '100%', maxWidth: PROPOSAL_WIDTH, marginBottom: 16, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <div style={{ fontWeight: 800, fontSize: 18, letterSpacing: '-0.03em', color: '#31353D' }}>
           Firmaway<span style={{ color: '#F15A2F' }}>.</span>
         </div>
@@ -43,20 +85,13 @@ export default function PublicProposal() {
         </div>
       </div>
 
-      {/* Propuesta en iframe */}
-      <iframe
-        src={`${apiUrl}/proposals/${proposal.id}/preview`}
-        style={{
-          width: 794,
-          maxWidth: '100%',
-          height: 4200,
-          border: 'none',
-          boxShadow: '0 8px 40px rgba(0,0,0,0.18)',
-          borderRadius: 4,
-          background: '#fff',
-        }}
-        title={`Propuesta ${proposal.proposal_number}`}
-      />
+      {/* Propuesta — escalada automáticamente en mobile */}
+      <div style={{ width: '100%', maxWidth: PROPOSAL_WIDTH }}>
+        <ScaledIframe
+          src={`${apiUrl}/proposals/${proposal.id}/preview`}
+          title={`Propuesta ${proposal.proposal_number}`}
+        />
+      </div>
     </div>
   );
 }

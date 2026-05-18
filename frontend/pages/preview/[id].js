@@ -48,22 +48,22 @@ function buildEmailSubject(edits, pkg) {
   return `Propuesta Firmaway · LLC ${pkgNames[pkg] || 'Pro'} para ${name}`;
 }
 
-function buildEmailDraft(edits, pkg, aiData) {
+function buildEmailDraft(edits, pkg, aiData, publicLink) {
   const pkgNames  = { starter: 'Starter', pro: 'Pro', all_in: 'All In' };
   const pkgPrices = { starter: 499, pro: 645, all_in: 1199 };
 
-  const name           = edits.lead_name || 'Lead';
-  const pkgName        = pkgNames[pkg] || 'Pro';
-  const price          = pkgPrices[pkg] || 645;
-  const stateName      = STATE_NAMES[edits.state_recommended || 'wyoming'] || 'Wyoming';
-  const commercialName = aiData.commercial_name || 'Sebastián Bedoya';
-  const lang           = aiData.language || 'es';
+  const name      = edits.lead_name || 'Lead';
+  const pkgName   = pkgNames[pkg] || 'Pro';
+  const price     = pkgPrices[pkg] || 645;
+  const stateName = STATE_NAMES[edits.state_recommended || 'wyoming'] || 'Wyoming';
+  const lang      = aiData.language || 'es';
+  const linkLine  = publicLink ? `${publicLink}\n\n` : '';
 
   if (lang === 'pt') {
-    return `Olá ${name},\n\nObrigado pelo seu tempo hoje. Foi ótimo conversar e entender o que você precisa — estamos preparados para ajudá-lo em cada etapa.\n\nSegue a proposta com o pacote ${pkgName} (USD ${price}), com abertura no estado de ${stateName}. Você encontrará todos os detalhes no link ou PDF em anexo.\n\nQualquer dúvida, me chame pelo WhatsApp ou responda este e-mail.\n\n${commercialName}\nFirmaway · firmaway.us | +1 689 242 2109`;
+    return `Olá ${name},\n\nObrigado pelo seu tempo hoje. Foi muito bom conversar e entender o que você precisa — estamos preparados para acompanhá-lo em cada etapa.\n\nSegue o link com a sua proposta personalizada — pacote ${pkgName} (USD ${price}), abertura em ${stateName}. Pode abrí-lo de qualquer dispositivo, a qualquer momento:\n\n${linkLine}Qualquer dúvida, me chame pelo WhatsApp ou responda este e-mail.`;
   }
 
-  return `Hola ${name},\n\nGracias por tu tiempo hoy. Fue muy bueno conversar y entender lo que necesitás — estamos listos para acompañarte en cada paso.\n\nTe mando la propuesta con el paquete ${pkgName} (USD ${price}), con formación en ${stateName}. Encontrás todos los detalles en el link o PDF adjunto.\n\nCualquier consulta, escribime por WhatsApp o respondé este mail.\n\n${commercialName}\nFirmaway · firmaway.us | +1 689 242 2109`;
+  return `Hola ${name},\n\nGracias por tu tiempo hoy. Fue muy bueno conversar y entender lo que necesitás — estamos listos para acompañarte en cada paso.\n\nTe comparto el link con tu propuesta personalizada — paquete ${pkgName} (USD ${price}), formación en ${stateName}. Podés abrirlo desde cualquier dispositivo, en cualquier momento:\n\n${linkLine}Cualquier consulta, escribime por WhatsApp o respondé este mail.`;
 }
 
 // ── Componentes ───────────────────────────────────────────────────────────
@@ -205,8 +205,11 @@ export default function Preview() {
   const urgencyColor = URGENCY_COLORS[urgency] || URGENCY_COLORS.medio;
 
   // Email computado client-side — se actualiza con cada edición del panel
+  const publicLink   = proposal?.public_token
+    ? `${typeof window !== 'undefined' ? window.location.origin : 'https://propuestas.firmaway.us'}/p/${proposal.public_token}`
+    : '';
   const emailSubject = buildEmailSubject(edits, pkg);
-  const emailDraft   = buildEmailDraft(edits, pkg, aiData);
+  const emailDraft   = buildEmailDraft(edits, pkg, aiData, publicLink);
 
   return (
     <div style={{ background: C.warm, minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
