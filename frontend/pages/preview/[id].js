@@ -59,16 +59,11 @@ function buildEmailDraft(edits, pkg, aiData) {
   const commercialName = aiData.commercial_name || 'Sebastián Bedoya';
   const lang           = aiData.language || 'es';
 
-  // Usa la primera oración del párrafo personalizado como contexto
-  const cuerpo       = edits.cuerpo_cap01 || '';
-  const firstPart    = cuerpo.split(/[.!?]\s/)[0].trim();
-  const contextLine  = firstPart ? `${firstPart}.\n\n` : '';
-
   if (lang === 'pt') {
-    return `Olá ${name},\n\n${contextLine}Como combinamos, segue a proposta para a sua LLC nos EUA com o pacote ${pkgName} (USD ${price}), constituída no estado de ${stateName}.\n\nPara qualquer dúvida, me chame pelo WhatsApp ou responda este e-mail.\n\n${commercialName}\nFirmaway · firmaway.us | +1 689 242 2109`;
+    return `Olá ${name},\n\nObrigado pelo seu tempo hoje. Foi ótimo conversar e entender o que você precisa — estamos preparados para ajudá-lo em cada etapa.\n\nSegue a proposta com o pacote ${pkgName} (USD ${price}), com abertura no estado de ${stateName}. Você encontrará todos os detalhes no link ou PDF em anexo.\n\nQualquer dúvida, me chame pelo WhatsApp ou responda este e-mail.\n\n${commercialName}\nFirmaway · firmaway.us | +1 689 242 2109`;
   }
 
-  return `Hola ${name},\n\n${contextLine}Como prometí, te mando la propuesta para tu LLC en EE.UU. con el paquete ${pkgName} (USD ${price}), con formación en ${stateName}.\n\nCualquier consulta, escribime por WhatsApp o respondé este mail.\n\n${commercialName}\nFirmaway · firmaway.us | +1 689 242 2109`;
+  return `Hola ${name},\n\nGracias por tu tiempo hoy. Fue muy bueno conversar y entender lo que necesitás — estamos listos para acompañarte en cada paso.\n\nTe mando la propuesta con el paquete ${pkgName} (USD ${price}), con formación en ${stateName}. Encontrás todos los detalles en el link o PDF adjunto.\n\nCualquier consulta, escribime por WhatsApp o respondé este mail.\n\n${commercialName}\nFirmaway · firmaway.us | +1 689 242 2109`;
 }
 
 // ── Componentes ───────────────────────────────────────────────────────────
