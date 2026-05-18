@@ -62,6 +62,7 @@ const i18n = {
       'Operating Agreement',
       'Soporte gratis e ilimitado',
       'Obligaciones año 1 incluidas',
+      'Equipo humano, sin bots',
       'Estado de formación',
       'Miembros',
     ],
@@ -129,6 +130,7 @@ const i18n = {
       'Operating Agreement',
       'Suporte gratuito e ilimitado',
       'Obrigações do ano 1 incluídas',
+      'Equipe humana, sem bots',
       'Estado de formação',
       'Membros',
     ],
@@ -177,6 +179,7 @@ function buildPricingTable(pkg, lang) {
     [check, check, check],   // Operating Agreement
     [check, check, check],   // Soporte
     [dash,  dash,  check],   // Obligaciones año 1
+    [check, check, check],   // Equipo humano, sin bots
   ];
 
   // ── Filas diferenciadoras (texto)
@@ -202,8 +205,8 @@ function buildPricingTable(pkg, lang) {
   </thead>
   <tbody>`;
 
-  // Primeras 7 filas: features con ✓/✗
-  t.features.slice(0, 7).forEach((feat, i) => {
+  // Primeras 8 filas: features con ✓/✗
+  t.features.slice(0, 8).forEach((feat, i) => {
     html += `
     <tr>
       <td class="feature-name">${feat}</td>
@@ -219,7 +222,7 @@ function buildPricingTable(pkg, lang) {
   const valStyle = 'font-size:12px; font-weight:700; color:var(--ink);';
   html += `
     <tr style="${diffStyle}">
-      <td class="feature-name" style="${labelStyle}">${t.features[7]}</td>
+      <td class="feature-name" style="${labelStyle}">${t.features[8]}</td>
       <td class="${tdClass('starter')}" style="${valStyle}">${estadoRow[0]}</td>
       <td class="${tdClass('pro')}" style="${valStyle}">${estadoRow[1]}</td>
       <td class="${tdClass('all_in')}" style="${valStyle}">${estadoRow[2]}</td>
@@ -228,7 +231,7 @@ function buildPricingTable(pkg, lang) {
   // Fila diferenciadora: Miembros
   html += `
     <tr style="${diffStyle}">
-      <td class="feature-name" style="${labelStyle}">${t.features[8]}</td>
+      <td class="feature-name" style="${labelStyle}">${t.features[9]}</td>
       <td class="${tdClass('starter')}" style="${valStyle}">${membrosRow[0]}</td>
       <td class="${tdClass('pro')}" style="${valStyle}">${membrosRow[1]}</td>
       <td class="${tdClass('all_in')}" style="${valStyle}">${membrosRow[2]}</td>
