@@ -19,7 +19,7 @@ const STATES = [
   { value: 'wyoming',    label: 'Wyoming',     fee: 62  },
   { value: 'new_mexico', label: 'Nuevo México', fee: 0   },
   { value: 'delaware',   label: 'Delaware',     fee: 300 },
-  { value: 'florida',    label: 'Florida',      fee: 0   },
+  { value: 'florida',    label: 'Florida',      fee: 132 },
   { value: 'texas',      label: 'Texas',        fee: 0   },
 ];
 
@@ -64,6 +64,15 @@ function buildEmailDraft(edits, pkg, aiData, publicLink) {
   }
 
   return `Hola ${name},\n\nGracias por tu tiempo hoy. Fue muy bueno conversar y entender lo que necesitás — estamos listos para acompañarte en cada paso.\n\nTe comparto el link con tu propuesta personalizada — paquete ${pkgName} (USD ${price}), formación en ${stateName}. Podés abrirlo desde cualquier dispositivo, en cualquier momento:\n\n${linkLine}Cualquier consulta, escribime por WhatsApp o respondé este mail.`;
+}
+
+// ── Templates de seguimiento (cliente-side) ───────────────────────────────
+function buildFollowUp(edits, aiData, delay) {
+  const name     = edits.lead_name || 'Lead';
+  const nickname = aiData.commercial_nickname || 'Seba';
+  if (delay === 24) return `Hola ${name}, ¿llegó bien la propuesta que te mandé?\n\nCualquier consulta que tengas, estoy disponible. — ${nickname}`;
+  if (delay === 48) return `Hola ${name}, quería saber si tuviste tiempo de revisar la propuesta.\n\nSi tenés alguna duda o querés ajustar algo, avisame. — ${nickname}`;
+  return `Hola ${name}, ¿todo bien? Me quedo disponible por si querés retomar cuando tengas un momento. Sin apuro. — ${nickname}`;
 }
 
 // ── Componentes ───────────────────────────────────────────────────────────
@@ -252,6 +261,7 @@ export default function Preview() {
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 10 }}>
               <div>
                 <div style={{ fontSize: 10, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.07em', color: C.muted, marginBottom: 2 }}>Estado</div>
+                <div style={{ fontSize: 11, color: C.muted, marginBottom: 2, lineHeight: 1.4 }}>Marcá enviada para registrar la fecha en el historial.</div>
                 {proposal.status === 'sent' ? (
                   <div style={{ fontSize: 13, fontWeight: 600, color: '#15803D' }}>
                     ✓ Enviada {proposal.sent_at ? `· ${new Date(proposal.sent_at).toLocaleDateString('es-AR', { day: '2-digit', month: 'short' })}` : ''}
@@ -297,7 +307,8 @@ export default function Preview() {
 
             {/* Link público */}
             <div style={{ paddingTop: 8, borderTop: `1px solid ${C.border}` }}>
-              <div style={{ fontSize: 10, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.07em', color: C.muted, marginBottom: 6 }}>Link para el lead</div>
+              <div style={{ fontSize: 10, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.07em', color: C.muted, marginBottom: 2 }}>Link para el lead</div>
+              <div style={{ fontSize: 11, color: C.muted, marginBottom: 6, lineHeight: 1.4 }}>Trackea cuándo y cuántas veces el lead abre la propuesta.</div>
               <CopyLinkButton token={proposal.public_token} />
             </div>
           </div>
@@ -319,7 +330,8 @@ export default function Preview() {
 
           {/* Paquete */}
           <div style={{ marginBottom: 14 }}>
-            <label style={{ display: 'block', fontSize: 11, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.06em', color: C.muted, marginBottom: 5 }}>Paquete</label>
+            <label style={{ display: 'block', fontSize: 11, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.06em', color: C.muted, marginBottom: 2 }}>Paquete</label>
+            <div style={{ fontSize: 11, color: C.muted, marginBottom: 5, lineHeight: 1.4 }}>Cambiá si Claude recomendó mal. El PDF se actualiza al instante.</div>
             <select value={pkg} onChange={e => setPkg(e.target.value)} style={{ ...inp, cursor: 'pointer' }}>
               {PACKAGES.map(p => <option key={p.value} value={p.value}>{p.label}</option>)}
             </select>
@@ -327,7 +339,8 @@ export default function Preview() {
 
           {/* Estado recomendado */}
           <div style={{ marginBottom: 14 }}>
-            <label style={{ display: 'block', fontSize: 11, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.06em', color: C.muted, marginBottom: 5 }}>Estado recomendado</label>
+            <label style={{ display: 'block', fontSize: 11, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.06em', color: C.muted, marginBottom: 2 }}>Estado recomendado</label>
+            <div style={{ fontSize: 11, color: C.muted, marginBottom: 5, lineHeight: 1.4 }}>Wyoming por defecto para Pro/All In. Nuevo México solo si hay 1 socio y quiere el costo más bajo.</div>
             <select
               value={edits.state_recommended || 'wyoming'}
               onChange={e => setEdits(p => ({ ...p, state_recommended: e.target.value }))}
@@ -343,11 +356,12 @@ export default function Preview() {
 
           {/* Lead */}
           {[
-            { key: 'lead_name',   label: 'Nombre del lead' },
-            { key: 'lead_detail', label: 'Detalle del cliente' },
-          ].map(({ key, label }) => (
+            { key: 'lead_name',   label: 'Nombre del lead',    hint: 'Aparece en la portada y en el mail de envío.' },
+            { key: 'lead_detail', label: 'Detalle del cliente', hint: 'Visible en la portada. Ej: E-commerce · Argentina' },
+          ].map(({ key, label, hint }) => (
             <div key={key} style={{ marginBottom: 14 }}>
-              <label style={{ display: 'block', fontSize: 11, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.06em', color: C.muted, marginBottom: 5 }}>{label}</label>
+              <label style={{ display: 'block', fontSize: 11, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.06em', color: C.muted, marginBottom: 2 }}>{label}</label>
+              <div style={{ fontSize: 11, color: C.muted, marginBottom: 5, lineHeight: 1.4 }}>{hint}</div>
               <input
                 value={edits[key] || ''}
                 onChange={e => setEdits(p => ({ ...p, [key]: e.target.value }))}
@@ -360,9 +374,10 @@ export default function Preview() {
 
           {/* Headline */}
           <div style={{ marginBottom: 14 }}>
-            <label style={{ display: 'block', fontSize: 11, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.06em', color: C.muted, marginBottom: 5 }}>
+            <label style={{ display: 'block', fontSize: 11, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.06em', color: C.muted, marginBottom: 2 }}>
               Headline portada
             </label>
+            <div style={{ fontSize: 11, color: C.muted, marginBottom: 5, lineHeight: 1.4 }}>Titular visual de la propuesta. Editá si Claude no lo capturó bien. La 3ra línea sale en naranja.</div>
             {['headline_line1', 'headline_line2', 'headline_highlight'].map((key, i) => (
               <input
                 key={key}
@@ -378,7 +393,8 @@ export default function Preview() {
 
           {/* Cuerpo Cap 01 */}
           <div style={{ marginBottom: 14 }}>
-            <label style={{ display: 'block', fontSize: 11, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.06em', color: C.muted, marginBottom: 5 }}>Párrafo Cap. 01</label>
+            <label style={{ display: 'block', fontSize: 11, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.06em', color: C.muted, marginBottom: 2 }}>Párrafo Cap. 01</label>
+            <div style={{ fontSize: 11, color: C.muted, marginBottom: 5, lineHeight: 1.4 }}>Contexto personalizado en pág. 2. Ajustá el tono según cómo fue la llamada.</div>
             <textarea
               value={edits.cuerpo_cap01 || ''}
               onChange={e => setEdits(p => ({ ...p, cuerpo_cap01: e.target.value }))}
@@ -391,11 +407,12 @@ export default function Preview() {
 
           {/* Tabs: Email / WhatsApp / Objeciones */}
           <div style={{ borderTop: `1px solid ${C.border}`, paddingTop: 16, marginTop: 4 }}>
-            <div style={{ display: 'flex', gap: 6, marginBottom: 14 }}>
+            <div style={{ display: 'flex', gap: 6, marginBottom: 14, flexWrap: 'wrap' }}>
               {[
-                { key: 'email',      label: '✉ Email' },
-                { key: 'whatsapp',   label: '💬 WhatsApp' },
-                { key: 'objections', label: '🎯 Objeciones' },
+                { key: 'email',       label: '✉ Email' },
+                { key: 'whatsapp',    label: '💬 WA' },
+                { key: 'objections',  label: '🎯 Objeciones' },
+                { key: 'seguimiento', label: '📅 Seguimiento' },
               ].map(tab => (
                 <button key={tab.key} onClick={() => setActiveTab(tab.key)} style={{
                   padding: '6px 12px', borderRadius: 7, fontSize: 12, fontWeight: 600, cursor: 'pointer',
@@ -440,6 +457,33 @@ export default function Preview() {
                 <div style={{ marginTop: 10 }}>
                   <CopyButton text={aiData.whatsapp_draft || ''} label="Copiar mensaje" />
                 </div>
+              </div>
+            )}
+
+            {/* Seguimiento */}
+            {activeTab === 'seguimiento' && (
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+                <div style={{ fontSize: 12, color: C.muted, lineHeight: 1.5, marginBottom: 4 }}>
+                  Mensajes de seguimiento listos para copiar. Enviá a las 24h si no hay respuesta, luego a las 48h.
+                </div>
+                {[
+                  { delay: 24, label: 'Seguimiento 24 hs' },
+                  { delay: 48, label: 'Seguimiento 48 hs' },
+                  { delay: 72, label: 'Seguimiento 72 hs (cierre suave)' },
+                ].map(({ delay, label }) => {
+                  const msg = buildFollowUp(edits, aiData, delay);
+                  return (
+                    <div key={delay} style={{ background: C.warm, border: `1.5px solid ${C.border}`, borderRadius: 10, padding: '12px 14px' }}>
+                      <div style={{ fontSize: 11, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.07em', color: C.muted, marginBottom: 6 }}>
+                        {label}
+                      </div>
+                      <div style={{ fontSize: 13, lineHeight: '20px', color: C.ink, whiteSpace: 'pre-wrap', marginBottom: 10 }}>
+                        {msg}
+                      </div>
+                      <CopyButton text={msg} label="Copiar" />
+                    </div>
+                  );
+                })}
               </div>
             )}
 
