@@ -130,8 +130,7 @@ export default function PublicProposal() {
         }}>
           <span>⚠️</span>
           <span>
-            Esta propuesta vence en <strong>{daysLeft === 1 ? '1 día' : `${daysLeft} días`}</strong>. Si tenés dudas, escribinos a{' '}
-            <a href="mailto:hola@firmaway.us" style={{ color: '#92400E', fontWeight: 700 }}>hola@firmaway.us</a>
+            Esta propuesta vence en <strong>{daysLeft === 1 ? '1 día' : `${daysLeft} días`}</strong>.
           </span>
         </div>
       )}
