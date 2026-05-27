@@ -48,7 +48,9 @@ LÓGICA DE RECOMENDACIÓN DE ESTADO:
 DETECCIÓN DE COMERCIAL (por nombre en la transcripción):
 • Sebastian / Sebastián / Bedoya → "Sebastián Bedoya" / "Seba"
 • Paola / Marcano → "Paola Marcano" / "Paola"
-• Si no se detecta ninguno → usar "Sebastián Bedoya" / "Seba" como default
+• Tatiana → "Tatiana" / "Tatiana"
+• Si el output es en PORTUGUÉS y no se detecta ninguno → usar "Tatiana" / "Tatiana" como default
+• Si el output es en ESPAÑOL y no se detecta ninguno → usar "Sebastián Bedoya" / "Seba" como default
 
 SCORE DE URGENCIA:
 • alto → lead con ingresos activos, mencionó querer arrancar pronto, tiene documentos disponibles, lenguaje decisivo

@@ -412,7 +412,7 @@ function renderTemplate(data) {
   // Estado y nickname para personalización dinámica
   const state      = final.state_recommended || data.state_recommended || (pkg === 'starter' ? 'new_mexico' : 'wyoming');
   const stateLabel = (STATE_LABELS[lang] || STATE_LABELS.es)[state] || 'Wyoming';
-  const nickname   = final.commercial_nickname || data.commercial_nickname || 'Seba';
+  const nickname   = final.commercial_nickname || data.commercial_nickname || (isPt ? 'Tatiana' : 'Seba');
 
   // WA text personalizado con el nombre del comercial
   const waTextRaw = lang === 'pt'
