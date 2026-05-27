@@ -8,7 +8,7 @@ const STATE_FEES = {
   new_mexico: 0,
   wyoming: 62,
   delaware: 300,
-  florida: 132,
+  florida: 138.75,
   texas: 0,
 };
 

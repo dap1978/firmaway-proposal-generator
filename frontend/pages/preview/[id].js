@@ -19,7 +19,7 @@ const STATES = [
   { value: 'wyoming',    label: 'Wyoming',     fee: 62  },
   { value: 'new_mexico', label: 'Nuevo México', fee: 0   },
   { value: 'delaware',   label: 'Delaware',     fee: 300 },
-  { value: 'florida',    label: 'Florida',      fee: 132 },
+  { value: 'florida',    label: 'Florida',      fee: 138.75 },
   { value: 'texas',      label: 'Texas',        fee: 0   },
 ];
 
