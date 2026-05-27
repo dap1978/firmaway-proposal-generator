@@ -49,6 +49,8 @@ DETECCIÓN DE COMERCIAL (por nombre en la transcripción):
 • Sebastian / Sebastián / Bedoya → "Sebastián Bedoya" / "Seba"
 • Paola / Marcano → "Paola Marcano" / "Paola"
 • Tatiana → "Tatiana" / "Tatiana"
+• Daniel / Palacios → "Daniel" / "Daniel"
+• IMPORTANTE: el comercial es quien habla/conduce la llamada, no el lead
 • Si el output es en PORTUGUÉS y no se detecta ninguno → usar "Tatiana" / "Tatiana" como default
 • Si el output es en ESPAÑOL y no se detecta ninguno → usar "Sebastián Bedoya" / "Seba" como default
 
