@@ -60,7 +60,7 @@ export default function PublicProposal() {
   }, [token]);
 
   if (error) return (
-    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '100vh', background: '#FFFBF5', flexDirection: 'column', gap: 16 }}>
+    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '100vh', background: '#FFFBF5', flexDirection: 'column', gap: 16, fontFamily: '"Inter", system-ui, sans-serif' }}>
       <div style={{ fontSize: 32 }}>🔍</div>
       <div style={{ fontSize: 16, color: '#31353D', fontWeight: 600 }}>Propuesta no encontrada</div>
       <div style={{ fontSize: 14, color: 'rgba(49,53,61,0.5)' }}>{error}</div>
@@ -73,8 +73,43 @@ export default function PublicProposal() {
     </div>
   );
 
+  // ── Propuesta vencida ────────────────────────────────────────────────────
+  if (proposal.is_expired) return (
+    <div style={{
+      display: 'flex', alignItems: 'center', justifyContent: 'center',
+      minHeight: '100vh', background: '#3A4557',
+      flexDirection: 'column', gap: 20, padding: '0 24px',
+      fontFamily: '"Inter", system-ui, sans-serif',
+    }}>
+      <div style={{ fontSize: 48 }}>⏳</div>
+      <div style={{ fontSize: 22, fontWeight: 800, color: '#FFFFFF', textAlign: 'center', letterSpacing: '-0.03em', maxWidth: 340 }}>
+        Esta propuesta ya no está disponible
+      </div>
+      <div style={{ fontSize: 14, color: 'rgba(255,255,255,0.55)', textAlign: 'center', lineHeight: 1.7, maxWidth: 300 }}>
+        El link de esta propuesta venció. Para recibir una nueva o consultar sobre tu caso, escribinos a:
+      </div>
+      <a href="mailto:hola@firmaway.us" style={{
+        fontSize: 15, fontWeight: 700, color: '#F15A2F', textDecoration: 'none',
+        background: 'rgba(241,90,47,0.1)', border: '1.5px solid #F15A2F',
+        borderRadius: 10, padding: '12px 28px', letterSpacing: '-0.01em',
+      }}>
+        hola@firmaway.us
+      </a>
+      <div style={{ fontSize: 13, fontWeight: 800, letterSpacing: '-0.03em', color: 'rgba(255,255,255,0.25)', marginTop: 12 }}>
+        Firmaway<span style={{ color: '#F15A2F' }}>.</span>
+      </div>
+    </div>
+  );
+
+  // ── Días restantes (para banner de aviso) ────────────────────────────────
+  const daysLeft = proposal.expires_at
+    ? Math.ceil((new Date(proposal.expires_at) - new Date()) / (1000 * 60 * 60 * 24))
+    : null;
+  const showExpiryWarning = daysLeft !== null && daysLeft <= 3 && daysLeft > 0;
+
   return (
     <div style={{ background: '#E5E7EB', minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '24px 16px 48px' }}>
+
       {/* Header */}
       <div style={{ width: '100%', maxWidth: PROPOSAL_WIDTH, marginBottom: 16, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <div style={{ fontWeight: 800, fontSize: 18, letterSpacing: '-0.03em', color: '#31353D' }}>
@@ -84,6 +119,22 @@ export default function PublicProposal() {
           Propuesta para {proposal.lead_name}
         </div>
       </div>
+
+      {/* Banner de vencimiento próximo */}
+      {showExpiryWarning && (
+        <div style={{
+          width: '100%', maxWidth: PROPOSAL_WIDTH, marginBottom: 12,
+          background: '#FFF8E7', border: '1.5px solid #F59E0B', borderRadius: 10,
+          padding: '10px 16px', fontSize: 13, color: '#92400E',
+          display: 'flex', alignItems: 'center', gap: 8,
+        }}>
+          <span>⚠️</span>
+          <span>
+            Esta propuesta vence en <strong>{daysLeft === 1 ? '1 día' : `${daysLeft} días`}</strong>. Si tenés dudas, escribinos a{' '}
+            <a href="mailto:hola@firmaway.us" style={{ color: '#92400E', fontWeight: 700 }}>hola@firmaway.us</a>
+          </span>
+        </div>
+      )}
 
       {/* Propuesta — escalada automáticamente en mobile */}
       <div style={{ width: '100%', maxWidth: PROPOSAL_WIDTH }}>

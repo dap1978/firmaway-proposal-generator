@@ -58,6 +58,8 @@ async function runMigrations() {
     await db.query(`ALTER TABLE proposals ADD COLUMN IF NOT EXISTS sent_at TIMESTAMP WITH TIME ZONE`);
     await db.query(`ALTER TABLE proposals ADD COLUMN IF NOT EXISTS public_token UUID DEFAULT gen_random_uuid()`);
     await db.query(`UPDATE proposals SET public_token = gen_random_uuid() WHERE public_token IS NULL`);
+    await db.query(`ALTER TABLE proposals ADD COLUMN IF NOT EXISTS expires_at TIMESTAMP WITH TIME ZONE`);
+    await db.query(`UPDATE proposals SET expires_at = created_at + INTERVAL '15 days' WHERE expires_at IS NULL`);
 
     await db.query(`
       CREATE TABLE IF NOT EXISTS proposal_views (

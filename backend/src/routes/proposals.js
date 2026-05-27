@@ -237,19 +237,25 @@ router.post('/:id/pdf', async (req, res) => {
 router.get('/p/:token', async (req, res) => {
   try {
     const { rows } = await db.query(
-      'SELECT id, proposal_number, lead_name, commercial_name FROM proposals WHERE public_token = $1',
+      'SELECT id, proposal_number, lead_name, commercial_name, created_at, expires_at FROM proposals WHERE public_token = $1',
       [req.params.token]
     );
     if (!rows.length) return res.status(404).json({ error: 'Propuesta no encontrada' });
 
-    // Loguear apertura
+    const proposal   = rows[0];
+    const expiresAt  = proposal.expires_at
+      ? new Date(proposal.expires_at)
+      : new Date(new Date(proposal.created_at).getTime() + 15 * 24 * 60 * 60 * 1000);
+    const isExpired  = new Date() > expiresAt;
+
+    // Loguear apertura (incluso si está vencida, para tracking)
     const ip = (req.headers['x-forwarded-for'] || '').split(',')[0].trim() || req.ip || '';
     await db.query(
       'INSERT INTO proposal_views (proposal_id, ip, user_agent) VALUES ($1, $2, $3)',
-      [rows[0].id, ip, req.headers['user-agent'] || '']
+      [proposal.id, ip, req.headers['user-agent'] || '']
     );
 
-    res.json(rows[0]);
+    res.json({ ...proposal, expires_at: expiresAt.toISOString(), is_expired: isExpired });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
