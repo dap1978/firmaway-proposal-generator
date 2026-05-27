@@ -45,14 +45,6 @@ LÓGICA DE RECOMENDACIÓN DE ESTADO:
 • texas → si el lead mencionó Texas específicamente
 • En caso de duda: wyoming
 
-DETECCIÓN DE COMERCIAL (por nombre en la transcripción):
-• Sebastian / Sebastián / Bedoya → "Sebastián Bedoya" / "Seba"
-• Paola / Marcano → "Paola Marcano" / "Paola"
-• Tatiana → "Tatiana" / "Tatiana"
-• Daniel / Palacios → "Daniel" / "Daniel"
-• IMPORTANTE: el comercial es quien habla/conduce la llamada, no el lead
-• Si el output es en PORTUGUÉS y no se detecta ninguno → usar "Tatiana" / "Tatiana" como default
-• Si el output es en ESPAÑOL y no se detecta ninguno → usar "Sebastián Bedoya" / "Seba" como default
 
 SCORE DE URGENCIA:
 • alto → lead con ingresos activos, mencionó querer arrancar pronto, tiene documentos disponibles, lenguaje decisivo
@@ -73,8 +65,6 @@ OUTPUT — SOLO JSON VÁLIDO, SIN MARKDOWN, SIN TEXTO ADICIONAL
   "cuerpo_cap01": "Párrafo de 3-4 oraciones personalizado según lo hablado en la llamada. Mencionar detalles específicos del lead (negocio, situación, objetivo). Lenguaje neutro, sin voseos.",
   "package": "starter | pro | all_in",
   "state_recommended": "new_mexico | wyoming | delaware | florida | texas — estado más conveniente según el perfil del lead",
-  "commercial_name": "Nombre completo del comercial detectado",
-  "commercial_nickname": "Apodo del comercial",
   "urgency_score": "alto | medio | bajo",
   "urgency_reason": "Una oración explicando el score. Lenguaje neutro.",
   "objections": [
