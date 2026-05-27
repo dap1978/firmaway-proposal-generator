@@ -119,7 +119,7 @@ const i18n = {
     ctaSubtitulo: 'Responda esta mensagem e começamos hoje.',
     ctaBoton: 'Fale com',
     waText: 'Ola%2C+quero+abrir+minha+LLC',
-    paqueteNombres: { starter: 'Starter', pro: 'Pro', all_in: 'All In' },
+    paqueteNombres: { starter: 'Essencial', pro: 'Pro', all_in: 'Completo' },
     tablaHeader: 'O que inclui',
     tablaInversion: 'Investimento total',
     features: [
@@ -238,14 +238,18 @@ function buildPricingTable(pkg, lang) {
     </tr>`;
 
   const priceRow = (col) => {
-    const prices = { starter: '499', pro: '645', all_in: '1.199' };
+    const isPt     = lang === 'pt';
+    const pricesEs = { starter: '499',   pro: '645',   all_in: '1.199' };
+    const pricesPt = { starter: '2.599', pro: '3.299', all_in: '6.099' };
+    const priceVal = isPt ? pricesPt[col] : pricesEs[col];
+    const currency = isPt ? 'R$' : 'USD';
     const featured = col === pkg;
     const style = featured
       ? `background:var(--orange); border: 1.5px solid var(--orange); text-align:center;`
       : `background:var(--cream-warm); border: 1.5px solid var(--ink); text-align:center;`;
     return `<th style="${style}">
-      <span class="price-currency${featured ? ' featured' : ''}">USD</span>
-      <span class="price-amount${featured ? ' featured' : ''}">${prices[col]}</span>
+      <span class="price-currency${featured ? ' featured' : ''}">${currency}</span>
+      <span class="price-amount${featured ? ' featured' : ''}">${priceVal}</span>
     </th>`;
   };
 
@@ -389,8 +393,12 @@ function buildRequirements(lang) {
 function renderTemplate(data) {
   const lang = data.language || 'es';
   const t = i18n[lang];
-  const pkg = data.package || 'pro';
-  const prices = { starter: 499, pro: 645, all_in: 1199 };
+  const pkg  = data.package || 'pro';
+  const isPt = lang === 'pt';
+  const prices = isPt
+    ? { starter: 2599,  pro: 3299,  all_in: 6099  }
+    : { starter: 499,   pro: 645,   all_in: 1199  };
+  const currency = isPt ? 'R$' : 'USD';
 
   const now = new Date();
   const months = {
@@ -424,6 +432,7 @@ function renderTemplate(data) {
     KPI_PAQUETE_LABEL: t.kpiPaquete,
     KPI_PAQUETE: t.paqueteNombres[pkg],
     KPI_PRECIO_LABEL: t.kpiPrecio,
+    KPI_MONEDA: currency,
     KPI_PRECIO: prices[pkg].toLocaleString('es-AR'),
     KPI_PLAZO_LABEL: t.kpiPlazo,
     KPI_PLAZO: t.plazo,

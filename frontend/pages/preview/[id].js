@@ -49,21 +49,26 @@ function buildEmailSubject(edits, pkg) {
 }
 
 function buildEmailDraft(edits, pkg, aiData, publicLink) {
-  const pkgNames  = { starter: 'Starter', pro: 'Pro', all_in: 'All In' };
-  const pkgPrices = { starter: 499, pro: 645, all_in: 1199 };
+  const lang    = aiData.language || 'es';
+  const isPt    = lang === 'pt';
+
+  const pkgNamesEs  = { starter: 'Starter',   pro: 'Pro', all_in: 'All In'   };
+  const pkgNamesPt  = { starter: 'Essencial',  pro: 'Pro', all_in: 'Completo' };
+  const pkgPricesEs = { starter: 499,  pro: 645,  all_in: 1199 };
+  const pkgPricesPt = { starter: 2599, pro: 3299, all_in: 6099 };
 
   const name      = edits.lead_name || 'Lead';
-  const pkgName   = pkgNames[pkg] || 'Pro';
-  const price     = pkgPrices[pkg] || 645;
+  const pkgName   = isPt ? (pkgNamesPt[pkg] || 'Pro') : (pkgNamesEs[pkg] || 'Pro');
+  const price     = isPt ? (pkgPricesPt[pkg] || 3299)  : (pkgPricesEs[pkg] || 645);
+  const currency  = isPt ? 'R$' : 'USD';
   const stateName = STATE_NAMES[edits.state_recommended || 'wyoming'] || 'Wyoming';
-  const lang      = aiData.language || 'es';
   const linkLine  = publicLink ? `${publicLink}\n\n` : '';
 
-  if (lang === 'pt') {
-    return `Olá ${name},\n\nObrigado pelo seu tempo hoje. Foi muito bom conversar e entender o que você precisa — estamos preparados para acompanhá-lo em cada etapa.\n\nSegue o link com a sua proposta personalizada — pacote ${pkgName} (USD ${price}), abertura em ${stateName}. Pode abrí-lo de qualquer dispositivo, a qualquer momento:\n\n${linkLine}Qualquer dúvida, me chame pelo WhatsApp ou responda este e-mail.`;
+  if (isPt) {
+    return `Olá ${name},\n\nObrigado pelo seu tempo hoje. Foi muito bom conversar e entender o que você precisa — estamos preparados para acompanhá-lo em cada etapa.\n\nSegue o link com a sua proposta personalizada — pacote ${pkgName} (${currency} ${price.toLocaleString('pt-BR')}), abertura em ${stateName}. Pode abrí-lo de qualquer dispositivo, a qualquer momento:\n\n${linkLine}Qualquer dúvida, me chame pelo WhatsApp ou responda este e-mail.`;
   }
 
-  return `Hola ${name},\n\nGracias por tu tiempo hoy. Fue muy bueno conversar y entender lo que necesitás — estamos listos para acompañarte en cada paso.\n\nTe comparto el link con tu propuesta personalizada — paquete ${pkgName} (USD ${price}), formación en ${stateName}. Podés abrirlo desde cualquier dispositivo, en cualquier momento:\n\n${linkLine}Cualquier consulta, escribime por WhatsApp o respondé este mail.`;
+  return `Hola ${name},\n\nGracias por tu tiempo hoy. Fue muy bueno conversar y entender lo que necesitás — estamos listos para acompañarte en cada paso.\n\nTe comparto el link con tu propuesta personalizada — paquete ${pkgName} (${currency} ${price.toLocaleString('es-AR')}), formación en ${stateName}. Podés abrirlo desde cualquier dispositivo, en cualquier momento:\n\n${linkLine}Cualquier consulta, escribime por WhatsApp o respondé este mail.`;
 }
 
 // ── Templates de seguimiento (cliente-side) ───────────────────────────────
