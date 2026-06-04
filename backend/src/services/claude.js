@@ -27,11 +27,13 @@ REGLAS DE NEGOCIO FIRMAWAY — OBLIGATORIAS, NUNCA MODIFICAR
 • Lenguaje neutro, sin regionalismos
 
 PAQUETES DISPONIBLES:
-• starter — USD 499: Solo Nuevo México, 1 socio único. Incluye: constitución, Registered Agent 1 año, soporte ${soporte}.
+• solo_llc — USD 495: LLC sin cuenta bancaria. Cualquier estado, cualquier número de socios. Incluye: constitución, EIN, Registered Agent 1 año, Operating Agreement, soporte ${soporte}. NO incluye cuenta Mercury. Solo disponible en propuestas en español.
+• starter — USD 499: Solo Nuevo México, 1 socio único. Incluye: constitución, cuenta Mercury, EIN, Registered Agent 1 año, Operating Agreement, soporte ${soporte}.
 • pro — USD 645: Cualquier estado, 2 o más socios. Incluye: constitución, cuenta Mercury, EIN, Registered Agent 1 año, Operating Agreement, soporte ${soporte}.
 • all_in — USD 1199: Igual que Pro + obligaciones año 1 incluidas. La opción más completa.
 
 LÓGICA DE RECOMENDACIÓN DE PAQUETE:
+• solo_llc → si el lead explícitamente no necesita cuenta bancaria, ya tiene banco, o quiere solo la LLC. Solo para propuestas en español.
 • starter → si el lead es solo (1 persona) y no mencionó otro estado que Nuevo México
 • pro → si el lead tiene socios, prefiere otro estado (Wyoming, Delaware, Florida, Texas), o quiere Mercury/EIN separado
 • all_in → si el lead mencionó preocupación por obligaciones futuras, costos anuales, o quiere "todo incluido"
@@ -119,7 +121,11 @@ async function generateProposal(transcript, language = 'es') {
   }
 
   // Normalizar paquete
-  if (!['starter', 'pro', 'all_in'].includes(data.package)) {
+  if (!['solo_llc', 'starter', 'pro', 'all_in'].includes(data.package)) {
+    data.package = 'pro';
+  }
+  // Solo LLC solo aplica en español
+  if (data.package === 'solo_llc' && language === 'pt') {
     data.package = 'pro';
   }
 

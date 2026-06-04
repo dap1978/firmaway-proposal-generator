@@ -51,7 +51,7 @@ const i18n = {
     ctaSubtitulo: 'Respondé este mensaje y arrancamos hoy.',
     ctaBoton: 'Escribile a',
     waText: 'Hola%2C+quiero+arrancar+con+mi+LLC',
-    paqueteNombres: { starter: 'Starter', pro: 'Pro', all_in: 'All In' },
+    paqueteNombres: { solo_llc: 'Solo LLC', starter: 'Starter', pro: 'Pro', all_in: 'All In' },
     tablaHeader: 'Qué incluye',
     tablaInversion: 'Inversión total',
     features: [
@@ -159,48 +159,62 @@ const i18n = {
 
 // ── Tabla de precios dinámica ──────────────────────────────────────────────
 function buildPricingTable(pkg, lang) {
-  const t = i18n[lang];
+  const t    = i18n[lang];
   const names = t.paqueteNombres;
-  const isEs = lang !== 'pt';
+  const isEs  = lang !== 'pt';
+
+  // ES muestra 4 paquetes (incluye Solo LLC); PT muestra 3
+  const cols = isEs
+    ? ['solo_llc', 'starter', 'pro', 'all_in']
+    : ['starter',  'pro',     'all_in'];
 
   const thClass = (col) => col === pkg ? 'col-recommended' : '';
   const tdClass = (col) => col === pkg ? 'highlight' : '';
+  const starFor = (col) => col === pkg ? ' ★' : '';
 
   const check = '<span class="check-mark">✓</span>';
   const dash  = '<span class="dash-mark">–</span>';
 
-  // ── Filas de features (✓/✗) — [starter, pro, all_in]
-  // Starter incluye todo igual que Pro; diferencia es estado y nº de miembros
-  const featureRows = [
-    [check, check, check],   // Constitución
-    [check, check, check],   // Mercury
-    [check, check, check],   // EIN
-    [check, check, check],   // Agente Registrado
-    [check, check, check],   // Operating Agreement
-    [check, check, check],   // Soporte
-    [dash,  dash,  check],   // Obligaciones año 1
-    [check, check, check],   // Equipo humano, sin bots
+  // Padding más compacto en ES (4 columnas)
+  const cp = isEs ? '7px 9px' : '10px 14px';
+
+  // ── Filas de features — [solo_llc, starter, pro, all_in] para ES
+  //                        [starter, pro, all_in] para PT
+  const featureRowsEs = [
+    [check, check, check, check],  // Constitución
+    [dash,  check, check, check],  // Mercury — Solo LLC NO incluye cuenta
+    [check, check, check, check],  // EIN
+    [check, check, check, check],  // Agente Registrado
+    [check, check, check, check],  // Operating Agreement
+    [check, check, check, check],  // Soporte
+    [dash,  dash,  dash,  check],  // Obligaciones año 1
+    [check, check, check, check],  // Personas reales
   ];
+  const featureRowsPt = [
+    [check, check, check],
+    [check, check, check],
+    [check, check, check],
+    [check, check, check],
+    [check, check, check],
+    [check, check, check],
+    [dash,  dash,  check],
+    [check, check, check],
+  ];
+  const featureRows = isEs ? featureRowsEs : featureRowsPt;
 
-  // ── Filas diferenciadoras (texto)
+  // ── Filas diferenciadoras
   const estadoRow = isEs
-    ? ['Nuevo México', 'Cualquier estado', 'Cualquier estado']
-    : ['Novo México',  'Qualquer estado',  'Qualquer estado'];
+    ? ['Cualquier estado', 'Nuevo México', 'Cualquier estado', 'Cualquier estado']
+    : ['Novo México', 'Qualquer estado', 'Qualquer estado'];
   const membrosRow = isEs
-    ? ['1 miembro', '2 o más', '2 o más']
-    : ['1 membro',  '2 ou mais', '2 ou mais'];
-
-  const starterStar = pkg === 'starter' ? ' ★' : '';
-  const proStar     = pkg === 'pro'     ? ' ★' : '';
-  const allInStar   = pkg === 'all_in'  ? ' ★' : '';
+    ? ['1 o más', '1 miembro', '2 o más', '2 o más']
+    : ['1 membro', '2 ou mais', '2 ou mais'];
 
   let html = `<table class="pricing-table">
   <thead>
     <tr>
-      <th class="col-feature">${t.tablaHeader}</th>
-      <th class="${thClass('starter')}">${names.starter}${starterStar}</th>
-      <th class="${thClass('pro')}">${names.pro}${proStar}</th>
-      <th class="${thClass('all_in')}">${names.all_in}${allInStar}</th>
+      <th class="col-feature" style="padding:${cp};">${t.tablaHeader}</th>
+      ${cols.map(col => `<th class="${thClass(col)}" style="padding:${cp};">${names[col] || col}${starFor(col)}</th>`).join('')}
     </tr>
   </thead>
   <tbody>`;
@@ -209,44 +223,36 @@ function buildPricingTable(pkg, lang) {
   t.features.slice(0, 8).forEach((feat, i) => {
     html += `
     <tr>
-      <td class="feature-name">${feat}</td>
-      <td class="${tdClass('starter')}">${featureRows[i][0]}</td>
-      <td class="${tdClass('pro')}">${featureRows[i][1]}</td>
-      <td class="${tdClass('all_in')}">${featureRows[i][2]}</td>
+      <td class="feature-name" style="padding:${cp};">${feat}</td>
+      ${cols.map((col, ci) => `<td class="${tdClass(col)}" style="padding:${cp};">${featureRows[i][ci]}</td>`).join('')}
     </tr>`;
   });
 
-  // Fila diferenciadora: Estado
+  // Filas diferenciadoras
   const diffStyle = 'background:rgba(49,53,61,0.04);';
-  const labelStyle = 'font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.05em; color:var(--ink-light);';
-  const valStyle = 'font-size:12px; font-weight:700; color:var(--ink);';
+  const labelStyle = `font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.05em; color:var(--ink-light); padding:${cp};`;
+  const valStyle   = `font-size:12px; font-weight:700; color:var(--ink); padding:${cp};`;
+
   html += `
     <tr style="${diffStyle}">
       <td class="feature-name" style="${labelStyle}">${t.features[8]}</td>
-      <td class="${tdClass('starter')}" style="${valStyle}">${estadoRow[0]}</td>
-      <td class="${tdClass('pro')}" style="${valStyle}">${estadoRow[1]}</td>
-      <td class="${tdClass('all_in')}" style="${valStyle}">${estadoRow[2]}</td>
-    </tr>`;
-
-  // Fila diferenciadora: Miembros
-  html += `
+      ${cols.map((col, ci) => `<td class="${tdClass(col)}" style="${valStyle}">${estadoRow[ci]}</td>`).join('')}
+    </tr>
     <tr style="${diffStyle}">
       <td class="feature-name" style="${labelStyle}">${t.features[9]}</td>
-      <td class="${tdClass('starter')}" style="${valStyle}">${membrosRow[0]}</td>
-      <td class="${tdClass('pro')}" style="${valStyle}">${membrosRow[1]}</td>
-      <td class="${tdClass('all_in')}" style="${valStyle}">${membrosRow[2]}</td>
+      ${cols.map((col, ci) => `<td class="${tdClass(col)}" style="${valStyle}">${membrosRow[ci]}</td>`).join('')}
     </tr>`;
 
   const priceRow = (col) => {
     const isPt     = lang === 'pt';
-    const pricesEs = { starter: '499',   pro: '645',   all_in: '1.199' };
+    const pricesEs = { solo_llc: '495', starter: '499', pro: '645', all_in: '1.199' };
     const pricesPt = { starter: '2.599', pro: '3.299', all_in: '6.099' };
     const priceVal = isPt ? pricesPt[col] : pricesEs[col];
     const currency = isPt ? 'R$' : 'USD';
     const featured = col === pkg;
     const style = featured
-      ? `background:var(--orange); border: 1.5px solid var(--orange); text-align:center;`
-      : `background:var(--cream-warm); border: 1.5px solid var(--ink); text-align:center;`;
+      ? `background:var(--orange); border:1.5px solid var(--orange); text-align:center; padding:${cp};`
+      : `background:var(--cream-warm); border:1.5px solid var(--ink); text-align:center; padding:${cp};`;
     return `<th style="${style}">
       <span class="price-currency${featured ? ' featured' : ''}">${currency}</span>
       <span class="price-amount${featured ? ' featured' : ''}">${priceVal}</span>
@@ -257,12 +263,10 @@ function buildPricingTable(pkg, lang) {
   </tbody>
   <tfoot>
     <tr class="price-row">
-      <th style="text-align:left; background:var(--cream-warm); border: 1.5px solid var(--ink);">
+      <th style="text-align:left; background:var(--cream-warm); border:1.5px solid var(--ink); padding:${cp};">
         <span style="font-size:11px; text-transform:uppercase; letter-spacing:0.07em; color:var(--ink-light);">${t.tablaInversion}</span>
       </th>
-      ${priceRow('starter')}
-      ${priceRow('pro')}
-      ${priceRow('all_in')}
+      ${cols.map(col => priceRow(col)).join('')}
     </tr>
   </tfoot>
 </table>`;
@@ -397,7 +401,7 @@ function renderTemplate(data) {
   const isPt = lang === 'pt';
   const prices = isPt
     ? { starter: 2599,  pro: 3299,  all_in: 6099  }
-    : { starter: 499,   pro: 645,   all_in: 1199  };
+    : { solo_llc: 495,  starter: 499, pro: 645, all_in: 1199 };
   const currency = isPt ? 'R$' : 'USD';
 
   const now = new Date();

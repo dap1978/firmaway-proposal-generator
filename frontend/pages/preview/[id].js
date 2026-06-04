@@ -9,10 +9,16 @@ const C = {
   border: 'rgba(49,53,61,0.12)', dark: '#3A4557',
 };
 
-const PACKAGES = [
-  { value: 'starter', label: 'Starter — USD 499' },
-  { value: 'pro',     label: 'Pro — USD 645' },
-  { value: 'all_in',  label: 'All In — USD 1.199' },
+const PACKAGES_ES = [
+  { value: 'solo_llc', label: 'Solo LLC — USD 495' },
+  { value: 'starter',  label: 'Starter — USD 499' },
+  { value: 'pro',      label: 'Pro — USD 645' },
+  { value: 'all_in',   label: 'All In — USD 1.199' },
+];
+const PACKAGES_PT = [
+  { value: 'starter', label: 'Essencial — R$ 2.599' },
+  { value: 'pro',     label: 'Pro — R$ 3.299' },
+  { value: 'all_in',  label: 'Completo — R$ 6.099' },
 ];
 
 const STATES = [
@@ -52,10 +58,10 @@ function buildEmailDraft(edits, pkg, aiData, publicLink) {
   const lang    = aiData.language || 'es';
   const isPt    = lang === 'pt';
 
-  const pkgNamesEs  = { starter: 'Starter',   pro: 'Pro', all_in: 'All In'   };
-  const pkgNamesPt  = { starter: 'Essencial',  pro: 'Pro', all_in: 'Completo' };
-  const pkgPricesEs = { starter: 499,  pro: 645,  all_in: 1199 };
-  const pkgPricesPt = { starter: 2599, pro: 3299, all_in: 6099 };
+  const pkgNamesEs  = { solo_llc: 'Solo LLC', starter: 'Starter', pro: 'Pro', all_in: 'All In'   };
+  const pkgNamesPt  = { starter: 'Essencial', pro: 'Pro',         all_in: 'Completo' };
+  const pkgPricesEs = { solo_llc: 495, starter: 499, pro: 645,  all_in: 1199 };
+  const pkgPricesPt = { starter: 2599,         pro: 3299,         all_in: 6099 };
 
   const name      = edits.lead_name || 'Lead';
   const pkgName   = isPt ? (pkgNamesPt[pkg] || 'Pro') : (pkgNamesEs[pkg] || 'Pro');
@@ -338,7 +344,7 @@ export default function Preview() {
             <label style={{ display: 'block', fontSize: 11, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.06em', color: C.muted, marginBottom: 2 }}>Paquete</label>
             <div style={{ fontSize: 11, color: C.muted, marginBottom: 5, lineHeight: 1.4 }}>Cambiá si Claude recomendó mal. El PDF se actualiza al instante.</div>
             <select value={pkg} onChange={e => setPkg(e.target.value)} style={{ ...inp, cursor: 'pointer' }}>
-              {PACKAGES.map(p => <option key={p.value} value={p.value}>{p.label}</option>)}
+              {(aiData.language === 'pt' ? PACKAGES_PT : PACKAGES_ES).map(p => <option key={p.value} value={p.value}>{p.label}</option>)}
             </select>
           </div>
 

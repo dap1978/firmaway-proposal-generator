@@ -171,7 +171,7 @@ router.patch('/:id', async (req, res) => {
     );
     if (!current.length) return res.status(404).json({ error: 'No encontrada' });
 
-    const prices = { starter: 499, pro: 645, all_in: 1199 };
+    const prices = { solo_llc: 495, starter: 499, pro: 645, all_in: 1199 };
     const newPkg = pkg || current[0].package;
     const newPrice = prices[newPkg] || current[0].price;
 
