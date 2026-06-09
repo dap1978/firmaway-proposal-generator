@@ -5,7 +5,7 @@ const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
 function buildSystemPrompt(language) {
   const isPortuguese = language === 'pt';
 
-  const plazo = isPortuguese ? '10-15 dias úteis' : '10-15 días hábiles';
+  const plazo = isPortuguese ? '15-20 dias úteis' : '15-20 días hábiles';
   const soporte = isPortuguese ? 'gratuito e ilimitado' : 'gratis e ilimitado';
   const hoyLabel = isPortuguese ? '(até hoje)' : '(al día de hoy)';
 
