@@ -15,14 +15,14 @@ async function nextProposalNumber() {
 
 // ── POST /api/proposals/generate ──────────────────────────────────────────
 router.post('/generate', async (req, res) => {
-  const { transcript, language = 'es', commercial_name, commercial_nickname: senderNickname } = req.body;
+  const { transcript, language = 'es', notes, commercial_name, commercial_nickname: senderNickname } = req.body;
 
   if (!transcript || transcript.trim().length < 50) {
     return res.status(400).json({ error: 'La transcripción es demasiado corta.' });
   }
 
   try {
-    const aiData = await generateProposal(transcript, language);
+    const aiData = await generateProposal(transcript, language, notes);
 
     // Usar el nickname del usuario logueado (tiene precedencia sobre el detectado por Claude)
     const nickname = senderNickname || aiData.commercial_nickname || 'Seba';

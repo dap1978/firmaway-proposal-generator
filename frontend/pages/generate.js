@@ -19,6 +19,7 @@ export default function Generate() {
   const router = useRouter();
   const [user, setUser] = useState(null);
   const [transcript, setTranscript] = useState('');
+  const [notes, setNotes] = useState('');
   const [language, setLanguage] = useState('es');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -42,6 +43,7 @@ export default function Generate() {
       const { data } = await api.post('/proposals/generate', {
         transcript,
         language,
+        notes: notes.trim() || undefined,
         commercial_name: user?.name,
         commercial_nickname: user?.nickname,
       });
@@ -169,6 +171,30 @@ export default function Generate() {
             <div style={{ fontSize: 12, color: C.muted, marginTop: 6 }}>
               {transcript.length > 0 && `${transcript.split(/\s+/).filter(Boolean).length} palabras`}
             </div>
+          </div>
+
+          {/* Contexto adicional */}
+          <div style={{ marginTop: 24, paddingTop: 24, borderTop: `1px solid ${C.border}` }}>
+            <label style={{ display: 'block', fontSize: 11, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.07em', color: C.muted, marginBottom: 4 }}>
+              Contexto adicional <span style={{ fontWeight: 400, textTransform: 'none', letterSpacing: 0 }}>(opcional)</span>
+            </label>
+            <p style={{ fontSize: 12, color: C.muted, marginBottom: 8, lineHeight: 1.5 }}>
+              Agregá lo que no quedó en la transcripción: la vibe del lead, objeciones clave, qué querés que Claude enfatice.
+            </p>
+            <textarea
+              value={notes}
+              onChange={e => setNotes(e.target.value)}
+              placeholder="Ej: El lead ya tiene clientes en USA y está convencido, pero le preocupa el costo anual. Quiero que el párrafo de cap. 01 sea directo y enfocado en la simplicidad del proceso."
+              rows={4}
+              style={{
+                width: '100%', padding: '12px 14px', borderRadius: 10,
+                border: `1.5px solid ${C.border}`, background: C.warm,
+                fontSize: 13, lineHeight: '20px', color: C.ink,
+                resize: 'vertical', outline: 'none', fontFamily: 'inherit',
+              }}
+              onFocus={e => e.target.style.borderColor = C.orange}
+              onBlur={e => e.target.style.borderColor = C.border}
+            />
           </div>
         </div>
 

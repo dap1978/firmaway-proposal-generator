@@ -81,8 +81,12 @@ OUTPUT — SOLO JSON VÁLIDO, SIN MARKDOWN, SIN TEXTO ADICIONAL
 }`;
 }
 
-async function generateProposal(transcript, language = 'es') {
+async function generateProposal(transcript, language = 'es', notes = '') {
   const systemPrompt = buildSystemPrompt(language);
+
+  const notesBlock = notes?.trim()
+    ? `\n\n══════════════════════════════════════════════════\nCONTEXTO ADICIONAL DEL VENDEDOR (prioridad alta — incorporar en la propuesta)\n══════════════════════════════════════════════════\n${notes.trim()}`
+    : '';
 
   const message = await client.messages.create({
     model: 'claude-sonnet-4-6',
@@ -91,7 +95,7 @@ async function generateProposal(transcript, language = 'es') {
     messages: [
       {
         role: 'user',
-        content: `Analiza esta transcripción de llamada de ventas y genera la propuesta comercial en formato JSON:\n\n${transcript}`,
+        content: `Analiza esta transcripción de llamada de ventas y genera la propuesta comercial en formato JSON:${notesBlock}\n\n══════════════════════════════════════════════════\nTRANSCRIPCIÓN\n══════════════════════════════════════════════════\n${transcript}`,
       },
     ],
   });
