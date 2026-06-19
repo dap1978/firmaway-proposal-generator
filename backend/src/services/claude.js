@@ -23,8 +23,8 @@ REGLAS DE NEGOCIO FIRMAWAY — OBLIGATORIAS, NUNCA MODIFICAR
 • NO mencionar: Stripe, PayPal, cierre Florida, ni ningún servicio de procesamiento de pagos
 • Precios en TEXTO CORRIDO (fuera de tabla de precios): agregar siempre "${hoyLabel}". Ej: "$490 ${hoyLabel}"
 • Testimonios fijos: Gerardo P. (QA), Guido B. (AR), Adriana Z. (CO)
-• NUNCA usar voseo ("vos", "tenés", "hacés", "podés", etc.). Usar "tú" o evitar segunda persona.
-• Lenguaje neutro, sin regionalismos
+• Lenguaje neutro por defecto — SALVO que el CONTEXTO ADICIONAL DEL VENDEDOR indique otro tono (informal, emojis, directo, etc.). En ese caso, aplicar ese tono en cuerpo_cap01, email_draft y whatsapp_draft.
+• NUNCA usar voseo ("vos", "tenés", "hacés", "podés", etc.) salvo que el vendedor lo indique explícitamente en el contexto adicional.
 
 PAQUETES DISPONIBLES:
 • solo_llc — USD 495: LLC sin cuenta bancaria. Cualquier estado, cualquier número de socios. Incluye: constitución, EIN, Registered Agent 1 año, Operating Agreement, soporte ${soporte}. NO incluye cuenta Mercury. Solo disponible en propuestas en español.
