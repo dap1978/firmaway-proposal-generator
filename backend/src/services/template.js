@@ -451,6 +451,7 @@ function renderTemplate(data) {
     CAP01_SUB: t.cap01Sub,
     CAP01_TITULO: t.cap01Titulo,
     CUERPO_CAP01: final.cuerpo_cap01 || data.cuerpo_cap01 || '',
+    EXTRA_CAP01: final.extra_cap01 ? `\n\n${final.extra_cap01}` : '',
     TIMELINE: buildTimeline(lang),
     CAP02_CHIP: t.cap02Chip,
     CAP02_SUB: t.cap02Sub,

@@ -158,6 +158,7 @@ export default function Preview() {
         headline_line2:     src.headline_line2 || '',
         headline_highlight: src.headline_highlight || '',
         cuerpo_cap01:       src.cuerpo_cap01 || '',
+        extra_cap01:        src.extra_cap01 || '',
         state_recommended:  src.state_recommended || (data.package === 'starter' ? 'new_mexico' : 'wyoming'),
       });
     });
@@ -410,6 +411,21 @@ export default function Preview() {
               value={edits.cuerpo_cap01 || ''}
               onChange={e => setEdits(p => ({ ...p, cuerpo_cap01: e.target.value }))}
               rows={6}
+              style={{ ...inp }}
+              onFocus={e => e.target.style.borderColor = C.orange}
+              onBlur={e => e.target.style.borderColor = C.border}
+            />
+          </div>
+
+          {/* Extra Cap 01 */}
+          <div style={{ marginBottom: 14 }}>
+            <label style={{ display: 'block', fontSize: 11, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.06em', color: C.muted, marginBottom: 2 }}>¿Falta algo que Claude no mencionó?</label>
+            <div style={{ fontSize: 11, color: C.muted, marginBottom: 5, lineHeight: 1.4 }}>Se agrega al final del párrafo de arriba. Solo lo que no quedó cubierto.</div>
+            <textarea
+              value={edits.extra_cap01 || ''}
+              onChange={e => setEdits(p => ({ ...p, extra_cap01: e.target.value }))}
+              placeholder="Solo agregá lo que no quedó en el párrafo de arriba..."
+              rows={3}
               style={{ ...inp }}
               onFocus={e => e.target.style.borderColor = C.orange}
               onBlur={e => e.target.style.borderColor = C.border}
