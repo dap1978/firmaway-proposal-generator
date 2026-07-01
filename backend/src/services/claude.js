@@ -81,6 +81,81 @@ OUTPUT — SOLO JSON VÁLIDO, SIN MARKDOWN, SIN TEXTO ADICIONAL
 }`;
 }
 
+// ── Prompt para propuestas WHITELABEL (socios que revenden bajo su marca) ──
+function buildWhitelabelSystemPrompt() {
+  return `Eres el asistente de generación de propuestas comerciales de Firmaway para su programa WHITELABEL.
+
+El programa whitelabel es para SOCIOS (contadores, abogados, agencias, consultoras) que quieren
+revender la formación de LLCs en EE.UU. bajo SU PROPIA marca, usando la plataforma de Firmaway.
+Firmaway procesa todo el back-end (constitución, EIN, cuenta bancaria, soporte) y el socio cobra su margen.
+
+Tu tarea: analizar la transcripción de una llamada con un posible socio y extraer info para
+personalizar la propuesta whitelabel.
+
+══════════════════════════════════════════════════
+REGLAS
+══════════════════════════════════════════════════
+• Idioma: SIEMPRE español neutro, sin voseo ("tú"/evitar segunda persona), salvo que el CONTEXTO
+  ADICIONAL DEL VENDEDOR indique otro tono.
+• NO inventes precios, plazos ni datos de negocio: eso lo controla el vendedor y el template.
+• El párrafo cuerpo_cap01 debe ser BREVE (2-3 oraciones), personalizado al negocio del socio
+  (a qué se dedica, qué clientes tiene, por qué el modelo whitelabel le encaja).
+• El quote es lo más importante: si el socio dijo algo textual que refleje su motivación, usalo.
+  Si no hay una frase literal clara, redactá una creíble en primera persona que refleje su interés.
+
+══════════════════════════════════════════════════
+OUTPUT — SOLO JSON VÁLIDO, SIN MARKDOWN, SIN TEXTO ADICIONAL
+══════════════════════════════════════════════════
+{
+  "client_name": "Nombre de la empresa o persona (el posible socio)",
+  "client_type": "Tipo de negocio: consultoría, contaduría, agencia, etc.",
+  "cuerpo_cap01": "Párrafo de contexto personalizado, 2-3 oraciones. Español neutro.",
+  "quote_texto": "Frase destacada del socio durante la llamada (o una creíble en primera persona)",
+  "quote_autor": "Atribución del quote. Por defecto: 'Tus palabras durante la llamada'"
+}`;
+}
+
+async function generateWhitelabelProposal(transcript, notes = '') {
+  const systemPrompt = buildWhitelabelSystemPrompt();
+
+  const notesBlock = notes?.trim()
+    ? `\n\n══════════════════════════════════════════════════\nCONTEXTO ADICIONAL DEL VENDEDOR (prioridad alta — incorporar en la propuesta)\n══════════════════════════════════════════════════\n${notes.trim()}`
+    : '';
+
+  const message = await client.messages.create({
+    model: 'claude-sonnet-4-6',
+    max_tokens: 2048,
+    system: systemPrompt,
+    messages: [
+      {
+        role: 'user',
+        content: `Analiza esta transcripción de llamada con un posible socio whitelabel y genera la personalización en formato JSON:${notesBlock}\n\n══════════════════════════════════════════════════\nTRANSCRIPCIÓN\n══════════════════════════════════════════════════\n${transcript}`,
+      },
+    ],
+  });
+
+  const rawText = message.content[0].text.trim();
+  const cleaned = rawText
+    .replace(/^```json\s*/i, '')
+    .replace(/^```\s*/i, '')
+    .replace(/```\s*$/i, '')
+    .trim();
+
+  let data;
+  try {
+    data = JSON.parse(cleaned);
+  } catch (err) {
+    throw new Error(`Claude no devolvió JSON válido: ${err.message}\n\nRespuesta recibida:\n${cleaned.substring(0, 500)}`);
+  }
+
+  if (!data.client_name) {
+    throw new Error('Campo requerido faltante en respuesta de Claude: client_name');
+  }
+  if (!data.quote_autor) data.quote_autor = 'Tus palabras durante la llamada';
+
+  return data;
+}
+
 async function generateProposal(transcript, language = 'es', notes = '') {
   const systemPrompt = buildSystemPrompt(language);
 
@@ -145,4 +220,4 @@ async function generateProposal(transcript, language = 'es', notes = '') {
   return data;
 }
 
-module.exports = { generateProposal };
+module.exports = { generateProposal, generateWhitelabelProposal };

@@ -2,6 +2,7 @@ const fs = require('fs');
 const path = require('path');
 
 const TEMPLATE_PATH = path.join(__dirname, '../templates/proposal.html');
+const WHITELABEL_TEMPLATE_PATH = path.join(__dirname, '../templates/proposal_whitelabel.html');
 
 // ── Constantes de estados ──────────────────────────────────────────────────
 const STATE_FEES = {
@@ -393,8 +394,69 @@ function buildRequirements(lang) {
 </div>`;
 }
 
+// ── Contacto whitelabel: deriva email/apodo del comercial ──────────────────
+function whitelabelContact(commercialName) {
+  const full  = (commercialName || 'Daniel').trim();
+  const first = full.split(/\s+/)[0] || 'Daniel';
+  const slug  = first
+    .toLowerCase()
+    .normalize('NFD').replace(/[̀-ͯ]/g, '') // quita acentos
+    .replace(/[^a-z]/g, '');
+  return { apodo: first, email: `${slug}@firmaway.us` };
+}
+
+// ── Render propuesta Whitelabel ────────────────────────────────────────────
+function renderTemplateWhitelabel(data) {
+  const final = data.final_data || data.generated_data || {};
+
+  const now = new Date();
+  const months = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+  const fechaMes = `${months[now.getMonth()]} ${now.getFullYear()}`;
+
+  const clientName = final.client_name || data.lead_name || 'tu empresa';
+  const contact    = whitelabelContact(data.commercial_name);
+
+  // Precio libre (399–500 aprox). Puede venir null hasta que el vendedor lo cargue.
+  const rawPrice = data.case_price ?? final.case_price ?? null;
+  const precio   = (rawPrice !== null && rawPrice !== '' && !Number.isNaN(Number(rawPrice)))
+    ? Number(rawPrice).toLocaleString('es-AR')
+    : '—';
+
+  // Logo del cliente: data URI (subido) o URL. Si no hay, se omite el recuadro.
+  const logoSrc = final.client_logo_url || '';
+  const clientLogo = logoSrc
+    ? `<div class="client-logo-chip"><img src="${logoSrc}" alt="${clientName}"></div>`
+    : '';
+
+  const vars = {
+    LANG: 'es',
+    PROPUESTA_ID: data.proposal_number || 'FW-2026-0001',
+    EYEBROW: `Propuesta whitelabel · ${fechaMes}`,
+    CLIENT_NAME: clientName,
+    CLIENT_LOGO: clientLogo,
+    PRECIO_CASO: precio,
+    CUERPO_CAP01: final.cuerpo_cap01 || data.cuerpo_cap01 || '',
+    QUOTE_TEXTO: final.quote_texto || 'Quiero ofrecer LLCs a mis clientes sin tener que aprender todo el proceso legal.',
+    QUOTE_AUTOR: final.quote_autor || 'Tus palabras durante la llamada',
+    COMERCIAL_NOMBRE: data.commercial_name || 'Daniel',
+    COMERCIAL_APODO: contact.apodo,
+    CONTACT_EMAIL: contact.email,
+    FECHA_MES: fechaMes,
+  };
+
+  let html = fs.readFileSync(WHITELABEL_TEMPLATE_PATH, 'utf-8');
+  Object.entries(vars).forEach(([key, value]) => {
+    html = html.split(`{{${key}}}`).join(value ?? '');
+  });
+  return html;
+}
+
 // ── Función principal ──────────────────────────────────────────────────────
 function renderTemplate(data) {
+  if (data.proposal_type === 'whitelabel') {
+    return renderTemplateWhitelabel(data);
+  }
+
   const lang = data.language || 'es';
   const t = i18n[lang];
   const pkg  = data.package || 'pro';

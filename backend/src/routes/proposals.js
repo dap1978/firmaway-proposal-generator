@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const db = require('../config/database');
-const { generateProposal } = require('../services/claude');
+const { generateProposal, generateWhitelabelProposal } = require('../services/claude');
 const { renderTemplate } = require('../services/template');
 const { generatePDF } = require('../services/pdf');
 
@@ -15,10 +15,39 @@ async function nextProposalNumber() {
 
 // ── POST /api/proposals/generate ──────────────────────────────────────────
 router.post('/generate', async (req, res) => {
-  const { transcript, language = 'es', notes, commercial_name, commercial_nickname: senderNickname } = req.body;
+  const { transcript, language = 'es', notes, commercial_name, commercial_nickname: senderNickname, proposal_type = 'llc' } = req.body;
 
   if (!transcript || transcript.trim().length < 50) {
     return res.status(400).json({ error: 'La transcripción es demasiado corta.' });
+  }
+
+  // ── Rama WHITELABEL (propuesta para socios) ──────────────────────────────
+  if (proposal_type === 'whitelabel') {
+    try {
+      const aiData = await generateWhitelabelProposal(transcript, notes);
+      const proposalNumber = await nextProposalNumber();
+
+      const { rows } = await db.query(
+        `INSERT INTO proposals
+          (proposal_number, commercial_name, language, lead_name, lead_detail,
+           proposal_type, transcript, generated_data, final_data)
+         VALUES ($1,$2,'es',$3,$4,'whitelabel',$5,$6,$6)
+         RETURNING *`,
+        [
+          proposalNumber,
+          commercial_name || 'Daniel',
+          aiData.client_name,
+          aiData.client_type || '',
+          transcript,
+          JSON.stringify(aiData),
+        ]
+      );
+
+      return res.json({ id: rows[0].id, proposal_number: proposalNumber, data: aiData });
+    } catch (err) {
+      console.error('Error generando propuesta whitelabel:', err.message);
+      return res.status(500).json({ error: err.message });
+    }
   }
 
   try {
@@ -162,7 +191,7 @@ router.get('/:id/preview', async (req, res) => {
 
 // ── PATCH /api/proposals/:id ──────────────────────────────────────────────
 router.patch('/:id', async (req, res) => {
-  const { final_data, package: pkg } = req.body;
+  const { final_data, package: pkg, case_price } = req.body;
 
   try {
     const { rows: current } = await db.query(
@@ -171,14 +200,31 @@ router.patch('/:id', async (req, res) => {
     );
     if (!current.length) return res.status(404).json({ error: 'No encontrada' });
 
-    const prices = { solo_llc: 495, starter: 499, pro: 645, all_in: 1199 };
-    const newPkg = pkg || current[0].package;
-    const newPrice = prices[newPkg] || current[0].price;
-
     const mergedFinalData = {
       ...(current[0].final_data || current[0].generated_data || {}),
       ...(final_data || {}),
     };
+
+    // ── Whitelabel: precio libre editable, sin mapa de paquetes ──────────────
+    if (current[0].proposal_type === 'whitelabel') {
+      let newCasePrice = current[0].case_price;
+      if (case_price !== undefined) {
+        const parsed = parseInt(case_price, 10);
+        newCasePrice = Number.isNaN(parsed) ? null : parsed;
+      }
+      const { rows } = await db.query(
+        `UPDATE proposals
+         SET final_data = $1, case_price = $2, was_edited = true
+         WHERE id = $3
+         RETURNING *`,
+        [JSON.stringify(mergedFinalData), newCasePrice, req.params.id]
+      );
+      return res.json(rows[0]);
+    }
+
+    const prices = { solo_llc: 495, starter: 499, pro: 645, all_in: 1199 };
+    const newPkg = pkg || current[0].package;
+    const newPrice = prices[newPkg] || current[0].price;
 
     const { rows } = await db.query(
       `UPDATE proposals
@@ -237,7 +283,7 @@ router.post('/:id/pdf', async (req, res) => {
 router.get('/p/:token', async (req, res) => {
   try {
     const { rows } = await db.query(
-      'SELECT id, proposal_number, lead_name, commercial_name, created_at, expires_at FROM proposals WHERE public_token = $1',
+      'SELECT id, proposal_number, lead_name, commercial_name, proposal_type, created_at, expires_at FROM proposals WHERE public_token = $1',
       [req.params.token]
     );
     if (!rows.length) return res.status(404).json({ error: 'Propuesta no encontrada' });

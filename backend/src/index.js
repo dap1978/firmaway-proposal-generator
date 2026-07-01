@@ -61,6 +61,10 @@ async function runMigrations() {
     await db.query(`ALTER TABLE proposals ADD COLUMN IF NOT EXISTS expires_at TIMESTAMP WITH TIME ZONE`);
     await db.query(`UPDATE proposals SET expires_at = created_at + INTERVAL '15 days' WHERE expires_at IS NULL`);
 
+    // Propuestas whitelabel (para socios que revenden bajo su marca)
+    await db.query(`ALTER TABLE proposals ADD COLUMN IF NOT EXISTS proposal_type VARCHAR(20) NOT NULL DEFAULT 'llc'`);
+    await db.query(`ALTER TABLE proposals ADD COLUMN IF NOT EXISTS case_price INTEGER`);
+
     await db.query(`
       CREATE TABLE IF NOT EXISTS proposal_views (
         id           UUID PRIMARY KEY DEFAULT gen_random_uuid(),

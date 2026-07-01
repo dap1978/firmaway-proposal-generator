@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Propuesta Whitelabel Firmaway — {{CLIENT_NAME}}</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream:        #FFFBF5;
+    --cream-warm:   #FEF1E0;
+    --orange:       #F15A2F;
+    --orange-soft:  #FDEEE9;
+    --ink:          #31353D;
+    --ink-light:    rgba(49,53,61,0.45);
+    --dark-surface: #3A4557;
+    --white:        #FFFFFF;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    background: #e5e5e5;
+    color: var(--ink);
+    -webkit-font-smoothing: antialiased;
+  }
+  .page {
+    width: 210mm;
+    min-height: 297mm;
+    background: var(--cream);
+    margin: 0 auto 32px;
+    padding: 0;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+  @media print {
+    body { background: none; }
+    .page { width: 210mm; min-height: 297mm; margin: 0; page-break-after: always; box-shadow: none; }
+  }
+  /* HEADER */
+  .page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 32px 16px;
+    border-bottom: 1px solid rgba(49,53,61,0.1);
+  }
+  .logo { font-weight: 700; font-size: 18px; letter-spacing: -0.03em; color: var(--ink); }
+  .logo span { color: var(--orange); }
+  .page-meta { font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.06em; color: var(--ink-light); }
+  /* FOOTER */
+  .page-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 32px 20px;
+    border-top: 1px solid rgba(49,53,61,0.1);
+    margin-top: auto;
+  }
+  .footer-client { font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.06em; color: var(--ink-light); }
+  .footer-page { font-size: 11px; font-weight: 700; color: var(--ink-light); }
+  /* CONTENT */
+  .page-content { padding: 28px 32px; flex: 1; }
+  /* CHIPS */
+  .chip {
+    display: inline-block;
+    background: var(--orange-soft);
+    border: 2px solid var(--orange);
+    border-radius: 999px;
+    padding: 4px 12px;
+    font-size: 10.5px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--orange);
+  }
+  .chip-dark { background: transparent; border-color: var(--ink); color: var(--ink); }
+  /* CARDS */
+  .card {
+    background: var(--cream-warm);
+    border: 1.5px solid var(--ink);
+    border-radius: 14px;
+    padding: 18px;
+    box-shadow: 4px 4px 0px 0px var(--ink);
+  }
+  .card-orange { box-shadow: 4px 4px 0px 0px var(--orange); border-color: var(--orange); }
+  /* PORTADA */
+  .cover { background: var(--cream); display: flex; flex-direction: column; padding: 40px 40px 36px; min-height: 297mm; }
+  .cover-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 32px; }
+  .cover-logo { font-weight: 700; font-size: 22px; letter-spacing: -0.03em; color: var(--ink); }
+  .cover-logo span { color: var(--orange); }
+  .cover-id { font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.06em; color: var(--ink-light); }
+  .cover-body { flex: 1; display: flex; flex-direction: column; justify-content: center; }
+  .cover-eyebrow { font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.06em; color: var(--ink-light); margin-bottom: 16px; }
+  .cover-headline { font-size: 46px; font-weight: 800; line-height: 1.06; letter-spacing: -0.04em; color: var(--ink); margin-bottom: 14px; max-width: 560px; }
+  .cover-headline em { font-style: normal; color: var(--orange); }
+  .cover-subtitle { font-size: 15px; line-height: 1.55; color: var(--ink-light); font-weight: 400; max-width: 500px; }
+  .cover-kpis { display: flex; gap: 14px; margin-top: 36px; }
+  .kpi-card { flex: 1; background: var(--cream-warm); border: 1.5px solid var(--ink); border-radius: 14px; padding: 14px 16px; box-shadow: 4px 4px 0px 0px var(--ink); }
+  .kpi-label { font-size: 10px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.06em; color: var(--ink-light); margin-bottom: 6px; }
+  .kpi-value { font-size: 19px; font-weight: 800; letter-spacing: -0.03em; color: var(--ink); line-height: 1.05; }
+  .kpi-value.accent { color: var(--orange); }
+  .kpi-note { font-size: 9px; color: var(--ink-light); margin-top: 5px; line-height: 1.35; }
+  .cover-footnote { font-size: 10px; color: var(--ink-light); margin-top: 20px; line-height: 1.5; }
+  /* CLIENT BANNER */
+  .client-banner { display: flex; align-items: center; gap: 14px; margin-bottom: 28px; }
+  .client-logo-chip {
+    background: var(--white); border: 1.5px solid rgba(49,53,61,0.12); border-radius: 12px;
+    height: 56px; min-width: 56px; padding: 8px 14px;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 3px 3px 0px 0px rgba(49,53,61,0.08);
+  }
+  .client-logo-chip img { max-height: 40px; max-width: 150px; object-fit: contain; display: block; }
+  .client-banner-text { font-size: 13px; font-weight: 500; color: var(--ink-light); }
+  .client-banner-text strong { color: var(--ink); font-weight: 700; }
+  /* CAP GENERALES */
+  .chapter-label { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
+  .chapter-number { font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.06em; color: var(--ink-light); }
+  .chapter-title { font-size: 30px; font-weight: 700; line-height: 1.18; letter-spacing: -0.03em; color: var(--ink); margin-bottom: 18px; }
+  .body-text { font-size: 15px; line-height: 24px; color: var(--ink); max-width: 600px; margin-bottom: 20px; }
+  .benefits-list { list-style: none; display: flex; flex-direction: column; gap: 11px; }
+  .benefits-list li { display: flex; align-items: flex-start; gap: 10px; font-size: 14px; line-height: 21px; color: var(--ink); }
+  .check-icon { width: 20px; height: 20px; background: var(--orange-soft); border: 1.5px solid var(--orange); border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px; }
+  .check-icon svg { width: 10px; height: 8px; }
+  /* QUOTE */
+  .quote-block { border-left: 3px solid var(--orange); padding: 6px 0 6px 18px; margin: 8px 0 24px; }
+  .quote-text { font-size: 18px; font-weight: 600; font-style: italic; line-height: 1.45; color: var(--ink); letter-spacing: -0.01em; }
+  .quote-author { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: var(--ink-light); margin-top: 10px; }
+  /* PLATFORM GRID (cap 02) */
+  .platform-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 6px; }
+  .platform-card { background: var(--cream-warm); border: 1.5px solid var(--ink); border-radius: 14px; padding: 18px; box-shadow: 4px 4px 0px 0px var(--ink); }
+  .platform-card h3 { font-size: 15px; font-weight: 700; color: var(--ink); margin-bottom: 6px; letter-spacing: -0.01em; }
+  .platform-card p { font-size: 12px; color: var(--ink-light); line-height: 1.5; margin-bottom: 10px; }
+  .platform-card ul { list-style: none; display: flex; flex-direction: column; gap: 5px; }
+  .platform-card li { font-size: 12px; color: var(--ink); display: flex; align-items: flex-start; gap: 7px; line-height: 1.4; }
+  .platform-card li::before { content: '›'; color: var(--orange); font-weight: 800; flex-shrink: 0; }
+  .demo-box { margin-top: 22px; background: var(--cream-warm); border: 1.5px solid var(--orange); border-radius: 14px; padding: 16px 20px; box-shadow: 4px 4px 0px 0px var(--orange); }
+  .demo-box p { font-size: 13px; color: var(--ink); line-height: 1.5; }
+  .demo-box strong { color: var(--orange); }
+  /* INCLUDED GRID (cap 03) */
+  .included-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 6px; }
+  .included-card { background: var(--cream-warm); border: 1.5px solid var(--ink); border-radius: 14px; padding: 16px 18px; box-shadow: 4px 4px 0px 0px var(--ink); }
+  .included-card.card-orange { border-color: var(--orange); box-shadow: 4px 4px 0px 0px var(--orange); background: var(--orange-soft); }
+  .included-num { font-size: 12px; font-weight: 800; color: var(--orange); letter-spacing: 0.05em; margin-bottom: 6px; }
+  .included-card h3 { font-size: 14px; font-weight: 700; color: var(--ink); margin-bottom: 4px; letter-spacing: -0.01em; }
+  .included-card p { font-size: 12px; color: var(--ink-light); line-height: 1.5; }
+  .audience-box { margin-top: 22px; background: var(--white); border: 1.5px solid rgba(49,53,61,0.12); border-radius: 14px; padding: 18px 20px; }
+  .audience-box .audience-title { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; color: var(--ink-light); margin-bottom: 12px; }
+  .audience-box ul { list-style: none; display: grid; grid-template-columns: 1fr 1fr; gap: 8px 20px; }
+  .audience-box li { font-size: 12.5px; color: var(--ink); display: flex; align-items: flex-start; gap: 8px; line-height: 1.4; }
+  .audience-box li::before { content: '✓'; color: var(--orange); font-weight: 800; flex-shrink: 0; }
+  /* DARK PAGE */
+  .dark-page { background: var(--dark-surface); color: var(--white); }
+  .dark-page .logo { color: var(--white); }
+  .dark-page .page-meta { color: rgba(255,255,255,0.45); }
+  .dark-page .chapter-title { color: var(--white); }
+  .stats-row { display: flex; gap: 0; margin-bottom: 8px; margin-top: 8px; }
+  .stat-item { flex: 1; text-align: center; padding: 16px 8px; border-right: 1px solid rgba(255,255,255,0.1); }
+  .stat-item:last-child { border-right: none; }
+  .stat-number { display: block; font-size: 40px; font-weight: 800; letter-spacing: -0.05em; color: var(--orange); line-height: 1; margin-bottom: 6px; }
+  .stat-label { font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.06em; color: rgba(255,255,255,0.55); }
+  .dark-footnote { font-size: 10px; color: rgba(255,255,255,0.4); margin: 4px 0 0; line-height: 1.5; }
+  .testimonials-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 20px; }
+  .testimonial-card { background: var(--cream-warm); border-radius: 14px; padding: 16px 18px; border: 1.5px solid rgba(255,255,255,0.12); }
+  .testimonial-text { font-size: 13px; line-height: 1.6; color: var(--ink); margin-bottom: 10px; font-style: italic; }
+  .testimonial-author { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--ink-light); }
+  .cta-box { margin-top: 22px; background: rgba(255,255,255,0.06); border: 1.5px solid rgba(255,255,255,0.15); border-radius: 14px; padding: 20px 24px; display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+  .cta-title { font-size: 17px; font-weight: 700; color: var(--white); margin-bottom: 4px; }
+  .cta-subtitle { font-size: 13px; color: rgba(255,255,255,0.6); }
+  .cta-button { background: var(--orange); color: var(--white); font-size: 13px; font-weight: 700; padding: 12px 20px; border-radius: 10px; text-decoration: none; white-space: nowrap; letter-spacing: -0.01em; }
+  .dark-emails { text-align: center; margin-top: 20px; font-size: 12px; color: rgba(255,255,255,0.5); }
+</style>
+</head>
+<body>
+
+<!-- PÁGINA 1 — PORTADA -->
+<div class="page">
+  <div class="cover">
+    <div class="cover-top">
+      <div class="cover-logo">Firmaway<span>.</span></div>
+      <div class="cover-id">Propuesta · {{PROPUESTA_ID}}</div>
+    </div>
+    <div class="cover-body">
+      <div class="client-banner">
+        {{CLIENT_LOGO}}
+        <div class="client-banner-text">Propuesta personalizada para <strong>{{CLIENT_NAME}}</strong></div>
+      </div>
+      <div class="cover-eyebrow">{{EYEBROW}}</div>
+      <div class="cover-headline">Tu marca. Tu precio.<br><em>Nuestro proceso.</em></div>
+      <div class="cover-subtitle">Forma LLCs en EE.UU. bajo tu propia marca y con tus propios precios. Nosotros procesamos, tú cobras el margen.</div>
+      <div class="cover-kpis">
+        <div class="kpi-card">
+          <div class="kpi-label">Costo por caso</div>
+          <div class="kpi-value accent">USD {{PRECIO_CASO}}</div>
+          <div class="kpi-note">por cada LLC que contratás a Firmaway</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Mensualidad</div>
+          <div class="kpi-value">$0</div>
+          <div class="kpi-note">sin cuotas ni setup fee</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">LLC formada en</div>
+          <div class="kpi-value">~10 días*</div>
+          <div class="kpi-note">días hábiles</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Account manager</div>
+          <div class="kpi-value">Dedicado</div>
+          <div class="kpi-note">atención humana</div>
+        </div>
+      </div>
+      <div class="cover-footnote">* Los plazos dependen del IRS y factores externos. Firmaway inicia el proceso de inmediato.</div>
+    </div>
+    <div class="cover-footer" style="display:flex; justify-content:space-between; align-items:flex-end; margin-top:40px; padding-top:20px; border-top:1px solid rgba(49,53,61,0.1);">
+      <div>
+        <div class="cover-footer-label" style="font-size:11px; font-weight:500; text-transform:uppercase; letter-spacing:0.06em; color:var(--ink-light);">Preparada por</div>
+        <div class="cover-footer-value" style="font-size:13px; font-weight:600; color:var(--ink); margin-top:2px;">{{COMERCIAL_NOMBRE}} · <strong>Firmaway</strong></div>
+      </div>
+      <div style="text-align:right;">
+        <div class="cover-footer-label" style="font-size:11px; font-weight:500; text-transform:uppercase; letter-spacing:0.06em; color:var(--ink-light);">Fecha</div>
+        <div class="cover-footer-value" style="font-size:13px; font-weight:600; color:var(--ink); margin-top:2px;">{{FECHA_MES}}</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PÁGINA 2 — CAP. 01: EL MODELO -->
+<div class="page">
+  <div class="page-header">
+    <div class="logo">Firmaway<span>.</span></div>
+    <div class="page-meta">Propuesta {{PROPUESTA_ID}}</div>
+  </div>
+  <div class="page-content">
+    <div class="chapter-label">
+      <span class="chip chip-dark">Cap. 01</span>
+      <span class="chapter-number">El modelo</span>
+    </div>
+    <h2 class="chapter-title">Un negocio completo<br>listo para operar.</h2>
+    <p class="body-text">{{CUERPO_CAP01}}</p>
+    <div class="quote-block">
+      <div class="quote-text">"{{QUOTE_TEXTO}}"</div>
+      <div class="quote-author">{{QUOTE_AUTOR}}</div>
+    </div>
+    <ul class="benefits-list">
+      <li><div class="check-icon"><svg viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="#F15A2F" stroke-width="2" stroke-linecap="round"/></svg></div><div>Plataforma whitelabel personalizada con tu logo, colores y dominio en todos los formularios y paneles.</div></li>
+      <li><div class="check-icon"><svg viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="#F15A2F" stroke-width="2" stroke-linecap="round"/></svg></div><div>Account manager dedicado con atención humana. Un punto de contacto directo para resolver cualquier caso.</div></li>
+      <li><div class="check-icon"><svg viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="#F15A2F" stroke-width="2" stroke-linecap="round"/></svg></div><div>Plazos expeditivos: LLC formada en aproximadamente 10 días hábiles. Los tiempos dependen del IRS y factores externos, pero Firmaway inicia el proceso de inmediato.</div></li>
+      <li><div class="check-icon"><svg viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="#F15A2F" stroke-width="2" stroke-linecap="round"/></svg></div><div>Panel de gestión propio para seguir cada caso desde la apertura hasta la entrega de credenciales bancarias.</div></li>
+      <li><div class="check-icon"><svg viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="#F15A2F" stroke-width="2" stroke-linecap="round"/></svg></div><div>Formulario público branded para que tus clientes completen sus datos bajo tu identidad visual.</div></li>
+      <li><div class="check-icon"><svg viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="#F15A2F" stroke-width="2" stroke-linecap="round"/></svg></div><div>Apertura de cuenta bancaria con Mercury, Relay y más bancos incluidos en el flujo.</div></li>
+      <li><div class="check-icon"><svg viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="#F15A2F" stroke-width="2" stroke-linecap="round"/></svg></div><div>Sin mensualidades ni setup fee. Pagás únicamente por cada caso completado.</div></li>
+    </ul>
+  </div>
+  <div class="page-footer">
+    <div class="footer-client">{{CLIENT_NAME}}</div>
+    <div class="footer-page">02 / 05</div>
+  </div>
+</div>
+
+<!-- PÁGINA 3 — CAP. 02: RECORRIDO DE PLATAFORMA -->
+<div class="page">
+  <div class="page-header">
+    <div class="logo">Firmaway<span>.</span></div>
+    <div class="page-meta">Propuesta {{PROPUESTA_ID}}</div>
+  </div>
+  <div class="page-content">
+    <div class="chapter-label">
+      <span class="chip chip-dark">Cap. 02</span>
+      <span class="chapter-number">Recorrido de plataforma</span>
+    </div>
+    <h2 class="chapter-title">Una plataforma diseñada<br>para que tú brilles.</h2>
+    <div class="platform-grid">
+      <div class="platform-card">
+        <h3>Dashboard del socio</h3>
+        <p>Tu centro de control para gestionar todos los casos.</p>
+        <ul>
+          <li>Tabla de casos con filtros por estado</li>
+          <li>Links públicos para compartir con clientes</li>
+          <li>Personalización de marca y colores</li>
+        </ul>
+      </div>
+      <div class="platform-card">
+        <h3>Formulario público branded</h3>
+        <p>Tus clientes cargan sus datos bajo tu identidad.</p>
+        <ul>
+          <li>Multi-paso para LLC y cuenta bancaria</li>
+          <li>Subida de documentos integrada</li>
+          <li>Optimizado para celular</li>
+        </ul>
+      </div>
+      <div class="platform-card">
+        <h3>Panel de seguimiento</h3>
+        <p>Cada caso, monitoreado de principio a fin.</p>
+        <ul>
+          <li>11 estados de avance del trámite</li>
+          <li>Notificaciones por email automáticas</li>
+          <li>Notas internas e historial completo</li>
+        </ul>
+      </div>
+      <div class="platform-card">
+        <h3>Entrega de credenciales</h3>
+        <p>El cierre del proceso, prolijo y trazable.</p>
+        <ul>
+          <li>Email branded con acceso bancario</li>
+          <li>Usuario y contraseña de la cuenta</li>
+          <li>Historial guardado y accesible</li>
+        </ul>
+      </div>
+    </div>
+    <div class="demo-box">
+      <p>¿Quieres verla en acción? Agenda una llamada de 20 minutos. Escríbenos a <strong>ivana@firmaway.us</strong> o <strong>daniel@firmaway.us</strong>.</p>
+    </div>
+  </div>
+  <div class="page-footer">
+    <div class="footer-client">{{CLIENT_NAME}}</div>
+    <div class="footer-page">03 / 05</div>
+  </div>
+</div>
+
+<!-- PÁGINA 4 — CAP. 03: TODO INCLUIDO -->
+<div class="page">
+  <div class="page-header">
+    <div class="logo">Firmaway<span>.</span></div>
+    <div class="page-meta">Propuesta {{PROPUESTA_ID}}</div>
+  </div>
+  <div class="page-content">
+    <div class="chapter-label">
+      <span class="chip chip-dark">Cap. 03</span>
+      <span class="chapter-number">Todo incluido</span>
+    </div>
+    <h2 class="chapter-title">Todo incluido en<br>un solo pago por caso.</h2>
+    <div class="included-grid">
+      <div class="included-card">
+        <div class="included-num">01</div>
+        <h3>Constitución de LLC</h3>
+        <p>Registro oficial en el estado elegido (Delaware, Wyoming, New Mexico u otros).</p>
+      </div>
+      <div class="included-card">
+        <div class="included-num">02</div>
+        <h3>Documentación completa</h3>
+        <p>EIN, Agente Registrado, Artículos de Organización y Acuerdo Operativo. Todo gestionado ante el IRS y el estado correspondiente.</p>
+      </div>
+      <div class="included-card">
+        <div class="included-num">03</div>
+        <h3>Apertura bancaria</h3>
+        <p>Mercury, Relay u otros bancos según el caso.</p>
+      </div>
+      <div class="included-card">
+        <div class="included-num">04</div>
+        <h3>Plataforma whitelabel</h3>
+        <p>Acceso al panel con tu marca. Sin costo adicional, sin límite de casos por mes.</p>
+      </div>
+      <div class="included-card">
+        <div class="included-num">05</div>
+        <h3>Account manager dedicado</h3>
+        <p>Contacto humano para resolver dudas y agilizar trámites.</p>
+      </div>
+      <div class="included-card card-orange">
+        <div class="included-num">06</div>
+        <h3>Un solo pago por caso</h3>
+        <p>Sin mensualidades. Sin setup fee. Sin comisiones ocultas.</p>
+      </div>
+    </div>
+    <div class="audience-box">
+      <div class="audience-title">¿Para quién es este modelo?</div>
+      <ul>
+        <li>Contadores, abogados y asesores de negocios internacionales</li>
+        <li>Agencias de servicios para emprendedores latinoamericanos</li>
+        <li>Consultoras de expansión y presencia en EE.UU.</li>
+        <li>Profesionales que ya tienen clientes que necesitan una LLC</li>
+      </ul>
+    </div>
+  </div>
+  <div class="page-footer">
+    <div class="footer-client">{{CLIENT_NAME}}</div>
+    <div class="footer-page">04 / 05</div>
+  </div>
+</div>
+
+<!-- PÁGINA 5 — DARK PAGE -->
+<div class="page dark-page">
+  <div class="page-header" style="border-bottom: 1px solid rgba(255,255,255,0.1);">
+    <div class="logo">Firmaway<span>.</span></div>
+    <div class="page-meta" style="color:rgba(255,255,255,0.45);">Propuesta {{PROPUESTA_ID}}</div>
+  </div>
+  <div class="page-content">
+    <div class="chapter-label">
+      <span class="chip">Por qué Firmaway</span>
+    </div>
+    <h2 class="chapter-title">Más de 2.000 empresas<br>ya operan con nosotros.</h2>
+    <div class="stats-row">
+      <div class="stat-item"><span class="stat-number">2.000+</span><span class="stat-label">LLCs formadas</span></div>
+      <div class="stat-item"><span class="stat-number">~10</span><span class="stat-label">Días hábiles para tu LLC*</span></div>
+      <div class="stat-item"><span class="stat-number">$0</span><span class="stat-label">Costo de entrada</span></div>
+      <div class="stat-item"><span class="stat-number">100%</span><span class="stat-label">Atención humana</span></div>
+    </div>
+    <p class="dark-footnote">* Los plazos dependen del IRS y factores externos. Firmaway inicia el proceso de inmediato.</p>
+    <div class="testimonials-grid">
+      <div class="testimonial-card">
+        <div class="testimonial-text">"Empecé a ofrecer LLCs a mis clientes sin tener que aprender todo el proceso legal. Firmaway lo maneja y yo cobro el margen."</div>
+        <div class="testimonial-author">Sofía R. · Contadora · México</div>
+      </div>
+      <div class="testimonial-card">
+        <div class="testimonial-text">"La plataforma es muy sencilla. Mis clientes completan el formulario con mi logo y yo sigo el avance en tiempo real sin hacer nada manual."</div>
+        <div class="testimonial-author">Andrés M. · Consultor · Colombia</div>
+      </div>
+    </div>
+    <div class="cta-box">
+      <div>
+        <div class="cta-title">Escríbele a {{COMERCIAL_APODO}} y te ayudará.</div>
+        <div class="cta-subtitle">Resolvemos tus dudas y activamos tu marca.</div>
+      </div>
+      <a href="mailto:{{CONTACT_EMAIL}}" class="cta-button">Escribir a {{COMERCIAL_APODO}} →</a>
+    </div>
+    <div class="dark-emails">daniel@firmaway.us · ivana@firmaway.us</div>
+  </div>
+  <div class="page-footer" style="border-top: 1px solid rgba(255,255,255,0.1);">
+    <div class="footer-client" style="color:rgba(255,255,255,0.5);">{{CLIENT_NAME}}</div>
+    <div class="footer-page" style="color:rgba(255,255,255,0.5);">05 / 05</div>
+  </div>
+</div>
+
+</body>
+</html>

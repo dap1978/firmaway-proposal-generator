@@ -6,10 +6,10 @@ const PROPOSAL_WIDTH  = 794;
 const PROPOSAL_HEIGHT = 4200;
 
 // Escala el iframe para que entre en pantalla en mobile
-function ScaledIframe({ src, title }) {
+function ScaledIframe({ src, title, contentHeight = PROPOSAL_HEIGHT }) {
   const wrapperRef = useRef(null);
   const [scale, setScale]   = useState(1);
-  const [boxHeight, setBoxHeight] = useState(PROPOSAL_HEIGHT);
+  const [boxHeight, setBoxHeight] = useState(contentHeight);
 
   useEffect(() => {
     function measure() {
@@ -17,12 +17,12 @@ function ScaledIframe({ src, title }) {
       const available = wrapperRef.current.offsetWidth;
       const s = available < PROPOSAL_WIDTH ? available / PROPOSAL_WIDTH : 1;
       setScale(s);
-      setBoxHeight(Math.ceil(PROPOSAL_HEIGHT * s));
+      setBoxHeight(Math.ceil(contentHeight * s));
     }
     measure();
     window.addEventListener('resize', measure);
     return () => window.removeEventListener('resize', measure);
-  }, []);
+  }, [contentHeight]);
 
   return (
     <div ref={wrapperRef} style={{ width: '100%', height: boxHeight, position: 'relative' }}>
@@ -31,7 +31,7 @@ function ScaledIframe({ src, title }) {
         title={title}
         style={{
           width: PROPOSAL_WIDTH,
-          height: PROPOSAL_HEIGHT,
+          height: contentHeight,
           border: 'none',
           transformOrigin: 'top left',
           transform: `scale(${scale})`,
@@ -140,6 +140,7 @@ export default function PublicProposal() {
         <ScaledIframe
           src={`${apiUrl}/proposals/${proposal.id}/preview`}
           title={`Propuesta ${proposal.proposal_number}`}
+          contentHeight={proposal.proposal_type === 'whitelabel' ? 5760 : PROPOSAL_HEIGHT}
         />
       </div>
     </div>

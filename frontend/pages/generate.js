@@ -21,8 +21,11 @@ export default function Generate() {
   const [transcript, setTranscript] = useState('');
   const [notes, setNotes] = useState('');
   const [language, setLanguage] = useState('es');
+  const [proposalType, setProposalType] = useState('llc');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+
+  const isWhitelabel = proposalType === 'whitelabel';
 
   useEffect(() => {
     const saved = localStorage.getItem('fw_user');
@@ -42,10 +45,11 @@ export default function Generate() {
     try {
       const { data } = await api.post('/proposals/generate', {
         transcript,
-        language,
+        language: isWhitelabel ? 'es' : language,
         notes: notes.trim() || undefined,
         commercial_name: user?.name,
         commercial_nickname: user?.nickname,
+        proposal_type: proposalType,
       });
       router.push(`/preview/${data.id}`);
     } catch (err) {
@@ -108,13 +112,48 @@ export default function Generate() {
             Nueva propuesta
           </h1>
           <p style={{ fontSize: 14, color: C.muted }}>
-            Pegá la transcripción de la llamada y Claude va a generar la propuesta completa.
+            {isWhitelabel
+              ? 'Pegá la llamada con el posible socio y Claude arma la propuesta whitelabel.'
+              : 'Pegá la transcripción de la llamada y Claude va a generar la propuesta completa.'}
           </p>
+        </div>
+
+        {/* Tipo de propuesta */}
+        <div style={{ marginBottom: 20 }}>
+          <label style={{ display: 'block', fontSize: 11, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.07em', color: C.muted, marginBottom: 8 }}>
+            Tipo de propuesta
+          </label>
+          <div style={{ display: 'flex', gap: 12 }}>
+            {[
+              { value: 'llc',        icon: '📄', title: 'Propuesta LLC',        sub: 'Para un cliente' },
+              { value: 'whitelabel', icon: '🤝', title: 'Propuesta Whitelabel', sub: 'Para un socio' },
+            ].map(opt => {
+              const active = proposalType === opt.value;
+              return (
+                <button
+                  key={opt.value}
+                  onClick={() => setProposalType(opt.value)}
+                  style={{
+                    flex: 1, textAlign: 'left', padding: '14px 18px', borderRadius: 12, cursor: 'pointer',
+                    background: active ? C.orangeSoft : C.bg,
+                    border: `1.5px solid ${active ? C.orange : C.border}`,
+                    boxShadow: active ? `4px 4px 0px 0px ${C.orange}` : `4px 4px 0px 0px ${C.border}`,
+                    transition: 'all 0.12s',
+                  }}
+                >
+                  <div style={{ fontSize: 20, marginBottom: 6 }}>{opt.icon}</div>
+                  <div style={{ fontSize: 15, fontWeight: 700, color: active ? C.orange : C.ink, letterSpacing: '-0.02em' }}>{opt.title}</div>
+                  <div style={{ fontSize: 12, color: C.muted, marginTop: 2 }}>{opt.sub}</div>
+                </button>
+              );
+            })}
+          </div>
         </div>
 
         {/* Card principal */}
         <div style={{ background: C.bg, border: `1.5px solid ${C.border}`, borderRadius: 16, padding: 28, boxShadow: `4px 4px 0px 0px ${C.border}`, marginBottom: 20 }}>
-          {/* Idioma */}
+          {/* Idioma — solo para propuestas LLC (whitelabel es siempre español) */}
+          {!isWhitelabel && (
           <div style={{ marginBottom: 20 }}>
             <label style={{ display: 'block', fontSize: 11, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.07em', color: C.muted, marginBottom: 8 }}>
               Idioma de la propuesta
@@ -137,6 +176,7 @@ export default function Generate() {
               ))}
             </div>
           </div>
+          )}
 
           {/* Transcripción */}
           <div>
@@ -220,7 +260,7 @@ export default function Generate() {
             transition: 'all 0.15s',
           }}
         >
-          {loading ? '⏳ Generando propuesta con Claude...' : '✦ Generar propuesta'}
+          {loading ? '⏳ Generando propuesta con Claude...' : (isWhitelabel ? '✦ Generar propuesta Whitelabel' : '✦ Generar propuesta LLC')}
         </button>
 
         {loading && (

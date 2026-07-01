@@ -77,6 +77,20 @@ function buildEmailDraft(edits, pkg, aiData, publicLink) {
   return `Hola ${name},\n\nGracias por tu tiempo hoy. Fue muy bueno conversar y entender lo que necesitás — estamos listos para acompañarte en cada paso.\n\nTe comparto el link con tu propuesta personalizada — paquete ${pkgName} (${currency} ${price.toLocaleString('es-AR')}), formación en ${stateName}. Podés abrirlo desde cualquier dispositivo, en cualquier momento:\n\n${linkLine}Cualquier consulta, escribime por WhatsApp o respondé este mail.`;
 }
 
+// ── Whitelabel: contacto + email (cliente-side) ───────────────────────────
+function wlContact(commercialName) {
+  const first = (commercialName || 'Daniel').trim().split(/\s+/)[0] || 'Daniel';
+  const slug = first.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[^a-z]/g, '');
+  return { apodo: first, email: `${slug}@firmaway.us` };
+}
+
+function buildWhitelabelEmail(edits, commercialName, publicLink) {
+  const name     = edits.client_name || 'Hola';
+  const contact  = wlContact(commercialName);
+  const linkLine = publicLink ? `${publicLink}\n\n` : '';
+  return `Hola ${name},\n\nGracias por tu tiempo. Como te comenté, te comparto la propuesta de nuestro programa whitelabel: formás LLCs en EE.UU. bajo tu propia marca y con tus propios precios, y nosotros procesamos todo el back-end.\n\nAcá podés ver la propuesta completa:\n\n${linkLine}Cualquier duda me escribís y coordinamos una llamada de 20 minutos para verla en acción.\n\n${contact.apodo} · Firmaway`;
+}
+
 // ── Templates de seguimiento (cliente-side) ───────────────────────────────
 function buildFollowUp(edits, aiData, delay) {
   const name     = edits.lead_name || 'Lead';
@@ -137,6 +151,9 @@ export default function Preview() {
   const [proposal, setProposal]   = useState(null);
   const [edits, setEdits]         = useState({});
   const [pkg, setPkg]             = useState('pro');
+  const [casePrice, setCasePrice] = useState('');
+  const [logoDomain, setLogoDomain] = useState('');
+  const [logoBusy, setLogoBusy]   = useState(false);
   const [activeTab, setActiveTab] = useState('email');
   const [saving, setSaving]       = useState(false);
   const [downloading, setDownloading] = useState(false);
@@ -151,6 +168,20 @@ export default function Preview() {
       setProposal(data);
       setPkg(data.package || 'pro');
       const src = data.final_data || data.generated_data || {};
+
+      if (data.proposal_type === 'whitelabel') {
+        setCasePrice(data.case_price != null ? String(data.case_price) : '');
+        setEdits({
+          client_name:     src.client_name || '',
+          client_type:     src.client_type || '',
+          cuerpo_cap01:    src.cuerpo_cap01 || '',
+          quote_texto:     src.quote_texto || '',
+          quote_autor:     src.quote_autor || 'Tus palabras durante la llamada',
+          client_logo_url: src.client_logo_url || '',
+        });
+        return;
+      }
+
       setEdits({
         lead_name:          src.lead_name || '',
         lead_detail:        src.lead_detail || '',
@@ -171,7 +202,10 @@ export default function Preview() {
     saveTimer.current = setTimeout(async () => {
       setSaving(true);
       try {
-        await api.patch(`/proposals/${id}`, { final_data: edits, package: pkg });
+        const payload = proposal?.proposal_type === 'whitelabel'
+          ? { final_data: edits, case_price: casePrice === '' ? null : casePrice }
+          : { final_data: edits, package: pkg };
+        await api.patch(`/proposals/${id}`, payload);
         setPreviewKey(k => k + 1);
       } catch (e) {
         console.error('Auto-save error:', e);
@@ -179,11 +213,11 @@ export default function Preview() {
         setSaving(false);
       }
     }, 800);
-  }, [id, edits, pkg]);
+  }, [id, edits, pkg, casePrice, proposal]);
 
   useEffect(() => {
     if (proposal) scheduleSync();
-  }, [edits, pkg]);
+  }, [edits, pkg, casePrice]);
 
   async function handleMarkSent() {
     setSending(true);
@@ -200,7 +234,10 @@ export default function Preview() {
   async function handleDownload() {
     setDownloading(true);
     try {
-      await api.patch(`/proposals/${id}`, { final_data: edits, package: pkg });
+      const payload = proposal?.proposal_type === 'whitelabel'
+        ? { final_data: edits, case_price: casePrice === '' ? null : casePrice }
+        : { final_data: edits, package: pkg };
+      await api.patch(`/proposals/${id}`, payload);
       const response = await api.post(`/proposals/${id}/pdf`, {}, { responseType: 'blob' });
       const url = window.URL.createObjectURL(new Blob([response.data], { type: 'application/pdf' }));
       const a = document.createElement('a');
@@ -215,11 +252,34 @@ export default function Preview() {
     }
   }
 
+  function handleLogoFile(e) {
+    const file = e.target.files[0];
+    if (!file) return;
+    if (!file.type.startsWith('image/')) { alert('Subí una imagen (PNG, JPG o SVG).'); return; }
+    if (file.size > 1.5 * 1024 * 1024) { alert('La imagen pesa demasiado. Máximo 1.5 MB.'); return; }
+    const reader = new FileReader();
+    reader.onload = (ev) => setEdits(p => ({ ...p, client_logo_url: ev.target.result }));
+    reader.readAsDataURL(file);
+    e.target.value = '';
+  }
+
+  function handleLogoFetch() {
+    const raw = logoDomain.trim();
+    if (!raw) return;
+    const domain = raw.replace(/^https?:\/\//i, '').replace(/^www\./i, '').replace(/\/.*$/, '');
+    if (!domain.includes('.')) { alert('Ingresá un dominio válido, por ejemplo: empresa.com'); return; }
+    setLogoBusy(true);
+    setEdits(p => ({ ...p, client_logo_url: `https://logo.clearbit.com/${domain}` }));
+    setTimeout(() => setLogoBusy(false), 400);
+  }
+
   if (!proposal) return (
     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '100vh', background: C.warm }}>
       <div style={{ color: C.muted, fontSize: 14 }}>Cargando propuesta...</div>
     </div>
   );
+
+  const isWhitelabel = proposal.proposal_type === 'whitelabel';
 
   const aiData       = proposal.final_data || proposal.generated_data || {};
   const urgency      = aiData.urgency_score || 'medio';
@@ -325,7 +385,8 @@ export default function Preview() {
             </div>
           </div>
 
-          {/* Score urgencia */}
+          {/* Score urgencia — solo LLC */}
+          {!isWhitelabel && (
           <div style={{ background: urgencyColor.bg, border: `1.5px solid ${urgencyColor.border}`, borderRadius: 10, padding: '10px 14px', marginBottom: 18 }}>
             <div style={{ fontSize: 10, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.07em', color: urgencyColor.text, marginBottom: 3 }}>
               Score de urgencia
@@ -335,11 +396,130 @@ export default function Preview() {
               <span style={{ fontSize: 12, color: urgencyColor.text, opacity: 0.8 }}>— {aiData.urgency_reason || ''}</span>
             </div>
           </div>
+          )}
 
           <div style={{ fontSize: 11, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.07em', color: C.muted, marginBottom: 14 }}>
             Editar propuesta
           </div>
 
+          {isWhitelabel ? (
+          <div>
+            {/* Nombre del socio */}
+            <div style={{ marginBottom: 14 }}>
+              <label style={{ display: 'block', fontSize: 11, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.06em', color: C.muted, marginBottom: 2 }}>Nombre del socio</label>
+              <div style={{ fontSize: 11, color: C.muted, marginBottom: 5, lineHeight: 1.4 }}>Aparece en la portada ("Propuesta personalizada para…").</div>
+              <input value={edits.client_name || ''} onChange={e => setEdits(p => ({ ...p, client_name: e.target.value }))} style={{ ...inp }} onFocus={e => e.target.style.borderColor = C.orange} onBlur={e => e.target.style.borderColor = C.border} />
+            </div>
+
+            {/* Tipo de negocio */}
+            <div style={{ marginBottom: 14 }}>
+              <label style={{ display: 'block', fontSize: 11, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.06em', color: C.muted, marginBottom: 2 }}>Tipo de negocio</label>
+              <div style={{ fontSize: 11, color: C.muted, marginBottom: 5, lineHeight: 1.4 }}>Contaduría, agencia, consultoría… Ayuda a personalizar el texto.</div>
+              <input value={edits.client_type || ''} onChange={e => setEdits(p => ({ ...p, client_type: e.target.value }))} style={{ ...inp }} onFocus={e => e.target.style.borderColor = C.orange} onBlur={e => e.target.style.borderColor = C.border} />
+            </div>
+
+            {/* Precio por caso */}
+            <div style={{ marginBottom: 14 }}>
+              <label style={{ display: 'block', fontSize: 11, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.06em', color: C.muted, marginBottom: 2 }}>Costo por caso (USD)</label>
+              <div style={{ fontSize: 11, color: C.muted, marginBottom: 5, lineHeight: 1.4 }}>El único número de la propuesta. Aparece en el KPI de portada. Suele ir entre 399 y 500.</div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                <span style={{ fontSize: 14, fontWeight: 700, color: C.muted }}>USD</span>
+                <input
+                  type="number"
+                  value={casePrice}
+                  onChange={e => setCasePrice(e.target.value)}
+                  placeholder="450"
+                  style={{ ...inp, flex: 1 }}
+                  onFocus={e => e.target.style.borderColor = C.orange}
+                  onBlur={e => e.target.style.borderColor = C.border}
+                />
+              </div>
+            </div>
+
+            {/* Logo del socio */}
+            <div style={{ marginBottom: 14, paddingTop: 14, borderTop: `1px solid ${C.border}` }}>
+              <label style={{ display: 'block', fontSize: 11, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.06em', color: C.muted, marginBottom: 2 }}>Logo del socio</label>
+              <div style={{ fontSize: 11, color: C.muted, marginBottom: 8, lineHeight: 1.4 }}>Traelo desde el dominio, o subí el archivo si no sale prolijo.</div>
+
+              {/* Traer desde dominio */}
+              <div style={{ display: 'flex', gap: 6, marginBottom: 8 }}>
+                <input
+                  value={logoDomain}
+                  onChange={e => setLogoDomain(e.target.value)}
+                  onKeyDown={e => { if (e.key === 'Enter') handleLogoFetch(); }}
+                  placeholder="empresa.com"
+                  style={{ ...inp, flex: 1 }}
+                  onFocus={e => e.target.style.borderColor = C.orange}
+                  onBlur={e => e.target.style.borderColor = C.border}
+                />
+                <button onClick={handleLogoFetch} disabled={logoBusy} style={{
+                  background: C.orangeSoft, border: `1.5px solid ${C.orange}`, borderRadius: 8,
+                  padding: '0 14px', color: C.orange, fontSize: 12, fontWeight: 600, cursor: 'pointer', whiteSpace: 'nowrap',
+                }}>
+                  {logoBusy ? '...' : 'Traer'}
+                </button>
+              </div>
+
+              {/* Subir archivo */}
+              <label style={{
+                display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6,
+                padding: '8px 12px', borderRadius: 8, cursor: 'pointer',
+                background: C.warm, border: `1.5px dashed ${C.border}`,
+                fontSize: 12, fontWeight: 600, color: C.ink,
+              }}>
+                📎 Subir logo (PNG, JPG, SVG)
+                <input type="file" accept="image/*" onChange={handleLogoFile} style={{ display: 'none' }} />
+              </label>
+
+              {/* Preview */}
+              {edits.client_logo_url ? (
+                <div style={{ marginTop: 10 }}>
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#fff', border: `1.5px solid ${C.border}`, borderRadius: 10, padding: 12, minHeight: 64 }}>
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src={edits.client_logo_url} alt="Logo del socio" style={{ maxHeight: 44, maxWidth: '80%', objectFit: 'contain' }} onError={e => { e.currentTarget.style.opacity = 0.3; }} />
+                  </div>
+                  <button onClick={() => setEdits(p => ({ ...p, client_logo_url: '' }))} style={{
+                    marginTop: 6, background: 'transparent', border: 'none', color: C.muted,
+                    fontSize: 11, cursor: 'pointer', textDecoration: 'underline',
+                  }}>
+                    Quitar logo
+                  </button>
+                </div>
+              ) : (
+                <div style={{ fontSize: 11, color: C.muted, marginTop: 8, fontStyle: 'italic' }}>
+                  Sin logo: la portada muestra solo el nombre del socio.
+                </div>
+              )}
+            </div>
+
+            {/* Párrafo Cap. 01 */}
+            <div style={{ marginBottom: 14, paddingTop: 14, borderTop: `1px solid ${C.border}` }}>
+              <label style={{ display: 'block', fontSize: 11, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.06em', color: C.muted, marginBottom: 2 }}>Párrafo Cap. 01</label>
+              <div style={{ fontSize: 11, color: C.muted, marginBottom: 5, lineHeight: 1.4 }}>Contexto personalizado al negocio del socio (pág. 2).</div>
+              <textarea value={edits.cuerpo_cap01 || ''} onChange={e => setEdits(p => ({ ...p, cuerpo_cap01: e.target.value }))} rows={5} style={{ ...inp }} onFocus={e => e.target.style.borderColor = C.orange} onBlur={e => e.target.style.borderColor = C.border} />
+            </div>
+
+            {/* Quote */}
+            <div style={{ marginBottom: 14 }}>
+              <label style={{ display: 'block', fontSize: 11, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.06em', color: C.muted, marginBottom: 2 }}>Frase destacada (quote)</label>
+              <div style={{ fontSize: 11, color: C.muted, marginBottom: 5, lineHeight: 1.4 }}>Algo que dijo el socio en la llamada. Sale resaltado en pág. 2.</div>
+              <textarea value={edits.quote_texto || ''} onChange={e => setEdits(p => ({ ...p, quote_texto: e.target.value }))} rows={3} style={{ ...inp, marginBottom: 6 }} onFocus={e => e.target.style.borderColor = C.orange} onBlur={e => e.target.style.borderColor = C.border} />
+              <input value={edits.quote_autor || ''} onChange={e => setEdits(p => ({ ...p, quote_autor: e.target.value }))} placeholder="Atribución del quote" style={{ ...inp }} onFocus={e => e.target.style.borderColor = C.orange} onBlur={e => e.target.style.borderColor = C.border} />
+            </div>
+
+            {/* Email whitelabel */}
+            <div style={{ borderTop: `1px solid ${C.border}`, paddingTop: 16, marginTop: 4 }}>
+              <div style={{ fontSize: 11, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.06em', color: C.muted, marginBottom: 6 }}>Email para el socio</div>
+              <div style={{ background: C.warm, borderRadius: 10, padding: '12px 14px', fontSize: 13, lineHeight: '20px', color: C.ink, border: `1px solid ${C.border}`, whiteSpace: 'pre-wrap', maxHeight: 260, overflowY: 'auto' }}>
+                {buildWhitelabelEmail(edits, proposal.commercial_name, publicLink)}
+              </div>
+              <div style={{ marginTop: 10 }}>
+                <CopyButton text={buildWhitelabelEmail(edits, proposal.commercial_name, publicLink)} label="Copiar email completo" />
+              </div>
+            </div>
+          </div>
+          ) : (
+          <>
           {/* Paquete */}
           <div style={{ marginBottom: 14 }}>
             <label style={{ display: 'block', fontSize: 11, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.06em', color: C.muted, marginBottom: 2 }}>Paquete</label>
@@ -539,6 +719,8 @@ export default function Preview() {
               </div>
             )}
           </div>
+          </>
+          )}
         </div>
 
         {/* ── Columna derecha: preview iframe ── */}
@@ -552,7 +734,7 @@ export default function Preview() {
               key={previewKey}
               src={`${apiUrl}/proposals/${id}/preview`}
               style={{
-                width: 794, height: 4200, border: 'none',
+                width: 794, height: isWhitelabel ? 5760 : 4200, border: 'none',
                 boxShadow: '0 4px 24px rgba(0,0,0,0.15)',
                 borderRadius: 4, background: '#fff',
               }}
