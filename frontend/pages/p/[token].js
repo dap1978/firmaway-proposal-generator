@@ -108,7 +108,7 @@ export default function PublicProposal() {
   const showExpiryWarning = daysLeft !== null && daysLeft <= 3 && daysLeft > 0;
 
   return (
-    <div style={{ background: '#E5E7EB', minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '24px 16px 48px' }}>
+    <div style={{ background: '#E5E7EB', minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '16px 8px 40px' }}>
 
       {/* Header */}
       <div style={{ width: '100%', maxWidth: PROPOSAL_WIDTH, marginBottom: 16, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>

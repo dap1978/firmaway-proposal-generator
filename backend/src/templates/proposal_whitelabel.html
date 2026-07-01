@@ -102,16 +102,17 @@
   .kpi-value { font-size: 19px; font-weight: 800; letter-spacing: -0.03em; color: var(--ink); line-height: 1.05; }
   .kpi-value.accent { color: var(--orange); }
   .kpi-note { font-size: 9px; color: var(--ink-light); margin-top: 5px; line-height: 1.35; }
-  .cover-footnote { font-size: 10px; color: var(--ink-light); margin-top: 20px; line-height: 1.5; }
+  .cover-validez { display: inline-block; margin-top: 22px; background: var(--cream-warm); border: 1.5px solid var(--ink); border-radius: 999px; padding: 7px 16px; font-size: 12px; font-weight: 700; color: var(--ink); letter-spacing: -0.01em; }
+  .cover-footnote { font-size: 10px; color: var(--ink-light); margin-top: 14px; line-height: 1.5; }
   /* CLIENT BANNER */
   .client-banner { display: flex; align-items: center; gap: 14px; margin-bottom: 28px; }
   .client-logo-chip {
-    background: var(--white); border: 1.5px solid rgba(49,53,61,0.12); border-radius: 12px;
-    height: 56px; min-width: 56px; padding: 8px 14px;
+    background: var(--white); border: 1.5px solid rgba(49,53,61,0.12); border-radius: 13px;
+    height: 70px; min-width: 70px; padding: 10px 18px;
     display: flex; align-items: center; justify-content: center;
     box-shadow: 3px 3px 0px 0px rgba(49,53,61,0.08);
   }
-  .client-logo-chip img { max-height: 40px; max-width: 150px; object-fit: contain; display: block; }
+  .client-logo-chip img { max-height: 50px; max-width: 186px; object-fit: contain; display: block; }
   .client-banner-text { font-size: 13px; font-weight: 500; color: var(--ink-light); }
   .client-banner-text strong { color: var(--ink); font-weight: 700; }
   /* CAP GENERALES */
@@ -228,6 +229,7 @@
           <div class="kpi-note">atención humana</div>
         </div>
       </div>
+      <div class="cover-validez">🕒 {{VALIDEZ}}</div>
       <div class="cover-footnote">* Los plazos dependen del IRS y factores externos. Firmaway inicia el proceso de inmediato.</div>
     </div>
     <div class="cover-footer" style="display:flex; justify-content:space-between; align-items:flex-end; margin-top:40px; padding-top:20px; border-top:1px solid rgba(49,53,61,0.1);">

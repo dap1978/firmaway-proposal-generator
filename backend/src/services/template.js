@@ -424,6 +424,15 @@ function renderTemplateWhitelabel(data) {
   const clientName = final.client_name || data.lead_name || 'tu empresa';
   const contact    = whitelabelContact(data.commercial_name);
 
+  // Validez de la oferta: 15 días (usa expires_at real; si no, created_at + 15d)
+  const created = data.created_at ? new Date(data.created_at) : null;
+  const expires = data.expires_at
+    ? new Date(data.expires_at)
+    : (created ? new Date(created.getTime() + 15 * 24 * 60 * 60 * 1000) : null);
+  const validez = expires
+    ? `Propuesta válida por 15 días — hasta el ${expires.getDate()} de ${months[expires.getMonth()].toLowerCase()} de ${expires.getFullYear()}.`
+    : 'Propuesta válida por 15 días desde su emisión.';
+
   // Precio libre (399–500 aprox). Puede venir null hasta que el vendedor lo cargue.
   const rawPrice = data.case_price ?? final.case_price ?? null;
   const precio   = (rawPrice !== null && rawPrice !== '' && !Number.isNaN(Number(rawPrice)))
@@ -457,6 +466,7 @@ function renderTemplateWhitelabel(data) {
     CONTACT_EMAIL: contact.email,
     DEMO_LINK: demoLink,
     DEMO_LINK_DISPLAY: demoLinkDisplay,
+    VALIDEZ: validez,
     FECHA_MES: fechaMes,
   };
 
