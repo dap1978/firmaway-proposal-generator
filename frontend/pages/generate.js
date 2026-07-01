@@ -22,10 +22,15 @@ export default function Generate() {
   const [notes, setNotes] = useState('');
   const [language, setLanguage] = useState('es');
   const [proposalType, setProposalType] = useState('llc');
+  const [clientName, setClientName] = useState('');
+  const [wlPrice, setWlPrice] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
   const isWhitelabel = proposalType === 'whitelabel';
+  const canGenerate = isWhitelabel
+    ? clientName.trim().length > 0
+    : transcript.trim().length >= 50;
 
   useEffect(() => {
     const saved = localStorage.getItem('fw_user');
@@ -36,21 +41,33 @@ export default function Generate() {
   }, []);
 
   async function handleGenerate() {
-    if (transcript.trim().length < 50) {
+    if (isWhitelabel && !clientName.trim()) {
+      setError('Ingresá el nombre del socio.');
+      return;
+    }
+    if (!isWhitelabel && transcript.trim().length < 50) {
       setError('La transcripción es demasiado corta. Pegá la llamada completa.');
       return;
     }
     setError('');
     setLoading(true);
     try {
-      const { data } = await api.post('/proposals/generate', {
-        transcript,
-        language: isWhitelabel ? 'es' : language,
-        notes: notes.trim() || undefined,
-        commercial_name: user?.name,
-        commercial_nickname: user?.nickname,
-        proposal_type: proposalType,
-      });
+      const payload = isWhitelabel
+        ? {
+            proposal_type: 'whitelabel',
+            client_name: clientName.trim(),
+            case_price: wlPrice.trim() || undefined,
+            commercial_name: user?.name,
+          }
+        : {
+            proposal_type: 'llc',
+            transcript,
+            language,
+            notes: notes.trim() || undefined,
+            commercial_name: user?.name,
+            commercial_nickname: user?.nickname,
+          };
+      const { data } = await api.post('/proposals/generate', payload);
       router.push(`/preview/${data.id}`);
     } catch (err) {
       setError(err.response?.data?.error || 'Error al generar la propuesta. Intentá de nuevo.');
@@ -178,6 +195,61 @@ export default function Generate() {
           </div>
           )}
 
+          {isWhitelabel ? (
+          <div>
+            {/* Nombre del socio */}
+            <div style={{ marginBottom: 20 }}>
+              <label style={{ display: 'block', fontSize: 11, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.07em', color: C.muted, marginBottom: 4 }}>
+                Nombre del socio
+              </label>
+              <p style={{ fontSize: 12, color: C.muted, marginBottom: 8, lineHeight: 1.5 }}>
+                Es el mismo template para todos los socios. Lo único que se personaliza es el nombre, el logo y el precio.
+              </p>
+              <input
+                value={clientName}
+                onChange={e => setClientName(e.target.value)}
+                placeholder="Ej: Estudio Contable González"
+                style={{
+                  width: '100%', padding: '12px 14px', borderRadius: 10,
+                  border: `1.5px solid ${C.border}`, background: C.warm,
+                  fontSize: 14, color: C.ink, outline: 'none', fontFamily: 'inherit',
+                }}
+                onFocus={e => e.target.style.borderColor = C.orange}
+                onBlur={e => e.target.style.borderColor = C.border}
+              />
+            </div>
+
+            {/* Precio por caso */}
+            <div>
+              <label style={{ display: 'block', fontSize: 11, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.07em', color: C.muted, marginBottom: 4 }}>
+                Costo por caso (USD) <span style={{ fontWeight: 400, textTransform: 'none', letterSpacing: 0 }}>(opcional)</span>
+              </label>
+              <p style={{ fontSize: 12, color: C.muted, marginBottom: 8, lineHeight: 1.5 }}>
+                Podés cargarlo ahora o después en la vista previa. Aparece en el KPI de portada.
+              </p>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                <span style={{ fontSize: 15, fontWeight: 700, color: C.muted }}>USD</span>
+                <input
+                  type="number"
+                  value={wlPrice}
+                  onChange={e => setWlPrice(e.target.value)}
+                  placeholder="450"
+                  style={{
+                    flex: 1, padding: '12px 14px', borderRadius: 10,
+                    border: `1.5px solid ${C.border}`, background: C.warm,
+                    fontSize: 14, color: C.ink, outline: 'none', fontFamily: 'inherit',
+                  }}
+                  onFocus={e => e.target.style.borderColor = C.orange}
+                  onBlur={e => e.target.style.borderColor = C.border}
+                />
+              </div>
+              <p style={{ fontSize: 12, color: C.muted, marginTop: 10, lineHeight: 1.5 }}>
+                El logo del socio se carga en el siguiente paso (vista previa).
+              </p>
+            </div>
+          </div>
+          ) : (
+          <>
           {/* Transcripción */}
           <div>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
@@ -236,6 +308,8 @@ export default function Generate() {
               onBlur={e => e.target.style.borderColor = C.border}
             />
           </div>
+          </>
+          )}
         </div>
 
         {/* Error */}
@@ -248,22 +322,22 @@ export default function Generate() {
         {/* Botón */}
         <button
           onClick={handleGenerate}
-          disabled={loading || transcript.trim().length < 50}
+          disabled={loading || !canGenerate}
           style={{
             width: '100%', padding: '16px', borderRadius: 12,
-            background: loading || transcript.trim().length < 50 ? 'rgba(49,53,61,0.15)' : C.orange,
-            color: loading || transcript.trim().length < 50 ? C.muted : '#fff',
+            background: loading || !canGenerate ? 'rgba(49,53,61,0.15)' : C.orange,
+            color: loading || !canGenerate ? C.muted : '#fff',
             border: 'none', fontWeight: 700, fontSize: 16,
-            cursor: loading || transcript.trim().length < 50 ? 'not-allowed' : 'pointer',
+            cursor: loading || !canGenerate ? 'not-allowed' : 'pointer',
             letterSpacing: '-0.01em',
-            boxShadow: loading || transcript.trim().length < 50 ? 'none' : `4px 4px 0px 0px rgba(241,90,47,0.3)`,
+            boxShadow: loading || !canGenerate ? 'none' : `4px 4px 0px 0px rgba(241,90,47,0.3)`,
             transition: 'all 0.15s',
           }}
         >
           {loading ? '⏳ Generando propuesta con Claude...' : (isWhitelabel ? '✦ Generar propuesta Whitelabel' : '✦ Generar propuesta LLC')}
         </button>
 
-        {loading && (
+        {loading && !isWhitelabel && (
           <p style={{ textAlign: 'center', fontSize: 13, color: C.muted, marginTop: 12 }}>
             Claude está analizando la llamada. Esto tarda entre 15 y 30 segundos.
           </p>

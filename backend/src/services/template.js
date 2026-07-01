@@ -4,6 +4,14 @@ const path = require('path');
 const TEMPLATE_PATH = path.join(__dirname, '../templates/proposal.html');
 const WHITELABEL_TEMPLATE_PATH = path.join(__dirname, '../templates/proposal_whitelabel.html');
 
+// Textos fijos de la propuesta whitelabel (mismo template para todos los socios).
+// Lo único que se personaliza es nombre, logo y precio.
+const WL_DEFAULTS = {
+  cuerpo_cap01: 'Firmaway te permite ofrecer la formación de LLCs en EE.UU. bajo tu propia marca, sin que tengas que aprender el proceso legal ni montar un equipo. Vos ponés tu logo, tu precio y tu relación con el cliente; nosotros procesamos cada caso de principio a fin: constitución, EIN, cuenta bancaria y soporte. Así sumás un nuevo servicio a tu negocio y cobrás tu margen en cada operación.',
+  quote_texto: 'Tu marca al frente. Nuestro equipo detrás de cada caso.',
+  quote_autor: 'Programa Whitelabel de Firmaway',
+};
+
 // ── Constantes de estados ──────────────────────────────────────────────────
 const STATE_FEES = {
   new_mexico: 0,
@@ -435,9 +443,9 @@ function renderTemplateWhitelabel(data) {
     CLIENT_NAME: clientName,
     CLIENT_LOGO: clientLogo,
     PRECIO_CASO: precio,
-    CUERPO_CAP01: final.cuerpo_cap01 || data.cuerpo_cap01 || '',
-    QUOTE_TEXTO: final.quote_texto || 'Quiero ofrecer LLCs a mis clientes sin tener que aprender todo el proceso legal.',
-    QUOTE_AUTOR: final.quote_autor || 'Tus palabras durante la llamada',
+    CUERPO_CAP01: final.cuerpo_cap01 || data.cuerpo_cap01 || WL_DEFAULTS.cuerpo_cap01,
+    QUOTE_TEXTO: final.quote_texto || WL_DEFAULTS.quote_texto,
+    QUOTE_AUTOR: final.quote_autor || WL_DEFAULTS.quote_autor,
     COMERCIAL_NOMBRE: data.commercial_name || 'Daniel',
     COMERCIAL_APODO: contact.apodo,
     CONTACT_EMAIL: contact.email,
@@ -548,4 +556,4 @@ function renderTemplate(data) {
   return html;
 }
 
-module.exports = { renderTemplate };
+module.exports = { renderTemplate, WL_DEFAULTS };

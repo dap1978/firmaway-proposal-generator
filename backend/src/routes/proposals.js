@@ -1,8 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const db = require('../config/database');
-const { generateProposal, generateWhitelabelProposal } = require('../services/claude');
-const { renderTemplate } = require('../services/template');
+const { generateProposal } = require('../services/claude');
+const { renderTemplate, WL_DEFAULTS } = require('../services/template');
 const { generatePDF } = require('../services/pdf');
 
 // ── Generar número de propuesta ────────────────────────────────────────────
@@ -17,28 +17,38 @@ async function nextProposalNumber() {
 router.post('/generate', async (req, res) => {
   const { transcript, language = 'es', notes, commercial_name, commercial_nickname: senderNickname, proposal_type = 'llc' } = req.body;
 
-  if (!transcript || transcript.trim().length < 50) {
-    return res.status(400).json({ error: 'La transcripción es demasiado corta.' });
-  }
-
-  // ── Rama WHITELABEL (propuesta para socios) ──────────────────────────────
+  // ── Rama WHITELABEL: mismo template para todos, sin transcripción ni Claude.
+  //    Solo se personaliza nombre, logo y precio (logo/precio se cargan en /preview).
   if (proposal_type === 'whitelabel') {
+    const clientName = (req.body.client_name || '').trim();
+    if (!clientName) {
+      return res.status(400).json({ error: 'El nombre del socio es obligatorio.' });
+    }
     try {
-      const aiData = await generateWhitelabelProposal(transcript, notes);
-      const proposalNumber = await nextProposalNumber();
+      const aiData = {
+        client_name: clientName,
+        client_type: '',
+        cuerpo_cap01: WL_DEFAULTS.cuerpo_cap01,
+        quote_texto: WL_DEFAULTS.quote_texto,
+        quote_autor: WL_DEFAULTS.quote_autor,
+      };
 
+      const parsed = req.body.case_price != null && req.body.case_price !== ''
+        ? parseInt(req.body.case_price, 10) : null;
+      const casePrice = Number.isNaN(parsed) ? null : parsed;
+
+      const proposalNumber = await nextProposalNumber();
       const { rows } = await db.query(
         `INSERT INTO proposals
           (proposal_number, commercial_name, language, lead_name, lead_detail,
-           proposal_type, transcript, generated_data, final_data)
-         VALUES ($1,$2,'es',$3,$4,'whitelabel',$5,$6,$6)
+           proposal_type, case_price, transcript, generated_data, final_data)
+         VALUES ($1,$2,'es',$3,'','whitelabel',$4,'',$5,$5)
          RETURNING *`,
         [
           proposalNumber,
           commercial_name || 'Daniel',
-          aiData.client_name,
-          aiData.client_type || '',
-          transcript,
+          clientName,
+          casePrice,
           JSON.stringify(aiData),
         ]
       );
@@ -48,6 +58,10 @@ router.post('/generate', async (req, res) => {
       console.error('Error generando propuesta whitelabel:', err.message);
       return res.status(500).json({ error: err.message });
     }
+  }
+
+  if (!transcript || transcript.trim().length < 50) {
+    return res.status(400).json({ error: 'La transcripción es demasiado corta.' });
   }
 
   try {

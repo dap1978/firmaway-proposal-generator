@@ -492,21 +492,6 @@ export default function Preview() {
               )}
             </div>
 
-            {/* Párrafo Cap. 01 */}
-            <div style={{ marginBottom: 14, paddingTop: 14, borderTop: `1px solid ${C.border}` }}>
-              <label style={{ display: 'block', fontSize: 11, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.06em', color: C.muted, marginBottom: 2 }}>Párrafo Cap. 01</label>
-              <div style={{ fontSize: 11, color: C.muted, marginBottom: 5, lineHeight: 1.4 }}>Contexto personalizado al negocio del socio (pág. 2).</div>
-              <textarea value={edits.cuerpo_cap01 || ''} onChange={e => setEdits(p => ({ ...p, cuerpo_cap01: e.target.value }))} rows={5} style={{ ...inp }} onFocus={e => e.target.style.borderColor = C.orange} onBlur={e => e.target.style.borderColor = C.border} />
-            </div>
-
-            {/* Quote */}
-            <div style={{ marginBottom: 14 }}>
-              <label style={{ display: 'block', fontSize: 11, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.06em', color: C.muted, marginBottom: 2 }}>Frase destacada (quote)</label>
-              <div style={{ fontSize: 11, color: C.muted, marginBottom: 5, lineHeight: 1.4 }}>Algo que dijo el socio en la llamada. Sale resaltado en pág. 2.</div>
-              <textarea value={edits.quote_texto || ''} onChange={e => setEdits(p => ({ ...p, quote_texto: e.target.value }))} rows={3} style={{ ...inp, marginBottom: 6 }} onFocus={e => e.target.style.borderColor = C.orange} onBlur={e => e.target.style.borderColor = C.border} />
-              <input value={edits.quote_autor || ''} onChange={e => setEdits(p => ({ ...p, quote_autor: e.target.value }))} placeholder="Atribución del quote" style={{ ...inp }} onFocus={e => e.target.style.borderColor = C.orange} onBlur={e => e.target.style.borderColor = C.border} />
-            </div>
-
             {/* Email whitelabel */}
             <div style={{ borderTop: `1px solid ${C.border}`, paddingTop: 16, marginTop: 4 }}>
               <div style={{ fontSize: 11, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.06em', color: C.muted, marginBottom: 6 }}>Email para el socio</div>
