@@ -170,6 +170,23 @@
   .cta-subtitle { font-size: 13px; color: rgba(255,255,255,0.6); }
   .cta-button { background: var(--orange); color: var(--white); font-size: 13px; font-weight: 700; padding: 12px 20px; border-radius: 10px; text-decoration: none; white-space: nowrap; letter-spacing: -0.01em; }
   .dark-emails { text-align: center; margin-top: 20px; font-size: 12px; color: rgba(255,255,255,0.5); }
+  /* DEMO PAGE */
+  .demo-intro { font-size: 15px; line-height: 24px; color: var(--ink); max-width: 600px; margin-bottom: 20px; }
+  .demo-access-card { background: var(--cream-warm); border: 1.5px solid var(--orange); border-radius: 16px; padding: 22px 24px; box-shadow: 4px 4px 0px 0px var(--orange); margin-bottom: 22px; }
+  .demo-access-label { font-size: 10.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; color: var(--orange); margin-bottom: 10px; }
+  .demo-link { display: block; font-size: 17px; font-weight: 800; letter-spacing: -0.02em; color: var(--orange); text-decoration: none; word-break: break-all; margin-bottom: 16px; line-height: 1.3; }
+  .demo-creds { display: flex; gap: 12px; }
+  .demo-cred { flex: 1; background: var(--white); border: 1.5px solid rgba(49,53,61,0.12); border-radius: 10px; padding: 10px 14px; }
+  .demo-cred-label { font-size: 9.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--ink-light); margin-bottom: 3px; }
+  .demo-cred-value { font-size: 14px; font-weight: 700; color: var(--ink); letter-spacing: -0.01em; }
+  .demo-see-title { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; color: var(--ink-light); margin-bottom: 12px; }
+  .demo-see-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 22px; }
+  .demo-see-item { display: flex; align-items: flex-start; gap: 10px; }
+  .demo-see-item .n { flex-shrink: 0; width: 22px; height: 22px; border-radius: 50%; background: var(--orange-soft); border: 1.5px solid var(--orange); color: var(--orange); font-size: 11px; font-weight: 800; display: flex; align-items: center; justify-content: center; }
+  .demo-see-item .t { font-size: 12.5px; color: var(--ink); line-height: 1.45; padding-top: 1px; }
+  .demo-see-item .t strong { font-weight: 700; }
+  .demo-disclaimer { background: #F0F9FF; border: 1.5px solid #BAE6FD; border-radius: 12px; padding: 14px 18px; }
+  .demo-disclaimer p { font-size: 12px; color: #0369A1; line-height: 1.5; margin: 0; }
 </style>
 </head>
 <body>
@@ -255,7 +272,7 @@
   </div>
   <div class="page-footer">
     <div class="footer-client">{{CLIENT_NAME}}</div>
-    <div class="footer-page">02 / 05</div>
+    <div class="footer-page">02 / 06</div>
   </div>
 </div>
 
@@ -315,7 +332,7 @@
   </div>
   <div class="page-footer">
     <div class="footer-client">{{CLIENT_NAME}}</div>
-    <div class="footer-page">03 / 05</div>
+    <div class="footer-page">03 / 06</div>
   </div>
 </div>
 
@@ -375,11 +392,58 @@
   </div>
   <div class="page-footer">
     <div class="footer-client">{{CLIENT_NAME}}</div>
-    <div class="footer-page">04 / 05</div>
+    <div class="footer-page">04 / 06</div>
   </div>
 </div>
 
-<!-- PÁGINA 5 — DARK PAGE -->
+<!-- PÁGINA 5 — CAP. 04: DEMO EN VIVO -->
+<div class="page">
+  <div class="page-header">
+    <div class="logo">Firmaway<span>.</span></div>
+    <div class="page-meta">Propuesta {{PROPUESTA_ID}}</div>
+  </div>
+  <div class="page-content">
+    <div class="chapter-label">
+      <span class="chip chip-dark">Cap. 04</span>
+      <span class="chapter-number">Demo en vivo</span>
+    </div>
+    <h2 class="chapter-title">Probá la plataforma<br>con tus propios ojos.</h2>
+    <p class="demo-intro">Preparamos un acceso de demostración a nombre de <strong>{{CLIENT_NAME}}</strong>. Entrá y recorré la plataforma como si ya fuera tuya, sin instalar nada.</p>
+
+    <div class="demo-access-card">
+      <div class="demo-access-label">Tu acceso de demostración</div>
+      <a href="{{DEMO_LINK}}" class="demo-link">{{DEMO_LINK_DISPLAY}}</a>
+      <div class="demo-creds">
+        <div class="demo-cred">
+          <div class="demo-cred-label">Usuario</div>
+          <div class="demo-cred-value">demo@firmaway.us</div>
+        </div>
+        <div class="demo-cred">
+          <div class="demo-cred-label">Contraseña</div>
+          <div class="demo-cred-value">demo</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="demo-see-title">Qué vas a ver adentro</div>
+    <div class="demo-see-grid">
+      <div class="demo-see-item"><div class="n">1</div><div class="t"><strong>Dashboard con 5 casos de ejemplo</strong> en distintos estados del trámite.</div></div>
+      <div class="demo-see-item"><div class="n">2</div><div class="t"><strong>Formulario LLC + Banco funcional.</strong> El primer paso es interactivo; luego verás un aviso de versión demo.</div></div>
+      <div class="demo-see-item"><div class="n">3</div><div class="t"><strong>Panel de personalización de marca</strong> con tu logo y colores.</div></div>
+      <div class="demo-see-item"><div class="n">4</div><div class="t"><strong>Link público de cliente</strong> para compartir tu formulario branded.</div></div>
+    </div>
+
+    <div class="demo-disclaimer">
+      <p>Es un entorno de demostración: los datos no generan trámites reales y se resetean automáticamente para cada visitante. Explorá con total libertad.</p>
+    </div>
+  </div>
+  <div class="page-footer">
+    <div class="footer-client">{{CLIENT_NAME}}</div>
+    <div class="footer-page">05 / 06</div>
+  </div>
+</div>
+
+<!-- PÁGINA 6 — DARK PAGE -->
 <div class="page dark-page">
   <div class="page-header" style="border-bottom: 1px solid rgba(255,255,255,0.1);">
     <div class="logo">Firmaway<span>.</span></div>
@@ -418,7 +482,7 @@
   </div>
   <div class="page-footer" style="border-top: 1px solid rgba(255,255,255,0.1);">
     <div class="footer-client" style="color:rgba(255,255,255,0.5);">{{CLIENT_NAME}}</div>
-    <div class="footer-page" style="color:rgba(255,255,255,0.5);">05 / 05</div>
+    <div class="footer-page" style="color:rgba(255,255,255,0.5);">06 / 06</div>
   </div>
 </div>
 

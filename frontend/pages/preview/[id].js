@@ -178,6 +178,7 @@ export default function Preview() {
           quote_texto:     src.quote_texto || '',
           quote_autor:     src.quote_autor || 'Tus palabras durante la llamada',
           client_logo_url: src.client_logo_url || '',
+          demo_ref:        src.demo_ref || src.client_name || '',
         });
         return;
       }
@@ -492,6 +493,37 @@ export default function Preview() {
               )}
             </div>
 
+            {/* Demo personalizado */}
+            <div style={{ marginBottom: 14, paddingTop: 14, borderTop: `1px solid ${C.border}` }}>
+              <label style={{ display: 'block', fontSize: 11, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.06em', color: C.muted, marginBottom: 2 }}>Nombre para el demo (?ref=)</label>
+              <div style={{ fontSize: 11, color: C.muted, marginBottom: 5, lineHeight: 1.4 }}>Genera el link de acceso al demo con el nombre del prospecto. Mejor un solo nombre (ej: Darko).</div>
+              <input
+                value={edits.demo_ref || ''}
+                onChange={e => setEdits(p => ({ ...p, demo_ref: e.target.value }))}
+                placeholder="Darko"
+                style={{ ...inp, marginBottom: 8 }}
+                onFocus={e => e.target.style.borderColor = C.orange}
+                onBlur={e => e.target.style.borderColor = C.border}
+              />
+              {(() => {
+                const ref = (edits.demo_ref || '').trim();
+                const link = ref
+                  ? `https://www.registrollc.com/login?ref=${ref}`
+                  : 'https://www.registrollc.com/login';
+                return (
+                  <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
+                    <div style={{ flex: 1, padding: '8px 12px', background: C.warm, borderRadius: 8, fontSize: 12, color: C.ink, border: `1px solid ${C.border}`, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                      {link}
+                    </div>
+                    <CopyButton text={link} label="Copiar" />
+                  </div>
+                );
+              })()}
+              <div style={{ fontSize: 11, color: C.muted, marginTop: 6, lineHeight: 1.4 }}>
+                Credenciales fijas en la propuesta: <strong>demo@firmaway.us</strong> / <strong>demo</strong>
+              </div>
+            </div>
+
             {/* Email whitelabel */}
             <div style={{ borderTop: `1px solid ${C.border}`, paddingTop: 16, marginTop: 4 }}>
               <div style={{ fontSize: 11, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.06em', color: C.muted, marginBottom: 6 }}>Email para el socio</div>
@@ -719,7 +751,7 @@ export default function Preview() {
               key={previewKey}
               src={`${apiUrl}/proposals/${id}/preview`}
               style={{
-                width: 794, height: isWhitelabel ? 5760 : 4200, border: 'none',
+                width: 794, height: isWhitelabel ? 6912 : 4200, border: 'none',
                 boxShadow: '0 4px 24px rgba(0,0,0,0.15)',
                 borderRadius: 4, background: '#fff',
               }}

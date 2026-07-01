@@ -140,7 +140,7 @@ export default function PublicProposal() {
         <ScaledIframe
           src={`${apiUrl}/proposals/${proposal.id}/preview`}
           title={`Propuesta ${proposal.proposal_number}`}
-          contentHeight={proposal.proposal_type === 'whitelabel' ? 5760 : PROPOSAL_HEIGHT}
+          contentHeight={proposal.proposal_type === 'whitelabel' ? 6912 : PROPOSAL_HEIGHT}
         />
       </div>
     </div>

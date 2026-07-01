@@ -436,6 +436,12 @@ function renderTemplateWhitelabel(data) {
     ? `<div class="client-logo-chip"><img src="${logoSrc}" alt="${clientName}"></div>`
     : '';
 
+  // Link de demo personalizado con ?ref= (por defecto, a nombre del socio)
+  const demoRef = (final.demo_ref || clientName || '').trim();
+  const demoBase = 'https://www.registrollc.com/login';
+  const demoLink        = demoRef ? `${demoBase}?ref=${encodeURIComponent(demoRef)}` : demoBase;
+  const demoLinkDisplay = demoRef ? `${demoBase}?ref=${demoRef}` : demoBase;
+
   const vars = {
     LANG: 'es',
     PROPUESTA_ID: data.proposal_number || 'FW-2026-0001',
@@ -449,6 +455,8 @@ function renderTemplateWhitelabel(data) {
     COMERCIAL_NOMBRE: data.commercial_name || 'Daniel',
     COMERCIAL_APODO: contact.apodo,
     CONTACT_EMAIL: contact.email,
+    DEMO_LINK: demoLink,
+    DEMO_LINK_DISPLAY: demoLinkDisplay,
     FECHA_MES: fechaMes,
   };
 
