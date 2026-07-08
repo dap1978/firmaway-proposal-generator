@@ -188,15 +188,16 @@ function SlideStates({ theme }) {
     <div style={{ height: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
       <Eyebrow theme={theme} center>Estados</Eyebrow>
       <Title theme={theme} size={38} center>Elegimos el estado según tu negocio.</Title>
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 10, marginTop: 12, maxWidth: 900, width: '100%' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 20, marginTop: 32, maxWidth: 940, width: '100%' }}>
         {STATES.map(s => (
           <div key={s.name} style={{
-            display: 'flex', alignItems: 'center', gap: 20,
-            background: C.bg, border: `1.5px solid ${C.border}`, borderRadius: 12, padding: '15px 22px',
+            display: 'flex', alignItems: 'center', gap: 24,
+            background: C.bg, border: `1.5px solid ${C.border}`, borderRadius: 14, padding: '24px 30px',
+            boxShadow: `3px 3px 0px 0px ${C.border}`,
           }}>
-            <div style={{ fontSize: 16, fontWeight: 700, color: C.ink, width: 140, flexShrink: 0, letterSpacing: '-0.01em' }}>{s.name}</div>
-            <div style={{ fontSize: 12.5, fontWeight: 700, color: C.orange, width: 120, flexShrink: 0 }}>{s.fee}</div>
-            <div style={{ fontSize: 13.5, color: '#4B505A', lineHeight: 1.4, fontWeight: 500 }}>{s.note}</div>
+            <div style={{ fontSize: 18, fontWeight: 700, color: C.ink, width: 150, flexShrink: 0, letterSpacing: '-0.01em' }}>{s.name}</div>
+            <div style={{ fontSize: 14, fontWeight: 700, color: C.orange, width: 130, flexShrink: 0 }}>{s.fee}</div>
+            <div style={{ fontSize: 15, color: '#4B505A', lineHeight: 1.45, fontWeight: 500 }}>{s.note}</div>
           </div>
         ))}
       </div>
@@ -315,27 +316,34 @@ function SlideWhy({ theme }) {
 
 function SlideClosing({ theme }) {
   return (
-    <div style={{ height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-      <Eyebrow theme={theme} center>Lo que dicen nuestros clientes</Eyebrow>
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 18, marginTop: 6, marginBottom: 44 }}>
-        {TESTIMONIALS.map(t => (
-          <div key={t.author} style={{
-            display: 'flex', flexDirection: 'column',
-            background: C.bg, borderTop: `4px solid ${C.orange}`, borderRadius: 12,
-            padding: '26px 22px', boxShadow: '0 10px 30px rgba(0,0,0,0.25)',
-          }}>
-            <div style={{ fontSize: 14, color: C.orange, marginBottom: 12, letterSpacing: 2 }}>★★★★★</div>
-            <div style={{ fontSize: 14.5, lineHeight: 1.6, color: C.ink, fontWeight: 500, marginBottom: 18, flex: 1 }}>"{t.text}"</div>
-            <div style={{ fontSize: 12, fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.06em', color: C.muted }}>{t.author} · {t.tag}</div>
-          </div>
-        ))}
+    <div style={{ position: 'relative', height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+      <div style={{ position: 'fixed', inset: 0, zIndex: 0 }}>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src="/images/liberty-torch.jpg" alt="" style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center 12%' }} />
+        <div style={{ position: 'absolute', inset: 0, background: 'rgba(46,49,53,0.86)' }} />
       </div>
-      <div style={{ textAlign: 'center' }}>
-        <div style={{ fontSize: 42, fontWeight: 800, letterSpacing: '-0.035em', color: theme.ink, marginBottom: 10 }}>
-          Firmaway<span style={{ color: C.orange }}>.</span>
+      <div style={{ position: 'relative', zIndex: 1 }}>
+        <Eyebrow theme={theme} center>Lo que dicen nuestros clientes</Eyebrow>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 18, marginTop: 6, marginBottom: 44 }}>
+          {TESTIMONIALS.map(t => (
+            <div key={t.author} style={{
+              display: 'flex', flexDirection: 'column',
+              background: C.bg, borderTop: `4px solid ${C.orange}`, borderRadius: 12,
+              padding: '26px 22px', boxShadow: '0 10px 30px rgba(0,0,0,0.4)',
+            }}>
+              <div style={{ fontSize: 14, color: C.orange, marginBottom: 12, letterSpacing: 2 }}>★★★★★</div>
+              <div style={{ fontSize: 14.5, lineHeight: 1.6, color: C.ink, fontWeight: 500, marginBottom: 18, flex: 1 }}>"{t.text}"</div>
+              <div style={{ fontSize: 12, fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.06em', color: C.muted }}>{t.author} · {t.tag}</div>
+            </div>
+          ))}
         </div>
-        <div style={{ fontSize: 17, color: theme.muted, maxWidth: 460, margin: '0 auto', lineHeight: 1.5 }}>
-          Tu empresa en Estados Unidos.
+        <div style={{ textAlign: 'center' }}>
+          <div style={{ fontSize: 42, fontWeight: 800, letterSpacing: '-0.035em', color: theme.ink, marginBottom: 10 }}>
+            Firmaway<span style={{ color: C.orange }}>.</span>
+          </div>
+          <div style={{ fontSize: 17, color: 'rgba(255,255,255,0.75)', maxWidth: 460, margin: '0 auto', lineHeight: 1.5 }}>
+            Tu empresa en Estados Unidos.
+          </div>
         </div>
       </div>
     </div>
