@@ -171,6 +171,15 @@
   .cta-subtitle { font-size: 13px; color: rgba(255,255,255,0.6); }
   .cta-button { background: var(--orange); color: var(--white); font-size: 13px; font-weight: 700; padding: 12px 20px; border-radius: 10px; text-decoration: none; white-space: nowrap; letter-spacing: -0.01em; }
   .dark-emails { text-align: center; margin-top: 20px; font-size: 12px; color: rgba(255,255,255,0.5); }
+  /* MERCURY */
+  .mercury-grid { display: flex; gap: 28px; align-items: flex-start; margin-top: 8px; }
+  .mercury-img-frame { flex: 1.15; background: var(--white); border: 1.5px solid var(--ink); border-radius: 14px; padding: 10px; box-shadow: 5px 5px 0px 0px var(--ink); }
+  .mercury-img-frame img { width: 100%; display: block; border-radius: 8px; }
+  .mercury-caption { font-size: 10.5px; color: var(--ink-light); margin-top: 8px; line-height: 1.4; }
+  .mercury-side { flex: 1; padding-top: 4px; }
+  .mercury-side p { font-size: 14px; line-height: 22px; color: var(--ink); margin-bottom: 18px; }
+  .mercury-features { list-style: none; display: flex; flex-direction: column; gap: 12px; margin-bottom: 22px; }
+  .mercury-features li { display: flex; align-items: flex-start; gap: 10px; font-size: 13px; line-height: 19px; color: var(--ink); }
   /* DEMO PAGE */
   .demo-intro { font-size: 15px; line-height: 24px; color: var(--ink); max-width: 600px; margin-bottom: 20px; }
   .demo-access-card { background: var(--cream-warm); border: 1.5px solid var(--orange); border-radius: 16px; padding: 22px 24px; box-shadow: 4px 4px 0px 0px var(--orange); margin-bottom: 22px; }
@@ -274,7 +283,7 @@
   </div>
   <div class="page-footer">
     <div class="footer-client">{{CLIENT_NAME}}</div>
-    <div class="footer-page">02 / 06</div>
+    <div class="footer-page">02 / 07</div>
   </div>
 </div>
 
@@ -334,7 +343,7 @@
   </div>
   <div class="page-footer">
     <div class="footer-client">{{CLIENT_NAME}}</div>
-    <div class="footer-page">03 / 06</div>
+    <div class="footer-page">03 / 07</div>
   </div>
 </div>
 
@@ -394,11 +403,47 @@
   </div>
   <div class="page-footer">
     <div class="footer-client">{{CLIENT_NAME}}</div>
-    <div class="footer-page">04 / 06</div>
+    <div class="footer-page">04 / 07</div>
   </div>
 </div>
 
-<!-- PÁGINA 5 — CAP. 04: DEMO EN VIVO -->
+<!-- PÁGINA 5 — CUENTA MERCURY -->
+<div class="page">
+  <div class="page-header">
+    <div class="logo">Firmaway<span>.</span></div>
+    <div class="page-meta">Propuesta {{PROPUESTA_ID}}</div>
+  </div>
+  <div class="page-content">
+    <div class="chapter-label">
+      <span class="chip chip-dark">Banca</span>
+      <span class="chapter-number">La cuenta de tus clientes</span>
+    </div>
+    <h2 class="chapter-title">Tus clientes bancarizan<br>con Mercury.</h2>
+    <div class="mercury-grid">
+      <div class="mercury-img-frame">
+        <img src="{{MERCURY_IMG}}" alt="Cuenta Mercury">
+        <div class="mercury-caption">Vista del entorno de demostración de Mercury. Los montos son de ejemplo.</div>
+      </div>
+      <div class="mercury-side">
+        <p>Cada cliente que forma su LLC a través de tu plataforma abre también su cuenta en Mercury, el banco elegido por startups y empresas remotas en todo el mundo. Vos ofrecés el servicio completo, de punta a punta.</p>
+        <ul class="mercury-features">
+          <li><div class="check-icon"><svg viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="#F15A2F" stroke-width="2" stroke-linecap="round"/></svg></div><div>Tarjeta de débito Visa física y virtual.</div></li>
+          <li><div class="check-icon"><svg viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="#F15A2F" stroke-width="2" stroke-linecap="round"/></svg></div><div>Transferencias ACH y SWIFT para operar globalmente.</div></li>
+          <li><div class="check-icon"><svg viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="#F15A2F" stroke-width="2" stroke-linecap="round"/></svg></div><div>Apertura 100% remota, sin viajar a Estados Unidos.</div></li>
+        </ul>
+        <a href="https://demo.mercury.com/dashboard" class="cta-button" target="_blank" rel="noopener noreferrer" style="display:inline-block; color:var(--white);">
+          Ver demo en vivo →
+        </a>
+      </div>
+    </div>
+  </div>
+  <div class="page-footer">
+    <div class="footer-client">{{CLIENT_NAME}}</div>
+    <div class="footer-page">05 / 07</div>
+  </div>
+</div>
+
+<!-- PÁGINA 6 — CAP. 04: DEMO EN VIVO -->
 <div class="page">
   <div class="page-header">
     <div class="logo">Firmaway<span>.</span></div>
@@ -441,11 +486,11 @@
   </div>
   <div class="page-footer">
     <div class="footer-client">{{CLIENT_NAME}}</div>
-    <div class="footer-page">05 / 06</div>
+    <div class="footer-page">06 / 07</div>
   </div>
 </div>
 
-<!-- PÁGINA 6 — DARK PAGE -->
+<!-- PÁGINA 7 — DARK PAGE -->
 <div class="page dark-page">
   <div class="page-header" style="border-bottom: 1px solid rgba(255,255,255,0.1);">
     <div class="logo">Firmaway<span>.</span></div>
@@ -484,7 +529,7 @@
   </div>
   <div class="page-footer" style="border-top: 1px solid rgba(255,255,255,0.1);">
     <div class="footer-client" style="color:rgba(255,255,255,0.5);">{{CLIENT_NAME}}</div>
-    <div class="footer-page" style="color:rgba(255,255,255,0.5);">06 / 06</div>
+    <div class="footer-page" style="color:rgba(255,255,255,0.5);">07 / 07</div>
   </div>
 </div>
 

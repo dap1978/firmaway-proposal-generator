@@ -71,15 +71,28 @@ function Title({ children, theme, size = 42 }) {
 // ── Slides ──────────────────────────────────────────────────────────────────
 function SlideCover({ theme }) {
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100%', textAlign: 'center' }}>
-      <div style={{ fontSize: 20, fontWeight: 800, letterSpacing: '-0.03em', color: theme.ink, opacity: 0.7, marginBottom: 28 }}>
-        Firmaway<span style={{ color: C.orange }}>.</span>
-      </div>
-      <div style={{ fontSize: 56, fontWeight: 800, letterSpacing: '-0.045em', lineHeight: 1.06, color: theme.ink, maxWidth: 820 }}>
-        Tu empresa en Estados Unidos.
-      </div>
-      <div style={{ fontSize: 17, color: theme.muted, marginTop: 24, maxWidth: 520, lineHeight: 1.5 }}>
-        Formación de LLCs, EIN y cuenta bancaria. De principio a fin, en un solo lugar.
+    <div style={{ position: 'relative', height: '100%' }}>
+      <img
+        src="/images/liberty.webp"
+        alt=""
+        style={{
+          position: 'fixed', top: 0, right: '3%', height: '104vh', width: 'auto', maxWidth: '58vw',
+          objectFit: 'contain', objectPosition: 'right center',
+          WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 38%)',
+          maskImage: 'linear-gradient(to right, transparent 0%, black 38%)',
+          opacity: 0.95, pointerEvents: 'none', zIndex: 0,
+        }}
+      />
+      <div style={{ position: 'relative', zIndex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', height: '100%', maxWidth: 500 }}>
+        <div style={{ fontSize: 20, fontWeight: 800, letterSpacing: '-0.03em', color: theme.ink, opacity: 0.7, marginBottom: 28 }}>
+          Firmaway<span style={{ color: C.orange }}>.</span>
+        </div>
+        <div style={{ fontSize: 54, fontWeight: 800, letterSpacing: '-0.045em', lineHeight: 1.08, color: theme.ink }}>
+          Tu empresa en Estados Unidos.
+        </div>
+        <div style={{ fontSize: 17, color: theme.muted, marginTop: 24, lineHeight: 1.5 }}>
+          Formación de LLCs, EIN y cuenta bancaria. De principio a fin, en un solo lugar.
+        </div>
       </div>
     </div>
   );

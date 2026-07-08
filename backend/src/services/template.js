@@ -3,6 +3,21 @@ const path = require('path');
 
 const TEMPLATE_PATH = path.join(__dirname, '../templates/proposal.html');
 const WHITELABEL_TEMPLATE_PATH = path.join(__dirname, '../templates/proposal_whitelabel.html');
+const MERCURY_IMG_PATH = path.join(__dirname, '../templates/assets/mercury-demo.png');
+
+// Imagen de Mercury embebida como data URI: se ve igual en la web y en el PDF (Puppeteer),
+// sin depender de un servidor externo. Se lee una sola vez y se cachea en memoria.
+let _mercuryImgCache = null;
+function mercuryImageDataUri() {
+  if (_mercuryImgCache !== null) return _mercuryImgCache;
+  try {
+    const buf = fs.readFileSync(MERCURY_IMG_PATH);
+    _mercuryImgCache = `data:image/png;base64,${buf.toString('base64')}`;
+  } catch (err) {
+    _mercuryImgCache = '';
+  }
+  return _mercuryImgCache;
+}
 
 // Textos fijos de la propuesta whitelabel (mismo template para todos los socios).
 // Lo único que se personaliza es nombre, logo y precio.
@@ -60,6 +75,15 @@ const i18n = {
     ctaSubtitulo: 'Respondé este mensaje y arrancamos hoy.',
     ctaBoton: 'Escribile a',
     waText: 'Hola%2C+quiero+arrancar+con+mi+LLC',
+    mercuryChip: 'Banca',
+    mercurySub: 'Tu cuenta bancaria',
+    mercuryTitulo: 'Así vas a operar\ntu cuenta.',
+    mercuryBody: 'Tu LLC opera con Mercury, el banco elegido por startups y empresas remotas en todo el mundo. Todo se gestiona en dólares, desde cualquier país, sin pisar Estados Unidos.',
+    mercuryFeature1: 'Tarjeta de débito Visa física y virtual.',
+    mercuryFeature2: 'Transferencias ACH y SWIFT para operar globalmente.',
+    mercuryFeature3: 'Apertura 100% remota, sin viajar a Estados Unidos.',
+    mercuryCaption: 'Vista del entorno de demostración de Mercury. Los montos son de ejemplo.',
+    mercuryBoton: 'Ver demo en vivo',
     paqueteNombres: { solo_llc: 'Solo LLC', starter: 'Starter', pro: 'Pro', all_in: 'All In' },
     tablaHeader: 'Qué incluye',
     tablaInversion: 'Inversión total',
@@ -128,6 +152,15 @@ const i18n = {
     ctaSubtitulo: 'Responda esta mensagem e começamos hoje.',
     ctaBoton: 'Fale com',
     waText: 'Ola%2C+quero+abrir+minha+LLC',
+    mercuryChip: 'Banco',
+    mercurySub: 'Sua conta bancária',
+    mercuryTitulo: 'É assim que você vai\noperar sua conta.',
+    mercuryBody: 'Sua LLC opera com a Mercury, o banco escolhido por startups e empresas remotas em todo o mundo. Tudo é gerenciado em dólares, de qualquer país, sem pisar nos Estados Unidos.',
+    mercuryFeature1: 'Cartão de débito Visa físico e virtual.',
+    mercuryFeature2: 'Transferências ACH e SWIFT para operar globalmente.',
+    mercuryFeature3: 'Abertura 100% remota, sem viajar aos Estados Unidos.',
+    mercuryCaption: 'Visão do ambiente de demonstração da Mercury. Os valores são de exemplo.',
+    mercuryBoton: 'Ver demo ao vivo',
     paqueteNombres: { starter: 'Essencial', pro: 'Pro', all_in: 'Completo' },
     tablaHeader: 'O que inclui',
     tablaInversion: 'Investimento total',
@@ -467,6 +500,7 @@ function renderTemplateWhitelabel(data) {
     DEMO_LINK: demoLink,
     DEMO_LINK_DISPLAY: demoLinkDisplay,
     VALIDEZ: validez,
+    MERCURY_IMG: mercuryImageDataUri(),
     FECHA_MES: fechaMes,
   };
 
@@ -548,6 +582,16 @@ function renderTemplate(data) {
     TABLA_NOTA: t.tablaNota,
     ANNUAL_OBLIGATIONS: buildAnnualObligations(pkg, state, lang),
     REQUIREMENTS_SECTION: buildRequirements(lang),
+    MERCURY_CHIP: t.mercuryChip,
+    MERCURY_SUB: t.mercurySub,
+    MERCURY_TITULO: t.mercuryTitulo,
+    MERCURY_BODY: t.mercuryBody,
+    MERCURY_FEATURE1: t.mercuryFeature1,
+    MERCURY_FEATURE2: t.mercuryFeature2,
+    MERCURY_FEATURE3: t.mercuryFeature3,
+    MERCURY_CAPTION: t.mercuryCaption,
+    MERCURY_BOTON: t.mercuryBoton,
+    MERCURY_IMG: mercuryImageDataUri(),
     CAP03_CHIP: t.cap03Chip,
     CAP03_SUB: t.cap03Sub,
     CAP03_TITULO: t.cap03Titulo,

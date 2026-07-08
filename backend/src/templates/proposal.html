@@ -153,6 +153,15 @@
   .disclaimer-list { list-style: none; display: flex; flex-direction: column; gap: 14px; max-width: 620px; }
   .disclaimer-list li { font-size: 12px; line-height: 1.6; color: var(--ink-light); }
   .disclaimer-list li strong { color: var(--ink); font-weight: 700; }
+  /* MERCURY */
+  .mercury-grid { display: flex; gap: 28px; align-items: flex-start; margin-top: 8px; }
+  .mercury-img-frame { flex: 1.15; background: var(--white); border: 1.5px solid var(--ink); border-radius: 14px; padding: 10px; box-shadow: 5px 5px 0px 0px var(--ink); }
+  .mercury-img-frame img { width: 100%; display: block; border-radius: 8px; }
+  .mercury-caption { font-size: 10.5px; color: var(--ink-light); margin-top: 8px; line-height: 1.4; }
+  .mercury-side { flex: 1; padding-top: 4px; }
+  .mercury-side p { font-size: 14px; line-height: 22px; color: var(--ink); margin-bottom: 18px; }
+  .mercury-features { list-style: none; display: flex; flex-direction: column; gap: 12px; margin-bottom: 22px; }
+  .mercury-features li { display: flex; align-items: flex-start; gap: 10px; font-size: 13px; line-height: 19px; color: var(--ink); }
 </style>
 </head>
 <body>
@@ -220,7 +229,7 @@
   </div>
   <div class="page-footer">
     <div class="footer-client">{{NOMBRE_CLIENTE}}</div>
-    <div class="footer-page">02 / 05</div>
+    <div class="footer-page">02 / 06</div>
   </div>
 </div>
 
@@ -248,11 +257,47 @@
   </div>
   <div class="page-footer">
     <div class="footer-client">{{NOMBRE_CLIENTE}}</div>
-    <div class="footer-page">03 / 05</div>
+    <div class="footer-page">03 / 06</div>
   </div>
 </div>
 
-<!-- PÁGINA 4 — CAP. 03: DARK CTA -->
+<!-- PÁGINA 4 — CUENTA MERCURY -->
+<div class="page">
+  <div class="page-header">
+    <div class="logo">Firmaway<span>.</span></div>
+    <div class="page-meta">Propuesta {{PROPUESTA_ID}}</div>
+  </div>
+  <div class="page-content">
+    <div class="chapter-label">
+      <span class="chip chip-dark">{{MERCURY_CHIP}}</span>
+      <span class="chapter-number">{{MERCURY_SUB}}</span>
+    </div>
+    <h2 class="chapter-title">{{MERCURY_TITULO}}</h2>
+    <div class="mercury-grid">
+      <div class="mercury-img-frame">
+        <img src="{{MERCURY_IMG}}" alt="Cuenta Mercury">
+        <div class="mercury-caption">{{MERCURY_CAPTION}}</div>
+      </div>
+      <div class="mercury-side">
+        <p>{{MERCURY_BODY}}</p>
+        <ul class="mercury-features">
+          <li><div class="check-icon"><svg viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="#F15A2F" stroke-width="2" stroke-linecap="round"/></svg></div><div>{{MERCURY_FEATURE1}}</div></li>
+          <li><div class="check-icon"><svg viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="#F15A2F" stroke-width="2" stroke-linecap="round"/></svg></div><div>{{MERCURY_FEATURE2}}</div></li>
+          <li><div class="check-icon"><svg viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="#F15A2F" stroke-width="2" stroke-linecap="round"/></svg></div><div>{{MERCURY_FEATURE3}}</div></li>
+        </ul>
+        <a href="https://demo.mercury.com/dashboard" class="cta-button" target="_blank" rel="noopener noreferrer" style="display:inline-block;">
+          {{MERCURY_BOTON}} →
+        </a>
+      </div>
+    </div>
+  </div>
+  <div class="page-footer">
+    <div class="footer-client">{{NOMBRE_CLIENTE}}</div>
+    <div class="footer-page">04 / 06</div>
+  </div>
+</div>
+
+<!-- PÁGINA 5 — CAP. 03: DARK CTA -->
 <div class="page dark-page">
   <div class="page-header" style="border-bottom: 1px solid rgba(255,255,255,0.1);">
     <div class="logo">Firmaway<span>.</span></div>
@@ -293,11 +338,11 @@
   </div>
   <div class="page-footer" style="border-top: 1px solid rgba(255,255,255,0.1);">
     <div class="footer-client" style="color:rgba(255,255,255,0.5);">{{NOMBRE_CLIENTE}}</div>
-    <div class="footer-page" style="color:rgba(255,255,255,0.5);">04 / 05</div>
+    <div class="footer-page" style="color:rgba(255,255,255,0.5);">05 / 06</div>
   </div>
 </div>
 
-<!-- PÁGINA 5 — ALCANCE DEL SERVICIO -->
+<!-- PÁGINA 6 — ALCANCE DEL SERVICIO -->
 <div class="page">
   <div class="page-header">
     <div class="logo">Firmaway<span>.</span></div>
@@ -323,7 +368,7 @@
   </div>
   <div class="page-footer">
     <div class="footer-client">{{NOMBRE_CLIENTE}}</div>
-    <div class="footer-page">05 / 05</div>
+    <div class="footer-page">06 / 06</div>
   </div>
 </div>
 

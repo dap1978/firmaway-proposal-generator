@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import api from '../../api';
 
 const PROPOSAL_WIDTH  = 794;
-const PROPOSAL_HEIGHT = 5250;
+const PROPOSAL_HEIGHT = 6300;
 
 // Escala el iframe para que entre en pantalla en mobile
 function ScaledIframe({ src, title, contentHeight = PROPOSAL_HEIGHT }) {
@@ -140,7 +140,7 @@ export default function PublicProposal() {
         <ScaledIframe
           src={`${apiUrl}/proposals/${proposal.id}/preview`}
           title={`Propuesta ${proposal.proposal_number}`}
-          contentHeight={proposal.proposal_type === 'whitelabel' ? 6912 : PROPOSAL_HEIGHT}
+          contentHeight={proposal.proposal_type === 'whitelabel' ? 8064 : PROPOSAL_HEIGHT}
         />
       </div>
     </div>
