@@ -95,7 +95,7 @@ function SlideCover({ theme }) {
     <div style={{ position: 'relative', height: '100%' }}>
       <div style={{ position: 'fixed', inset: 0, zIndex: 0 }}>
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src="/images/liberty.jpg" alt="" style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: '65% 20%' }} />
+        <img src="/images/liberty.jpg" alt="" style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: '65% 4%' }} />
         <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(100deg, rgba(46,49,53,0.95) 0%, rgba(46,49,53,0.82) 42%, rgba(46,49,53,0.45) 100%)' }} />
       </div>
       <div style={{ position: 'relative', zIndex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', height: '100%', maxWidth: 540 }}>
