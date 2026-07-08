@@ -28,7 +28,7 @@ const CONTENT = {
         { n: '2.000+', l: 'LLCs formadas' },
         { n: '4.9',    l: 'Calificación promedio' },
         { n: '4+',     l: 'Años de experiencia' },
-        { n: '24h',    l: 'Tiempo promedio de respuesta' },
+        { n: '<20min', l: 'Tiempo promedio de respuesta' },
       ],
     },
     packages: {
@@ -118,7 +118,7 @@ const CONTENT = {
         { n: '2.000+', l: 'LLCs formadas' },
         { n: '4.9',    l: 'Avaliação média' },
         { n: '4+',     l: 'Anos de experiência' },
-        { n: '24h',    l: 'Tempo médio de resposta' },
+        { n: '<20min', l: 'Tempo médio de resposta' },
       ],
     },
     packages: {
