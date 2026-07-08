@@ -10,8 +10,8 @@ const C = {
 
 const BG = {
   dark:   { bg: C.dark, ink: '#FFFFFF', muted: 'rgba(255,255,255,0.55)', border: 'rgba(255,255,255,0.15)' },
-  // Naranja apagado (blend con el dark de marca) en vez del naranja vivo: mismo tono, menos golpe visual.
-  orange: { bg: '#8A4633', ink: '#FFFFFF', muted: 'rgba(255,255,255,0.75)', border: 'rgba(255,255,255,0.25)' },
+  // Pastel real del naranja de marca (#F15A2F mezclado con blanco), suave a la vista.
+  orange: { bg: '#FBDCD1', ink: C.ink, muted: C.muted, border: 'rgba(49,53,61,0.12)' },
   cream:  { bg: C.warm, ink: C.ink, muted: C.muted, border: C.border },
 };
 
@@ -132,7 +132,7 @@ function SlideStats({ theme }) {
       <div style={{ display: 'flex', gap: 56, flexWrap: 'wrap', justifyContent: 'center' }}>
         {stats.map(s => (
           <div key={s.l} style={{ textAlign: 'center' }}>
-            <div style={{ fontSize: 64, fontWeight: 800, letterSpacing: '-0.04em', color: theme.ink, lineHeight: 1 }}>{s.n}</div>
+            <div style={{ fontSize: 64, fontWeight: 800, letterSpacing: '-0.04em', color: C.orange, lineHeight: 1 }}>{s.n}</div>
             <div style={{ fontSize: 13, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.06em', color: theme.muted, marginTop: 10, maxWidth: 140 }}>{s.l}</div>
           </div>
         ))}
@@ -210,12 +210,9 @@ function SlideTimeline({ theme }) {
     <div style={{ height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
       <Eyebrow theme={theme}>Proceso</Eyebrow>
       <Title theme={theme} size={38}>De la firma a la cuenta bancaria en 15 días.</Title>
-      <div style={{ display: 'flex', gap: 0, marginTop: 20, position: 'relative' }}>
-        {TIMELINE.map((t, i) => (
-          <div key={t.n} style={{ flex: 1, position: 'relative', paddingRight: i < TIMELINE.length - 1 ? 24 : 0 }}>
-            {i < TIMELINE.length - 1 && (
-              <div style={{ position: 'absolute', top: 20, left: '50%', width: '100%', height: 2, background: theme.border, zIndex: 0 }} />
-            )}
+      <div style={{ display: 'grid', gridTemplateColumns: `repeat(${TIMELINE.length}, 1fr)`, marginTop: 20, position: 'relative' }}>
+        {TIMELINE.map(t => (
+          <div key={t.n} style={{ position: 'relative', paddingRight: 24 }}>
             <div style={{ position: 'relative', zIndex: 1, display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
               <div style={{ width: 40, height: 40, borderRadius: '50%', background: C.orange, display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 16 }}>
                 <span style={{ fontSize: 16, fontWeight: 800, color: '#fff' }}>{t.n}</span>
@@ -226,12 +223,18 @@ function SlideTimeline({ theme }) {
             </div>
           </div>
         ))}
-        {/* Recorrido único: nace en el paso 1 y viaja hasta el último paso */}
+        {/* Línea estática y recorrido animado comparten la misma matemática:
+            los nodos están perfectamente centrados en columnas iguales (grid),
+            así que ambos arrancan justo en el nodo 1 y terminan en el último. */}
         <div style={{
-          position: 'absolute', top: 20, zIndex: 2, pointerEvents: 'none',
+          position: 'absolute', top: 20, height: 2, background: theme.border, zIndex: 0,
           left: `${(0.5 / TIMELINE.length) * 100}%`,
           width: `${((TIMELINE.length - 1) / TIMELINE.length) * 100}%`,
-          height: 2,
+        }} />
+        <div style={{
+          position: 'absolute', top: 20, height: 2, zIndex: 2, pointerEvents: 'none',
+          left: `${(0.5 / TIMELINE.length) * 100}%`,
+          width: `${((TIMELINE.length - 1) / TIMELINE.length) * 100}%`,
         }}>
           <span className="flow-dot" style={{ animationDelay: '0s' }} />
           <span className="flow-dot" style={{ animationDelay: '3s' }} />
