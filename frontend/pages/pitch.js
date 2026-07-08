@@ -96,7 +96,7 @@ function SlideCover({ theme }) {
       <div style={{ position: 'fixed', inset: 0, zIndex: 0 }}>
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img src="/images/liberty.jpg" alt="" style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: '65% 0%' }} />
-        <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(100deg, rgba(46,49,53,0.95) 0%, rgba(46,49,53,0.82) 42%, rgba(46,49,53,0.45) 100%)' }} />
+        <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(100deg, rgba(46,49,53,0.97) 0%, rgba(46,49,53,0.88) 42%, rgba(46,49,53,0.65) 100%)' }} />
       </div>
       <div style={{ position: 'relative', zIndex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', height: '100%', maxWidth: 540 }}>
         <div style={{ fontSize: 20, fontWeight: 800, letterSpacing: '-0.03em', color: theme.ink, opacity: 0.7, marginBottom: 28 }}>
@@ -320,7 +320,7 @@ function SlideClosing({ theme }) {
       <div style={{ position: 'fixed', inset: 0, zIndex: 0 }}>
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img src="/images/liberty-torch.jpg" alt="" style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center 12%' }} />
-        <div style={{ position: 'absolute', inset: 0, background: 'rgba(46,49,53,0.86)' }} />
+        <div style={{ position: 'absolute', inset: 0, background: 'rgba(46,49,53,0.9)' }} />
       </div>
       <div style={{ position: 'relative', zIndex: 1 }}>
         <Eyebrow theme={theme} center>Lo que dicen nuestros clientes</Eyebrow>
