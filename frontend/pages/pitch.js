@@ -10,8 +10,6 @@ const C = {
 
 const BG = {
   dark:   { bg: C.dark, ink: '#FFFFFF', muted: 'rgba(255,255,255,0.55)', border: 'rgba(255,255,255,0.15)' },
-  // Pastel real del naranja de marca (#F15A2F mezclado con blanco), suave a la vista.
-  orange: { bg: '#FBDCD1', ink: C.ink, muted: C.muted, border: 'rgba(49,53,61,0.12)' },
   cream:  { bg: C.warm, ink: C.ink, muted: C.muted, border: C.border },
 };
 
@@ -223,17 +221,17 @@ function SlideTimeline({ theme }) {
             </div>
           </div>
         ))}
-        {/* Línea estática y recorrido animado comparten la misma matemática:
-            los nodos están perfectamente centrados en columnas iguales (grid),
-            así que ambos arrancan justo en el nodo 1 y terminan en el último. */}
+        {/* Los nodos están pegados al borde izquierdo de su columna (alignItems: flex-start),
+            no centrados. El centro real del círculo (40px) queda a 20px del borde de la
+            columna, así que el punto de partida es un valor fijo, no un porcentaje. */}
         <div style={{
           position: 'absolute', top: 20, height: 2, background: theme.border, zIndex: 0,
-          left: `${(0.5 / TIMELINE.length) * 100}%`,
+          left: 20,
           width: `${((TIMELINE.length - 1) / TIMELINE.length) * 100}%`,
         }} />
         <div style={{
           position: 'absolute', top: 20, height: 2, zIndex: 2, pointerEvents: 'none',
-          left: `${(0.5 / TIMELINE.length) * 100}%`,
+          left: 20,
           width: `${((TIMELINE.length - 1) / TIMELINE.length) * 100}%`,
         }}>
           <span className="flow-dot" style={{ animationDelay: '0s' }} />
@@ -362,7 +360,7 @@ function SlideClosing({ theme }) {
 
 const SLIDES = [
   { key: 'cover',    theme: 'dark',   Component: SlideCover },
-  { key: 'stats',    theme: 'orange', Component: SlideStats },
+  { key: 'stats',    theme: 'dark',   Component: SlideStats },
   { key: 'packages', theme: 'cream',  Component: SlidePackages },
   { key: 'states',   theme: 'cream',  Component: SlideStates },
   { key: 'timeline', theme: 'dark',   Component: SlideTimeline },
