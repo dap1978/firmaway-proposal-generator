@@ -95,7 +95,7 @@ function SlideCover({ theme }) {
     <div style={{ position: 'relative', height: '100%' }}>
       <div style={{ position: 'fixed', inset: 0, zIndex: 0 }}>
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src="/images/liberty.jpg" alt="" style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: '65% 4%' }} />
+        <img src="/images/liberty.jpg" alt="" style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: '65% 0%' }} />
         <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(100deg, rgba(46,49,53,0.95) 0%, rgba(46,49,53,0.82) 42%, rgba(46,49,53,0.45) 100%)' }} />
       </div>
       <div style={{ position: 'relative', zIndex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', height: '100%', maxWidth: 540 }}>
@@ -260,12 +260,12 @@ function SlideMercury({ theme }) {
     <div style={{ height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
       <Eyebrow theme={theme}>Banca</Eyebrow>
       <Title theme={theme} size={38}>Operamos con Mercury.</Title>
-      <div style={{ display: 'flex', gap: 34, alignItems: 'center' }}>
-        <div style={{ flex: 1.1, background: C.bg, border: `1.5px solid ${C.ink}`, borderRadius: 16, padding: 10, boxShadow: `5px 5px 0px 0px ${C.ink}` }}>
+      <div style={{ display: 'flex', gap: 34, alignItems: 'center', minWidth: 0 }}>
+        <div style={{ flex: '1.1 1 0', minWidth: 0, background: C.bg, border: `1.5px solid ${C.ink}`, borderRadius: 16, padding: 10, boxShadow: `5px 5px 0px 0px ${C.ink}`, overflow: 'hidden' }}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src="/images/mercury-demo.png" alt="Cuenta Mercury" style={{ width: '100%', display: 'block', borderRadius: 10 }} />
         </div>
-        <div style={{ flex: 1 }}>
+        <div style={{ flex: '1 1 0', minWidth: 0 }}>
           <div style={{ fontSize: 13.5, color: theme.muted, marginBottom: 20, lineHeight: 1.5 }}>
             El banco elegido por startups y empresas remotas en todo el mundo. Así se ve la cuenta que vas a operar.
           </div>
