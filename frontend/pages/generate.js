@@ -62,6 +62,7 @@ export default function Generate() {
             client_name: clientName.trim(),
             case_price: wlPrice.trim() || undefined,
             commercial_name: user?.name,
+            language,
           }
         : {
             proposal_type: 'llc',
@@ -149,8 +150,7 @@ export default function Generate() {
 
         {/* Card principal */}
         <div style={{ background: C.bg, border: `1.5px solid ${C.border}`, borderRadius: 16, padding: 28, boxShadow: `4px 4px 0px 0px ${C.border}`, marginBottom: 20 }}>
-          {/* Idioma — solo para propuestas LLC (whitelabel es siempre español) */}
-          {!isWhitelabel && (
+          {/* Idioma — disponible para LLC y Whitelabel */}
           <div style={{ marginBottom: 20 }}>
             <label style={{ display: 'block', fontSize: 11, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.07em', color: C.muted, marginBottom: 8 }}>
               Idioma de la propuesta
@@ -173,7 +173,6 @@ export default function Generate() {
               ))}
             </div>
           </div>
-          )}
 
           {isWhitelabel ? (
           <div>

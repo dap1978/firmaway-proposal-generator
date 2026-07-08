@@ -13,58 +13,189 @@ const BG = {
   cream:  { bg: C.warm, ink: C.ink, muted: C.muted, border: C.border },
 };
 
-const PACKAGE_FEATURES = [
-  'Constitución de la LLC',
-  'Cuenta bancaria Mercury',
-  'EIN / Tax ID federal',
-  'Registered Agent 1 año',
-  'Operating Agreement',
-  'Soporte gratis e ilimitado',
-  'Obligaciones año 1 incluidas',
-];
-
-const PACKAGES = [
-  { name: 'Solo LLC', price: '495',   sub: 'Sin cuenta bancaria',        included: [true, false, true, true, true, true, false] },
-  { name: 'Starter',  price: '499',   sub: 'Nuevo México · 1 socio',     included: [true, true,  true, true, true, true, false] },
-  { name: 'Pro',      price: '645',   sub: 'Cualquier estado · 2+ socios', included: [true, true, true, true, true, true, false], featured: true },
-  { name: 'All In',   price: '1.199', sub: 'Todo incluido',              included: [true, true,  true, true, true, true, true]  },
-];
-
-const STATES = [
-  { name: 'Wyoming',      fee: '$62/año',         note: 'Privacidad de socios. El más recomendado para Pro y All In.' },
-  { name: 'Nuevo México', fee: 'Sin fee estatal', note: 'El más económico. Ideal para socio único.' },
-  { name: 'Delaware',     fee: '$300/año',        note: 'Preferido por startups con inversores o venture capital.' },
-  { name: 'Florida',      fee: '$138,75/año',     note: 'Para negocios con operación física en el estado.' },
-  { name: 'Texas',        fee: 'Sin fee estatal', note: 'Para quienes ya operan en Texas.' },
-];
-
-const TIMELINE = [
-  { n: '1', title: 'Confirmación de datos', days: 'Día 1',        note: 'Completamos el perfil y validamos la documentación.' },
-  { n: '2', title: 'Formación de la LLC',   days: 'Días 2 a 5',   note: 'Presentamos la constitución en el estado elegido.' },
-  { n: '3', title: 'Obtención del EIN',     days: 'Días 5 a 10',  note: 'Gestionamos el Tax ID federal ante el IRS.' },
-  { n: '4', title: 'Apertura de Mercury',   days: 'Días 10 a 15', note: 'Activamos la cuenta bancaria y la tarjeta de débito Visa.' },
-];
-
-const MERCURY_FEATURES = [
-  'Tarjeta de débito Visa física y virtual.',
-  'Transferencias ACH y SWIFT para operar globalmente.',
-  'Apertura 100% remota, sin viajar a Estados Unidos.',
-  'Conexión directa vía API con Mercury en los planes Pro y All In.',
-];
-
-const WHY = [
-  'Soporte gratis e ilimitado en todos los paquetes.',
-  'Personas reales respondiendo tus consultas, no bots.',
-  'EIN gestionado directamente ante el IRS.',
-  'Registered Agent incluido durante el primer año.',
-  'Operating Agreement incluido en todos los paquetes.',
-];
-
-const TESTIMONIALS = [
-  { text: 'Llevamos varios años trabajando con Firmaway y la experiencia ha sido excelente desde el primer día. Nos guiaron en cada paso con profesionalismo y dedicación.', author: 'Gerardo P.', tag: 'QA' },
-  { text: 'Atención 10 puntos, efectividad muy complaciente. Sin dudas la mejor opción a día de hoy para abrir y emprender tu LLC en Estados Unidos.', author: 'Guido B.', tag: 'AR' },
-  { text: 'El proceso fue simple y rápido. En pocas semanas ya tenía mi LLC y mi cuenta bancaria funcionando.', author: 'Adriana Z.', tag: 'CO' },
-];
+// ── Contenido bilingüe (ES / PT) ────────────────────────────────────────────
+const CONTENT = {
+  es: {
+    nav: { salir: '✕ Salir' },
+    cover: {
+      headline: 'Tu empresa en Estados Unidos.',
+      subtitle: 'Formación de LLCs, EIN y cuenta bancaria. De principio a fin, en un solo lugar.',
+    },
+    stats: {
+      eyebrow: 'Respaldo',
+      title: 'Los números hablan solos.',
+      items: [
+        { n: '2.000+', l: 'LLCs formadas' },
+        { n: '4.9',    l: 'Calificación promedio' },
+        { n: '4+',     l: 'Años de experiencia' },
+        { n: '24h',    l: 'Tiempo promedio de respuesta' },
+      ],
+    },
+    packages: {
+      eyebrow: 'Paquetes',
+      title: 'Un paquete para cada etapa del negocio.',
+      featured: 'Más elegido',
+      features: [
+        'Constitución de la LLC',
+        'Cuenta bancaria Mercury',
+        'EIN / Tax ID federal',
+        'Registered Agent 1 año',
+        'Operating Agreement',
+        'Soporte gratis e ilimitado',
+        'Obligaciones año 1 incluidas',
+      ],
+      items: [
+        { name: 'Solo LLC', price: '495',   sub: 'Sin cuenta bancaria',          included: [true, false, true, true, true, true, false] },
+        { name: 'Starter',  price: '499',   sub: 'Nuevo México · 1 socio',       included: [true, true,  true, true, true, true, false] },
+        { name: 'Pro',      price: '645',   sub: 'Cualquier estado · 2+ socios', included: [true, true,  true, true, true, true, false], featured: true },
+        { name: 'All In',   price: '1.199', sub: 'Todo incluido',                included: [true, true,  true, true, true, true, true]  },
+      ],
+    },
+    states: {
+      eyebrow: 'Estados',
+      title: 'Elegimos el estado según tu negocio.',
+      items: [
+        { name: 'Wyoming',      fee: '$62/año',         note: 'Privacidad de socios. El más recomendado para Pro y All In.' },
+        { name: 'Nuevo México', fee: 'Sin fee estatal', note: 'El más económico. Ideal para socio único.' },
+        { name: 'Delaware',     fee: '$300/año',        note: 'Preferido por startups con inversores o venture capital.' },
+        { name: 'Florida',      fee: '$138,75/año',     note: 'Para negocios con operación física en el estado.' },
+        { name: 'Texas',        fee: 'Sin fee estatal', note: 'Para quienes ya operan en Texas.' },
+      ],
+    },
+    timeline: {
+      eyebrow: 'Proceso',
+      title: 'De la firma a la cuenta bancaria en 15 días.',
+      items: [
+        { n: '1', title: 'Confirmación de datos', days: 'Día 1',        note: 'Completamos el perfil y validamos la documentación.' },
+        { n: '2', title: 'Formación de la LLC',   days: 'Días 2 a 5',   note: 'Presentamos la constitución en el estado elegido.' },
+        { n: '3', title: 'Obtención del EIN',     days: 'Días 5 a 10',  note: 'Gestionamos el Tax ID federal ante el IRS.' },
+        { n: '4', title: 'Apertura de Mercury',   days: 'Días 10 a 15', note: 'Activamos la cuenta bancaria y la tarjeta de débito Visa.' },
+      ],
+    },
+    mercury: {
+      eyebrow: 'Banca',
+      title: 'Operamos con Mercury.',
+      body: 'El banco elegido por startups y empresas remotas en todo el mundo. Así se ve la cuenta que vas a operar.',
+      btn: 'Ver demo en vivo',
+      features: [
+        'Tarjeta de débito Visa física y virtual.',
+        'Transferencias ACH y SWIFT para operar globalmente.',
+        'Apertura 100% remota, sin viajar a Estados Unidos.',
+        'Conexión directa vía API con Mercury en los planes Pro y All In.',
+      ],
+    },
+    why: {
+      eyebrow: 'Diferencial',
+      title: 'No es solo abrir una LLC online.',
+      items: [
+        'Soporte gratis e ilimitado en todos los paquetes.',
+        'Personas reales respondiendo tus consultas, no bots.',
+        'EIN gestionado directamente ante el IRS.',
+        'Registered Agent incluido durante el primer año.',
+        'Operating Agreement incluido en todos los paquetes.',
+      ],
+    },
+    closing: {
+      testimonialsLabel: 'Lo que dicen nuestros clientes',
+      tagline: 'Tu empresa en Estados Unidos.',
+      testimonials: [
+        { text: 'Llevamos varios años trabajando con Firmaway y la experiencia ha sido excelente desde el primer día. Nos guiaron en cada paso con profesionalismo y dedicación.', author: 'Gerardo P.', tag: 'QA' },
+        { text: 'Atención 10 puntos, efectividad muy complaciente. Sin dudas la mejor opción a día de hoy para abrir y emprender tu LLC en Estados Unidos.', author: 'Guido B.', tag: 'AR' },
+        { text: 'El proceso fue simple y rápido. En pocas semanas ya tenía mi LLC y mi cuenta bancaria funcionando.', author: 'Adriana Z.', tag: 'CO' },
+      ],
+    },
+  },
+  pt: {
+    nav: { salir: '✕ Sair' },
+    cover: {
+      headline: 'Sua empresa nos Estados Unidos.',
+      subtitle: 'Formação de LLCs, EIN e conta bancária. Do início ao fim, em um só lugar.',
+    },
+    stats: {
+      eyebrow: 'Respaldo',
+      title: 'Os números falam por si.',
+      items: [
+        { n: '2.000+', l: 'LLCs formadas' },
+        { n: '4.9',    l: 'Avaliação média' },
+        { n: '4+',     l: 'Anos de experiência' },
+        { n: '24h',    l: 'Tempo médio de resposta' },
+      ],
+    },
+    packages: {
+      eyebrow: 'Pacotes',
+      title: 'Um pacote para cada etapa do negócio.',
+      featured: 'Mais escolhido',
+      features: [
+        'Constituição da LLC',
+        'Conta bancária Mercury',
+        'EIN / Tax ID federal',
+        'Registered Agent por 1 ano',
+        'Operating Agreement',
+        'Suporte gratuito e ilimitado',
+        'Obrigações do ano 1 incluídas',
+      ],
+      items: [
+        { name: 'Solo LLC', price: '495',   sub: 'Sem conta bancária',           included: [true, false, true, true, true, true, false] },
+        { name: 'Starter',  price: '499',   sub: 'Novo México · 1 sócio',        included: [true, true,  true, true, true, true, false] },
+        { name: 'Pro',      price: '645',   sub: 'Qualquer estado · 2+ sócios',  included: [true, true,  true, true, true, true, false], featured: true },
+        { name: 'All In',   price: '1.199', sub: 'Tudo incluído',                included: [true, true,  true, true, true, true, true]  },
+      ],
+    },
+    states: {
+      eyebrow: 'Estados',
+      title: 'Escolhemos o estado de acordo com o seu negócio.',
+      items: [
+        { name: 'Wyoming',      fee: '$62/ano',         note: 'Privacidade dos sócios. O mais recomendado para Pro e All In.' },
+        { name: 'Novo México',  fee: 'Sem taxa estadual', note: 'O mais econômico. Ideal para sócio único.' },
+        { name: 'Delaware',     fee: '$300/ano',        note: 'Preferido por startups com investidores ou venture capital.' },
+        { name: 'Flórida',      fee: '$138,75/ano',     note: 'Para negócios com operação física no estado.' },
+        { name: 'Texas',        fee: 'Sem taxa estadual', note: 'Para quem já opera no Texas.' },
+      ],
+    },
+    timeline: {
+      eyebrow: 'Processo',
+      title: 'Da assinatura à conta bancária em 15 dias.',
+      items: [
+        { n: '1', title: 'Confirmação dos dados', days: 'Dia 1',        note: 'Completamos o perfil e validamos a documentação.' },
+        { n: '2', title: 'Formação da LLC',        days: 'Dias 2 a 5',   note: 'Apresentamos a constituição no estado escolhido.' },
+        { n: '3', title: 'Obtenção do EIN',         days: 'Dias 5 a 10',  note: 'Gerenciamos o Tax ID federal junto ao IRS.' },
+        { n: '4', title: 'Abertura da Mercury',     days: 'Dias 10 a 15', note: 'Ativamos a conta bancária e o cartão de débito Visa.' },
+      ],
+    },
+    mercury: {
+      eyebrow: 'Banco',
+      title: 'Operamos com a Mercury.',
+      body: 'O banco escolhido por startups e empresas remotas em todo o mundo. É assim que fica a conta que você vai operar.',
+      btn: 'Ver demo ao vivo',
+      features: [
+        'Cartão de débito Visa físico e virtual.',
+        'Transferências ACH e SWIFT para operar globalmente.',
+        'Abertura 100% remota, sem viajar aos Estados Unidos.',
+        'Conexão direta via API com a Mercury nos planos Pro e All In.',
+      ],
+    },
+    why: {
+      eyebrow: 'Diferencial',
+      title: 'Não é só abrir uma LLC online.',
+      items: [
+        'Suporte gratuito e ilimitado em todos os pacotes.',
+        'Pessoas reais respondendo suas dúvidas, não bots.',
+        'EIN gerenciado diretamente junto ao IRS.',
+        'Registered Agent incluído durante o primeiro ano.',
+        'Operating Agreement incluído em todos os pacotes.',
+      ],
+    },
+    closing: {
+      testimonialsLabel: 'O que nossos clientes dizem',
+      tagline: 'Sua empresa nos Estados Unidos.',
+      testimonials: [
+        { text: 'Trabalhamos com a Firmaway há vários anos e a experiência foi excelente desde o primeiro dia. Nos guiaram em cada etapa com profissionalismo e dedicação.', author: 'Gerardo P.', tag: 'QA' },
+        { text: 'Atendimento nota 10, muito eficiente. Sem dúvida a melhor opção hoje para abrir e empreender sua LLC nos Estados Unidos.', author: 'Guido B.', tag: 'AR' },
+        { text: 'O processo foi simples e rápido. Em poucas semanas minha LLC e minha conta bancária já estavam funcionando.', author: 'Adriana Z.', tag: 'CO' },
+      ],
+    },
+  },
+};
 
 // ── Componentes base reutilizables por slide ───────────────────────────────
 function Eyebrow({ children, theme, center }) {
@@ -88,7 +219,8 @@ function Title({ children, theme, size = 42, center }) {
 }
 
 // ── Slides ──────────────────────────────────────────────────────────────────
-function SlideCover({ theme }) {
+function SlideCover({ theme, lang }) {
+  const t = CONTENT[lang].cover;
   return (
     <div style={{ position: 'relative', height: '100%' }}>
       <div style={{ position: 'fixed', inset: 0, zIndex: 0 }}>
@@ -101,10 +233,10 @@ function SlideCover({ theme }) {
           Firmaway<span style={{ color: C.orange }}>.</span>
         </div>
         <div style={{ fontSize: 54, fontWeight: 800, letterSpacing: '-0.045em', lineHeight: 1.08, color: theme.ink }}>
-          Tu empresa en Estados Unidos.
+          {t.headline}
         </div>
         <div style={{ fontSize: 17, color: 'rgba(255,255,255,0.7)', marginTop: 24, lineHeight: 1.5 }}>
-          Formación de LLCs, EIN y cuenta bancaria. De principio a fin, en un solo lugar.
+          {t.subtitle}
         </div>
       </div>
       <div style={{ position: 'fixed', bottom: 20, right: 28, fontSize: 10, color: 'rgba(255,255,255,0.3)', zIndex: 1 }}>
@@ -114,21 +246,16 @@ function SlideCover({ theme }) {
   );
 }
 
-function SlideStats({ theme }) {
-  const stats = [
-    { n: '2.000+', l: 'LLCs formadas' },
-    { n: '4.9',    l: 'Calificación promedio' },
-    { n: '4+',     l: 'Años de experiencia' },
-    { n: '24h',    l: 'Tiempo promedio de respuesta' },
-  ];
+function SlideStats({ theme, lang }) {
+  const t = CONTENT[lang].stats;
   return (
     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100%' }}>
-      <Eyebrow theme={theme} center>Respaldo</Eyebrow>
+      <Eyebrow theme={theme} center>{t.eyebrow}</Eyebrow>
       <div style={{ fontSize: 34, fontWeight: 800, color: theme.ink, marginBottom: 48, letterSpacing: '-0.03em', textAlign: 'center' }}>
-        Los números hablan solos.
+        {t.title}
       </div>
       <div style={{ display: 'flex', gap: 56, flexWrap: 'wrap', justifyContent: 'center' }}>
-        {stats.map(s => (
+        {t.items.map(s => (
           <div key={s.l} style={{ textAlign: 'center' }}>
             <div style={{ fontSize: 64, fontWeight: 800, letterSpacing: '-0.04em', color: C.orange, lineHeight: 1 }}>{s.n}</div>
             <div style={{ fontSize: 13, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.06em', color: theme.muted, marginTop: 10, maxWidth: 140 }}>{s.l}</div>
@@ -139,13 +266,14 @@ function SlideStats({ theme }) {
   );
 }
 
-function SlidePackages({ theme }) {
+function SlidePackages({ theme, lang }) {
+  const t = CONTENT[lang].packages;
   return (
     <div style={{ height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-      <Eyebrow theme={theme}>Paquetes</Eyebrow>
-      <Title theme={theme} size={34}>Un paquete para cada etapa del negocio.</Title>
+      <Eyebrow theme={theme}>{t.eyebrow}</Eyebrow>
+      <Title theme={theme} size={34}>{t.title}</Title>
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 14, marginTop: 8 }}>
-        {PACKAGES.map(p => (
+        {t.items.map(p => (
           <div key={p.name} style={{
             display: 'flex', flexDirection: 'column',
             background: p.featured ? C.orange : C.bg,
@@ -155,14 +283,14 @@ function SlidePackages({ theme }) {
           }}>
             {p.featured && (
               <div style={{ fontSize: 9.5, fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.06em', color: '#fff', background: 'rgba(255,255,255,0.2)', display: 'inline-block', padding: '3px 8px', borderRadius: 999, marginBottom: 10, alignSelf: 'flex-start' }}>
-                Más elegido
+                {t.featured}
               </div>
             )}
             <div style={{ fontSize: 16, fontWeight: 700, color: p.featured ? '#fff' : C.ink, marginBottom: 2, letterSpacing: '-0.01em' }}>{p.name}</div>
             <div style={{ fontSize: 10.5, color: p.featured ? 'rgba(255,255,255,0.8)' : C.muted, marginBottom: 10 }}>{p.sub}</div>
             <div style={{ fontSize: 23, fontWeight: 800, color: p.featured ? '#fff' : C.orange, marginBottom: 14, letterSpacing: '-0.02em' }}>USD {p.price}</div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 7, borderTop: `1px solid ${p.featured ? 'rgba(255,255,255,0.25)' : C.border}`, paddingTop: 12 }}>
-              {PACKAGE_FEATURES.map((feat, i) => {
+              {t.features.map((feat, i) => {
                 const ok = p.included[i];
                 return (
                   <div key={feat} style={{ display: 'flex', alignItems: 'center', gap: 7 }}>
@@ -181,13 +309,14 @@ function SlidePackages({ theme }) {
   );
 }
 
-function SlideStates({ theme }) {
+function SlideStates({ theme, lang }) {
+  const t = CONTENT[lang].states;
   return (
     <div style={{ height: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
-      <Eyebrow theme={theme} center>Estados</Eyebrow>
-      <Title theme={theme} size={38} center>Elegimos el estado según tu negocio.</Title>
+      <Eyebrow theme={theme} center>{t.eyebrow}</Eyebrow>
+      <Title theme={theme} size={38} center>{t.title}</Title>
       <div style={{ display: 'flex', flexDirection: 'column', gap: 20, marginTop: 32, maxWidth: 940, width: '100%' }}>
-        {STATES.map(s => (
+        {t.items.map(s => (
           <div key={s.name} style={{
             display: 'flex', alignItems: 'center', gap: 24,
             background: C.bg, border: `1.5px solid ${C.border}`, borderRadius: 14, padding: '24px 30px',
@@ -203,21 +332,23 @@ function SlideStates({ theme }) {
   );
 }
 
-function SlideTimeline({ theme }) {
+function SlideTimeline({ theme, lang }) {
+  const t = CONTENT[lang].timeline;
+  const n = t.items.length;
   return (
     <div style={{ height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-      <Eyebrow theme={theme}>Proceso</Eyebrow>
-      <Title theme={theme} size={38}>De la firma a la cuenta bancaria en 15 días.</Title>
-      <div style={{ display: 'grid', gridTemplateColumns: `repeat(${TIMELINE.length}, 1fr)`, marginTop: 20, position: 'relative' }}>
-        {TIMELINE.map(t => (
-          <div key={t.n} style={{ position: 'relative', paddingRight: 24 }}>
+      <Eyebrow theme={theme}>{t.eyebrow}</Eyebrow>
+      <Title theme={theme} size={38}>{t.title}</Title>
+      <div style={{ display: 'grid', gridTemplateColumns: `repeat(${n}, 1fr)`, marginTop: 20, position: 'relative' }}>
+        {t.items.map(item => (
+          <div key={item.n} style={{ position: 'relative', paddingRight: 24 }}>
             <div style={{ position: 'relative', zIndex: 1, display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
               <div style={{ width: 40, height: 40, borderRadius: '50%', background: C.orange, display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 16 }}>
-                <span style={{ fontSize: 16, fontWeight: 800, color: '#fff' }}>{t.n}</span>
+                <span style={{ fontSize: 16, fontWeight: 800, color: '#fff' }}>{item.n}</span>
               </div>
-              <div style={{ fontSize: 10.5, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em', color: C.orange, marginBottom: 6 }}>{t.days}</div>
-              <div style={{ fontSize: 15, fontWeight: 700, color: theme.ink, marginBottom: 6, letterSpacing: '-0.01em' }}>{t.title}</div>
-              <div style={{ fontSize: 12.5, color: theme.muted, lineHeight: 1.45 }}>{t.note}</div>
+              <div style={{ fontSize: 10.5, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em', color: C.orange, marginBottom: 6 }}>{item.days}</div>
+              <div style={{ fontSize: 15, fontWeight: 700, color: theme.ink, marginBottom: 6, letterSpacing: '-0.01em' }}>{item.title}</div>
+              <div style={{ fontSize: 12.5, color: theme.muted, lineHeight: 1.45 }}>{item.note}</div>
             </div>
           </div>
         ))}
@@ -227,12 +358,12 @@ function SlideTimeline({ theme }) {
         <div style={{
           position: 'absolute', top: 20, height: 2, background: theme.border, zIndex: 0,
           left: 20,
-          width: `${((TIMELINE.length - 1) / TIMELINE.length) * 100}%`,
+          width: `${((n - 1) / n) * 100}%`,
         }} />
         <div style={{
           position: 'absolute', top: 20, height: 2, zIndex: 2, pointerEvents: 'none',
           left: 20,
-          width: `${((TIMELINE.length - 1) / TIMELINE.length) * 100}%`,
+          width: `${((n - 1) / n) * 100}%`,
         }}>
           <span className="flow-dot" style={{ animationDelay: '0s' }} />
           <span className="flow-dot" style={{ animationDelay: '3s' }} />
@@ -263,22 +394,23 @@ function SlideTimeline({ theme }) {
   );
 }
 
-function SlideMercury({ theme }) {
+function SlideMercury({ theme, lang }) {
+  const t = CONTENT[lang].mercury;
   return (
     <div style={{ height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-      <Eyebrow theme={theme}>Banca</Eyebrow>
-      <Title theme={theme} size={38}>Operamos con Mercury.</Title>
+      <Eyebrow theme={theme}>{t.eyebrow}</Eyebrow>
+      <Title theme={theme} size={38}>{t.title}</Title>
       <div style={{ display: 'flex', gap: 40, alignItems: 'center', minWidth: 0, maxWidth: 1140, width: '100%' }}>
         <div style={{ flex: '1.5 1 0', minWidth: 0, background: C.bg, border: `1.5px solid ${C.ink}`, borderRadius: 16, padding: 10, boxShadow: `5px 5px 0px 0px ${C.ink}`, overflow: 'hidden' }}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/images/mercury-demo.png" alt="Cuenta Mercury" style={{ width: '100%', display: 'block', borderRadius: 10 }} />
+          <img src="/images/mercury-demo.png" alt="Mercury" style={{ width: '100%', display: 'block', borderRadius: 10 }} />
         </div>
         <div style={{ flex: '1 1 0', minWidth: 0, maxWidth: 340 }}>
           <div style={{ fontSize: 13.5, color: theme.muted, marginBottom: 20, lineHeight: 1.5 }}>
-            El banco elegido por startups y empresas remotas en todo el mundo. Así se ve la cuenta que vas a operar.
+            {t.body}
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 13, marginBottom: 26 }}>
-            {MERCURY_FEATURES.map(f => (
+            {t.features.map(f => (
               <div key={f} style={{ display: 'flex', alignItems: 'flex-start', gap: 10 }}>
                 <div style={{ width: 20, height: 20, background: C.orangeSoft, border: `1.5px solid ${C.orange}`, borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, marginTop: 1 }}>
                   <svg viewBox="0 0 10 8" fill="none" width="10" height="8"><path d="M1 4L3.5 6.5L9 1" stroke="#F15A2F" strokeWidth="2" strokeLinecap="round" /></svg>
@@ -291,7 +423,7 @@ function SlideMercury({ theme }) {
             display: 'inline-block', background: C.orange, color: '#fff', fontSize: 13, fontWeight: 700,
             padding: '12px 22px', borderRadius: 10, textDecoration: 'none', letterSpacing: '-0.01em',
           }}>
-            Ver demo en vivo →
+            {t.btn} →
           </a>
         </div>
       </div>
@@ -299,13 +431,14 @@ function SlideMercury({ theme }) {
   );
 }
 
-function SlideWhy({ theme }) {
+function SlideWhy({ theme, lang }) {
+  const t = CONTENT[lang].why;
   return (
     <div style={{ height: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
-      <Eyebrow theme={theme} center>Diferencial</Eyebrow>
-      <Title theme={theme} size={38} center>No es solo abrir una LLC online.</Title>
+      <Eyebrow theme={theme} center>{t.eyebrow}</Eyebrow>
+      <Title theme={theme} size={38} center>{t.title}</Title>
       <div style={{ display: 'flex', flexDirection: 'column', gap: 12, marginTop: 8, maxWidth: 720, width: '100%' }}>
-        {WHY.map(w => (
+        {t.items.map(w => (
           <div key={w} style={{
             display: 'flex', alignItems: 'center', gap: 16,
             background: C.bg, border: `1.5px solid ${C.border}`, borderRadius: 14,
@@ -322,7 +455,8 @@ function SlideWhy({ theme }) {
   );
 }
 
-function SlideClosing({ theme }) {
+function SlideClosing({ theme, lang }) {
+  const t = CONTENT[lang].closing;
   return (
     <div style={{ position: 'relative', height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
       <div style={{ position: 'fixed', inset: 0, zIndex: 0 }}>
@@ -331,17 +465,17 @@ function SlideClosing({ theme }) {
         <div style={{ position: 'absolute', inset: 0, background: 'rgba(46,49,53,0.9)' }} />
       </div>
       <div style={{ position: 'relative', zIndex: 1 }}>
-        <Eyebrow theme={theme} center>Lo que dicen nuestros clientes</Eyebrow>
+        <Eyebrow theme={theme} center>{t.testimonialsLabel}</Eyebrow>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 18, marginTop: 6, marginBottom: 44 }}>
-          {TESTIMONIALS.map(t => (
-            <div key={t.author} style={{
+          {t.testimonials.map(item => (
+            <div key={item.author} style={{
               display: 'flex', flexDirection: 'column',
               background: C.bg, borderTop: `4px solid ${C.orange}`, borderRadius: 12,
               padding: '26px 22px', boxShadow: '0 10px 30px rgba(0,0,0,0.4)',
             }}>
               <div style={{ fontSize: 14, color: C.orange, marginBottom: 12, letterSpacing: 2 }}>★★★★★</div>
-              <div style={{ fontSize: 14.5, lineHeight: 1.6, color: C.ink, fontWeight: 500, marginBottom: 18, flex: 1 }}>"{t.text}"</div>
-              <div style={{ fontSize: 12, fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.06em', color: C.muted }}>{t.author} · {t.tag}</div>
+              <div style={{ fontSize: 14.5, lineHeight: 1.6, color: C.ink, fontWeight: 500, marginBottom: 18, flex: 1 }}>"{item.text}"</div>
+              <div style={{ fontSize: 12, fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.06em', color: C.muted }}>{item.author} · {item.tag}</div>
             </div>
           ))}
         </div>
@@ -350,7 +484,7 @@ function SlideClosing({ theme }) {
             Firmaway<span style={{ color: C.orange }}>.</span>
           </div>
           <div style={{ fontSize: 17, color: 'rgba(255,255,255,0.75)', maxWidth: 460, margin: '0 auto', lineHeight: 1.5 }}>
-            Tu empresa en Estados Unidos.
+            {t.tagline}
           </div>
         </div>
       </div>
@@ -372,6 +506,7 @@ const SLIDES = [
 export default function Pitch() {
   const router = useRouter();
   const [index, setIndex] = useState(0);
+  const [lang, setLang] = useState('es');
   const total = SLIDES.length;
 
   const goTo = useCallback((i) => {
@@ -391,16 +526,35 @@ export default function Pitch() {
   const slide = SLIDES[index];
   const theme = BG[slide.theme];
   const Content = slide.Component;
+  const navSalir = CONTENT[lang].nav.salir;
 
   return (
     <div style={{ height: '100vh', width: '100vw', background: theme.bg, position: 'relative', overflow: 'hidden', fontFamily: '"Inter", system-ui, sans-serif', transition: 'background 0.3s ease' }}>
       {/* Header */}
       <div style={{ position: 'absolute', top: 0, left: 0, right: 0, display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '22px 40px', zIndex: 10 }}>
         <button onClick={() => router.push('/generate')} style={{ background: 'transparent', border: 'none', color: theme.muted, fontSize: 13, cursor: 'pointer', fontWeight: 600 }}>
-          ✕ Salir
+          {navSalir}
         </button>
-        <div style={{ fontSize: 12, fontWeight: 700, color: theme.muted, letterSpacing: '0.05em' }}>
-          {String(index + 1).padStart(2, '0')} / {String(total).padStart(2, '0')}
+        <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
+          <div style={{ display: 'flex', gap: 4, background: 'rgba(128,128,128,0.15)', borderRadius: 8, padding: 3 }}>
+            {[{ value: 'es', label: '🇦🇷 ES' }, { value: 'pt', label: '🇧🇷 PT' }].map(opt => (
+              <button
+                key={opt.value}
+                onClick={() => setLang(opt.value)}
+                style={{
+                  padding: '5px 10px', borderRadius: 6, border: 'none', cursor: 'pointer',
+                  fontSize: 11.5, fontWeight: 700,
+                  background: lang === opt.value ? C.orange : 'transparent',
+                  color: lang === opt.value ? '#fff' : theme.muted,
+                }}
+              >
+                {opt.label}
+              </button>
+            ))}
+          </div>
+          <div style={{ fontSize: 12, fontWeight: 700, color: theme.muted, letterSpacing: '0.05em' }}>
+            {String(index + 1).padStart(2, '0')} / {String(total).padStart(2, '0')}
+          </div>
         </div>
       </div>
 
@@ -409,8 +563,8 @@ export default function Pitch() {
       <div onClick={() => goTo(index + 1)} style={{ position: 'absolute', top: 0, right: 0, width: '20%', height: '100%', cursor: index < total - 1 ? 'pointer' : 'default', zIndex: 5 }} />
 
       {/* Contenido del slide */}
-      <div key={slide.key} style={{ height: '100%', padding: '80px 90px 90px', animation: 'pitchFadeIn 0.4s ease' }}>
-        <Content theme={theme} />
+      <div key={`${slide.key}-${lang}`} style={{ height: '100%', padding: '80px 90px 90px', animation: 'pitchFadeIn 0.4s ease' }}>
+        <Content theme={theme} lang={lang} />
       </div>
 
       {/* Flechas */}

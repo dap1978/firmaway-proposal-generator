@@ -20,11 +20,182 @@ function mercuryImageDataUri() {
 }
 
 // Textos fijos de la propuesta whitelabel (mismo template para todos los socios).
-// Lo único que se personaliza es nombre, logo y precio.
+// Lo único que se personaliza es nombre, logo y precio. Disponible en ES y PT.
 const WL_DEFAULTS = {
-  cuerpo_cap01: 'Firmaway te permite ofrecer la formación de LLCs en EE.UU. bajo tu propia marca, sin que tengas que aprender el proceso legal ni montar un equipo. Vos ponés tu logo, tu precio y tu relación con el cliente; nosotros procesamos cada caso de principio a fin: constitución, EIN, cuenta bancaria y soporte. Así sumás un nuevo servicio a tu negocio y cobrás tu margen en cada operación.',
-  quote_texto: 'Tu marca al frente. Nuestro equipo detrás de cada caso.',
-  quote_autor: 'Programa Whitelabel de Firmaway',
+  es: {
+    cuerpo_cap01: 'Firmaway te permite ofrecer la formación de LLCs en EE.UU. bajo tu propia marca, sin que tengas que aprender el proceso legal ni montar un equipo. Vos ponés tu logo, tu precio y tu relación con el cliente; nosotros procesamos cada caso de principio a fin: constitución, EIN, cuenta bancaria y soporte. Así sumás un nuevo servicio a tu negocio y cobrás tu margen en cada operación.',
+    quote_texto: 'Tu marca al frente. Nuestro equipo detrás de cada caso.',
+    quote_autor: 'Programa Whitelabel de Firmaway',
+  },
+  pt: {
+    cuerpo_cap01: 'A Firmaway permite que você ofereça a formação de LLCs nos EUA com a sua própria marca, sem precisar aprender o processo legal nem montar uma equipe. Você define seu logo, seu preço e sua relação com o cliente; nós processamos cada caso do início ao fim: constituição, EIN, conta bancária e suporte. Assim você soma um novo serviço ao seu negócio e fica com a margem em cada operação.',
+    quote_texto: 'Sua marca na frente. Nossa equipe por trás de cada caso.',
+    quote_autor: 'Programa Whitelabel da Firmaway',
+  },
+};
+
+// Todo el texto fijo de la propuesta whitelabel, en ES y PT.
+const WL_I18N = {
+  es: {
+    bannerText: 'Propuesta personalizada para',
+    headline: 'Tu marca. Tu precio.<br><em>Nuestro proceso.</em>',
+    subtitle: 'Forma LLCs en EE.UU. bajo tu propia marca y con tus propios precios. Nosotros procesamos, tú cobras el margen.',
+    kpi1Label: 'Costo por caso', kpi1Note: 'por cada LLC que contratás a Firmaway',
+    kpi2Label: 'Mensualidad', kpi2Note: 'sin cuotas ni setup fee',
+    kpi3Label: 'LLC formada en', kpi3Value: '~10 días*', kpi3Note: 'días hábiles',
+    kpi4Label: 'Account manager', kpi4Value: 'Dedicado', kpi4Note: 'atención humana',
+    footnoteIrs: '* Los plazos dependen del IRS y factores externos. Firmaway inicia el proceso de inmediato.',
+    preparadaPor: 'Preparada por',
+    fechaLabel: 'Fecha',
+
+    cap01Label: 'El modelo',
+    cap01Title: 'Un negocio completo<br>listo para operar.',
+    benefit1: 'Plataforma whitelabel personalizada con tu logo, colores y dominio en todos los formularios y paneles.',
+    benefit2: 'Account manager dedicado con atención humana. Un punto de contacto directo para resolver cualquier caso.',
+    benefit3: 'Plazos expeditivos: LLC formada en aproximadamente 10 días hábiles. Los tiempos dependen del IRS y factores externos, pero Firmaway inicia el proceso de inmediato.',
+    benefit4: 'Panel de gestión propio para seguir cada caso desde la apertura hasta la entrega de credenciales bancarias.',
+    benefit5: 'Formulario público branded para que tus clientes completen sus datos bajo tu identidad visual.',
+    benefit6: 'Apertura de cuenta bancaria con Mercury, Relay y más bancos incluidos en el flujo.',
+    benefit7: 'Sin mensualidades ni setup fee. Pagás únicamente por cada caso completado.',
+
+    cap02Label: 'Recorrido de plataforma',
+    cap02Title: 'Una plataforma diseñada<br>para que tú brilles.',
+    p1Title: 'Dashboard del socio', p1Desc: 'Tu centro de control para gestionar todos los casos.',
+    p1Item1: 'Tabla de casos con filtros por estado', p1Item2: 'Links públicos para compartir con clientes', p1Item3: 'Personalización de marca y colores',
+    p2Title: 'Formulario público branded', p2Desc: 'Tus clientes cargan sus datos bajo tu identidad.',
+    p2Item1: 'Multi-paso para LLC y cuenta bancaria', p2Item2: 'Subida de documentos integrada', p2Item3: 'Optimizado para celular',
+    p3Title: 'Panel de seguimiento', p3Desc: 'Cada caso, monitoreado de principio a fin.',
+    p3Item1: '11 estados de avance del trámite', p3Item2: 'Notificaciones por email automáticas', p3Item3: 'Notas internas e historial completo',
+    p4Title: 'Entrega de credenciales', p4Desc: 'El cierre del proceso, prolijo y trazable.',
+    p4Item1: 'Email branded con acceso bancario', p4Item2: 'Usuario y contraseña de la cuenta', p4Item3: 'Historial guardado y accesible',
+    demoBoxText: '¿Quieres verla en acción? Agenda una llamada de 20 minutos. Escríbenos a <strong>ivana@firmaway.us</strong> o <strong>daniel@firmaway.us</strong>.',
+
+    cap03Label: 'Todo incluido',
+    cap03Title: 'Todo incluido en<br>un solo pago por caso.',
+    inc1Title: 'Constitución de LLC', inc1Desc: 'Registro oficial en el estado elegido (Delaware, Wyoming, New Mexico u otros).',
+    inc2Title: 'Documentación completa', inc2Desc: 'EIN, Agente Registrado, Artículos de Organización y Acuerdo Operativo. Todo gestionado ante el IRS y el estado correspondiente.',
+    inc3Title: 'Apertura bancaria', inc3Desc: 'Mercury, Relay u otros bancos según el caso.',
+    inc4Title: 'Plataforma whitelabel', inc4Desc: 'Acceso al panel con tu marca. Sin costo adicional, sin límite de casos por mes.',
+    inc5Title: 'Account manager dedicado', inc5Desc: 'Contacto humano para resolver dudas y agilizar trámites.',
+    inc6Title: 'Un solo pago por caso', inc6Desc: 'Sin mensualidades. Sin setup fee. Sin comisiones ocultas.',
+    audienceTitle: '¿Para quién es este modelo?',
+    aud1: 'Contadores, abogados y asesores de negocios internacionales',
+    aud2: 'Agencias de servicios para emprendedores latinoamericanos',
+    aud3: 'Consultoras de expansión y presencia en EE.UU.',
+    aud4: 'Profesionales que ya tienen clientes que necesitan una LLC',
+
+    mercuryChip: 'Banca', mercurySub: 'La cuenta de tus clientes',
+    mercuryTitle: 'Tus clientes bancarizan<br>con Mercury.',
+    mercuryCaption: 'Vista del entorno de demostración de Mercury. Los montos son de ejemplo.',
+    mercuryBody: 'Cada cliente que forma su LLC a través de tu plataforma abre también su cuenta en Mercury, el banco elegido por startups y empresas remotas en todo el mundo. Vos ofrecés el servicio completo, de punta a punta.',
+    mercuryF1: 'Tarjeta de débito Visa física y virtual.',
+    mercuryF2: 'Transferencias ACH y SWIFT para operar globalmente.',
+    mercuryF3: 'Apertura 100% remota, sin viajar a Estados Unidos.',
+    mercuryBtn: 'Ver demo en vivo',
+
+    demoCap: 'Cap. 04', demoSub: 'Demo en vivo',
+    demoTitle: 'Probá la plataforma<br>con tus propios ojos.',
+    demoIntro: 'Preparamos un acceso de demostración a nombre de <strong>{{CLIENT_NAME}}</strong>. Entrá y recorré la plataforma como si ya fuera tuya, sin instalar nada.',
+    demoAccessLabel: 'Tu acceso de demostración',
+    demoUsuario: 'Usuario', demoContrasena: 'Contraseña',
+    demoSeeTitle: 'Qué vas a ver adentro',
+    demoSee1: '<strong>Dashboard con 5 casos de ejemplo</strong> en distintos estados del trámite.',
+    demoSee2: '<strong>Formulario LLC + Banco funcional.</strong> El primer paso es interactivo; luego verás un aviso de versión demo.',
+    demoSee3: '<strong>Panel de personalización de marca</strong> con tu logo y colores.',
+    demoSee4: '<strong>Link público de cliente</strong> para compartir tu formulario branded.',
+    demoDisclaimer: 'Es un entorno de demostración: los datos no generan trámites reales y se resetean automáticamente para cada visitante. Explorá con total libertad.',
+
+    darkChip: 'Por qué Firmaway',
+    darkTitle: 'Más de 2.000 empresas<br>ya operan con nosotros.',
+    stat1Label: 'LLCs formadas', stat2Label: 'Días hábiles para tu LLC*', stat3Label: 'Costo de entrada', stat4Label: 'Atención humana',
+    test1: 'Empecé a ofrecer LLCs a mis clientes sin tener que aprender todo el proceso legal. Firmaway lo maneja y yo cobro el margen.',
+    test1Author: 'Sofía R. · Contadora · México',
+    test2: 'La plataforma es muy sencilla. Mis clientes completan el formulario con mi logo y yo sigo el avance en tiempo real sin hacer nada manual.',
+    test2Author: 'Andrés M. · Consultor · Colombia',
+    ctaTitle: 'Escríbele a {{COMERCIAL_APODO}} y te ayudará.',
+    ctaSubtitle: 'Resolvemos tus dudas y activamos tu marca.',
+    ctaButton: 'Escribir a',
+  },
+  pt: {
+    bannerText: 'Proposta personalizada para',
+    headline: 'Sua marca. Seu preço.<br><em>Nosso processo.</em>',
+    subtitle: 'Forme LLCs nos EUA com sua própria marca e seus próprios preços. Nós processamos, você fica com a margem.',
+    kpi1Label: 'Custo por caso', kpi1Note: 'por cada LLC contratada com a Firmaway',
+    kpi2Label: 'Mensalidade', kpi2Note: 'sem taxas nem setup fee',
+    kpi3Label: 'LLC formada em', kpi3Value: '~10 dias*', kpi3Note: 'dias úteis',
+    kpi4Label: 'Account manager', kpi4Value: 'Dedicado', kpi4Note: 'atendimento humano',
+    footnoteIrs: '* Os prazos dependem do IRS e de fatores externos. A Firmaway inicia o processo imediatamente.',
+    preparadaPor: 'Preparada por',
+    fechaLabel: 'Data',
+
+    cap01Label: 'O modelo',
+    cap01Title: 'Um negócio completo<br>pronto para operar.',
+    benefit1: 'Plataforma whitelabel personalizada com seu logo, cores e domínio em todos os formulários e painéis.',
+    benefit2: 'Account manager dedicado com atendimento humano. Um ponto de contato direto para resolver qualquer caso.',
+    benefit3: 'Prazos rápidos: LLC formada em aproximadamente 10 dias úteis. Os prazos dependem do IRS e de fatores externos, mas a Firmaway inicia o processo imediatamente.',
+    benefit4: 'Painel de gestão próprio para acompanhar cada caso desde a abertura até a entrega das credenciais bancárias.',
+    benefit5: 'Formulário público personalizado para que seus clientes preencham os dados com a sua identidade visual.',
+    benefit6: 'Abertura de conta bancária com Mercury, Relay e outros bancos incluídos no fluxo.',
+    benefit7: 'Sem mensalidades nem setup fee. Você paga apenas por cada caso concluído.',
+
+    cap02Label: 'Percurso da plataforma',
+    cap02Title: 'Uma plataforma feita<br>para você brilhar.',
+    p1Title: 'Painel do parceiro', p1Desc: 'Seu centro de controle para gerenciar todos os casos.',
+    p1Item1: 'Tabela de casos com filtros por status', p1Item2: 'Links públicos para compartilhar com clientes', p1Item3: 'Personalização de marca e cores',
+    p2Title: 'Formulário público personalizado', p2Desc: 'Seus clientes preenchem os dados com a sua identidade.',
+    p2Item1: 'Multi-etapas para LLC e conta bancária', p2Item2: 'Envio de documentos integrado', p2Item3: 'Otimizado para celular',
+    p3Title: 'Painel de acompanhamento', p3Desc: 'Cada caso, monitorado do início ao fim.',
+    p3Item1: '11 status de andamento do processo', p3Item2: 'Notificações por email automáticas', p3Item3: 'Notas internas e histórico completo',
+    p4Title: 'Entrega de credenciais', p4Desc: 'O fechamento do processo, organizado e rastreável.',
+    p4Item1: 'Email personalizado com acesso bancário', p4Item2: 'Usuário e senha da conta', p4Item3: 'Histórico salvo e acessível',
+    demoBoxText: 'Quer ver na prática? Agende uma chamada de 20 minutos. Escreva para <strong>ivana@firmaway.us</strong> ou <strong>daniel@firmaway.us</strong>.',
+
+    cap03Label: 'Tudo incluído',
+    cap03Title: 'Tudo incluído em<br>um único pagamento por caso.',
+    inc1Title: 'Constituição da LLC', inc1Desc: 'Registro oficial no estado escolhido (Delaware, Wyoming, New Mexico ou outros).',
+    inc2Title: 'Documentação completa', inc2Desc: 'EIN, Registered Agent, Artigos de Organização e Operating Agreement. Tudo gerenciado junto ao IRS e ao estado correspondente.',
+    inc3Title: 'Abertura bancária', inc3Desc: 'Mercury, Relay ou outros bancos conforme o caso.',
+    inc4Title: 'Plataforma whitelabel', inc4Desc: 'Acesso ao painel com sua marca. Sem custo adicional, sem limite de casos por mês.',
+    inc5Title: 'Account manager dedicado', inc5Desc: 'Contato humano para resolver dúvidas e agilizar processos.',
+    inc6Title: 'Um único pagamento por caso', inc6Desc: 'Sem mensalidades. Sem setup fee. Sem comissões ocultas.',
+    audienceTitle: 'Para quem é esse modelo?',
+    aud1: 'Contadores, advogados e consultores de negócios internacionais',
+    aud2: 'Agências de serviços para empreendedores latino-americanos',
+    aud3: 'Consultorias de expansão e presença nos EUA',
+    aud4: 'Profissionais que já têm clientes que precisam de uma LLC',
+
+    mercuryChip: 'Banco', mercurySub: 'A conta dos seus clientes',
+    mercuryTitle: 'Seus clientes bancarizam<br>com a Mercury.',
+    mercuryCaption: 'Visão do ambiente de demonstração da Mercury. Os valores são de exemplo.',
+    mercuryBody: 'Cada cliente que forma sua LLC através da sua plataforma também abre sua conta na Mercury, o banco escolhido por startups e empresas remotas em todo o mundo. Você oferece o serviço completo, de ponta a ponta.',
+    mercuryF1: 'Cartão de débito Visa físico e virtual.',
+    mercuryF2: 'Transferências ACH e SWIFT para operar globalmente.',
+    mercuryF3: 'Abertura 100% remota, sem viajar aos Estados Unidos.',
+    mercuryBtn: 'Ver demo ao vivo',
+
+    demoCap: 'Cap. 04', demoSub: 'Demo ao vivo',
+    demoTitle: 'Experimente a plataforma<br>com seus próprios olhos.',
+    demoIntro: 'Preparamos um acesso de demonstração em nome de <strong>{{CLIENT_NAME}}</strong>. Entre e explore a plataforma como se já fosse sua, sem instalar nada.',
+    demoAccessLabel: 'Seu acesso de demonstração',
+    demoUsuario: 'Usuário', demoContrasena: 'Senha',
+    demoSeeTitle: 'O que você vai ver por dentro',
+    demoSee1: '<strong>Dashboard com 5 casos de exemplo</strong> em diferentes status do processo.',
+    demoSee2: '<strong>Formulário LLC + Banco funcional.</strong> A primeira etapa é interativa; depois você verá um aviso de versão demo.',
+    demoSee3: '<strong>Painel de personalização de marca</strong> com seu logo e cores.',
+    demoSee4: '<strong>Link público do cliente</strong> para compartilhar seu formulário personalizado.',
+    demoDisclaimer: 'É um ambiente de demonstração: os dados não geram processos reais e são resetados automaticamente para cada visitante. Explore com total liberdade.',
+
+    darkChip: 'Por que a Firmaway',
+    darkTitle: 'Mais de 2.000 empresas<br>já operam conosco.',
+    stat1Label: 'LLCs formadas', stat2Label: 'Dias úteis para sua LLC*', stat3Label: 'Custo de entrada', stat4Label: 'Atendimento humano',
+    test1: 'Comecei a oferecer LLCs para meus clientes sem precisar aprender todo o processo legal. A Firmaway cuida de tudo e eu fico com a margem.',
+    test1Author: 'Sofía R. · Contadora · México',
+    test2: 'A plataforma é muito simples. Meus clientes preenchem o formulário com meu logo e eu acompanho o andamento em tempo real sem fazer nada manualmente.',
+    test2Author: 'Andrés M. · Consultor · Colômbia',
+    ctaTitle: 'Escreva para {{COMERCIAL_APODO}}. Vamos te ajudar.',
+    ctaSubtitle: 'Resolvemos suas dúvidas e ativamos sua marca.',
+    ctaButton: 'Escrever para',
+  },
 };
 
 // ── Constantes de estados ──────────────────────────────────────────────────
@@ -449,9 +620,16 @@ function whitelabelContact(commercialName) {
 // ── Render propuesta Whitelabel ────────────────────────────────────────────
 function renderTemplateWhitelabel(data) {
   const final = data.final_data || data.generated_data || {};
+  const lang  = data.language === 'pt' ? 'pt' : 'es';
+  const t     = WL_I18N[lang];
+  const wl    = WL_DEFAULTS[lang];
 
   const now = new Date();
-  const months = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+  const monthsByLang = {
+    es: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+    pt: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'],
+  };
+  const months = monthsByLang[lang];
   const fechaMes = `${months[now.getMonth()]} ${now.getFullYear()}`;
 
   const clientName = final.client_name || data.lead_name || 'tu empresa';
@@ -462,9 +640,13 @@ function renderTemplateWhitelabel(data) {
   const expires = data.expires_at
     ? new Date(data.expires_at)
     : (created ? new Date(created.getTime() + 15 * 24 * 60 * 60 * 1000) : null);
-  const validez = expires
-    ? `Propuesta válida por 15 días — hasta el ${expires.getDate()} de ${months[expires.getMonth()].toLowerCase()} de ${expires.getFullYear()}.`
-    : 'Propuesta válida por 15 días desde su emisión.';
+  const validez = lang === 'pt'
+    ? (expires
+        ? `Proposta válida por 15 dias, até ${expires.getDate()} de ${months[expires.getMonth()].toLowerCase()} de ${expires.getFullYear()}.`
+        : 'Proposta válida por 15 dias a partir da emissão.')
+    : (expires
+        ? `Propuesta válida por 15 días, hasta el ${expires.getDate()} de ${months[expires.getMonth()].toLowerCase()} de ${expires.getFullYear()}.`
+        : 'Propuesta válida por 15 días desde su emisión.');
 
   // Precio libre (399–500 aprox). Puede venir null hasta que el vendedor lo cargue.
   const rawPrice = data.case_price ?? final.case_price ?? null;
@@ -484,16 +666,22 @@ function renderTemplateWhitelabel(data) {
   const demoLink        = demoRef ? `${demoBase}?ref=${encodeURIComponent(demoRef)}` : demoBase;
   const demoLinkDisplay = demoRef ? `${demoBase}?ref=${demoRef}` : demoBase;
 
+  // t.demoIntro y t.ctaTitle traen un placeholder anidado (CLIENT_NAME / COMERCIAL_APODO).
+  // El reemplazo general es de una sola pasada por clave, así que hay que resolverlo acá
+  // antes de que esas claves ya hayan sido "gastadas" en el barrido principal.
+  const demoIntroFilled = t.demoIntro.split('{{CLIENT_NAME}}').join(clientName);
+  const ctaTitleFilled  = t.ctaTitle.split('{{COMERCIAL_APODO}}').join(contact.apodo);
+
   const vars = {
-    LANG: 'es',
+    LANG: lang,
     PROPUESTA_ID: data.proposal_number || 'FW-2026-0001',
-    EYEBROW: `Propuesta whitelabel · ${fechaMes}`,
+    EYEBROW: `${lang === 'pt' ? 'Proposta whitelabel' : 'Propuesta whitelabel'} · ${fechaMes}`,
     CLIENT_NAME: clientName,
     CLIENT_LOGO: clientLogo,
     PRECIO_CASO: precio,
-    CUERPO_CAP01: final.cuerpo_cap01 || data.cuerpo_cap01 || WL_DEFAULTS.cuerpo_cap01,
-    QUOTE_TEXTO: final.quote_texto || WL_DEFAULTS.quote_texto,
-    QUOTE_AUTOR: final.quote_autor || WL_DEFAULTS.quote_autor,
+    CUERPO_CAP01: final.cuerpo_cap01 || data.cuerpo_cap01 || wl.cuerpo_cap01,
+    QUOTE_TEXTO: final.quote_texto || wl.quote_texto,
+    QUOTE_AUTOR: final.quote_autor || wl.quote_autor,
     COMERCIAL_NOMBRE: data.commercial_name || 'Daniel',
     COMERCIAL_APODO: contact.apodo,
     CONTACT_EMAIL: contact.email,
@@ -502,6 +690,66 @@ function renderTemplateWhitelabel(data) {
     VALIDEZ: validez,
     MERCURY_IMG: mercuryImageDataUri(),
     FECHA_MES: fechaMes,
+
+    WL_BANNER_TEXT: t.bannerText,
+    WL_HEADLINE: t.headline,
+    WL_SUBTITLE: t.subtitle,
+    WL_KPI1_LABEL: t.kpi1Label, WL_KPI1_NOTE: t.kpi1Note,
+    WL_KPI2_LABEL: t.kpi2Label, WL_KPI2_NOTE: t.kpi2Note,
+    WL_KPI3_LABEL: t.kpi3Label, WL_KPI3_VALUE: t.kpi3Value, WL_KPI3_NOTE: t.kpi3Note,
+    WL_KPI4_LABEL: t.kpi4Label, WL_KPI4_VALUE: t.kpi4Value, WL_KPI4_NOTE: t.kpi4Note,
+    WL_FOOTNOTE_IRS: t.footnoteIrs,
+    WL_PREPARADA_POR: t.preparadaPor,
+    WL_FECHA_LABEL: t.fechaLabel,
+
+    WL_CAP01_LABEL: t.cap01Label,
+    WL_CAP01_TITLE: t.cap01Title,
+    WL_BENEFIT1: t.benefit1, WL_BENEFIT2: t.benefit2, WL_BENEFIT3: t.benefit3, WL_BENEFIT4: t.benefit4,
+    WL_BENEFIT5: t.benefit5, WL_BENEFIT6: t.benefit6, WL_BENEFIT7: t.benefit7,
+
+    WL_CAP02_LABEL: t.cap02Label,
+    WL_CAP02_TITLE: t.cap02Title,
+    WL_P1_TITLE: t.p1Title, WL_P1_DESC: t.p1Desc, WL_P1_I1: t.p1Item1, WL_P1_I2: t.p1Item2, WL_P1_I3: t.p1Item3,
+    WL_P2_TITLE: t.p2Title, WL_P2_DESC: t.p2Desc, WL_P2_I1: t.p2Item1, WL_P2_I2: t.p2Item2, WL_P2_I3: t.p2Item3,
+    WL_P3_TITLE: t.p3Title, WL_P3_DESC: t.p3Desc, WL_P3_I1: t.p3Item1, WL_P3_I2: t.p3Item2, WL_P3_I3: t.p3Item3,
+    WL_P4_TITLE: t.p4Title, WL_P4_DESC: t.p4Desc, WL_P4_I1: t.p4Item1, WL_P4_I2: t.p4Item2, WL_P4_I3: t.p4Item3,
+    WL_DEMO_BOX_TEXT: t.demoBoxText,
+
+    WL_CAP03_LABEL: t.cap03Label,
+    WL_CAP03_TITLE: t.cap03Title,
+    WL_INC1_TITLE: t.inc1Title, WL_INC1_DESC: t.inc1Desc,
+    WL_INC2_TITLE: t.inc2Title, WL_INC2_DESC: t.inc2Desc,
+    WL_INC3_TITLE: t.inc3Title, WL_INC3_DESC: t.inc3Desc,
+    WL_INC4_TITLE: t.inc4Title, WL_INC4_DESC: t.inc4Desc,
+    WL_INC5_TITLE: t.inc5Title, WL_INC5_DESC: t.inc5Desc,
+    WL_INC6_TITLE: t.inc6Title, WL_INC6_DESC: t.inc6Desc,
+    WL_AUDIENCE_TITLE: t.audienceTitle,
+    WL_AUD1: t.aud1, WL_AUD2: t.aud2, WL_AUD3: t.aud3, WL_AUD4: t.aud4,
+
+    WL_MERCURY_CHIP: t.mercuryChip, WL_MERCURY_SUB: t.mercurySub,
+    WL_MERCURY_TITLE: t.mercuryTitle,
+    WL_MERCURY_CAPTION: t.mercuryCaption,
+    WL_MERCURY_BODY: t.mercuryBody,
+    WL_MERCURY_F1: t.mercuryF1, WL_MERCURY_F2: t.mercuryF2, WL_MERCURY_F3: t.mercuryF3,
+    WL_MERCURY_BTN: t.mercuryBtn,
+
+    WL_DEMO_CAP: t.demoCap, WL_DEMO_SUB: t.demoSub,
+    WL_DEMO_TITLE: t.demoTitle,
+    WL_DEMO_INTRO: demoIntroFilled,
+    WL_DEMO_ACCESS_LABEL: t.demoAccessLabel,
+    WL_DEMO_USUARIO: t.demoUsuario, WL_DEMO_CONTRASENA: t.demoContrasena,
+    WL_DEMO_SEE_TITLE: t.demoSeeTitle,
+    WL_DEMO_SEE1: t.demoSee1, WL_DEMO_SEE2: t.demoSee2, WL_DEMO_SEE3: t.demoSee3, WL_DEMO_SEE4: t.demoSee4,
+    WL_DEMO_DISCLAIMER: t.demoDisclaimer,
+
+    WL_DARK_CHIP: t.darkChip,
+    WL_DARK_TITLE: t.darkTitle,
+    WL_STAT1_LABEL: t.stat1Label, WL_STAT2_LABEL: t.stat2Label, WL_STAT3_LABEL: t.stat3Label, WL_STAT4_LABEL: t.stat4Label,
+    WL_TEST1: t.test1, WL_TEST1_AUTHOR: t.test1Author,
+    WL_TEST2: t.test2, WL_TEST2_AUTHOR: t.test2Author,
+    WL_CTA_TITLE: ctaTitleFilled,
+    WL_CTA_SUBTITLE: t.ctaSubtitle,
+    WL_CTA_BUTTON: t.ctaButton,
   };
 
   let html = fs.readFileSync(WHITELABEL_TEMPLATE_PATH, 'utf-8');

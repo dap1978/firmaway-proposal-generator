@@ -84,10 +84,15 @@ function wlContact(commercialName) {
   return { apodo: first, email: `${slug}@firmaway.us` };
 }
 
-function buildWhitelabelEmail(edits, commercialName, publicLink) {
+function buildWhitelabelEmail(edits, commercialName, publicLink, language) {
   const name     = edits.client_name || 'Hola';
   const contact  = wlContact(commercialName);
   const linkLine = publicLink ? `${publicLink}\n\n` : '';
+
+  if (language === 'pt') {
+    return `Olá ${name},\n\nObrigado pelo seu tempo. Como comentei, te envio a proposta do nosso programa whitelabel: você forma LLCs nos EUA com sua própria marca e seus próprios preços, e nós processamos todo o back-end.\n\nAqui você pode ver a proposta completa:\n\n${linkLine}Qualquer dúvida me escreva e agendamos uma chamada de 20 minutos para ver na prática.\n\n${contact.apodo} · Firmaway`;
+  }
+
   return `Hola ${name},\n\nGracias por tu tiempo. Como te comenté, te comparto la propuesta de nuestro programa whitelabel: formás LLCs en EE.UU. bajo tu propia marca y con tus propios precios, y nosotros procesamos todo el back-end.\n\nAcá podés ver la propuesta completa:\n\n${linkLine}Cualquier duda me escribís y coordinamos una llamada de 20 minutos para verla en acción.\n\n${contact.apodo} · Firmaway`;
 }
 
@@ -528,10 +533,10 @@ export default function Preview() {
             <div style={{ borderTop: `1px solid ${C.border}`, paddingTop: 16, marginTop: 4 }}>
               <div style={{ fontSize: 11, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.06em', color: C.muted, marginBottom: 6 }}>Email para el socio</div>
               <div style={{ background: C.warm, borderRadius: 10, padding: '12px 14px', fontSize: 13, lineHeight: '20px', color: C.ink, border: `1px solid ${C.border}`, whiteSpace: 'pre-wrap', maxHeight: 260, overflowY: 'auto' }}>
-                {buildWhitelabelEmail(edits, proposal.commercial_name, publicLink)}
+                {buildWhitelabelEmail(edits, proposal.commercial_name, publicLink, proposal.language)}
               </div>
               <div style={{ marginTop: 10 }}>
-                <CopyButton text={buildWhitelabelEmail(edits, proposal.commercial_name, publicLink)} label="Copiar email completo" />
+                <CopyButton text={buildWhitelabelEmail(edits, proposal.commercial_name, publicLink, proposal.language)} label="Copiar email completo" />
               </div>
             </div>
           </div>

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="{{LANG}}">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -211,43 +211,43 @@
     <div class="cover-body">
       <div class="client-banner">
         {{CLIENT_LOGO}}
-        <div class="client-banner-text">Propuesta personalizada para <strong>{{CLIENT_NAME}}</strong></div>
+        <div class="client-banner-text">{{WL_BANNER_TEXT}} <strong>{{CLIENT_NAME}}</strong></div>
       </div>
       <div class="cover-eyebrow">{{EYEBROW}}</div>
-      <div class="cover-headline">Tu marca. Tu precio.<br><em>Nuestro proceso.</em></div>
-      <div class="cover-subtitle">Forma LLCs en EE.UU. bajo tu propia marca y con tus propios precios. Nosotros procesamos, tú cobras el margen.</div>
+      <div class="cover-headline">{{WL_HEADLINE}}</div>
+      <div class="cover-subtitle">{{WL_SUBTITLE}}</div>
       <div class="cover-kpis">
         <div class="kpi-card">
-          <div class="kpi-label">Costo por caso</div>
+          <div class="kpi-label">{{WL_KPI1_LABEL}}</div>
           <div class="kpi-value accent">USD {{PRECIO_CASO}}</div>
-          <div class="kpi-note">por cada LLC que contratás a Firmaway</div>
+          <div class="kpi-note">{{WL_KPI1_NOTE}}</div>
         </div>
         <div class="kpi-card">
-          <div class="kpi-label">Mensualidad</div>
+          <div class="kpi-label">{{WL_KPI2_LABEL}}</div>
           <div class="kpi-value">$0</div>
-          <div class="kpi-note">sin cuotas ni setup fee</div>
+          <div class="kpi-note">{{WL_KPI2_NOTE}}</div>
         </div>
         <div class="kpi-card">
-          <div class="kpi-label">LLC formada en</div>
-          <div class="kpi-value">~10 días*</div>
-          <div class="kpi-note">días hábiles</div>
+          <div class="kpi-label">{{WL_KPI3_LABEL}}</div>
+          <div class="kpi-value">{{WL_KPI3_VALUE}}</div>
+          <div class="kpi-note">{{WL_KPI3_NOTE}}</div>
         </div>
         <div class="kpi-card">
-          <div class="kpi-label">Account manager</div>
-          <div class="kpi-value">Dedicado</div>
-          <div class="kpi-note">atención humana</div>
+          <div class="kpi-label">{{WL_KPI4_LABEL}}</div>
+          <div class="kpi-value">{{WL_KPI4_VALUE}}</div>
+          <div class="kpi-note">{{WL_KPI4_NOTE}}</div>
         </div>
       </div>
       <div class="cover-validez">🕒 {{VALIDEZ}}</div>
-      <div class="cover-footnote">* Los plazos dependen del IRS y factores externos. Firmaway inicia el proceso de inmediato.</div>
+      <div class="cover-footnote">{{WL_FOOTNOTE_IRS}}</div>
     </div>
     <div class="cover-footer" style="display:flex; justify-content:space-between; align-items:flex-end; margin-top:40px; padding-top:20px; border-top:1px solid rgba(49,53,61,0.1);">
       <div>
-        <div class="cover-footer-label" style="font-size:11px; font-weight:500; text-transform:uppercase; letter-spacing:0.06em; color:var(--ink-light);">Preparada por</div>
+        <div class="cover-footer-label" style="font-size:11px; font-weight:500; text-transform:uppercase; letter-spacing:0.06em; color:var(--ink-light);">{{WL_PREPARADA_POR}}</div>
         <div class="cover-footer-value" style="font-size:13px; font-weight:600; color:var(--ink); margin-top:2px;">{{COMERCIAL_NOMBRE}} · <strong>Firmaway</strong></div>
       </div>
       <div style="text-align:right;">
-        <div class="cover-footer-label" style="font-size:11px; font-weight:500; text-transform:uppercase; letter-spacing:0.06em; color:var(--ink-light);">Fecha</div>
+        <div class="cover-footer-label" style="font-size:11px; font-weight:500; text-transform:uppercase; letter-spacing:0.06em; color:var(--ink-light);">{{WL_FECHA_LABEL}}</div>
         <div class="cover-footer-value" style="font-size:13px; font-weight:600; color:var(--ink); margin-top:2px;">{{FECHA_MES}}</div>
       </div>
     </div>
@@ -263,22 +263,22 @@
   <div class="page-content">
     <div class="chapter-label">
       <span class="chip chip-dark">Cap. 01</span>
-      <span class="chapter-number">El modelo</span>
+      <span class="chapter-number">{{WL_CAP01_LABEL}}</span>
     </div>
-    <h2 class="chapter-title">Un negocio completo<br>listo para operar.</h2>
+    <h2 class="chapter-title">{{WL_CAP01_TITLE}}</h2>
     <p class="body-text">{{CUERPO_CAP01}}</p>
     <div class="quote-block">
       <div class="quote-text">"{{QUOTE_TEXTO}}"</div>
       <div class="quote-author">{{QUOTE_AUTOR}}</div>
     </div>
     <ul class="benefits-list">
-      <li><div class="check-icon"><svg viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="#F15A2F" stroke-width="2" stroke-linecap="round"/></svg></div><div>Plataforma whitelabel personalizada con tu logo, colores y dominio en todos los formularios y paneles.</div></li>
-      <li><div class="check-icon"><svg viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="#F15A2F" stroke-width="2" stroke-linecap="round"/></svg></div><div>Account manager dedicado con atención humana. Un punto de contacto directo para resolver cualquier caso.</div></li>
-      <li><div class="check-icon"><svg viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="#F15A2F" stroke-width="2" stroke-linecap="round"/></svg></div><div>Plazos expeditivos: LLC formada en aproximadamente 10 días hábiles. Los tiempos dependen del IRS y factores externos, pero Firmaway inicia el proceso de inmediato.</div></li>
-      <li><div class="check-icon"><svg viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="#F15A2F" stroke-width="2" stroke-linecap="round"/></svg></div><div>Panel de gestión propio para seguir cada caso desde la apertura hasta la entrega de credenciales bancarias.</div></li>
-      <li><div class="check-icon"><svg viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="#F15A2F" stroke-width="2" stroke-linecap="round"/></svg></div><div>Formulario público branded para que tus clientes completen sus datos bajo tu identidad visual.</div></li>
-      <li><div class="check-icon"><svg viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="#F15A2F" stroke-width="2" stroke-linecap="round"/></svg></div><div>Apertura de cuenta bancaria con Mercury, Relay y más bancos incluidos en el flujo.</div></li>
-      <li><div class="check-icon"><svg viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="#F15A2F" stroke-width="2" stroke-linecap="round"/></svg></div><div>Sin mensualidades ni setup fee. Pagás únicamente por cada caso completado.</div></li>
+      <li><div class="check-icon"><svg viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="#F15A2F" stroke-width="2" stroke-linecap="round"/></svg></div><div>{{WL_BENEFIT1}}</div></li>
+      <li><div class="check-icon"><svg viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="#F15A2F" stroke-width="2" stroke-linecap="round"/></svg></div><div>{{WL_BENEFIT2}}</div></li>
+      <li><div class="check-icon"><svg viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="#F15A2F" stroke-width="2" stroke-linecap="round"/></svg></div><div>{{WL_BENEFIT3}}</div></li>
+      <li><div class="check-icon"><svg viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="#F15A2F" stroke-width="2" stroke-linecap="round"/></svg></div><div>{{WL_BENEFIT4}}</div></li>
+      <li><div class="check-icon"><svg viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="#F15A2F" stroke-width="2" stroke-linecap="round"/></svg></div><div>{{WL_BENEFIT5}}</div></li>
+      <li><div class="check-icon"><svg viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="#F15A2F" stroke-width="2" stroke-linecap="round"/></svg></div><div>{{WL_BENEFIT6}}</div></li>
+      <li><div class="check-icon"><svg viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="#F15A2F" stroke-width="2" stroke-linecap="round"/></svg></div><div>{{WL_BENEFIT7}}</div></li>
     </ul>
   </div>
   <div class="page-footer">
@@ -296,49 +296,49 @@
   <div class="page-content">
     <div class="chapter-label">
       <span class="chip chip-dark">Cap. 02</span>
-      <span class="chapter-number">Recorrido de plataforma</span>
+      <span class="chapter-number">{{WL_CAP02_LABEL}}</span>
     </div>
-    <h2 class="chapter-title">Una plataforma diseñada<br>para que tú brilles.</h2>
+    <h2 class="chapter-title">{{WL_CAP02_TITLE}}</h2>
     <div class="platform-grid">
       <div class="platform-card">
-        <h3>Dashboard del socio</h3>
-        <p>Tu centro de control para gestionar todos los casos.</p>
+        <h3>{{WL_P1_TITLE}}</h3>
+        <p>{{WL_P1_DESC}}</p>
         <ul>
-          <li>Tabla de casos con filtros por estado</li>
-          <li>Links públicos para compartir con clientes</li>
-          <li>Personalización de marca y colores</li>
+          <li>{{WL_P1_I1}}</li>
+          <li>{{WL_P1_I2}}</li>
+          <li>{{WL_P1_I3}}</li>
         </ul>
       </div>
       <div class="platform-card">
-        <h3>Formulario público branded</h3>
-        <p>Tus clientes cargan sus datos bajo tu identidad.</p>
+        <h3>{{WL_P2_TITLE}}</h3>
+        <p>{{WL_P2_DESC}}</p>
         <ul>
-          <li>Multi-paso para LLC y cuenta bancaria</li>
-          <li>Subida de documentos integrada</li>
-          <li>Optimizado para celular</li>
+          <li>{{WL_P2_I1}}</li>
+          <li>{{WL_P2_I2}}</li>
+          <li>{{WL_P2_I3}}</li>
         </ul>
       </div>
       <div class="platform-card">
-        <h3>Panel de seguimiento</h3>
-        <p>Cada caso, monitoreado de principio a fin.</p>
+        <h3>{{WL_P3_TITLE}}</h3>
+        <p>{{WL_P3_DESC}}</p>
         <ul>
-          <li>11 estados de avance del trámite</li>
-          <li>Notificaciones por email automáticas</li>
-          <li>Notas internas e historial completo</li>
+          <li>{{WL_P3_I1}}</li>
+          <li>{{WL_P3_I2}}</li>
+          <li>{{WL_P3_I3}}</li>
         </ul>
       </div>
       <div class="platform-card">
-        <h3>Entrega de credenciales</h3>
-        <p>El cierre del proceso, prolijo y trazable.</p>
+        <h3>{{WL_P4_TITLE}}</h3>
+        <p>{{WL_P4_DESC}}</p>
         <ul>
-          <li>Email branded con acceso bancario</li>
-          <li>Usuario y contraseña de la cuenta</li>
-          <li>Historial guardado y accesible</li>
+          <li>{{WL_P4_I1}}</li>
+          <li>{{WL_P4_I2}}</li>
+          <li>{{WL_P4_I3}}</li>
         </ul>
       </div>
     </div>
     <div class="demo-box">
-      <p>¿Quieres verla en acción? Agenda una llamada de 20 minutos. Escríbenos a <strong>ivana@firmaway.us</strong> o <strong>daniel@firmaway.us</strong>.</p>
+      <p>{{WL_DEMO_BOX_TEXT}}</p>
     </div>
   </div>
   <div class="page-footer">
@@ -356,48 +356,48 @@
   <div class="page-content">
     <div class="chapter-label">
       <span class="chip chip-dark">Cap. 03</span>
-      <span class="chapter-number">Todo incluido</span>
+      <span class="chapter-number">{{WL_CAP03_LABEL}}</span>
     </div>
-    <h2 class="chapter-title">Todo incluido en<br>un solo pago por caso.</h2>
+    <h2 class="chapter-title">{{WL_CAP03_TITLE}}</h2>
     <div class="included-grid">
       <div class="included-card">
         <div class="included-num">01</div>
-        <h3>Constitución de LLC</h3>
-        <p>Registro oficial en el estado elegido (Delaware, Wyoming, New Mexico u otros).</p>
+        <h3>{{WL_INC1_TITLE}}</h3>
+        <p>{{WL_INC1_DESC}}</p>
       </div>
       <div class="included-card">
         <div class="included-num">02</div>
-        <h3>Documentación completa</h3>
-        <p>EIN, Agente Registrado, Artículos de Organización y Acuerdo Operativo. Todo gestionado ante el IRS y el estado correspondiente.</p>
+        <h3>{{WL_INC2_TITLE}}</h3>
+        <p>{{WL_INC2_DESC}}</p>
       </div>
       <div class="included-card">
         <div class="included-num">03</div>
-        <h3>Apertura bancaria</h3>
-        <p>Mercury, Relay u otros bancos según el caso.</p>
+        <h3>{{WL_INC3_TITLE}}</h3>
+        <p>{{WL_INC3_DESC}}</p>
       </div>
       <div class="included-card">
         <div class="included-num">04</div>
-        <h3>Plataforma whitelabel</h3>
-        <p>Acceso al panel con tu marca. Sin costo adicional, sin límite de casos por mes.</p>
+        <h3>{{WL_INC4_TITLE}}</h3>
+        <p>{{WL_INC4_DESC}}</p>
       </div>
       <div class="included-card">
         <div class="included-num">05</div>
-        <h3>Account manager dedicado</h3>
-        <p>Contacto humano para resolver dudas y agilizar trámites.</p>
+        <h3>{{WL_INC5_TITLE}}</h3>
+        <p>{{WL_INC5_DESC}}</p>
       </div>
       <div class="included-card card-orange">
         <div class="included-num">06</div>
-        <h3>Un solo pago por caso</h3>
-        <p>Sin mensualidades. Sin setup fee. Sin comisiones ocultas.</p>
+        <h3>{{WL_INC6_TITLE}}</h3>
+        <p>{{WL_INC6_DESC}}</p>
       </div>
     </div>
     <div class="audience-box">
-      <div class="audience-title">¿Para quién es este modelo?</div>
+      <div class="audience-title">{{WL_AUDIENCE_TITLE}}</div>
       <ul>
-        <li>Contadores, abogados y asesores de negocios internacionales</li>
-        <li>Agencias de servicios para emprendedores latinoamericanos</li>
-        <li>Consultoras de expansión y presencia en EE.UU.</li>
-        <li>Profesionales que ya tienen clientes que necesitan una LLC</li>
+        <li>{{WL_AUD1}}</li>
+        <li>{{WL_AUD2}}</li>
+        <li>{{WL_AUD3}}</li>
+        <li>{{WL_AUD4}}</li>
       </ul>
     </div>
   </div>
@@ -415,24 +415,24 @@
   </div>
   <div class="page-content">
     <div class="chapter-label">
-      <span class="chip chip-dark">Banca</span>
-      <span class="chapter-number">La cuenta de tus clientes</span>
+      <span class="chip chip-dark">{{WL_MERCURY_CHIP}}</span>
+      <span class="chapter-number">{{WL_MERCURY_SUB}}</span>
     </div>
-    <h2 class="chapter-title">Tus clientes bancarizan<br>con Mercury.</h2>
+    <h2 class="chapter-title">{{WL_MERCURY_TITLE}}</h2>
     <div class="mercury-grid">
       <div class="mercury-img-frame">
-        <img src="{{MERCURY_IMG}}" alt="Cuenta Mercury">
-        <div class="mercury-caption">Vista del entorno de demostración de Mercury. Los montos son de ejemplo.</div>
+        <img src="{{MERCURY_IMG}}" alt="Mercury">
+        <div class="mercury-caption">{{WL_MERCURY_CAPTION}}</div>
       </div>
       <div class="mercury-side">
-        <p>Cada cliente que forma su LLC a través de tu plataforma abre también su cuenta en Mercury, el banco elegido por startups y empresas remotas en todo el mundo. Vos ofrecés el servicio completo, de punta a punta.</p>
+        <p>{{WL_MERCURY_BODY}}</p>
         <ul class="mercury-features">
-          <li><div class="check-icon"><svg viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="#F15A2F" stroke-width="2" stroke-linecap="round"/></svg></div><div>Tarjeta de débito Visa física y virtual.</div></li>
-          <li><div class="check-icon"><svg viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="#F15A2F" stroke-width="2" stroke-linecap="round"/></svg></div><div>Transferencias ACH y SWIFT para operar globalmente.</div></li>
-          <li><div class="check-icon"><svg viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="#F15A2F" stroke-width="2" stroke-linecap="round"/></svg></div><div>Apertura 100% remota, sin viajar a Estados Unidos.</div></li>
+          <li><div class="check-icon"><svg viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="#F15A2F" stroke-width="2" stroke-linecap="round"/></svg></div><div>{{WL_MERCURY_F1}}</div></li>
+          <li><div class="check-icon"><svg viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="#F15A2F" stroke-width="2" stroke-linecap="round"/></svg></div><div>{{WL_MERCURY_F2}}</div></li>
+          <li><div class="check-icon"><svg viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="#F15A2F" stroke-width="2" stroke-linecap="round"/></svg></div><div>{{WL_MERCURY_F3}}</div></li>
         </ul>
         <a href="https://demo.mercury.com/dashboard" class="cta-button" target="_blank" rel="noopener noreferrer" style="display:inline-block; color:var(--white);">
-          Ver demo en vivo →
+          {{WL_MERCURY_BTN}} →
         </a>
       </div>
     </div>
@@ -451,37 +451,37 @@
   </div>
   <div class="page-content">
     <div class="chapter-label">
-      <span class="chip chip-dark">Cap. 04</span>
-      <span class="chapter-number">Demo en vivo</span>
+      <span class="chip chip-dark">{{WL_DEMO_CAP}}</span>
+      <span class="chapter-number">{{WL_DEMO_SUB}}</span>
     </div>
-    <h2 class="chapter-title">Probá la plataforma<br>con tus propios ojos.</h2>
-    <p class="demo-intro">Preparamos un acceso de demostración a nombre de <strong>{{CLIENT_NAME}}</strong>. Entrá y recorré la plataforma como si ya fuera tuya, sin instalar nada.</p>
+    <h2 class="chapter-title">{{WL_DEMO_TITLE}}</h2>
+    <p class="demo-intro">{{WL_DEMO_INTRO}}</p>
 
     <div class="demo-access-card">
-      <div class="demo-access-label">Tu acceso de demostración</div>
+      <div class="demo-access-label">{{WL_DEMO_ACCESS_LABEL}}</div>
       <a href="{{DEMO_LINK}}" class="demo-link">{{DEMO_LINK_DISPLAY}}</a>
       <div class="demo-creds">
         <div class="demo-cred">
-          <div class="demo-cred-label">Usuario</div>
+          <div class="demo-cred-label">{{WL_DEMO_USUARIO}}</div>
           <div class="demo-cred-value">demo@firmaway.us</div>
         </div>
         <div class="demo-cred">
-          <div class="demo-cred-label">Contraseña</div>
+          <div class="demo-cred-label">{{WL_DEMO_CONTRASENA}}</div>
           <div class="demo-cred-value">demo</div>
         </div>
       </div>
     </div>
 
-    <div class="demo-see-title">Qué vas a ver adentro</div>
+    <div class="demo-see-title">{{WL_DEMO_SEE_TITLE}}</div>
     <div class="demo-see-grid">
-      <div class="demo-see-item"><div class="n">1</div><div class="t"><strong>Dashboard con 5 casos de ejemplo</strong> en distintos estados del trámite.</div></div>
-      <div class="demo-see-item"><div class="n">2</div><div class="t"><strong>Formulario LLC + Banco funcional.</strong> El primer paso es interactivo; luego verás un aviso de versión demo.</div></div>
-      <div class="demo-see-item"><div class="n">3</div><div class="t"><strong>Panel de personalización de marca</strong> con tu logo y colores.</div></div>
-      <div class="demo-see-item"><div class="n">4</div><div class="t"><strong>Link público de cliente</strong> para compartir tu formulario branded.</div></div>
+      <div class="demo-see-item"><div class="n">1</div><div class="t">{{WL_DEMO_SEE1}}</div></div>
+      <div class="demo-see-item"><div class="n">2</div><div class="t">{{WL_DEMO_SEE2}}</div></div>
+      <div class="demo-see-item"><div class="n">3</div><div class="t">{{WL_DEMO_SEE3}}</div></div>
+      <div class="demo-see-item"><div class="n">4</div><div class="t">{{WL_DEMO_SEE4}}</div></div>
     </div>
 
     <div class="demo-disclaimer">
-      <p>Es un entorno de demostración: los datos no generan trámites reales y se resetean automáticamente para cada visitante. Explorá con total libertad.</p>
+      <p>{{WL_DEMO_DISCLAIMER}}</p>
     </div>
   </div>
   <div class="page-footer">
@@ -498,32 +498,32 @@
   </div>
   <div class="page-content">
     <div class="chapter-label">
-      <span class="chip">Por qué Firmaway</span>
+      <span class="chip">{{WL_DARK_CHIP}}</span>
     </div>
-    <h2 class="chapter-title">Más de 2.000 empresas<br>ya operan con nosotros.</h2>
+    <h2 class="chapter-title">{{WL_DARK_TITLE}}</h2>
     <div class="stats-row">
-      <div class="stat-item"><span class="stat-number">2.000+</span><span class="stat-label">LLCs formadas</span></div>
-      <div class="stat-item"><span class="stat-number">~10</span><span class="stat-label">Días hábiles para tu LLC*</span></div>
-      <div class="stat-item"><span class="stat-number">$0</span><span class="stat-label">Costo de entrada</span></div>
-      <div class="stat-item"><span class="stat-number">100%</span><span class="stat-label">Atención humana</span></div>
+      <div class="stat-item"><span class="stat-number">2.000+</span><span class="stat-label">{{WL_STAT1_LABEL}}</span></div>
+      <div class="stat-item"><span class="stat-number">~10</span><span class="stat-label">{{WL_STAT2_LABEL}}</span></div>
+      <div class="stat-item"><span class="stat-number">$0</span><span class="stat-label">{{WL_STAT3_LABEL}}</span></div>
+      <div class="stat-item"><span class="stat-number">100%</span><span class="stat-label">{{WL_STAT4_LABEL}}</span></div>
     </div>
-    <p class="dark-footnote">* Los plazos dependen del IRS y factores externos. Firmaway inicia el proceso de inmediato.</p>
+    <p class="dark-footnote">{{WL_FOOTNOTE_IRS}}</p>
     <div class="testimonials-grid">
       <div class="testimonial-card">
-        <div class="testimonial-text">"Empecé a ofrecer LLCs a mis clientes sin tener que aprender todo el proceso legal. Firmaway lo maneja y yo cobro el margen."</div>
-        <div class="testimonial-author">Sofía R. · Contadora · México</div>
+        <div class="testimonial-text">"{{WL_TEST1}}"</div>
+        <div class="testimonial-author">{{WL_TEST1_AUTHOR}}</div>
       </div>
       <div class="testimonial-card">
-        <div class="testimonial-text">"La plataforma es muy sencilla. Mis clientes completan el formulario con mi logo y yo sigo el avance en tiempo real sin hacer nada manual."</div>
-        <div class="testimonial-author">Andrés M. · Consultor · Colombia</div>
+        <div class="testimonial-text">"{{WL_TEST2}}"</div>
+        <div class="testimonial-author">{{WL_TEST2_AUTHOR}}</div>
       </div>
     </div>
     <div class="cta-box">
       <div>
-        <div class="cta-title">Escríbele a {{COMERCIAL_APODO}} y te ayudará.</div>
-        <div class="cta-subtitle">Resolvemos tus dudas y activamos tu marca.</div>
+        <div class="cta-title">{{WL_CTA_TITLE}}</div>
+        <div class="cta-subtitle">{{WL_CTA_SUBTITLE}}</div>
       </div>
-      <a href="mailto:{{CONTACT_EMAIL}}" class="cta-button">Escribir a {{COMERCIAL_APODO}} →</a>
+      <a href="mailto:{{CONTACT_EMAIL}}" class="cta-button">{{WL_CTA_BUTTON}} {{COMERCIAL_APODO}} →</a>
     </div>
     <div class="dark-emails">daniel@firmaway.us · ivana@firmaway.us</div>
   </div>

@@ -24,13 +24,15 @@ router.post('/generate', async (req, res) => {
     if (!clientName) {
       return res.status(400).json({ error: 'El nombre del socio es obligatorio.' });
     }
+    const wlLang = language === 'pt' ? 'pt' : 'es';
     try {
+      const wl = WL_DEFAULTS[wlLang];
       const aiData = {
         client_name: clientName,
         client_type: '',
-        cuerpo_cap01: WL_DEFAULTS.cuerpo_cap01,
-        quote_texto: WL_DEFAULTS.quote_texto,
-        quote_autor: WL_DEFAULTS.quote_autor,
+        cuerpo_cap01: wl.cuerpo_cap01,
+        quote_texto: wl.quote_texto,
+        quote_autor: wl.quote_autor,
       };
 
       const parsed = req.body.case_price != null && req.body.case_price !== ''
@@ -42,11 +44,12 @@ router.post('/generate', async (req, res) => {
         `INSERT INTO proposals
           (proposal_number, commercial_name, language, lead_name, lead_detail,
            proposal_type, case_price, transcript, generated_data, final_data)
-         VALUES ($1,$2,'es',$3,'','whitelabel',$4,'',$5,$5)
+         VALUES ($1,$2,$3,$4,'','whitelabel',$5,'',$6,$6)
          RETURNING *`,
         [
           proposalNumber,
           commercial_name || 'Daniel',
+          wlLang,
           clientName,
           casePrice,
           JSON.stringify(aiData),
