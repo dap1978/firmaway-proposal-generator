@@ -33,12 +33,16 @@ export default function Generate() {
     : transcript.trim().length >= 50;
 
   useEffect(() => {
+    if (!router.isReady) return;
     const saved = localStorage.getItem('fw_user');
     if (!saved) { router.replace('/'); return; }
+    const tool = router.query.tool;
+    if (tool !== 'llc' && tool !== 'whitelabel') { router.replace('/'); return; }
     const u = JSON.parse(saved);
     setUser(u);
     setLanguage(u.language || 'es');
-  }, []);
+    setProposalType(tool);
+  }, [router.isReady]);
 
   async function handleGenerate() {
     if (isWhitelabel && !clientName.trim()) {
@@ -101,8 +105,13 @@ export default function Generate() {
     <div style={{ background: C.warm, minHeight: '100vh' }}>
       {/* Navbar */}
       <nav style={nav}>
-        <div style={{ fontWeight: 700, fontSize: 17, letterSpacing: '-0.03em', color: '#fff' }}>
-          Firmaway<span style={{ color: C.orange }}>.</span>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+          <div style={{ fontWeight: 700, fontSize: 17, letterSpacing: '-0.03em', color: '#fff' }}>
+            Firmaway<span style={{ color: C.orange }}>.</span>
+          </div>
+          <button onClick={() => router.push('/')} style={{ background: 'transparent', border: 'none', color: 'rgba(255,255,255,0.5)', fontSize: 13, cursor: 'pointer' }}>
+            ← Inicio
+          </button>
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
           {user && (
@@ -136,38 +145,6 @@ export default function Generate() {
               ? 'Pegá la llamada con el posible socio y Claude arma la propuesta whitelabel.'
               : 'Pegá la transcripción de la llamada y Claude va a generar la propuesta completa.'}
           </p>
-        </div>
-
-        {/* Tipo de propuesta */}
-        <div style={{ marginBottom: 20 }}>
-          <label style={{ display: 'block', fontSize: 11, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.07em', color: C.muted, marginBottom: 8 }}>
-            Tipo de propuesta
-          </label>
-          <div style={{ display: 'flex', gap: 12 }}>
-            {[
-              { value: 'llc',        icon: '📄', title: 'Propuesta LLC',        sub: 'Para un cliente' },
-              { value: 'whitelabel', icon: '🤝', title: 'Propuesta Whitelabel', sub: 'Para un socio' },
-            ].map(opt => {
-              const active = proposalType === opt.value;
-              return (
-                <button
-                  key={opt.value}
-                  onClick={() => setProposalType(opt.value)}
-                  style={{
-                    flex: 1, textAlign: 'left', padding: '14px 18px', borderRadius: 12, cursor: 'pointer',
-                    background: active ? C.orangeSoft : C.bg,
-                    border: `1.5px solid ${active ? C.orange : C.border}`,
-                    boxShadow: active ? `4px 4px 0px 0px ${C.orange}` : `4px 4px 0px 0px ${C.border}`,
-                    transition: 'all 0.12s',
-                  }}
-                >
-                  <div style={{ fontSize: 20, marginBottom: 6 }}>{opt.icon}</div>
-                  <div style={{ fontSize: 15, fontWeight: 700, color: active ? C.orange : C.ink, letterSpacing: '-0.02em' }}>{opt.title}</div>
-                  <div style={{ fontSize: 12, color: C.muted, marginTop: 2 }}>{opt.sub}</div>
-                </button>
-              );
-            })}
-          </div>
         </div>
 
         {/* Card principal */}
