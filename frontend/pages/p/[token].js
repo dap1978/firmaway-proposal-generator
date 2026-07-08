@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import api from '../../api';
 
 const PROPOSAL_WIDTH  = 794;
-const PROPOSAL_HEIGHT = 4200;
+const PROPOSAL_HEIGHT = 5250;
 
 // Escala el iframe para que entre en pantalla en mobile
 function ScaledIframe({ src, title, contentHeight = PROPOSAL_HEIGHT }) {

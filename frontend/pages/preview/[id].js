@@ -751,7 +751,7 @@ export default function Preview() {
               key={previewKey}
               src={`${apiUrl}/proposals/${id}/preview`}
               style={{
-                width: 794, height: isWhitelabel ? 6912 : 4200, border: 'none',
+                width: 794, height: isWhitelabel ? 6912 : 5250, border: 'none',
                 boxShadow: '0 4px 24px rgba(0,0,0,0.15)',
                 borderRadius: 4, background: '#fff',
               }}

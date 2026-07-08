@@ -147,6 +147,12 @@
   .cta-title { font-size: 17px; font-weight: 700; color: var(--white); margin-bottom: 4px; }
   .cta-subtitle { font-size: 13px; color: rgba(255,255,255,0.6); }
   .cta-button { background: var(--orange); color: var(--white); font-size: 13px; font-weight: 700; padding: 12px 20px; border-radius: 10px; text-decoration: none; white-space: nowrap; letter-spacing: -0.01em; }
+  /* DISCLAIMER */
+  .disclaimer-scope { background: #F0F9FF; border: 1.5px solid #BAE6FD; border-radius: 12px; padding: 16px 20px; margin-bottom: 22px; }
+  .disclaimer-scope p { font-size: 12.5px; line-height: 1.55; color: #0369A1; font-weight: 600; margin: 0; }
+  .disclaimer-list { list-style: none; display: flex; flex-direction: column; gap: 14px; max-width: 620px; }
+  .disclaimer-list li { font-size: 12px; line-height: 1.6; color: var(--ink-light); }
+  .disclaimer-list li strong { color: var(--ink); font-weight: 700; }
 </style>
 </head>
 <body>
@@ -214,7 +220,7 @@
   </div>
   <div class="page-footer">
     <div class="footer-client">{{NOMBRE_CLIENTE}}</div>
-    <div class="footer-page">02 / 04</div>
+    <div class="footer-page">02 / 05</div>
   </div>
 </div>
 
@@ -242,7 +248,7 @@
   </div>
   <div class="page-footer">
     <div class="footer-client">{{NOMBRE_CLIENTE}}</div>
-    <div class="footer-page">03 / 04</div>
+    <div class="footer-page">03 / 05</div>
   </div>
 </div>
 
@@ -287,7 +293,37 @@
   </div>
   <div class="page-footer" style="border-top: 1px solid rgba(255,255,255,0.1);">
     <div class="footer-client" style="color:rgba(255,255,255,0.5);">{{NOMBRE_CLIENTE}}</div>
-    <div class="footer-page" style="color:rgba(255,255,255,0.5);">04 / 04</div>
+    <div class="footer-page" style="color:rgba(255,255,255,0.5);">04 / 05</div>
+  </div>
+</div>
+
+<!-- PÁGINA 5 — ALCANCE DEL SERVICIO -->
+<div class="page">
+  <div class="page-header">
+    <div class="logo">Firmaway<span>.</span></div>
+    <div class="page-meta">Propuesta {{PROPUESTA_ID}}</div>
+  </div>
+  <div class="page-content">
+    <div class="chapter-label">
+      <span class="chip chip-dark">Info</span>
+      <span class="chapter-number">Alcance del servicio</span>
+    </div>
+    <h2 class="chapter-title" style="font-size:24px;">Qué incluye y qué no<br>incluye nuestro servicio.</h2>
+
+    <div class="disclaimer-scope">
+      <p>Nuestro asesoramiento es exclusivamente sobre la formación y operación de LLCs en Estados Unidos. No brindamos asesoría contable, impositiva ni legal de Argentina ni de ningún otro país.</p>
+    </div>
+
+    <ul class="disclaimer-list">
+      <li><strong>Cuentas de inversión y brokers.</strong> No damos soporte ni orientación sobre cuentas de inversión ni brokers, ni planificación financiera o patrimonial.</li>
+      <li><strong>Tiempos y aprobaciones.</strong> Los plazos son estimados. La apertura bancaria y la reserva de nombre dependen del Estado y del banco, no de Firmaway.</li>
+      <li><strong>Gestión externa.</strong> No respondemos requerimientos de terceros ni formularios externos ajenos a tu trámite activo.</li>
+      <li><strong>Errores de datos.</strong> Las correcciones derivadas de información incorrecta provista por el cliente pueden generar costos adicionales.</li>
+    </ul>
+  </div>
+  <div class="page-footer">
+    <div class="footer-client">{{NOMBRE_CLIENTE}}</div>
+    <div class="footer-page">05 / 05</div>
   </div>
 </div>
 
