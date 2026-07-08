@@ -210,14 +210,11 @@ function SlideTimeline({ theme }) {
     <div style={{ height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
       <Eyebrow theme={theme}>Proceso</Eyebrow>
       <Title theme={theme} size={38}>De la firma a la cuenta bancaria en 15 días.</Title>
-      <div style={{ display: 'flex', gap: 0, marginTop: 20 }}>
+      <div style={{ display: 'flex', gap: 0, marginTop: 20, position: 'relative' }}>
         {TIMELINE.map((t, i) => (
           <div key={t.n} style={{ flex: 1, position: 'relative', paddingRight: i < TIMELINE.length - 1 ? 24 : 0 }}>
             {i < TIMELINE.length - 1 && (
-              <div style={{ position: 'absolute', top: 20, left: '50%', width: '100%', height: 2, background: theme.border, zIndex: 0, overflow: 'visible' }}>
-                <span className="flow-dot" style={{ animationDelay: '0s' }} />
-                <span className="flow-dot" style={{ animationDelay: '1.2s' }} />
-              </div>
+              <div style={{ position: 'absolute', top: 20, left: '50%', width: '100%', height: 2, background: theme.border, zIndex: 0 }} />
             )}
             <div style={{ position: 'relative', zIndex: 1, display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
               <div style={{ width: 40, height: 40, borderRadius: '50%', background: C.orange, display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 16 }}>
@@ -229,25 +226,35 @@ function SlideTimeline({ theme }) {
             </div>
           </div>
         ))}
+        {/* Recorrido único: nace en el paso 1 y viaja hasta el último paso */}
+        <div style={{
+          position: 'absolute', top: 20, zIndex: 2, pointerEvents: 'none',
+          left: `${(0.5 / TIMELINE.length) * 100}%`,
+          width: `${((TIMELINE.length - 1) / TIMELINE.length) * 100}%`,
+          height: 2,
+        }}>
+          <span className="flow-dot" style={{ animationDelay: '0s' }} />
+          <span className="flow-dot" style={{ animationDelay: '3s' }} />
+        </div>
       </div>
       <style jsx>{`
         .flow-dot {
           position: absolute;
           top: 50%;
           left: 0%;
-          width: 6px;
-          height: 6px;
-          margin-top: -3px;
+          width: 7px;
+          height: 7px;
+          margin-top: -3.5px;
           border-radius: 50%;
           background: #F15A2F;
-          box-shadow: 0 0 6px rgba(241,90,47,0.8);
+          box-shadow: 0 0 7px rgba(241,90,47,0.9);
           opacity: 0;
-          animation: pitchFlow 2.6s linear infinite;
+          animation: pitchFlow 6s linear infinite;
         }
         @keyframes pitchFlow {
           0%   { left: 0%;   opacity: 0; }
-          8%   { opacity: 1; }
-          92%  { opacity: 1; }
+          5%   { opacity: 1; }
+          95%  { opacity: 1; }
           100% { left: 100%; opacity: 0; }
         }
       `}</style>
@@ -260,12 +267,12 @@ function SlideMercury({ theme }) {
     <div style={{ height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
       <Eyebrow theme={theme}>Banca</Eyebrow>
       <Title theme={theme} size={38}>Operamos con Mercury.</Title>
-      <div style={{ display: 'flex', gap: 34, alignItems: 'center', minWidth: 0 }}>
-        <div style={{ flex: '1.1 1 0', minWidth: 0, background: C.bg, border: `1.5px solid ${C.ink}`, borderRadius: 16, padding: 10, boxShadow: `5px 5px 0px 0px ${C.ink}`, overflow: 'hidden' }}>
+      <div style={{ display: 'flex', gap: 40, alignItems: 'center', minWidth: 0, maxWidth: 1140, width: '100%' }}>
+        <div style={{ flex: '1.5 1 0', minWidth: 0, background: C.bg, border: `1.5px solid ${C.ink}`, borderRadius: 16, padding: 10, boxShadow: `5px 5px 0px 0px ${C.ink}`, overflow: 'hidden' }}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src="/images/mercury-demo.png" alt="Cuenta Mercury" style={{ width: '100%', display: 'block', borderRadius: 10 }} />
         </div>
-        <div style={{ flex: '1 1 0', minWidth: 0 }}>
+        <div style={{ flex: '1 1 0', minWidth: 0, maxWidth: 340 }}>
           <div style={{ fontSize: 13.5, color: theme.muted, marginBottom: 20, lineHeight: 1.5 }}>
             El banco elegido por startups y empresas remotas en todo el mundo. Así se ve la cuenta que vas a operar.
           </div>
