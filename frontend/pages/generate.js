@@ -113,6 +113,9 @@ export default function Generate() {
               <span style={{ color: 'rgba(255,255,255,0.8)', fontSize: 13, fontWeight: 500 }}>{user.name}</span>
             </div>
           )}
+          <button onClick={() => window.open('/pitch', '_blank')} style={{ background: C.orangeSoft, border: `1px solid ${C.orange}`, borderRadius: 8, padding: '6px 14px', color: C.orange, fontSize: 13, fontWeight: 600, cursor: 'pointer' }}>
+            📊 Presentación
+          </button>
           <button onClick={() => router.push('/history')} style={{ background: 'rgba(255,255,255,0.1)', border: 'none', borderRadius: 8, padding: '6px 14px', color: '#fff', fontSize: 13, fontWeight: 500, cursor: 'pointer' }}>
             Historial
           </button>
