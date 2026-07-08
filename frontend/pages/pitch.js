@@ -5,12 +5,13 @@ const C = {
   bg: '#FFFFFF', warm: '#FFFBF5', cardBg: '#FEF1E0',
   ink: '#31353D', muted: 'rgba(49,53,61,0.45)',
   orange: '#F15A2F', orangeSoft: '#FDEEE9',
-  border: 'rgba(49,53,61,0.12)', dark: '#3A4557',
+  border: 'rgba(49,53,61,0.12)', dark: '#2E3135',
 };
 
 const BG = {
   dark:   { bg: C.dark, ink: '#FFFFFF', muted: 'rgba(255,255,255,0.55)', border: 'rgba(255,255,255,0.15)' },
-  orange: { bg: C.orange, ink: '#FFFFFF', muted: 'rgba(255,255,255,0.75)', border: 'rgba(255,255,255,0.25)' },
+  // Naranja apagado (blend con el dark de marca) en vez del naranja vivo: mismo tono, menos golpe visual.
+  orange: { bg: '#8A4633', ink: '#FFFFFF', muted: 'rgba(255,255,255,0.75)', border: 'rgba(255,255,255,0.25)' },
   cream:  { bg: C.warm, ink: C.ink, muted: C.muted, border: C.border },
 };
 
@@ -75,7 +76,7 @@ function SlideCover({ theme }) {
         Firmaway<span style={{ color: C.orange }}>.</span>
       </div>
       <div style={{ fontSize: 56, fontWeight: 800, letterSpacing: '-0.045em', lineHeight: 1.06, color: theme.ink, maxWidth: 820 }}>
-        Tu empresa en Estados Unidos,<br />sin fricción.
+        Tu empresa en Estados Unidos.
       </div>
       <div style={{ fontSize: 17, color: theme.muted, marginTop: 24, maxWidth: 520, lineHeight: 1.5 }}>
         Formación de LLCs, EIN y cuenta bancaria. De principio a fin, en un solo lugar.
@@ -250,7 +251,7 @@ function SlideClosing({ theme }) {
           Firmaway<span style={{ color: C.orange }}>.</span>
         </div>
         <div style={{ fontSize: 16, color: theme.muted, maxWidth: 460, margin: '0 auto', lineHeight: 1.5 }}>
-          Tu empresa en Estados Unidos, sin fricción.
+          Tu empresa en Estados Unidos.
         </div>
       </div>
     </div>
