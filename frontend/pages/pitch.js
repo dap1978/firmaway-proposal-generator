@@ -20,6 +20,7 @@ const CONTENT = {
     cover: {
       headline: 'Tu empresa en Estados Unidos.',
       subtitle: 'Formación de LLCs, EIN y cuenta bancaria. De principio a fin, en un solo lugar.',
+      proof: 'empresas ya confían en nosotros',
     },
     stats: {
       eyebrow: 'Respaldo',
@@ -110,6 +111,7 @@ const CONTENT = {
     cover: {
       headline: 'Sua empresa nos Estados Unidos.',
       subtitle: 'Formação de LLCs, EIN e conta bancária. Do início ao fim, em um só lugar.',
+      proof: 'empresas já confiam na gente',
     },
     stats: {
       eyebrow: 'Respaldo',
@@ -222,25 +224,27 @@ function Title({ children, theme, size = 42, center }) {
 function SlideCover({ theme, lang }) {
   const t = CONTENT[lang].cover;
   return (
-    <div style={{ position: 'relative', height: '100%' }}>
-      <div style={{ position: 'fixed', inset: 0, zIndex: 0 }}>
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src="/images/liberty.jpg" alt="" style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: '65% 0%' }} />
-        <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(100deg, rgba(46,49,53,0.97) 0%, rgba(46,49,53,0.88) 42%, rgba(46,49,53,0.65) 100%)' }} />
-      </div>
-      <div style={{ position: 'relative', zIndex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', height: '100%', maxWidth: 540 }}>
+    <div style={{ position: 'relative', height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+      <div style={{ position: 'absolute', top: -90, right: -90, width: 340, height: 340, borderRadius: '50%', background: C.orangeSoft, zIndex: 0 }} />
+      <div style={{ position: 'absolute', bottom: -60, right: 160, width: 140, height: 140, borderRadius: '50%', border: `1.5px solid ${C.border}`, zIndex: 0 }} />
+      <div style={{ position: 'relative', zIndex: 1, maxWidth: 620 }}>
         <div style={{ fontSize: 20, fontWeight: 800, letterSpacing: '-0.03em', color: theme.ink, opacity: 0.7, marginBottom: 28 }}>
           Firmaway<span style={{ color: C.orange }}>.</span>
         </div>
         <div style={{ fontSize: 54, fontWeight: 800, letterSpacing: '-0.045em', lineHeight: 1.08, color: theme.ink }}>
           {t.headline}
         </div>
-        <div style={{ fontSize: 17, color: 'rgba(255,255,255,0.7)', marginTop: 24, lineHeight: 1.5 }}>
+        <div style={{ fontSize: 17, color: theme.muted, marginTop: 24, lineHeight: 1.5, maxWidth: 460 }}>
           {t.subtitle}
         </div>
-      </div>
-      <div style={{ position: 'fixed', bottom: 20, right: 28, fontSize: 10, color: 'rgba(255,255,255,0.3)', zIndex: 1 }}>
-        Foto: Elcobbola / Wikimedia Commons (CC BY-SA 3.0)
+        <div style={{
+          display: 'inline-flex', alignItems: 'center', gap: 10, marginTop: 40,
+          background: C.bg, border: `1.5px solid ${C.border}`, borderRadius: 999,
+          padding: '10px 20px', boxShadow: `4px 4px 0px 0px ${C.border}`,
+        }}>
+          <span style={{ fontSize: 20, fontWeight: 800, color: C.orange, letterSpacing: '-0.03em' }}>2.000+</span>
+          <span style={{ fontSize: 13, fontWeight: 600, color: theme.ink }}>{t.proof}</span>
+        </div>
       </div>
     </div>
   );
@@ -493,7 +497,7 @@ function SlideClosing({ theme, lang }) {
 }
 
 const SLIDES = [
-  { key: 'cover',    theme: 'dark',   Component: SlideCover },
+  { key: 'cover',    theme: 'cream',  Component: SlideCover },
   { key: 'stats',    theme: 'dark',   Component: SlideStats },
   { key: 'packages', theme: 'cream',  Component: SlidePackages },
   { key: 'states',   theme: 'cream',  Component: SlideStates },
