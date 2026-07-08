@@ -24,7 +24,7 @@ const DEFAULT_USERS = [
 
 // Quién puede firmar cada tipo de propuesta.
 const ALLOWED_IDS = {
-  llc:        ['paola', 'sebastian', 'ivana', 'daniel'],
+  llc:        ['paola', 'sebastian', 'ivana', 'daniel', 'tatiana'],
   whitelabel: ['daniel', 'tatiana', 'ivana'],
 };
 
