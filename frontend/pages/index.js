@@ -15,7 +15,7 @@ const C = {
 const TOOLS = [
   {
     key: 'llc',
-    icon: '📄',
+    num: '01',
     title: 'Propuesta LLC',
     sub: 'Para un cliente',
     desc: 'Pegá la transcripción de la llamada y Claude arma la propuesta personalizada.',
@@ -24,7 +24,7 @@ const TOOLS = [
   },
   {
     key: 'whitelabel',
-    icon: '🤝',
+    num: '02',
     title: 'Propuesta Whitelabel',
     sub: 'Para un socio',
     desc: 'El mismo template para todos los socios: nombre, logo y precio personalizados.',
@@ -33,7 +33,7 @@ const TOOLS = [
   },
   {
     key: 'pitch',
-    icon: '📊',
+    num: '03',
     title: 'Presentación',
     sub: 'Para usar en la llamada',
     desc: 'Carrusel de slides para compartir pantalla durante la reunión con el lead.',
@@ -78,7 +78,7 @@ export default function Home() {
               e.currentTarget.style.boxShadow = `4px 4px 0px 0px ${C.ink}`;
             }}
           >
-            <div style={{ fontSize: 30, marginBottom: 16 }}>{tool.icon}</div>
+            <div style={{ fontSize: 13, fontWeight: 800, color: tool.accent, letterSpacing: '0.05em', marginBottom: 16 }}>{tool.num}</div>
             <div style={{ fontSize: 19, fontWeight: 700, color: C.ink, letterSpacing: '-0.02em', marginBottom: 4 }}>
               {tool.title}
             </div>

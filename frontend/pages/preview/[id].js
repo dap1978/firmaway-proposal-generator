@@ -145,7 +145,7 @@ function CopyLinkButton({ token }) {
       color: copied ? '#2E7D32' : C.ink,
       textAlign: 'left', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
     }}>
-      {copied ? '✓ Link copiado' : '🔗 Copiar link público'}
+      {copied ? '✓ Link copiado' : 'Copiar link público'}
     </button>
   );
 }
@@ -370,7 +370,7 @@ export default function Preview() {
                 <div style={{ fontSize: 10, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.07em', color: C.muted, marginBottom: 2 }}>Aperturas del lead</div>
                 {proposal.view_count > 0 ? (
                   <div style={{ fontSize: 13, fontWeight: 600, color: C.ink }}>
-                    👁 {proposal.view_count} {proposal.view_count === 1 ? 'vez' : 'veces'}
+                    {proposal.view_count} {proposal.view_count === 1 ? 'vez' : 'veces'}
                     {proposal.last_viewed_at && (
                       <span style={{ fontWeight: 400, color: C.muted, fontSize: 12 }}>
                         {' · última: '}{new Date(proposal.last_viewed_at).toLocaleDateString('es-AR', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' })}
@@ -473,7 +473,7 @@ export default function Preview() {
                 background: C.warm, border: `1.5px dashed ${C.border}`,
                 fontSize: 12, fontWeight: 600, color: C.ink,
               }}>
-                📎 Subir logo (PNG, JPG, SVG)
+                Subir logo (PNG, JPG, SVG)
                 <input type="file" accept="image/*" onChange={handleLogoFile} style={{ display: 'none' }} />
               </label>
 
@@ -638,10 +638,10 @@ export default function Preview() {
           <div style={{ borderTop: `1px solid ${C.border}`, paddingTop: 16, marginTop: 4 }}>
             <div style={{ display: 'flex', gap: 6, marginBottom: 14, flexWrap: 'wrap' }}>
               {[
-                { key: 'email',       label: '✉ Email' },
-                { key: 'whatsapp',    label: '💬 WA' },
-                { key: 'objections',  label: '🎯 Objeciones' },
-                { key: 'seguimiento', label: '📅 Seguimiento' },
+                { key: 'email',       label: 'Email' },
+                { key: 'whatsapp',    label: 'WhatsApp' },
+                { key: 'objections',  label: 'Objeciones' },
+                { key: 'seguimiento', label: 'Seguimiento' },
               ].map(tab => (
                 <button key={tab.key} onClick={() => setActiveTab(tab.key)} style={{
                   padding: '6px 12px', borderRadius: 7, fontSize: 12, fontWeight: 600, cursor: 'pointer',

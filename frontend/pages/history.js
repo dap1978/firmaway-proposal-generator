@@ -199,7 +199,7 @@ export default function History() {
                     {p.view_count > 0 ? (
                       <div>
                         <div style={{ fontSize: 12, fontWeight: 600, color: C.ink }}>
-                          👁 {p.view_count} {p.view_count === 1 ? 'vez' : 'veces'}
+                          {p.view_count} {p.view_count === 1 ? 'vez' : 'veces'}
                         </div>
                         <div style={{ fontSize: 10, color: C.muted }}>{timeAgo(p.last_viewed_at)}</div>
                       </div>

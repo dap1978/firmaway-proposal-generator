@@ -537,7 +537,7 @@ export default function Pitch() {
         </button>
         <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
           <div style={{ display: 'flex', gap: 4, background: 'rgba(128,128,128,0.15)', borderRadius: 8, padding: 3 }}>
-            {[{ value: 'es', label: '🇦🇷 ES' }, { value: 'pt', label: '🇧🇷 PT' }].map(opt => (
+            {[{ value: 'es', label: 'ES' }, { value: 'pt', label: 'PT' }].map(opt => (
               <button
                 key={opt.value}
                 onClick={() => setLang(opt.value)}

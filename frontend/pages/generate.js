@@ -124,7 +124,7 @@ export default function Generate() {
             </div>
           )}
           <button onClick={() => window.open('/pitch', '_blank')} style={{ background: C.orangeSoft, border: `1px solid ${C.orange}`, borderRadius: 8, padding: '6px 14px', color: C.orange, fontSize: 13, fontWeight: 600, cursor: 'pointer' }}>
-            📊 Presentación
+            Presentación
           </button>
           <button onClick={() => router.push('/history')} style={{ background: 'rgba(255,255,255,0.1)', border: 'none', borderRadius: 8, padding: '6px 14px', color: '#fff', fontSize: 13, fontWeight: 500, cursor: 'pointer' }}>
             Historial
@@ -156,7 +156,7 @@ export default function Generate() {
               Idioma de la propuesta
             </label>
             <div style={{ display: 'flex', gap: 10 }}>
-              {[{ value: 'es', label: '🇦🇷 Español' }, { value: 'pt', label: '🇧🇷 Português' }].map(opt => (
+              {[{ value: 'es', label: 'Español' }, { value: 'pt', label: 'Português' }].map(opt => (
                 <button
                   key={opt.value}
                   onClick={() => setLanguage(opt.value)}
@@ -241,7 +241,7 @@ export default function Generate() {
                 background: C.warm, border: `1.5px solid ${C.border}`,
                 fontSize: 12, fontWeight: 600, color: C.ink,
               }}>
-                📎 Subir .txt
+                Subir .txt
                 <input type="file" accept=".txt" onChange={handleFile} style={{ display: 'none' }} />
               </label>
             </div>
@@ -313,7 +313,7 @@ export default function Generate() {
             transition: 'all 0.15s',
           }}
         >
-          {loading ? '⏳ Generando propuesta con Claude...' : (isWhitelabel ? '✦ Generar propuesta Whitelabel' : '✦ Generar propuesta LLC')}
+          {loading ? 'Generando propuesta con Claude...' : (isWhitelabel ? 'Generar propuesta Whitelabel' : 'Generar propuesta LLC')}
         </button>
 
         {loading && !isWhitelabel && (

@@ -61,7 +61,6 @@ export default function PublicProposal() {
 
   if (error) return (
     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '100vh', background: '#FFFBF5', flexDirection: 'column', gap: 16, fontFamily: '"Inter", system-ui, sans-serif' }}>
-      <div style={{ fontSize: 32 }}>🔍</div>
       <div style={{ fontSize: 16, color: '#31353D', fontWeight: 600 }}>Propuesta no encontrada</div>
       <div style={{ fontSize: 14, color: 'rgba(49,53,61,0.5)' }}>{error}</div>
     </div>
@@ -77,11 +76,10 @@ export default function PublicProposal() {
   if (proposal.is_expired) return (
     <div style={{
       display: 'flex', alignItems: 'center', justifyContent: 'center',
-      minHeight: '100vh', background: '#3A4557',
+      minHeight: '100vh', background: '#2E3135',
       flexDirection: 'column', gap: 20, padding: '0 24px',
       fontFamily: '"Inter", system-ui, sans-serif',
     }}>
-      <div style={{ fontSize: 48 }}>⏳</div>
       <div style={{ fontSize: 22, fontWeight: 800, color: '#FFFFFF', textAlign: 'center', letterSpacing: '-0.03em', maxWidth: 340 }}>
         Esta propuesta ya no está disponible
       </div>
@@ -128,7 +126,6 @@ export default function PublicProposal() {
           padding: '10px 16px', fontSize: 13, color: '#92400E',
           display: 'flex', alignItems: 'center', gap: 8,
         }}>
-          <span>⚠️</span>
           <span>
             Esta propuesta vence en <strong>{daysLeft === 1 ? '1 día' : `${daysLeft} días`}</strong>.
           </span>
