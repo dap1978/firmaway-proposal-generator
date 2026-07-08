@@ -65,8 +65,8 @@ export default function Home() {
             onClick={() => tool.action(router)}
             style={{
               width: 280, textAlign: 'left', cursor: 'pointer',
-              background: C.bg, border: `1.5px solid ${C.border}`, borderRadius: 18,
-              padding: '28px 24px', boxShadow: `4px 4px 0px 0px ${C.border}`,
+              background: C.cardBg, border: `1.5px solid ${C.ink}`, borderRadius: 16,
+              padding: '28px 24px', boxShadow: `4px 4px 0px 0px ${C.ink}`,
               transition: 'all 0.15s',
             }}
             onMouseEnter={e => {
@@ -74,8 +74,8 @@ export default function Home() {
               e.currentTarget.style.boxShadow = `4px 4px 0px 0px ${tool.accent}`;
             }}
             onMouseLeave={e => {
-              e.currentTarget.style.borderColor = C.border;
-              e.currentTarget.style.boxShadow = `4px 4px 0px 0px ${C.border}`;
+              e.currentTarget.style.borderColor = C.ink;
+              e.currentTarget.style.boxShadow = `4px 4px 0px 0px ${C.ink}`;
             }}
           >
             <div style={{ fontSize: 30, marginBottom: 16 }}>{tool.icon}</div>
