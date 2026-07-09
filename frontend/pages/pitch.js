@@ -288,7 +288,7 @@ function SlidePackages({ theme, lang }) {
             onMouseEnter={() => setHover(idx)}
             onMouseLeave={() => setHover(null)}
             style={{
-              display: 'flex', flexDirection: 'column', cursor: 'pointer',
+              display: 'flex', flexDirection: 'column', cursor: 'pointer', pointerEvents: 'auto',
               background: on ? C.orange : C.bg,
               border: `1.5px solid ${on ? C.orange : C.border}`,
               borderRadius: 16, padding: '20px 16px',
@@ -438,6 +438,7 @@ function SlideMercury({ theme, lang }) {
           <a href="https://demo.mercury.com/dashboard" target="_blank" rel="noopener noreferrer" style={{
             display: 'inline-block', background: C.orange, color: '#fff', fontSize: 13, fontWeight: 700,
             padding: '12px 22px', borderRadius: 10, textDecoration: 'none', letterSpacing: '-0.01em',
+            pointerEvents: 'auto',
           }}>
             {t.btn} →
           </a>
@@ -578,8 +579,10 @@ export default function Pitch() {
       <div onClick={() => goTo(index - 1)} style={{ position: 'absolute', top: 0, left: 0, width: '20%', height: '100%', cursor: index > 0 ? 'pointer' : 'default', zIndex: 5 }} />
       <div onClick={() => goTo(index + 1)} style={{ position: 'absolute', top: 0, right: 0, width: '20%', height: '100%', cursor: index < total - 1 ? 'pointer' : 'default', zIndex: 5 }} />
 
-      {/* Contenido del slide */}
-      <div key={`${slide.key}-${lang}`} style={{ height: '100%', padding: '80px 90px 90px', animation: 'pitchFadeIn 0.4s ease' }}>
+      {/* Contenido del slide — por encima de las zonas de click, pero transparente
+          a los clicks salvo en los elementos interactivos que se marcan con
+          pointerEvents: 'auto' (cards de paquetes, link de Mercury, etc). */}
+      <div key={`${slide.key}-${lang}`} style={{ height: '100%', padding: '80px 90px 90px', animation: 'pitchFadeIn 0.4s ease', position: 'relative', zIndex: 6, pointerEvents: 'none' }}>
         <Content theme={theme} lang={lang} />
       </div>
 
