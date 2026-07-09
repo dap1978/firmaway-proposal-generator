@@ -272,42 +272,54 @@ function SlideStats({ theme, lang }) {
 
 function SlidePackages({ theme, lang }) {
   const t = CONTENT[lang].packages;
+  const [active, setActive] = useState(() => t.items.findIndex(p => p.featured));
+  const [hover, setHover] = useState(null);
   return (
     <div style={{ height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
       <Eyebrow theme={theme}>{t.eyebrow}</Eyebrow>
       <Title theme={theme} size={34}>{t.title}</Title>
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 14, marginTop: 8 }}>
-        {t.items.map(p => (
-          <div key={p.name} style={{
-            display: 'flex', flexDirection: 'column',
-            background: p.featured ? C.orange : C.bg,
-            border: `1.5px solid ${p.featured ? C.orange : C.border}`,
-            borderRadius: 16, padding: '20px 16px',
-            boxShadow: `4px 4px 0px 0px ${p.featured ? C.ink : C.border}`,
-          }}>
+        {t.items.map((p, idx) => {
+          const on = idx === active;
+          return (
+          <div
+            key={p.name}
+            onClick={() => setActive(idx)}
+            onMouseEnter={() => setHover(idx)}
+            onMouseLeave={() => setHover(null)}
+            style={{
+              display: 'flex', flexDirection: 'column', cursor: 'pointer',
+              background: on ? C.orange : C.bg,
+              border: `1.5px solid ${on ? C.orange : C.border}`,
+              borderRadius: 16, padding: '20px 16px',
+              boxShadow: `4px 4px 0px 0px ${on ? C.ink : C.border}`,
+              transform: hover === idx && !on ? 'translateY(-3px)' : 'none',
+              transition: 'transform 0.15s ease, background 0.15s ease, border-color 0.15s ease',
+            }}>
             {p.featured && (
-              <div style={{ fontSize: 9.5, fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.06em', color: '#fff', background: 'rgba(255,255,255,0.2)', display: 'inline-block', padding: '3px 8px', borderRadius: 999, marginBottom: 10, alignSelf: 'flex-start' }}>
+              <div style={{ fontSize: 9.5, fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.06em', color: on ? '#fff' : C.orange, background: on ? 'rgba(255,255,255,0.2)' : C.orangeSoft, display: 'inline-block', padding: '3px 8px', borderRadius: 999, marginBottom: 10, alignSelf: 'flex-start' }}>
                 {t.featured}
               </div>
             )}
-            <div style={{ fontSize: 16, fontWeight: 700, color: p.featured ? '#fff' : C.ink, marginBottom: 2, letterSpacing: '-0.01em' }}>{p.name}</div>
-            <div style={{ fontSize: 10.5, color: p.featured ? 'rgba(255,255,255,0.8)' : C.muted, marginBottom: 10 }}>{p.sub}</div>
-            <div style={{ fontSize: 23, fontWeight: 800, color: p.featured ? '#fff' : C.orange, marginBottom: 14, letterSpacing: '-0.02em' }}>USD {p.price}</div>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 7, borderTop: `1px solid ${p.featured ? 'rgba(255,255,255,0.25)' : C.border}`, paddingTop: 12 }}>
+            <div style={{ fontSize: 16, fontWeight: 700, color: on ? '#fff' : C.ink, marginBottom: 2, letterSpacing: '-0.01em' }}>{p.name}</div>
+            <div style={{ fontSize: 10.5, color: on ? 'rgba(255,255,255,0.8)' : C.muted, marginBottom: 10 }}>{p.sub}</div>
+            <div style={{ fontSize: 23, fontWeight: 800, color: on ? '#fff' : C.orange, marginBottom: 14, letterSpacing: '-0.02em' }}>USD {p.price}</div>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 7, borderTop: `1px solid ${on ? 'rgba(255,255,255,0.25)' : C.border}`, paddingTop: 12 }}>
               {t.features.map((feat, i) => {
                 const ok = p.included[i];
                 return (
                   <div key={feat} style={{ display: 'flex', alignItems: 'center', gap: 7 }}>
-                    <span style={{ fontSize: 11, fontWeight: 800, color: ok ? (p.featured ? '#fff' : C.orange) : (p.featured ? 'rgba(255,255,255,0.4)' : 'rgba(49,53,61,0.3)'), width: 12, flexShrink: 0 }}>
+                    <span style={{ fontSize: 11, fontWeight: 800, color: ok ? (on ? '#fff' : C.orange) : (on ? 'rgba(255,255,255,0.4)' : 'rgba(49,53,61,0.3)'), width: 12, flexShrink: 0 }}>
                       {ok ? '✓' : '–'}
                     </span>
-                    <span style={{ fontSize: 10.5, lineHeight: 1.3, color: p.featured ? 'rgba(255,255,255,0.9)' : (ok ? C.ink : C.muted) }}>{feat}</span>
+                    <span style={{ fontSize: 10.5, lineHeight: 1.3, color: on ? 'rgba(255,255,255,0.9)' : (ok ? C.ink : C.muted) }}>{feat}</span>
                   </div>
                 );
               })}
             </div>
           </div>
-        ))}
+          );
+        })}
       </div>
     </div>
   );
