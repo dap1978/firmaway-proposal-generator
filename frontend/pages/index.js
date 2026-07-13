@@ -40,6 +40,15 @@ const TOOLS = [
     accent: C.dark,
     action: (router) => router.push('/pitch'),
   },
+  {
+    key: 'guide',
+    num: '04',
+    title: 'Guía para el llamado',
+    sub: 'Antes de la llamada',
+    desc: 'Playbook de discovery por perfil de cliente: preguntas, cuantificación del dolor y notas fiscales.',
+    accent: C.orange,
+    action: (router) => router.push('/guide'),
+  },
 ];
 
 export default function Home() {
