@@ -58,12 +58,13 @@ const CONTENT = {
       title: 'Elegimos el estado según tu negocio.',
       currency: 'USD',
       obligLabel: 'Obligaciones anuales',
+      oblig: '699',
       items: [
-        { name: 'Wyoming',      fee: '$62/año',         oblig: '699', note: 'Privacidad de socios. El más recomendado para Pro y All In.' },
-        { name: 'Nuevo México', fee: 'Sin fee estatal', oblig: '699', note: 'El más económico. Ideal para socio único.' },
-        { name: 'Delaware',     fee: '$300/año',        oblig: '699', note: 'Preferido por startups con inversores o venture capital.' },
-        { name: 'Florida',      fee: '$138,75/año',     oblig: '699', note: 'Para negocios con operación física en el estado.' },
-        { name: 'Texas',        fee: 'Sin fee estatal', oblig: '699', note: 'Para quienes ya operan en Texas.' },
+        { name: 'Wyoming',      fee: '$62/año',         note: 'Privacidad de socios. El más recomendado para Pro y All In.' },
+        { name: 'Nuevo México', fee: 'Sin fee estatal', note: 'El más económico. Ideal para socio único.' },
+        { name: 'Delaware',     fee: '$300/año',        note: 'Preferido por startups con inversores o venture capital.' },
+        { name: 'Florida',      fee: '$138,75/año',     note: 'Para negocios con operación física en el estado.' },
+        { name: 'Texas',        fee: 'Sin fee estatal', note: 'Para quienes ya operan en Texas.' },
       ],
     },
     timeline: {
@@ -153,12 +154,13 @@ const CONTENT = {
       title: 'Escolhemos o estado de acordo com o seu negócio.',
       currency: 'R$',
       obligLabel: 'Obrigações anuais',
+      oblig: '3.570',
       items: [
-        { name: 'Wyoming',      fee: 'R$320/ano',         oblig: '3.570', note: 'Privacidade dos sócios. O mais recomendado para Pro e All In.' },
-        { name: 'Novo México',  fee: 'Sem taxa estadual', oblig: '3.570', note: 'O mais econômico. Ideal para sócio único.' },
-        { name: 'Delaware',     fee: 'R$1.530/ano',       oblig: '3.570', note: 'Preferido por startups com investidores ou venture capital.' },
-        { name: 'Flórida',      fee: 'R$710/ano',         oblig: '3.570', note: 'Para negócios com operação física no estado.' },
-        { name: 'Texas',        fee: 'Sem taxa estadual', oblig: '3.570', note: 'Para quem já opera no Texas.' },
+        { name: 'Wyoming',      fee: 'R$320/ano',         note: 'Privacidade dos sócios. O mais recomendado para Pro e All In.' },
+        { name: 'Novo México',  fee: 'Sem taxa estadual', note: 'O mais econômico. Ideal para sócio único.' },
+        { name: 'Delaware',     fee: 'R$1.530/ano',       note: 'Preferido por startups com investidores ou venture capital.' },
+        { name: 'Flórida',      fee: 'R$710/ano',         note: 'Para negócios com operação física no estado.' },
+        { name: 'Texas',        fee: 'Sem taxa estadual', note: 'Para quem já opera no Texas.' },
       ],
     },
     timeline: {
@@ -339,7 +341,15 @@ function SlideStates({ theme, lang }) {
     <div style={{ height: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
       <Eyebrow theme={theme} center>{t.eyebrow}</Eyebrow>
       <Title theme={theme} size={38} center>{t.title}</Title>
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 20, marginTop: 32, maxWidth: 1060, width: '100%' }}>
+      <div style={{
+        display: 'inline-flex', alignItems: 'center', gap: 10, marginBottom: 24,
+        background: C.orangeSoft, border: `1.5px solid ${C.orange}`, borderRadius: 999,
+        padding: '8px 18px',
+      }}>
+        <span style={{ fontSize: 10.5, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em', color: C.orange }}>{t.obligLabel}</span>
+        <span style={{ fontSize: 15, fontWeight: 800, color: C.ink }}>{t.currency} {t.oblig}</span>
+      </div>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 20, maxWidth: 940, width: '100%' }}>
         {t.items.map(s => (
           <div key={s.name} style={{
             display: 'flex', alignItems: 'center', gap: 24,
@@ -349,10 +359,6 @@ function SlideStates({ theme, lang }) {
             <div style={{ fontSize: 18, fontWeight: 700, color: C.ink, width: 150, flexShrink: 0, letterSpacing: '-0.01em' }}>{s.name}</div>
             <div style={{ fontSize: 14, fontWeight: 700, color: C.orange, width: 130, flexShrink: 0 }}>{s.fee}</div>
             <div style={{ fontSize: 15, color: '#4B505A', lineHeight: 1.45, fontWeight: 500, flex: 1 }}>{s.note}</div>
-            <div style={{ textAlign: 'right', flexShrink: 0, borderLeft: `1px solid ${C.border}`, paddingLeft: 20 }}>
-              <div style={{ fontSize: 9.5, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em', color: C.muted, whiteSpace: 'nowrap' }}>{t.obligLabel}</div>
-              <div style={{ fontSize: 16, fontWeight: 800, color: C.ink, whiteSpace: 'nowrap' }}>{t.currency} {s.oblig}</div>
-            </div>
           </div>
         ))}
       </div>
@@ -438,14 +444,17 @@ function SlideMercury({ theme, lang }) {
             {t.body}
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 13, marginBottom: 26 }}>
-            {t.features.map(f => (
-              <div key={f} style={{ display: 'flex', alignItems: 'flex-start', gap: 10 }}>
-                <div style={{ width: 20, height: 20, background: C.orangeSoft, border: `1.5px solid ${C.orange}`, borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, marginTop: 1 }}>
-                  <svg viewBox="0 0 10 8" fill="none" width="10" height="8"><path d="M1 4L3.5 6.5L9 1" stroke="#F15A2F" strokeWidth="2" strokeLinecap="round" /></svg>
+            {t.features.map((f, i) => {
+              const isLast = i === t.features.length - 1;
+              return (
+                <div key={f} style={{ display: 'flex', alignItems: 'flex-start', gap: 10 }}>
+                  <div style={{ width: 20, height: 20, background: C.orangeSoft, border: `1.5px solid ${C.orange}`, borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, marginTop: 1 }}>
+                    <svg viewBox="0 0 10 8" fill="none" width="10" height="8"><path d="M1 4L3.5 6.5L9 1" stroke="#F15A2F" strokeWidth="2" strokeLinecap="round" /></svg>
+                  </div>
+                  <div style={{ fontSize: isLast ? 15.5 : 14, fontWeight: isLast ? 700 : 400, color: C.ink, lineHeight: 1.4 }}>{f}</div>
                 </div>
-                <div style={{ fontSize: 14, color: C.ink, lineHeight: 1.4 }}>{f}</div>
-              </div>
-            ))}
+              );
+            })}
           </div>
           <a href="https://demo.mercury.com/dashboard" target="_blank" rel="noopener noreferrer" style={{
             display: 'inline-block', background: C.orange, color: '#fff', fontSize: 13, fontWeight: 700,
