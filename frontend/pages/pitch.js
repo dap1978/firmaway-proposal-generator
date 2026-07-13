@@ -36,6 +36,7 @@ const CONTENT = {
       eyebrow: 'Paquetes',
       title: 'Un paquete para cada etapa del negocio.',
       featured: 'Más elegido',
+      currency: 'USD',
       features: [
         'Constitución de la LLC',
         'Cuenta bancaria Mercury',
@@ -55,12 +56,14 @@ const CONTENT = {
     states: {
       eyebrow: 'Estados',
       title: 'Elegimos el estado según tu negocio.',
+      currency: 'USD',
+      obligLabel: 'Obligaciones anuales',
       items: [
-        { name: 'Wyoming',      fee: '$62/año',         note: 'Privacidad de socios. El más recomendado para Pro y All In.' },
-        { name: 'Nuevo México', fee: 'Sin fee estatal', note: 'El más económico. Ideal para socio único.' },
-        { name: 'Delaware',     fee: '$300/año',        note: 'Preferido por startups con inversores o venture capital.' },
-        { name: 'Florida',      fee: '$138,75/año',     note: 'Para negocios con operación física en el estado.' },
-        { name: 'Texas',        fee: 'Sin fee estatal', note: 'Para quienes ya operan en Texas.' },
+        { name: 'Wyoming',      fee: '$62/año',         oblig: '699', note: 'Privacidad de socios. El más recomendado para Pro y All In.' },
+        { name: 'Nuevo México', fee: 'Sin fee estatal', oblig: '699', note: 'El más económico. Ideal para socio único.' },
+        { name: 'Delaware',     fee: '$300/año',        oblig: '699', note: 'Preferido por startups con inversores o venture capital.' },
+        { name: 'Florida',      fee: '$138,75/año',     oblig: '699', note: 'Para negocios con operación física en el estado.' },
+        { name: 'Texas',        fee: 'Sin fee estatal', oblig: '699', note: 'Para quienes ya operan en Texas.' },
       ],
     },
     timeline: {
@@ -83,6 +86,7 @@ const CONTENT = {
         'Transferencias ACH y SWIFT para operar globalmente.',
         'Apertura 100% remota, sin viajar a Estados Unidos.',
         'Conexión directa vía API con Mercury en los planes Pro y All In.',
+        'También trabajamos con Lili Bank y Relay.',
       ],
     },
     why: {
@@ -127,6 +131,7 @@ const CONTENT = {
       eyebrow: 'Pacotes',
       title: 'Um pacote para cada etapa do negócio.',
       featured: 'Mais escolhido',
+      currency: 'R$',
       features: [
         'Constituição da LLC',
         'Conta bancária Mercury',
@@ -137,21 +142,23 @@ const CONTENT = {
         'Obrigações do ano 1 incluídas',
       ],
       items: [
-        { name: 'Solo LLC', price: '495',   sub: 'Sem conta bancária',           included: [true, false, true, true, true, true, false] },
-        { name: 'Starter',  price: '499',   sub: 'Novo México · 1 sócio',        included: [true, true,  true, true, true, true, false] },
-        { name: 'Pro',      price: '645',   sub: 'Qualquer estado · 2+ sócios',  included: [true, true,  true, true, true, true, false], featured: true },
-        { name: 'All In',   price: '1.199', sub: 'Tudo incluído',                included: [true, true,  true, true, true, true, true]  },
+        { name: 'Solo LLC',   price: '2.530', sub: 'Sem conta bancária',           included: [true, false, true, true, true, true, false] },
+        { name: 'Essencial',  price: '2.550', sub: 'Novo México · 1 sócio',        included: [true, true,  true, true, true, true, false] },
+        { name: 'Pro',        price: '3.300', sub: 'Qualquer estado · 2+ sócios',  included: [true, true,  true, true, true, true, false], featured: true },
+        { name: 'All In',     price: '6.130', sub: 'Tudo incluído',                included: [true, true,  true, true, true, true, true]  },
       ],
     },
     states: {
       eyebrow: 'Estados',
       title: 'Escolhemos o estado de acordo com o seu negócio.',
+      currency: 'R$',
+      obligLabel: 'Obrigações anuais',
       items: [
-        { name: 'Wyoming',      fee: '$62/ano',         note: 'Privacidade dos sócios. O mais recomendado para Pro e All In.' },
-        { name: 'Novo México',  fee: 'Sem taxa estadual', note: 'O mais econômico. Ideal para sócio único.' },
-        { name: 'Delaware',     fee: '$300/ano',        note: 'Preferido por startups com investidores ou venture capital.' },
-        { name: 'Flórida',      fee: '$138,75/ano',     note: 'Para negócios com operação física no estado.' },
-        { name: 'Texas',        fee: 'Sem taxa estadual', note: 'Para quem já opera no Texas.' },
+        { name: 'Wyoming',      fee: 'R$320/ano',         oblig: '3.570', note: 'Privacidade dos sócios. O mais recomendado para Pro e All In.' },
+        { name: 'Novo México',  fee: 'Sem taxa estadual', oblig: '3.570', note: 'O mais econômico. Ideal para sócio único.' },
+        { name: 'Delaware',     fee: 'R$1.530/ano',       oblig: '3.570', note: 'Preferido por startups com investidores ou venture capital.' },
+        { name: 'Flórida',      fee: 'R$710/ano',         oblig: '3.570', note: 'Para negócios com operação física no estado.' },
+        { name: 'Texas',        fee: 'Sem taxa estadual', oblig: '3.570', note: 'Para quem já opera no Texas.' },
       ],
     },
     timeline: {
@@ -174,6 +181,7 @@ const CONTENT = {
         'Transferências ACH e SWIFT para operar globalmente.',
         'Abertura 100% remota, sem viajar aos Estados Unidos.',
         'Conexão direta via API com a Mercury nos planos Pro e All In.',
+        'Também trabalhamos com o Lili Bank e a Relay.',
       ],
     },
     why: {
@@ -303,7 +311,7 @@ function SlidePackages({ theme, lang }) {
             )}
             <div style={{ fontSize: 16, fontWeight: 700, color: on ? '#fff' : C.ink, marginBottom: 2, letterSpacing: '-0.01em' }}>{p.name}</div>
             <div style={{ fontSize: 10.5, color: on ? 'rgba(255,255,255,0.8)' : C.muted, marginBottom: 10 }}>{p.sub}</div>
-            <div style={{ fontSize: 23, fontWeight: 800, color: on ? '#fff' : C.orange, marginBottom: 14, letterSpacing: '-0.02em' }}>USD {p.price}</div>
+            <div style={{ fontSize: 23, fontWeight: 800, color: on ? '#fff' : C.orange, marginBottom: 14, letterSpacing: '-0.02em' }}>{t.currency} {p.price}</div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 7, borderTop: `1px solid ${on ? 'rgba(255,255,255,0.25)' : C.border}`, paddingTop: 12 }}>
               {t.features.map((feat, i) => {
                 const ok = p.included[i];
@@ -331,7 +339,7 @@ function SlideStates({ theme, lang }) {
     <div style={{ height: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
       <Eyebrow theme={theme} center>{t.eyebrow}</Eyebrow>
       <Title theme={theme} size={38} center>{t.title}</Title>
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 20, marginTop: 32, maxWidth: 940, width: '100%' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 20, marginTop: 32, maxWidth: 1060, width: '100%' }}>
         {t.items.map(s => (
           <div key={s.name} style={{
             display: 'flex', alignItems: 'center', gap: 24,
@@ -340,7 +348,11 @@ function SlideStates({ theme, lang }) {
           }}>
             <div style={{ fontSize: 18, fontWeight: 700, color: C.ink, width: 150, flexShrink: 0, letterSpacing: '-0.01em' }}>{s.name}</div>
             <div style={{ fontSize: 14, fontWeight: 700, color: C.orange, width: 130, flexShrink: 0 }}>{s.fee}</div>
-            <div style={{ fontSize: 15, color: '#4B505A', lineHeight: 1.45, fontWeight: 500 }}>{s.note}</div>
+            <div style={{ fontSize: 15, color: '#4B505A', lineHeight: 1.45, fontWeight: 500, flex: 1 }}>{s.note}</div>
+            <div style={{ textAlign: 'right', flexShrink: 0, borderLeft: `1px solid ${C.border}`, paddingLeft: 20 }}>
+              <div style={{ fontSize: 9.5, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em', color: C.muted, whiteSpace: 'nowrap' }}>{t.obligLabel}</div>
+              <div style={{ fontSize: 16, fontWeight: 800, color: C.ink, whiteSpace: 'nowrap' }}>{t.currency} {s.oblig}</div>
+            </div>
           </div>
         ))}
       </div>
