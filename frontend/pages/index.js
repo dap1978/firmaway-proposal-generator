@@ -94,7 +94,7 @@ export default function Home() {
               width: 280, textAlign: 'left', cursor: 'pointer',
               background: C.cardBg, border: `1.5px solid ${C.ink}`, borderRadius: 16,
               padding: '28px 24px', boxShadow: `4px 4px 0px 0px ${C.ink}`,
-              transition: 'all 0.15s',
+              transition: 'all 0.15s', fontFamily: 'inherit', display: 'flex', flexDirection: 'column',
             }}
             onMouseEnter={e => {
               e.currentTarget.style.borderColor = C.orange;
@@ -105,11 +105,11 @@ export default function Home() {
               e.currentTarget.style.boxShadow = `4px 4px 0px 0px ${C.ink}`;
             }}
           >
-            <div style={{ fontSize: 13, fontWeight: 800, color: tool.accent, letterSpacing: '0.05em', marginBottom: 16 }}>{tool.num}</div>
-            <div style={{ fontSize: 19, fontWeight: 700, color: C.ink, letterSpacing: '-0.02em', marginBottom: 4 }}>
+            <div style={{ fontSize: 13, lineHeight: 1.2, fontWeight: 800, color: tool.accent, letterSpacing: '0.05em', marginBottom: 16 }}>{tool.num}</div>
+            <div style={{ fontSize: 19, lineHeight: 1.2, fontWeight: 700, color: C.ink, letterSpacing: '-0.02em', marginBottom: 4 }}>
               {tool.title}
             </div>
-            <div style={{ fontSize: 12, fontWeight: 600, letterSpacing: '0.01em', color: tool.accent, marginBottom: 14 }}>
+            <div style={{ fontSize: 12, lineHeight: 1.2, fontWeight: 600, letterSpacing: '0.01em', color: tool.accent, marginBottom: 14 }}>
               {tool.sub}
             </div>
             <div style={{ fontSize: 13, color: C.muted, lineHeight: 1.5 }}>
