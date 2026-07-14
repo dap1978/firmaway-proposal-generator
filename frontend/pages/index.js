@@ -58,6 +58,15 @@ const TOOLS = [
     accent: C.orange,
     action: () => window.open('https://llc-name-search-production.up.railway.app', '_blank', 'noopener,noreferrer'),
   },
+  {
+    key: 'conversations',
+    num: '06',
+    title: 'Análisis de conversaciones',
+    sub: 'Inteligencia comercial',
+    desc: 'Analiza las conversaciones online por colaborador, país de origen, intención de compra y nivel de frustración.',
+    accent: C.orange,
+    action: () => window.open('https://web-production-0cb8e.up.railway.app/', '_blank', 'noopener,noreferrer'),
+  },
 ];
 
 export default function Home() {
