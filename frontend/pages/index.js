@@ -35,7 +35,7 @@ const TOOLS = [
     key: 'pitch',
     num: '03',
     title: 'Presentación',
-    sub: 'Para usar en la llamada',
+    sub: 'Para usar en la reunión',
     desc: 'Carrusel de slides para compartir pantalla durante la reunión con el lead.',
     accent: C.dark,
     action: (router) => router.push('/pitch'),
@@ -43,8 +43,8 @@ const TOOLS = [
   {
     key: 'guide',
     num: '04',
-    title: 'Guía para el llamado',
-    sub: 'Antes de la llamada',
+    title: 'En la reunión',
+    sub: 'Guía para preguntar',
     desc: 'Playbook de discovery por perfil de cliente: preguntas, cuantificación del dolor y notas fiscales.',
     accent: C.orange,
     action: (router) => router.push('/guide'),
@@ -67,7 +67,7 @@ export default function Home() {
       </div>
 
       {/* Cards */}
-      <div style={{ display: 'flex', gap: 20, flexWrap: 'wrap', justifyContent: 'center', maxWidth: 980 }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 280px)', gap: 20, justifyContent: 'center' }}>
         {TOOLS.map(tool => (
           <button
             key={tool.key}
@@ -79,8 +79,8 @@ export default function Home() {
               transition: 'all 0.15s',
             }}
             onMouseEnter={e => {
-              e.currentTarget.style.borderColor = tool.accent;
-              e.currentTarget.style.boxShadow = `4px 4px 0px 0px ${tool.accent}`;
+              e.currentTarget.style.borderColor = C.orange;
+              e.currentTarget.style.boxShadow = `4px 4px 0px 0px ${C.orange}`;
             }}
             onMouseLeave={e => {
               e.currentTarget.style.borderColor = C.ink;
@@ -91,7 +91,7 @@ export default function Home() {
             <div style={{ fontSize: 19, fontWeight: 700, color: C.ink, letterSpacing: '-0.02em', marginBottom: 4 }}>
               {tool.title}
             </div>
-            <div style={{ fontSize: 12, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.06em', color: tool.accent, marginBottom: 14 }}>
+            <div style={{ fontSize: 12, fontWeight: 600, letterSpacing: '0.01em', color: tool.accent, marginBottom: 14 }}>
               {tool.sub}
             </div>
             <div style={{ fontSize: 13, color: C.muted, lineHeight: 1.5 }}>
