@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 
 const STYLE = `
 :root{
-  --cream:#FFFBF5; --cream-warm:#FEF1E0; --orange:#F15A2F; --orange-soft:#FDEEE9;
+  --cream:#FEF1E0; --cream-warm:#FEF1E0; --orange:#F15A2F; --orange-soft:#FDEEE9;
   --ink:#31353D; --ink-light:rgba(49,53,61,0.45); --dark-surface:#3A4557; --white:#FFF;
 }
 .guide-doc *{margin:0;padding:0;box-sizing:border-box;}
