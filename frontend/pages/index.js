@@ -19,7 +19,6 @@ const TOOLS = [
     title: 'Propuesta LLC',
     sub: 'Para un cliente',
     desc: 'Pegá la transcripción de la llamada y Claude arma la propuesta personalizada.',
-    accent: C.orange,
     action: (router) => router.push('/select-user?tool=llc'),
   },
   {
@@ -28,7 +27,6 @@ const TOOLS = [
     title: 'Propuesta Whitelabel',
     sub: 'Para un socio',
     desc: 'El mismo template para todos los socios: nombre, logo y precio personalizados.',
-    accent: C.ink,
     action: (router) => router.push('/select-user?tool=whitelabel'),
   },
   {
@@ -37,7 +35,6 @@ const TOOLS = [
     title: 'Presentación',
     sub: 'Para usar en la reunión',
     desc: 'Carrusel de slides para compartir pantalla durante la reunión con el lead.',
-    accent: C.dark,
     action: (router) => router.push('/pitch'),
   },
   {
@@ -46,7 +43,6 @@ const TOOLS = [
     title: 'En la reunión',
     sub: 'Guía para preguntar',
     desc: 'Playbook de discovery por perfil de cliente: preguntas, cuantificación del dolor y notas fiscales.',
-    accent: C.orange,
     action: (router) => router.push('/guide'),
   },
   {
@@ -55,7 +51,6 @@ const TOOLS = [
     title: 'Name Search',
     sub: 'Antes de armar la propuesta',
     desc: 'Verificá que el nombre de la LLC no esté ocupado en el estado elegido.',
-    accent: C.orange,
     action: () => window.open('https://llc-name-search-production.up.railway.app', '_blank', 'noopener,noreferrer'),
   },
   {
@@ -64,7 +59,6 @@ const TOOLS = [
     title: 'Conversaciones',
     sub: 'Inteligencia comercial',
     desc: 'Analiza las conversaciones online por colaborador, país de origen, intención de compra y nivel de frustración.',
-    accent: C.orange,
     action: () => window.open('https://web-production-0cb8e.up.railway.app/', '_blank', 'noopener,noreferrer'),
   },
 ];
@@ -105,7 +99,7 @@ export default function Home() {
               e.currentTarget.style.boxShadow = `4px 4px 0px 0px ${C.ink}`;
             }}
           >
-            <div style={{ fontSize: 13, lineHeight: 1.2, fontWeight: 800, color: tool.accent, letterSpacing: '0.05em', marginBottom: 16 }}>{tool.num}</div>
+            <div style={{ fontSize: 13, lineHeight: 1.2, fontWeight: 800, color: C.orange, letterSpacing: '0.05em', marginBottom: 16 }}>{tool.num}</div>
             <div style={{ fontSize: 19, lineHeight: 1.2, fontWeight: 700, color: C.ink, letterSpacing: '-0.02em', marginBottom: 4 }}>
               {tool.title}
             </div>
