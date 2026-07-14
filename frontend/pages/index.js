@@ -109,7 +109,7 @@ export default function Home() {
             <div style={{ fontSize: 19, lineHeight: 1.2, fontWeight: 700, color: C.ink, letterSpacing: '-0.02em', marginBottom: 4 }}>
               {tool.title}
             </div>
-            <div style={{ fontSize: 12, lineHeight: 1.2, fontWeight: 600, letterSpacing: '0.01em', color: tool.accent, marginBottom: 14 }}>
+            <div style={{ fontSize: 12, lineHeight: 1.2, fontWeight: 600, letterSpacing: '0.01em', color: C.orange, marginBottom: 14 }}>
               {tool.sub}
             </div>
             <div style={{ fontSize: 13, color: C.muted, lineHeight: 1.5 }}>
