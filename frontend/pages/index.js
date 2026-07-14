@@ -49,6 +49,15 @@ const TOOLS = [
     accent: C.orange,
     action: (router) => router.push('/guide'),
   },
+  {
+    key: 'namesearch',
+    num: '05',
+    title: 'Name Search',
+    sub: 'Antes de armar la propuesta',
+    desc: 'Verificá que el nombre de la LLC no esté ocupado en el estado elegido.',
+    accent: C.orange,
+    action: () => window.open('https://llc-name-search-production.up.railway.app', '_blank', 'noopener,noreferrer'),
+  },
 ];
 
 export default function Home() {
