@@ -61,7 +61,7 @@ const TOOLS = [
   {
     key: 'conversations',
     num: '06',
-    title: 'Análisis de conversaciones',
+    title: 'Conversaciones',
     sub: 'Inteligencia comercial',
     desc: 'Analiza las conversaciones online por colaborador, país de origen, intención de compra y nivel de frustración.',
     accent: C.orange,
