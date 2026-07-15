@@ -143,7 +143,7 @@ const CONTENT = {
         'Obrigações do ano 1 incluídas',
       ],
       items: [
-        { name: 'Solo LLC',   price: '2.530', sub: 'Sem conta bancária',           included: [true, false, true, true, true, true, false] },
+        { name: 'É só LLC',   price: '2.530', sub: 'Sem conta bancária',           included: [true, false, true, true, true, true, false] },
         { name: 'Essencial',  price: '2.550', sub: 'Novo México · 1 sócio',        included: [true, true,  true, true, true, true, false] },
         { name: 'Pro',        price: '3.300', sub: 'Qualquer estado · 2+ sócios',  included: [true, true,  true, true, true, true, false], featured: true },
         { name: 'All In',     price: '6.130', sub: 'Tudo incluído',                included: [true, true,  true, true, true, true, true]  },
