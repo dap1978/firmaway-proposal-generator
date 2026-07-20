@@ -39,7 +39,8 @@ export default function History() {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
-  const [reportMonth, setReportMonth] = useState('');
+  const [reportFrom, setReportFrom] = useState('');
+  const [reportTo, setReportTo] = useState('');
   const [reportCommercial, setReportCommercial] = useState('');
   const [reportLoading, setReportLoading] = useState(false);
 
@@ -59,7 +60,8 @@ export default function History() {
     setReportLoading(true);
     try {
       const params = {};
-      if (reportMonth) params.month = reportMonth;
+      if (reportFrom) params.from = reportFrom;
+      if (reportTo) params.to = reportTo;
       if (reportCommercial) params.commercial = reportCommercial;
       const response = await api.get('/proposals/report', { params: { ...params, format: 'xlsx' }, responseType: 'blob' });
       const url = window.URL.createObjectURL(new Blob([response.data], {
@@ -67,7 +69,8 @@ export default function History() {
       }));
       const a = document.createElement('a');
       a.href = url;
-      a.download = `reporte-propuestas-llc${reportMonth ? `-${reportMonth}` : ''}.xlsx`;
+      const rangeSuffix = reportFrom || reportTo ? `-${reportFrom || 'inicio'}_a_${reportTo || 'hoy'}` : '';
+      a.download = `reporte-propuestas-llc${rangeSuffix}.xlsx`;
       a.click();
       window.URL.revokeObjectURL(url);
     } catch {
@@ -148,11 +151,20 @@ export default function History() {
             <div style={{ fontSize: 13, color: C.muted }}>Listado de propuestas LLC enviadas — para seguimiento en Wati / HubSpot.</div>
           </div>
           <div>
-            <label style={{ display: 'block', fontSize: 10, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.06em', color: C.muted, marginBottom: 4 }}>Mes</label>
+            <label style={{ display: 'block', fontSize: 10, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.06em', color: C.muted, marginBottom: 4 }}>Desde</label>
             <input
-              type="month"
-              value={reportMonth}
-              onChange={e => setReportMonth(e.target.value)}
+              type="date"
+              value={reportFrom}
+              onChange={e => setReportFrom(e.target.value)}
+              style={{ padding: '8px 10px', borderRadius: 8, border: `1.5px solid ${C.border}`, background: C.warm, fontSize: 13, color: C.ink, outline: 'none' }}
+            />
+          </div>
+          <div>
+            <label style={{ display: 'block', fontSize: 10, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.06em', color: C.muted, marginBottom: 4 }}>Hasta</label>
+            <input
+              type="date"
+              value={reportTo}
+              onChange={e => setReportTo(e.target.value)}
               style={{ padding: '8px 10px', borderRadius: 8, border: `1.5px solid ${C.border}`, background: C.warm, fontSize: 13, color: C.ink, outline: 'none' }}
             />
           </div>

@@ -165,16 +165,20 @@ router.get('/', async (req, res) => {
 });
 
 // ── GET /api/proposals/report — listado de seguimiento comercial (solo LLC) ─
-// Filtros opcionales: ?month=YYYY-MM &commercial=<nombre> &format=xlsx
+// Filtros opcionales: ?from=YYYY-MM-DD &to=YYYY-MM-DD &commercial=<nombre> &format=xlsx
 router.get('/report', async (req, res) => {
   try {
-    const { month, commercial, format } = req.query;
+    const { from, to, commercial, format } = req.query;
     const conditions = [`p.proposal_type = 'llc'`];
     const params = [];
 
-    if (month) {
-      params.push(month);
-      conditions.push(`to_char(p.created_at, 'YYYY-MM') = $${params.length}`);
+    if (from) {
+      params.push(from);
+      conditions.push(`p.created_at >= $${params.length}::date`);
+    }
+    if (to) {
+      params.push(to);
+      conditions.push(`p.created_at < ($${params.length}::date + interval '1 day')`);
     }
     if (commercial) {
       params.push(commercial);
