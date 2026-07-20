@@ -370,6 +370,40 @@ const i18n = {
   },
 };
 
+// ── Meses (ES/PT) — compartido entre renderTemplate y renderTemplateWhitelabel ──
+const MONTHS = {
+  es: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+  pt: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'],
+};
+
+// ── Aumento de precios LLC: +USD 100 por paquete a partir del 1° de agosto de 2026 ──
+const LLC_PRICE_INCREASE_DATE = new Date('2026-08-01T00:00:00-04:00');
+function llcPriceIncreaseActive() {
+  return new Date() >= LLC_PRICE_INCREASE_DATE;
+}
+function llcPrices(lang) {
+  const bumpUsd = llcPriceIncreaseActive() ? 100 : 0;
+  const bumpBrl = llcPriceIncreaseActive() ? 510 : 0; // equivalente aprox. a USD 100 (misma cotización usada en el pitch deck)
+  return lang === 'pt'
+    ? { starter: 2599 + bumpBrl, pro: 3299 + bumpBrl, all_in: 6099 + bumpBrl }
+    : { solo_llc: 495 + bumpUsd, starter: 499 + bumpUsd, pro: 645 + bumpUsd, all_in: 1199 + bumpUsd };
+}
+// Antes del 1° de agosto: aviso de que el precio sube ese día. Desde el 1° de agosto en
+// adelante, ese aviso ya no aplica y se muestra la vigencia estándar de 15 días.
+function llcValidezPrecio(lang, data) {
+  if (!llcPriceIncreaseActive()) {
+    return lang === 'pt'
+      ? 'Preço válido até 31 de julho de 2026. A partir de 1º de agosto, aumenta o equivalente a USD 100 por pacote.'
+      : 'Precio válido hasta el 31 de julio de 2026. A partir del 1° de agosto, aumenta USD 100 por paquete.';
+  }
+  const created = data.created_at ? new Date(data.created_at) : new Date();
+  const expires = data.expires_at ? new Date(data.expires_at) : new Date(created.getTime() + 15 * 24 * 60 * 60 * 1000);
+  const months = MONTHS[lang];
+  return lang === 'pt'
+    ? `Esta proposta tem validade de 15 dias, até ${expires.getDate()} de ${months[expires.getMonth()].toLowerCase()} de ${expires.getFullYear()}.`
+    : `Esta propuesta tiene una validez de 15 días, hasta el ${expires.getDate()} de ${months[expires.getMonth()].toLowerCase()} de ${expires.getFullYear()}.`;
+}
+
 // ── Tabla de precios dinámica ──────────────────────────────────────────────
 function buildPricingTable(pkg, lang) {
   const t    = i18n[lang];
@@ -458,9 +492,7 @@ function buildPricingTable(pkg, lang) {
 
   const priceRow = (col) => {
     const isPt     = lang === 'pt';
-    const pricesEs = { solo_llc: '495', starter: '499', pro: '645', all_in: '1.199' };
-    const pricesPt = { starter: '2.599', pro: '3.299', all_in: '6.099' };
-    const priceVal = isPt ? pricesPt[col] : pricesEs[col];
+    const priceVal = llcPrices(lang)[col].toLocaleString('es-AR');
     const currency = isPt ? 'R$' : 'USD';
     const featured = col === pkg;
     const style = featured
@@ -625,11 +657,7 @@ function renderTemplateWhitelabel(data) {
   const wl    = WL_DEFAULTS[lang];
 
   const now = new Date();
-  const monthsByLang = {
-    es: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
-    pt: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'],
-  };
-  const months = monthsByLang[lang];
+  const months = MONTHS[lang];
   const fechaMes = `${months[now.getMonth()]} ${now.getFullYear()}`;
 
   const clientName = final.client_name || data.lead_name || 'tu empresa';
@@ -769,17 +797,11 @@ function renderTemplate(data) {
   const t = i18n[lang];
   const pkg  = data.package || 'pro';
   const isPt = lang === 'pt';
-  const prices = isPt
-    ? { starter: 2599,  pro: 3299,  all_in: 6099  }
-    : { solo_llc: 495,  starter: 499, pro: 645, all_in: 1199 };
+  const prices = llcPrices(lang);
   const currency = isPt ? 'R$' : 'USD';
 
   const now = new Date();
-  const months = {
-    es: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
-    pt: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'],
-  };
-  const fechaMes = `${months[lang][now.getMonth()]} ${now.getFullYear()}`;
+  const fechaMes = `${MONTHS[lang][now.getMonth()]} ${now.getFullYear()}`;
 
   const final = data.final_data || data.generated_data || {};
 
@@ -828,6 +850,7 @@ function renderTemplate(data) {
     CAP02_TITULO: t.cap02Titulo,
     PRICING_TABLE: buildPricingTable(pkg, lang),
     TABLA_NOTA: t.tablaNota,
+    VALIDEZ_PRECIO: llcValidezPrecio(lang, data),
     ANNUAL_OBLIGATIONS: buildAnnualObligations(pkg, state, lang),
     REQUIREMENTS_SECTION: buildRequirements(lang),
     MERCURY_CHIP: t.mercuryChip,
@@ -866,4 +889,4 @@ function renderTemplate(data) {
   return html;
 }
 
-module.exports = { renderTemplate, WL_DEFAULTS };
+module.exports = { renderTemplate, WL_DEFAULTS, llcPrices };

@@ -1,4 +1,5 @@
 const Anthropic = require('@anthropic-ai/sdk');
+const { llcPrices } = require('./template');
 
 const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
 
@@ -8,6 +9,9 @@ function buildSystemPrompt(language) {
   const plazo = isPortuguese ? '15-20 dias úteis' : '15-20 días hábiles';
   const soporte = isPortuguese ? 'gratuito e ilimitado' : 'gratis e ilimitado';
   const hoyLabel = isPortuguese ? '(até hoje)' : '(al día de hoy)';
+  // Los paquetes siempre se cotizan en USD en este prompt, independientemente del
+  // idioma de la propuesta (la tabla de precios que ve el cliente sí muestra R$ en PT).
+  const prices = llcPrices('es');
 
   return `Eres el asistente de generación de propuestas comerciales de Firmaway, empresa especializada en formación de LLCs en EE.UU. para no residentes.
 
@@ -27,10 +31,10 @@ REGLAS DE NEGOCIO FIRMAWAY — OBLIGATORIAS, NUNCA MODIFICAR
 • NUNCA usar voseo ("vos", "tenés", "hacés", "podés", etc.) salvo que el vendedor lo indique explícitamente en el contexto adicional.
 
 PAQUETES DISPONIBLES:
-• solo_llc — USD 495: LLC sin cuenta bancaria. Cualquier estado, cualquier número de socios. Incluye: constitución, EIN, Registered Agent 1 año, Operating Agreement, soporte ${soporte}. NO incluye cuenta Mercury. Solo disponible en propuestas en español.
-• starter — USD 499: Solo Nuevo México, 1 socio único. Incluye: constitución, cuenta Mercury, EIN, Registered Agent 1 año, Operating Agreement, soporte ${soporte}.
-• pro — USD 645: Cualquier estado, 2 o más socios. Incluye: constitución, cuenta Mercury, EIN, Registered Agent 1 año, Operating Agreement, soporte ${soporte}.
-• all_in — USD 1199: Igual que Pro + obligaciones año 1 incluidas. La opción más completa.
+• solo_llc — USD ${prices.solo_llc}: LLC sin cuenta bancaria. Cualquier estado, cualquier número de socios. Incluye: constitución, EIN, Registered Agent 1 año, Operating Agreement, soporte ${soporte}. NO incluye cuenta Mercury. Solo disponible en propuestas en español.
+• starter — USD ${prices.starter}: Solo Nuevo México, 1 socio único. Incluye: constitución, cuenta Mercury, EIN, Registered Agent 1 año, Operating Agreement, soporte ${soporte}.
+• pro — USD ${prices.pro}: Cualquier estado, 2 o más socios. Incluye: constitución, cuenta Mercury, EIN, Registered Agent 1 año, Operating Agreement, soporte ${soporte}.
+• all_in — USD ${prices.all_in}: Igual que Pro + obligaciones año 1 incluidas. La opción más completa.
 
 LÓGICA DE RECOMENDACIÓN DE PAQUETE:
 • solo_llc → si el lead explícitamente no necesita cuenta bancaria, ya tiene banco, o quiere solo la LLC. Solo para propuestas en español.
@@ -138,9 +142,8 @@ async function generateProposal(transcript, language = 'es', notes = '') {
     data.state_recommended = data.package === 'starter' ? 'new_mexico' : 'wyoming';
   }
 
-  // Precio según paquete
-  const prices = { starter: 499, pro: 645, all_in: 1199 };
-  data.price = prices[data.package];
+  // Precio según paquete (siempre en USD, ver nota en buildSystemPrompt)
+  data.price = llcPrices('es')[data.package];
 
   return data;
 }
