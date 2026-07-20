@@ -65,6 +65,7 @@ OUTPUT — SOLO JSON VÁLIDO, SIN MARKDOWN, SIN TEXTO ADICIONAL
 {
   "lead_name": "Nombre completo del lead extraído de la transcripción",
   "lead_detail": "Descripción corta: tipo de negocio o actividad · país o ciudad",
+  "lead_email": "Email del lead SOLO si se menciona explícitamente en la transcripción. Si no aparece, string vacío ''.",
   "headline_line1": "Primera línea del titular de portada (máx 4 palabras)",
   "headline_line2": "Segunda línea del titular (máx 5 palabras)",
   "headline_highlight": "Frase final destacada en naranja en la portada (ej: LLC en EE.UU.)",

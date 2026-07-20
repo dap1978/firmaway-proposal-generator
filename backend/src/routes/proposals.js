@@ -2,8 +2,9 @@ const express = require('express');
 const router = express.Router();
 const db = require('../config/database');
 const { generateProposal } = require('../services/claude');
-const { renderTemplate, WL_DEFAULTS } = require('../services/template');
+const { renderTemplate, WL_DEFAULTS, llcPrices } = require('../services/template');
 const { generatePDF } = require('../services/pdf');
+const { buildReportXlsx } = require('../services/report');
 
 // ── Generar número de propuesta ────────────────────────────────────────────
 async function nextProposalNumber() {
@@ -163,6 +164,51 @@ router.get('/', async (req, res) => {
   }
 });
 
+// ── GET /api/proposals/report — listado de seguimiento comercial (solo LLC) ─
+// Filtros opcionales: ?month=YYYY-MM &commercial=<nombre> &format=xlsx
+router.get('/report', async (req, res) => {
+  try {
+    const { month, commercial, format } = req.query;
+    const conditions = [`p.proposal_type = 'llc'`];
+    const params = [];
+
+    if (month) {
+      params.push(month);
+      conditions.push(`to_char(p.created_at, 'YYYY-MM') = $${params.length}`);
+    }
+    if (commercial) {
+      params.push(commercial);
+      conditions.push(`p.commercial_name = $${params.length}`);
+    }
+
+    const { rows } = await db.query(
+      `SELECT
+        p.proposal_number, p.commercial_name, p.lead_name, p.lead_detail,
+        COALESCE(p.final_data->>'lead_email', p.generated_data->>'lead_email', '') AS lead_email,
+        p.package, p.status, p.sent_at, p.created_at,
+        COUNT(pv.id)::int AS view_count,
+        MAX(pv.viewed_at) AS last_viewed_at
+      FROM proposals p
+      LEFT JOIN proposal_views pv ON pv.proposal_id = p.id
+      WHERE ${conditions.join(' AND ')}
+      GROUP BY p.id
+      ORDER BY p.created_at DESC`,
+      params
+    );
+
+    if (format === 'xlsx') {
+      const buffer = buildReportXlsx(rows);
+      res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+      res.setHeader('Content-Disposition', 'attachment; filename="reporte-propuestas-llc.xlsx"');
+      return res.send(buffer);
+    }
+
+    res.json(rows);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
 // ── GET /api/proposals/:id ────────────────────────────────────────────────
 router.get('/:id', async (req, res) => {
   try {
@@ -239,7 +285,7 @@ router.patch('/:id', async (req, res) => {
       return res.json(rows[0]);
     }
 
-    const prices = { solo_llc: 495, starter: 499, pro: 645, all_in: 1199 };
+    const prices = llcPrices('es');
     const newPkg = pkg || current[0].package;
     const newPrice = prices[newPkg] || current[0].price;
 

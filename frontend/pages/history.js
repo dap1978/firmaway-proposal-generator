@@ -36,18 +36,46 @@ export default function History() {
   const router = useRouter();
   const [proposals, setProposals] = useState([]);
   const [stats, setStats] = useState([]);
+  const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
+  const [reportMonth, setReportMonth] = useState('');
+  const [reportCommercial, setReportCommercial] = useState('');
+  const [reportLoading, setReportLoading] = useState(false);
 
   useEffect(() => {
     Promise.all([
       api.get('/proposals'),
       api.get('/proposals/stats'),
-    ]).then(([pRes, sRes]) => {
+      api.get('/users'),
+    ]).then(([pRes, sRes, uRes]) => {
       setProposals(pRes.data);
       setStats(sRes.data);
+      setUsers(uRes.data);
     }).finally(() => setLoading(false));
   }, []);
+
+  async function handleDownloadReport() {
+    setReportLoading(true);
+    try {
+      const params = {};
+      if (reportMonth) params.month = reportMonth;
+      if (reportCommercial) params.commercial = reportCommercial;
+      const response = await api.get('/proposals/report', { params: { ...params, format: 'xlsx' }, responseType: 'blob' });
+      const url = window.URL.createObjectURL(new Blob([response.data], {
+        type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+      }));
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `reporte-propuestas-llc${reportMonth ? `-${reportMonth}` : ''}.xlsx`;
+      a.click();
+      window.URL.revokeObjectURL(url);
+    } catch {
+      alert('Error al generar el reporte. Intentá de nuevo.');
+    } finally {
+      setReportLoading(false);
+    }
+  }
 
   const filtered = proposals.filter(p => {
     const q = search.toLowerCase();
@@ -106,6 +134,52 @@ export default function History() {
             </div>
           </div>
         )}
+
+        {/* Reporte comercial (LLC) */}
+        <div style={{
+          background: C.bg, border: `1.5px solid ${C.border}`, borderRadius: 12,
+          padding: '16px 20px', boxShadow: `4px 4px 0px 0px ${C.border}`, marginBottom: 32,
+          display: 'flex', alignItems: 'flex-end', gap: 14, flexWrap: 'wrap',
+        }}>
+          <div style={{ marginRight: 'auto' }}>
+            <div style={{ fontSize: 11, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.07em', color: C.muted, marginBottom: 2 }}>
+              Reporte comercial
+            </div>
+            <div style={{ fontSize: 13, color: C.muted }}>Listado de propuestas LLC enviadas — para seguimiento en Wati / HubSpot.</div>
+          </div>
+          <div>
+            <label style={{ display: 'block', fontSize: 10, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.06em', color: C.muted, marginBottom: 4 }}>Mes</label>
+            <input
+              type="month"
+              value={reportMonth}
+              onChange={e => setReportMonth(e.target.value)}
+              style={{ padding: '8px 10px', borderRadius: 8, border: `1.5px solid ${C.border}`, background: C.warm, fontSize: 13, color: C.ink, outline: 'none' }}
+            />
+          </div>
+          <div>
+            <label style={{ display: 'block', fontSize: 10, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.06em', color: C.muted, marginBottom: 4 }}>Comercial</label>
+            <select
+              value={reportCommercial}
+              onChange={e => setReportCommercial(e.target.value)}
+              style={{ padding: '8px 10px', borderRadius: 8, border: `1.5px solid ${C.border}`, background: C.warm, fontSize: 13, color: C.ink, outline: 'none' }}
+            >
+              <option value="">Todos</option>
+              {users.map(u => <option key={u.id} value={u.name}>{u.name}</option>)}
+            </select>
+          </div>
+          <button
+            onClick={handleDownloadReport}
+            disabled={reportLoading}
+            style={{
+              padding: '9px 18px', borderRadius: 8, border: 'none',
+              background: reportLoading ? 'rgba(49,53,61,0.15)' : C.orange,
+              color: reportLoading ? C.muted : '#fff',
+              fontSize: 13, fontWeight: 700, cursor: reportLoading ? 'not-allowed' : 'pointer',
+            }}
+          >
+            {reportLoading ? 'Generando...' : 'Descargar Excel'}
+          </button>
+        </div>
 
         {/* Header tabla */}
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: 16 }}>

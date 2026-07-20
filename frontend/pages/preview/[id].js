@@ -191,6 +191,7 @@ export default function Preview() {
       setEdits({
         lead_name:          src.lead_name || '',
         lead_detail:        src.lead_detail || '',
+        lead_email:         src.lead_email || '',
         headline_line1:     src.headline_line1 || '',
         headline_line2:     src.headline_line2 || '',
         headline_highlight: src.headline_highlight || '',
@@ -572,6 +573,7 @@ export default function Preview() {
           {[
             { key: 'lead_name',   label: 'Nombre del lead',    hint: 'Aparece en la portada y en el mail de envío.' },
             { key: 'lead_detail', label: 'Detalle del cliente', hint: 'Visible en la portada. Ej: E-commerce · Argentina' },
+            { key: 'lead_email',  label: 'Email del lead',     hint: 'No aparece en la propuesta. Se usa para el reporte de seguimiento comercial.' },
           ].map(({ key, label, hint }) => (
             <div key={key} style={{ marginBottom: 14 }}>
               <label style={{ display: 'block', fontSize: 11, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.06em', color: C.muted, marginBottom: 2 }}>{label}</label>
