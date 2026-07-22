@@ -290,6 +290,16 @@ const i18n = {
         ['Soporte gratis e ilimitado', 'equipo disponible de lunes a viernes para cualquier consulta.'],
       ],
     },
+    scopeChip: 'Info',
+    scopeLabel: 'Alcance del servicio',
+    scopeTitle: 'Qué incluye y qué no<br>incluye nuestro servicio.',
+    scopeIntro: 'Nuestro asesoramiento es exclusivamente sobre la formación y operación de LLCs en Estados Unidos. No brindamos asesoría contable, impositiva ni legal de Argentina ni de ningún otro país.',
+    scopeItems: [
+      ['Cuentas de inversión y brokers.', 'No damos soporte ni orientación sobre cuentas de inversión ni brokers, ni planificación financiera o patrimonial.'],
+      ['Tiempos y aprobaciones.', 'Los plazos son estimados. La apertura bancaria y la reserva de nombre dependen del Estado y del banco, no de Firmaway.'],
+      ['Gestión externa.', 'No respondemos requerimientos de terceros ni formularios externos ajenos a tu trámite activo.'],
+      ['Errores de datos.', 'Las correcciones derivadas de información incorrecta provista por el cliente pueden generar costos adicionales.'],
+    ],
   },
   pt: {
     eyebrow: 'Proposta comercial',
@@ -367,6 +377,16 @@ const i18n = {
         ['Suporte gratuito e ilimitado', 'equipe disponível de segunda a sexta para qualquer dúvida.'],
       ],
     },
+    scopeChip: 'Info',
+    scopeLabel: 'Escopo do serviço',
+    scopeTitle: 'O que nosso serviço inclui e exclui:',
+    scopeIntro: 'Nossa assessoria se concentra exclusivamente na formação e operação de LLCs nos Estados Unidos. Não oferecemos assessoria contábil, tributária ou jurídica para o Brasil, a Argentina, ou qualquer outro país.',
+    scopeItems: [
+      ['Contas de investimento e corretoras:', 'Não oferecemos suporte ou orientação sobre contas de investimento ou corretoras, nem planejamento financeiro ou patrimonial.'],
+      ['Prazos e aprovações.', 'Os prazos são estimativas. A abertura de conta bancária e a reserva de nome dependem do estado e do banco, não da Firmaway.'],
+      ['Gestão externa:', 'Não respondemos a solicitações de terceiros ou formulários externos não relacionados ao seu processo ativo.'],
+      ['Erros de dados:', 'Correções resultantes de informações incorretas fornecidas pelo cliente podem gerar custos adicionais.'],
+    ],
   },
 };
 
@@ -638,6 +658,13 @@ function buildRequirements(lang) {
 </div>`;
 }
 
+// ── Lista de "qué incluye y qué no incluye" el servicio ────────────────────
+function buildScopeItems(lang) {
+  return i18n[lang].scopeItems
+    .map(([label, body]) => `<li><strong>${label}</strong> ${body}</li>`)
+    .join('');
+}
+
 // ── Contacto whitelabel: deriva email/apodo del comercial ──────────────────
 function whitelabelContact(commercialName) {
   const full  = (commercialName || 'Daniel').trim();
@@ -878,6 +905,11 @@ function renderTemplate(data) {
     CTA_SUBTITULO: t.ctaSubtitulo,
     CTA_BOTON: t.ctaBoton,
     WA_TEXT: waText,
+    SCOPE_CHIP: t.scopeChip,
+    SCOPE_LABEL: t.scopeLabel,
+    SCOPE_TITLE: t.scopeTitle,
+    SCOPE_INTRO: t.scopeIntro,
+    SCOPE_ITEMS: buildScopeItems(lang),
   };
 
   let html = fs.readFileSync(TEMPLATE_PATH, 'utf-8');
