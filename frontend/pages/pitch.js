@@ -49,8 +49,8 @@ const CONTENT = {
       items: [
         { name: 'Solo LLC', price: '495',   sub: 'Sin cuenta bancaria',          included: [true, false, true, true, true, true, false] },
         { name: 'Starter',  price: '499',   sub: 'Nuevo México · 1 socio',       included: [true, true,  true, true, true, true, false] },
-        { name: 'Pro',      price: '645',   sub: 'Cualquier estado · 2+ socios', included: [true, true,  true, true, true, true, false], featured: true },
-        { name: 'All In',   price: '1.199', sub: 'Todo incluido',                included: [true, true,  true, true, true, true, true]  },
+        { name: 'Pro',      price: '645',   sub: 'Cualquier estado · 2+ socios', included: [true, true,  true, true, true, true, false] },
+        { name: 'All In',   price: '1.199', sub: 'Todo incluido',                included: [true, true,  true, true, true, true, true],  featured: true },
       ],
     },
     states: {
@@ -59,6 +59,7 @@ const CONTENT = {
       currency: 'USD',
       obligLabel: 'Obligaciones anuales',
       oblig: '699',
+      obligNote: '+ fee estatal, según el estado elegido.',
       items: [
         { name: 'Wyoming',      fee: '$62/año',         note: 'Privacidad de socios. El más recomendado para Pro y All In.' },
         { name: 'Nuevo México', fee: 'Sin fee estatal', note: 'El más económico. Ideal para socio único.' },
@@ -72,7 +73,7 @@ const CONTENT = {
       title: 'De la firma a la cuenta bancaria en 15 días.',
       items: [
         { n: '1', title: 'Confirmación de datos', days: 'Día 1',        note: 'Completamos el perfil y validamos la documentación.' },
-        { n: '2', title: 'Formación de la LLC',   days: 'Días 2 a 5',   note: 'Presentamos la constitución en el estado elegido.' },
+        { n: '2', title: 'Formación de la LLC',   days: 'Días 2 a 5',   note: 'Presentamos la constitución.', noteHighlight: 'En Pro y All In, ya iniciamos la solicitud bancaria en este paso, sin necesidad del EIN.' },
         { n: '3', title: 'Obtención del EIN',     days: 'Días 5 a 10',  note: 'Gestionamos el Tax ID federal ante el IRS.' },
         { n: '4', title: 'Apertura de Mercury',   days: 'Días 10 a 15', note: 'Activamos la cuenta bancaria y la tarjeta de débito Visa.' },
       ],
@@ -89,6 +90,24 @@ const CONTENT = {
         'Conexión directa vía API con Mercury en los planes Pro y All In.',
         'También trabajamos con Lili Bank y Relay.',
       ],
+    },
+    requirements: {
+      eyebrow: 'Requisitos',
+      title: 'Lo que necesitás para arrancar.',
+      col1Title: 'Para formar tu LLC',
+      col1Items: [
+        'Pasaporte vigente',
+        'Extracto bancario para justificar fondos',
+        'Servicio de luz, gas, etc. con menos de 60 días',
+      ],
+      col2Title: 'Obligaciones anuales',
+      col2Items: [
+        'Declaración de impuestos',
+        'Annual report (si aplica)',
+        'Renovación de agente registrado',
+      ],
+      btn: 'Revisión de tu web',
+      btnUrl: 'https://firmaway.notion.site/Revisi-n-de-tu-web-c629099cadc24e8ab799eee845888b72',
     },
     why: {
       eyebrow: 'Diferencial',
@@ -145,8 +164,8 @@ const CONTENT = {
       items: [
         { name: 'É só LLC',   price: '2.530', sub: 'Sem conta bancária',           included: [true, false, true, true, true, true, false] },
         { name: 'Essencial',  price: '2.550', sub: 'Novo México · 1 sócio',        included: [true, true,  true, true, true, true, false] },
-        { name: 'Pro',        price: '3.300', sub: 'Qualquer estado · 2+ sócios',  included: [true, true,  true, true, true, true, false], featured: true },
-        { name: 'All In',     price: '6.130', sub: 'Tudo incluído',                included: [true, true,  true, true, true, true, true]  },
+        { name: 'Pro',        price: '3.300', sub: 'Qualquer estado · 2+ sócios',  included: [true, true,  true, true, true, true, false] },
+        { name: 'All In',     price: '6.130', sub: 'Tudo incluído',                included: [true, true,  true, true, true, true, true],  featured: true },
       ],
     },
     states: {
@@ -155,6 +174,7 @@ const CONTENT = {
       currency: 'R$',
       obligLabel: 'Obrigações anuais',
       oblig: '3.570',
+      obligNote: '+ taxa estadual, conforme o estado escolhido.',
       items: [
         { name: 'Wyoming',      fee: 'R$320/ano',         note: 'Privacidade dos sócios. O mais recomendado para Pro e All In.' },
         { name: 'Novo México',  fee: 'Sem taxa estadual', note: 'O mais econômico. Ideal para sócio único.' },
@@ -168,7 +188,7 @@ const CONTENT = {
       title: 'Da assinatura à conta bancária em 15 dias.',
       items: [
         { n: '1', title: 'Confirmação dos dados', days: 'Dia 1',        note: 'Completamos o perfil e validamos a documentação.' },
-        { n: '2', title: 'Formação da LLC',        days: 'Dias 2 a 5',   note: 'Apresentamos a constituição no estado escolhido.' },
+        { n: '2', title: 'Formação da LLC',        days: 'Dias 2 a 5',   note: 'Apresentamos a constituição.', noteHighlight: 'Nos pacotes Pro e All In, já iniciamos a solicitação bancária nesta etapa, sem necessidade do EIN.' },
         { n: '3', title: 'Obtenção do EIN',         days: 'Dias 5 a 10',  note: 'Gerenciamos o Tax ID federal junto ao IRS.' },
         { n: '4', title: 'Abertura da Mercury',     days: 'Dias 10 a 15', note: 'Ativamos a conta bancária e o cartão de débito Visa.' },
       ],
@@ -185,6 +205,24 @@ const CONTENT = {
         'Conexão direta via API com a Mercury nos planos Pro e All In.',
         'Também trabalhamos com o Lili Bank e a Relay.',
       ],
+    },
+    requirements: {
+      eyebrow: 'Requisitos',
+      title: 'O que você precisa para começar.',
+      col1Title: 'Para formar sua LLC',
+      col1Items: [
+        'Passaporte válido',
+        'Extrato bancário para comprovar fundos',
+        'Conta de luz, gás, etc. com menos de 60 dias',
+      ],
+      col2Title: 'Obrigações anuais',
+      col2Items: [
+        'Declaração de impostos',
+        'Annual report (se aplicável)',
+        'Renovação do agente registrado',
+      ],
+      btn: 'Revisão do seu site',
+      btnUrl: 'https://firmaway.notion.site/Revisi-n-de-tu-web-c629099cadc24e8ab799eee845888b72',
     },
     why: {
       eyebrow: 'Diferencial',
@@ -338,29 +376,34 @@ function SlidePackages({ theme, lang }) {
 function SlideStates({ theme, lang }) {
   const t = CONTENT[lang].states;
   return (
-    <div style={{ height: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
-      <Eyebrow theme={theme} center>{t.eyebrow}</Eyebrow>
-      <Title theme={theme} size={38} center>{t.title}</Title>
-      <div style={{
-        display: 'inline-flex', alignItems: 'center', gap: 10, marginBottom: 24,
-        background: C.orangeSoft, border: `1.5px solid ${C.orange}`, borderRadius: 999,
-        padding: '8px 18px',
-      }}>
-        <span style={{ fontSize: 10.5, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em', color: C.orange }}>{t.obligLabel}</span>
-        <span style={{ fontSize: 15, fontWeight: 800, color: C.ink }}>{t.currency} {t.oblig}</span>
-      </div>
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 20, maxWidth: 940, width: '100%' }}>
-        {t.items.map(s => (
-          <div key={s.name} style={{
-            display: 'flex', alignItems: 'center', gap: 24,
-            background: C.bg, border: `1.5px solid ${C.border}`, borderRadius: 14, padding: '24px 30px',
-            boxShadow: `3px 3px 0px 0px ${C.border}`,
-          }}>
-            <div style={{ fontSize: 18, fontWeight: 700, color: C.ink, width: 150, flexShrink: 0, letterSpacing: '-0.01em' }}>{s.name}</div>
-            <div style={{ fontSize: 14, fontWeight: 700, color: C.orange, width: 130, flexShrink: 0 }}>{s.fee}</div>
-            <div style={{ fontSize: 15, color: '#4B505A', lineHeight: 1.45, fontWeight: 500, flex: 1 }}>{s.note}</div>
-          </div>
-        ))}
+    <div style={{ height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+      <Eyebrow theme={theme}>{t.eyebrow}</Eyebrow>
+      <Title theme={theme} size={38}>{t.title}</Title>
+      <div style={{ display: 'flex', gap: 32, alignItems: 'flex-start', maxWidth: 1140, width: '100%' }}>
+        {/* Izquierda: obligación anual fija */}
+        <div style={{
+          flex: '0 0 240px', textAlign: 'center',
+          background: C.orangeSoft, border: `1.5px solid ${C.orange}`, borderRadius: 16,
+          padding: '30px 22px', boxShadow: `4px 4px 0px 0px ${C.orange}`,
+        }}>
+          <div style={{ fontSize: 10.5, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em', color: C.orange, marginBottom: 12 }}>{t.obligLabel}</div>
+          <div style={{ fontSize: 32, fontWeight: 800, color: C.ink, letterSpacing: '-0.03em', lineHeight: 1.1 }}>{t.currency} {t.oblig}</div>
+          <div style={{ fontSize: 12.5, color: C.muted, marginTop: 10, lineHeight: 1.4 }}>{t.obligNote}</div>
+        </div>
+        {/* Derecha: estados con su fee */}
+        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 14 }}>
+          {t.items.map(s => (
+            <div key={s.name} style={{
+              display: 'flex', alignItems: 'center', gap: 20,
+              background: C.bg, border: `1.5px solid ${C.border}`, borderRadius: 12, padding: '16px 22px',
+              boxShadow: `3px 3px 0px 0px ${C.border}`,
+            }}>
+              <div style={{ fontSize: 16, fontWeight: 700, color: C.ink, width: 130, flexShrink: 0, letterSpacing: '-0.01em' }}>{s.name}</div>
+              <div style={{ fontSize: 13.5, fontWeight: 700, color: C.orange, width: 120, flexShrink: 0 }}>{s.fee}</div>
+              <div style={{ fontSize: 13, color: '#4B505A', lineHeight: 1.4, flex: 1 }}>{s.note}</div>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );
@@ -382,7 +425,10 @@ function SlideTimeline({ theme, lang }) {
               </div>
               <div style={{ fontSize: 10.5, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em', color: C.orange, marginBottom: 6 }}>{item.days}</div>
               <div style={{ fontSize: 15, fontWeight: 700, color: theme.ink, marginBottom: 6, letterSpacing: '-0.01em' }}>{item.title}</div>
-              <div style={{ fontSize: 12.5, color: theme.muted, lineHeight: 1.45 }}>{item.note}</div>
+              <div style={{ fontSize: 12.5, color: theme.muted, lineHeight: 1.45 }}>
+                {item.note}
+                {item.noteHighlight && <span style={{ color: C.orange, fontWeight: 600 }}> {item.noteHighlight}</span>}
+              </div>
             </div>
           </div>
         ))}
@@ -469,6 +515,46 @@ function SlideMercury({ theme, lang }) {
   );
 }
 
+function SlideRequirements({ theme, lang }) {
+  const t = CONTENT[lang].requirements;
+  const Column = ({ title, items }) => (
+    <div style={{ flex: 1 }}>
+      <div style={{ fontSize: 12, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em', color: C.orange, marginBottom: 14 }}>{title}</div>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+        {items.map(item => (
+          <div key={item} style={{
+            display: 'flex', alignItems: 'flex-start', gap: 10,
+            background: C.bg, border: `1.5px solid ${C.border}`, borderRadius: 12,
+            padding: '13px 16px', boxShadow: `2px 2px 0px 0px ${C.border}`,
+          }}>
+            <div style={{ width: 20, height: 20, background: C.orangeSoft, border: `1.5px solid ${C.orange}`, borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, marginTop: 1 }}>
+              <svg viewBox="0 0 10 8" fill="none" width="10" height="8"><path d="M1 4L3.5 6.5L9 1" stroke="#F15A2F" strokeWidth="2" strokeLinecap="round" /></svg>
+            </div>
+            <div style={{ fontSize: 14, color: C.ink, lineHeight: 1.4 }}>{item}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+  return (
+    <div style={{ height: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+      <Eyebrow theme={theme} center>{t.eyebrow}</Eyebrow>
+      <Title theme={theme} size={38} center>{t.title}</Title>
+      <div style={{ display: 'flex', gap: 32, maxWidth: 820, width: '100%', marginTop: 8 }}>
+        <Column title={t.col1Title} items={t.col1Items} />
+        <Column title={t.col2Title} items={t.col2Items} />
+      </div>
+      <a href={t.btnUrl} target="_blank" rel="noopener noreferrer" style={{
+        display: 'inline-block', background: C.orange, color: '#fff', fontSize: 13, fontWeight: 700,
+        padding: '12px 22px', borderRadius: 10, textDecoration: 'none', letterSpacing: '-0.01em',
+        marginTop: 30, pointerEvents: 'auto',
+      }}>
+        {t.btn} →
+      </a>
+    </div>
+  );
+}
+
 function SlideWhy({ theme, lang }) {
   const t = CONTENT[lang].why;
   return (
@@ -531,14 +617,15 @@ function SlideClosing({ theme, lang }) {
 }
 
 const SLIDES = [
-  { key: 'cover',    theme: 'cream',  Component: SlideCover },
-  { key: 'stats',    theme: 'dark',   Component: SlideStats },
-  { key: 'packages', theme: 'cream',  Component: SlidePackages },
-  { key: 'states',   theme: 'cream',  Component: SlideStates },
-  { key: 'timeline', theme: 'dark',   Component: SlideTimeline },
-  { key: 'mercury',  theme: 'cream',  Component: SlideMercury },
-  { key: 'why',      theme: 'cream',  Component: SlideWhy },
-  { key: 'closing',  theme: 'dark',   Component: SlideClosing },
+  { key: 'cover',        theme: 'cream',  Component: SlideCover },
+  { key: 'stats',        theme: 'dark',   Component: SlideStats },
+  { key: 'timeline',     theme: 'dark',   Component: SlideTimeline },
+  { key: 'mercury',      theme: 'cream',  Component: SlideMercury },
+  { key: 'requirements', theme: 'cream',  Component: SlideRequirements },
+  { key: 'packages',     theme: 'cream',  Component: SlidePackages },
+  { key: 'states',       theme: 'cream',  Component: SlideStates },
+  { key: 'why',          theme: 'cream',  Component: SlideWhy },
+  { key: 'closing',      theme: 'dark',   Component: SlideClosing },
 ];
 
 export default function Pitch() {
