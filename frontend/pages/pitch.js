@@ -92,22 +92,24 @@ const CONTENT = {
       ],
     },
     requirements: {
-      eyebrow: 'Requisitos',
-      title: 'Lo que necesitás para arrancar.',
-      col1Title: 'Para formar tu LLC',
+      eyebrow: 'Documentación',
+      title: 'Todo lo que necesitás saber.',
+      col1Title: 'Lo que necesitás para arrancar',
       col1Items: [
         'Pasaporte vigente',
         'Extracto bancario para justificar fondos',
         'Servicio de luz, gas, etc. con menos de 60 días',
-      ],
-      col2Title: 'Obligaciones anuales',
-      col2Items: [
-        'Declaración de impuestos',
-        'Annual report (si aplica)',
-        'Renovación de agente registrado',
+        'Página web de tu negocio',
       ],
       btn: 'Revisión de tu web',
       btnUrl: 'https://firmaway.notion.site/Revisi-n-de-tu-web-c629099cadc24e8ab799eee845888b72',
+      col2Title: 'Te ayudaremos a mantener tu LLC',
+      col2Subtitle: 'Un trámite anual, entre enero y abril. No es un requisito para arrancar.',
+      col2Items: [
+        'Presentación de impuestos',
+        'Reporte anual',
+        'Renovación agente registrado',
+      ],
     },
     why: {
       eyebrow: 'Diferencial',
@@ -207,22 +209,24 @@ const CONTENT = {
       ],
     },
     requirements: {
-      eyebrow: 'Requisitos',
-      title: 'O que você precisa para começar.',
-      col1Title: 'Para formar sua LLC',
+      eyebrow: 'Documentação',
+      title: 'Tudo o que você precisa saber.',
+      col1Title: 'O que você precisa para começar',
       col1Items: [
         'Passaporte válido',
         'Extrato bancário para comprovar fundos',
         'Conta de luz, gás, etc. com menos de 60 dias',
-      ],
-      col2Title: 'Obrigações anuais',
-      col2Items: [
-        'Declaração de impostos',
-        'Annual report (se aplicável)',
-        'Renovação do agente registrado',
+        'Site da sua empresa',
       ],
       btn: 'Revisão do seu site',
       btnUrl: 'https://firmaway.notion.site/Revisi-n-de-tu-web-c629099cadc24e8ab799eee845888b72',
+      col2Title: 'Vamos te ajudar a manter sua LLC',
+      col2Subtitle: 'Um trâmite anual, entre janeiro e abril. Não é um requisito para começar.',
+      col2Items: [
+        'Declaração de impostos',
+        'Relatório anual',
+        'Renovação do agente registrado',
+      ],
     },
     why: {
       eyebrow: 'Diferencial',
@@ -377,9 +381,10 @@ function SlideStates({ theme, lang }) {
   const t = CONTENT[lang].states;
   return (
     <div style={{ height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+      <div style={{ maxWidth: 1140, width: '100%', margin: '0 auto' }}>
       <Eyebrow theme={theme}>{t.eyebrow}</Eyebrow>
       <Title theme={theme} size={38}>{t.title}</Title>
-      <div style={{ display: 'flex', gap: 32, alignItems: 'flex-start', maxWidth: 1140, width: '100%' }}>
+      <div style={{ display: 'flex', gap: 32, alignItems: 'flex-start' }}>
         {/* Izquierda: obligación anual fija */}
         <div style={{
           flex: '0 0 240px', textAlign: 'center',
@@ -405,6 +410,7 @@ function SlideStates({ theme, lang }) {
           ))}
         </div>
       </div>
+      </div>
     </div>
   );
 }
@@ -425,10 +431,10 @@ function SlideTimeline({ theme, lang }) {
               </div>
               <div style={{ fontSize: 10.5, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em', color: C.orange, marginBottom: 6 }}>{item.days}</div>
               <div style={{ fontSize: 15, fontWeight: 700, color: theme.ink, marginBottom: 6, letterSpacing: '-0.01em' }}>{item.title}</div>
-              <div style={{ fontSize: 12.5, color: theme.muted, lineHeight: 1.45 }}>
-                {item.note}
-                {item.noteHighlight && <span style={{ color: C.orange, fontWeight: 600 }}> {item.noteHighlight}</span>}
-              </div>
+              <div style={{ fontSize: 12.5, color: theme.muted, lineHeight: 1.45 }}>{item.note}</div>
+              {item.noteHighlight && (
+                <div style={{ fontSize: 14, fontWeight: 700, color: C.orange, lineHeight: 1.4, marginTop: 8 }}>{item.noteHighlight}</div>
+              )}
             </div>
           </div>
         ))}
@@ -478,9 +484,10 @@ function SlideMercury({ theme, lang }) {
   const t = CONTENT[lang].mercury;
   return (
     <div style={{ height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+      <div style={{ maxWidth: 1140, width: '100%', margin: '0 auto' }}>
       <Eyebrow theme={theme}>{t.eyebrow}</Eyebrow>
       <Title theme={theme} size={38}>{t.title}</Title>
-      <div style={{ display: 'flex', gap: 40, alignItems: 'center', minWidth: 0, maxWidth: 1140, width: '100%' }}>
+      <div style={{ display: 'flex', gap: 40, alignItems: 'center', minWidth: 0 }}>
         <div style={{ flex: '1.5 1 0', minWidth: 0, background: C.bg, border: `1.5px solid ${C.ink}`, borderRadius: 16, padding: 10, boxShadow: `5px 5px 0px 0px ${C.ink}`, overflow: 'hidden' }}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src="/images/mercury-demo.png" alt="Mercury" style={{ width: '100%', display: 'block', borderRadius: 10 }} />
@@ -511,46 +518,56 @@ function SlideMercury({ theme, lang }) {
           </a>
         </div>
       </div>
+      </div>
+    </div>
+  );
+}
+
+function RequirementCard({ item }) {
+  return (
+    <div style={{
+      display: 'flex', alignItems: 'center', gap: 14,
+      background: C.bg, border: `1.5px solid ${C.border}`, borderRadius: 14,
+      padding: '16px 20px', boxShadow: `3px 3px 0px 0px ${C.border}`,
+    }}>
+      <div style={{ width: 26, height: 26, background: C.orangeSoft, border: `1.5px solid ${C.orange}`, borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+        <svg viewBox="0 0 10 8" fill="none" width="11" height="9"><path d="M1 4L3.5 6.5L9 1" stroke="#F15A2F" strokeWidth="2" strokeLinecap="round" /></svg>
+      </div>
+      <div style={{ fontSize: 15, color: C.ink, fontWeight: 600, lineHeight: 1.4 }}>{item}</div>
     </div>
   );
 }
 
 function SlideRequirements({ theme, lang }) {
   const t = CONTENT[lang].requirements;
-  const Column = ({ title, items }) => (
-    <div style={{ flex: 1 }}>
-      <div style={{ fontSize: 12, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em', color: C.orange, marginBottom: 14 }}>{title}</div>
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-        {items.map(item => (
-          <div key={item} style={{
-            display: 'flex', alignItems: 'flex-start', gap: 10,
-            background: C.bg, border: `1.5px solid ${C.border}`, borderRadius: 12,
-            padding: '13px 16px', boxShadow: `2px 2px 0px 0px ${C.border}`,
-          }}>
-            <div style={{ width: 20, height: 20, background: C.orangeSoft, border: `1.5px solid ${C.orange}`, borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, marginTop: 1 }}>
-              <svg viewBox="0 0 10 8" fill="none" width="10" height="8"><path d="M1 4L3.5 6.5L9 1" stroke="#F15A2F" strokeWidth="2" strokeLinecap="round" /></svg>
-            </div>
-            <div style={{ fontSize: 14, color: C.ink, lineHeight: 1.4 }}>{item}</div>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
   return (
-    <div style={{ height: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
-      <Eyebrow theme={theme} center>{t.eyebrow}</Eyebrow>
-      <Title theme={theme} size={38} center>{t.title}</Title>
-      <div style={{ display: 'flex', gap: 32, maxWidth: 820, width: '100%', marginTop: 8 }}>
-        <Column title={t.col1Title} items={t.col1Items} />
-        <Column title={t.col2Title} items={t.col2Items} />
+    <div style={{ height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+      <div style={{ maxWidth: 1080, width: '100%', margin: '0 auto' }}>
+      <Eyebrow theme={theme}>{t.eyebrow}</Eyebrow>
+      <Title theme={theme} size={38}>{t.title}</Title>
+      <div style={{ display: 'flex' }}>
+        <div style={{ flex: 1, paddingRight: 36 }}>
+          <div style={{ fontSize: 17, fontWeight: 800, color: C.ink, marginBottom: 16, letterSpacing: '-0.01em' }}>{t.col1Title}</div>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+            {t.col1Items.map(item => <RequirementCard key={item} item={item} />)}
+          </div>
+          <a href={t.btnUrl} target="_blank" rel="noopener noreferrer" style={{
+            display: 'inline-block', background: C.orange, color: '#fff', fontSize: 13, fontWeight: 700,
+            padding: '11px 20px', borderRadius: 10, textDecoration: 'none', letterSpacing: '-0.01em',
+            marginTop: 18, pointerEvents: 'auto',
+          }}>
+            {t.btn} →
+          </a>
+        </div>
+        <div style={{ flex: 1, paddingLeft: 36, borderLeft: `1.5px solid ${theme.border}` }}>
+          <div style={{ fontSize: 17, fontWeight: 800, color: C.ink, marginBottom: 6, letterSpacing: '-0.01em' }}>{t.col2Title}</div>
+          <div style={{ fontSize: 12.5, color: theme.muted, marginBottom: 14, lineHeight: 1.4 }}>{t.col2Subtitle}</div>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+            {t.col2Items.map(item => <RequirementCard key={item} item={item} />)}
+          </div>
+        </div>
       </div>
-      <a href={t.btnUrl} target="_blank" rel="noopener noreferrer" style={{
-        display: 'inline-block', background: C.orange, color: '#fff', fontSize: 13, fontWeight: 700,
-        padding: '12px 22px', borderRadius: 10, textDecoration: 'none', letterSpacing: '-0.01em',
-        marginTop: 30, pointerEvents: 'auto',
-      }}>
-        {t.btn} →
-      </a>
+      </div>
     </div>
   );
 }
