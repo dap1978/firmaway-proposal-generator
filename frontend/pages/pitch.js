@@ -1,11 +1,18 @@
 import { useEffect, useState, useCallback } from 'react';
 import { useRouter } from 'next/router';
+import api from '../api';
 
 const C = {
   bg: '#FFFFFF', warm: '#FFFBF5', cardBg: '#FEF1E0',
   ink: '#31353D', muted: 'rgba(49,53,61,0.45)',
   orange: '#F15A2F', orangeSoft: '#FDEEE9',
   border: 'rgba(49,53,61,0.12)', dark: '#2E3135',
+};
+
+// Se usa mientras carga /api/pricing (o si el pedido falla).
+const DEFAULT_PRICING = {
+  obligUsd: 699, wyoming: 63, nuevoMexico: 0, delaware: 300, florida: 138.75, texas: 99,
+  pkgSolo: 495, pkgStarter: 499, pkgPro: 645, pkgAllin: 1199, exchangeRate: 5.11,
 };
 
 const BG = {
@@ -47,10 +54,10 @@ const CONTENT = {
         'Obligaciones año 1 incluidas',
       ],
       items: [
-        { name: 'Solo LLC', price: '495',   sub: 'Sin cuenta bancaria',          included: [true, false, true, true, true, true, false] },
-        { name: 'Starter',  price: '499',   sub: 'Nuevo México · 1 socio',       included: [true, true,  true, true, true, true, false] },
-        { name: 'Pro',      price: '645',   sub: 'Cualquier estado · 2+ socios', included: [true, true,  true, true, true, true, false] },
-        { name: 'All In',   price: '1.199', sub: 'Todo incluido',                included: [true, true,  true, true, true, true, true],  featured: true },
+        { name: 'Solo LLC', sub: 'Sin cuenta bancaria',          included: [true, false, true, true, true, true, false] },
+        { name: 'Starter',  sub: 'Nuevo México · 1 socio',       included: [true, true,  true, true, true, true, false] },
+        { name: 'Pro',      sub: 'Cualquier estado · 2+ socios', included: [true, true,  true, true, true, true, false] },
+        { name: 'All In',   sub: 'Todo incluido',                included: [true, true,  true, true, true, true, true],  featured: true },
       ],
     },
     states: {
@@ -58,15 +65,14 @@ const CONTENT = {
       title: 'Elegimos el estado según tu negocio.',
       currency: 'USD',
       obligLabel: 'Obligaciones anuales',
-      oblig: 699,
       obligNote: '+ fee estatal, según el estado elegido.',
       perYear: '/año',
       items: [
-        { name: 'Wyoming',      addOn: 63,     note: 'Privacidad de socios. El más recomendado para Pro y All In.' },
-        { name: 'Nuevo México', addOn: 0,      note: 'El más económico. Ideal para socio único.' },
-        { name: 'Delaware',     addOn: 300,    note: 'Preferido por startups con inversores o venture capital.' },
-        { name: 'Florida',      addOn: 138.75, note: 'Para negocios con operación física en el estado.' },
-        { name: 'Texas',        addOn: 99,     note: 'Para quienes ya operan en Texas.' },
+        { name: 'Wyoming',      note: 'Privacidad de socios. El más recomendado para Pro y All In.' },
+        { name: 'Nuevo México', note: 'El más económico. Ideal para socio único.' },
+        { name: 'Delaware',     note: 'Preferido por startups con inversores o venture capital.' },
+        { name: 'Florida',      note: 'Para negocios con operación física en el estado.' },
+        { name: 'Texas',        note: 'Para quienes ya operan en Texas.' },
       ],
     },
     timeline: {
@@ -165,10 +171,10 @@ const CONTENT = {
         'Obrigações do ano 1 incluídas',
       ],
       items: [
-        { name: 'É só LLC',   price: '2.530', sub: 'Sem conta bancária',           included: [true, false, true, true, true, true, false] },
-        { name: 'Essencial',  price: '2.550', sub: 'Novo México · 1 sócio',        included: [true, true,  true, true, true, true, false] },
-        { name: 'Pro',        price: '3.300', sub: 'Qualquer estado · 2+ sócios',  included: [true, true,  true, true, true, true, false] },
-        { name: 'All In',     price: '6.130', sub: 'Tudo incluído',                included: [true, true,  true, true, true, true, true],  featured: true },
+        { name: 'É só LLC',   sub: 'Sem conta bancária',           included: [true, false, true, true, true, true, false] },
+        { name: 'Essencial',  sub: 'Novo México · 1 sócio',        included: [true, true,  true, true, true, true, false] },
+        { name: 'Pro',        sub: 'Qualquer estado · 2+ sócios',  included: [true, true,  true, true, true, true, false] },
+        { name: 'All In',     sub: 'Tudo incluído',                included: [true, true,  true, true, true, true, true],  featured: true },
       ],
     },
     states: {
@@ -176,15 +182,14 @@ const CONTENT = {
       title: 'Escolhemos o estado de acordo com o seu negócio.',
       currency: 'R$',
       obligLabel: 'Obrigações anuais',
-      oblig: 3570,
       obligNote: '+ taxa estadual, conforme o estado escolhido.',
       perYear: '/ano',
       items: [
-        { name: 'Wyoming',      addOn: 322,  note: 'Privacidade dos sócios. O mais recomendado para Pro e All In.' },
-        { name: 'Novo México',  addOn: 0,    note: 'O mais econômico. Ideal para sócio único.' },
-        { name: 'Delaware',     addOn: 1530, note: 'Preferido por startups com investidores ou venture capital.' },
-        { name: 'Flórida',      addOn: 710,  note: 'Para negócios com operação física no estado.' },
-        { name: 'Texas',        addOn: 505,  note: 'Para quem já opera no Texas.' },
+        { name: 'Wyoming',      note: 'Privacidade dos sócios. O mais recomendado para Pro e All In.' },
+        { name: 'Novo México',  note: 'O mais econômico. Ideal para sócio único.' },
+        { name: 'Delaware',     note: 'Preferido por startups com investidores ou venture capital.' },
+        { name: 'Flórida',      note: 'Para negócios com operação física no estado.' },
+        { name: 'Texas',        note: 'Para quem já opera no Texas.' },
       ],
     },
     timeline: {
@@ -324,10 +329,12 @@ function SlideStats({ theme, lang }) {
   );
 }
 
-function SlidePackages({ theme, lang }) {
+function SlidePackages({ theme, lang, pricing }) {
   const t = CONTENT[lang].packages;
   const [active, setActive] = useState(() => t.items.findIndex(p => p.featured));
   const [hover, setHover] = useState(null);
+  const rate = lang === 'pt' ? pricing.exchangeRate : 1;
+  const prices = [pricing.pkgSolo, pricing.pkgStarter, pricing.pkgPro, pricing.pkgAllin].map(v => formatMoney(v * rate));
   return (
     <div style={{ height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
       <Eyebrow theme={theme}>{t.eyebrow}</Eyebrow>
@@ -357,7 +364,7 @@ function SlidePackages({ theme, lang }) {
             )}
             <div style={{ fontSize: 16, fontWeight: 700, color: on ? '#fff' : C.ink, marginBottom: 2, letterSpacing: '-0.01em' }}>{p.name}</div>
             <div style={{ fontSize: 10.5, color: on ? 'rgba(255,255,255,0.8)' : C.muted, marginBottom: 10 }}>{p.sub}</div>
-            <div style={{ fontSize: 23, fontWeight: 800, color: on ? '#fff' : C.orange, marginBottom: 14, letterSpacing: '-0.02em' }}>{t.currency} {p.price}</div>
+            <div style={{ fontSize: 23, fontWeight: 800, color: on ? '#fff' : C.orange, marginBottom: 14, letterSpacing: '-0.02em' }}>{t.currency} {prices[idx]}</div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 7, borderTop: `1px solid ${on ? 'rgba(255,255,255,0.25)' : C.border}`, paddingTop: 12 }}>
               {t.features.map((feat, i) => {
                 const ok = p.included[i];
@@ -384,8 +391,11 @@ function formatMoney(n) {
   return n.toLocaleString('es-AR', { minimumFractionDigits: hasDecimals ? 2 : 0, maximumFractionDigits: 2 });
 }
 
-function SlideStates({ theme, lang }) {
+function SlideStates({ theme, lang, pricing }) {
   const t = CONTENT[lang].states;
+  const rate = lang === 'pt' ? pricing.exchangeRate : 1;
+  const oblig = pricing.obligUsd * rate;
+  const addOns = [pricing.wyoming, pricing.nuevoMexico, pricing.delaware, pricing.florida, pricing.texas].map(v => v * rate);
   return (
     <div style={{ height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
       <div style={{ maxWidth: 1140, width: '100%', margin: '0 auto' }}>
@@ -399,12 +409,12 @@ function SlideStates({ theme, lang }) {
           padding: '30px 22px', boxShadow: `4px 4px 0px 0px ${C.orange}`,
         }}>
           <div style={{ fontSize: 10.5, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em', color: C.orange, marginBottom: 12 }}>{t.obligLabel}</div>
-          <div style={{ fontSize: 32, fontWeight: 800, color: C.ink, letterSpacing: '-0.03em', lineHeight: 1.1 }}>{t.currency} {formatMoney(t.oblig)}</div>
+          <div style={{ fontSize: 32, fontWeight: 800, color: C.ink, letterSpacing: '-0.03em', lineHeight: 1.1 }}>{t.currency} {formatMoney(oblig)}</div>
           <div style={{ fontSize: 12.5, color: C.muted, marginTop: 10, lineHeight: 1.4 }}>{t.obligNote}</div>
         </div>
         {/* Derecha: estados con el total (obligación + fee estatal) */}
         <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 14 }}>
-          {t.items.map(s => (
+          {t.items.map((s, i) => (
             <div key={s.name} style={{
               display: 'flex', alignItems: 'center', gap: 20,
               background: C.bg, border: `1.5px solid ${C.border}`, borderRadius: 12, padding: '16px 22px',
@@ -413,7 +423,7 @@ function SlideStates({ theme, lang }) {
               <div style={{ fontSize: 16, fontWeight: 700, color: C.ink, width: 130, flexShrink: 0, letterSpacing: '-0.01em' }}>{s.name}</div>
               <div style={{ fontSize: 13, color: '#4B505A', lineHeight: 1.4, flex: 1 }}>{s.note}</div>
               <div style={{ fontSize: 15, fontWeight: 800, color: C.orange, flexShrink: 0, textAlign: 'right', letterSpacing: '-0.01em' }}>
-                {t.currency} {formatMoney(t.oblig + s.addOn)}{t.perYear}
+                {t.currency} {formatMoney(oblig + addOns[i])}{t.perYear}
               </div>
             </div>
           ))}
@@ -658,7 +668,12 @@ export default function Pitch() {
   const router = useRouter();
   const [index, setIndex] = useState(0);
   const [lang, setLang] = useState('es');
+  const [pricing, setPricing] = useState(DEFAULT_PRICING);
   const total = SLIDES.length;
+
+  useEffect(() => {
+    api.get('/pricing').then(r => setPricing(r.data)).catch(() => {});
+  }, []);
 
   const goTo = useCallback((i) => {
     setIndex(Math.max(0, Math.min(total - 1, i)));
@@ -687,6 +702,13 @@ export default function Pitch() {
           {navSalir}
         </button>
         <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
+          <button
+            onClick={() => router.push('/pitch/precios')}
+            title="Editar precios"
+            style={{ background: 'transparent', border: 'none', color: theme.muted, fontSize: 15, cursor: 'pointer', opacity: 0.6, padding: 4, lineHeight: 1 }}
+          >
+            ⚙
+          </button>
           <div style={{ display: 'flex', gap: 4, background: 'rgba(128,128,128,0.15)', borderRadius: 8, padding: 3 }}>
             {[{ value: 'es', label: 'ES' }, { value: 'pt', label: 'PT' }].map(opt => (
               <button
@@ -717,7 +739,7 @@ export default function Pitch() {
           a los clicks salvo en los elementos interactivos que se marcan con
           pointerEvents: 'auto' (cards de paquetes, link de Mercury, etc). */}
       <div key={`${slide.key}-${lang}`} style={{ height: '100%', padding: '80px 90px 90px', animation: 'pitchFadeIn 0.4s ease', position: 'relative', zIndex: 6, pointerEvents: 'none' }}>
-        <Content theme={theme} lang={lang} />
+        <Content theme={theme} lang={lang} pricing={pricing} />
       </div>
 
       {/* Flechas */}

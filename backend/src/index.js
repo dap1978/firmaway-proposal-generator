@@ -15,6 +15,7 @@ app.use(express.json({ limit: '10mb' }));
 // ── Rutas ──────────────────────────────────────────────────────────────────
 app.use('/api/users', require('./routes/users'));
 app.use('/api/proposals', require('./routes/proposals'));
+app.use('/api/pricing', require('./routes/pricing'));
 
 app.get('/api/health', (req, res) => res.json({ ok: true }));
 
@@ -74,6 +75,27 @@ async function runMigrations() {
         user_agent   TEXT
       )
     `);
+
+    // Precios editables del pitch deck (fila única, id=1). PT/BRL se calcula
+    // en el frontend multiplicando estos valores en USD por exchange_rate.
+    await db.query(`
+      CREATE TABLE IF NOT EXISTS pitch_pricing (
+        id            INTEGER PRIMARY KEY DEFAULT 1,
+        oblig_usd     NUMERIC(10,2) NOT NULL DEFAULT 699,
+        wyoming       NUMERIC(10,2) NOT NULL DEFAULT 63,
+        nuevo_mexico  NUMERIC(10,2) NOT NULL DEFAULT 0,
+        delaware      NUMERIC(10,2) NOT NULL DEFAULT 300,
+        florida       NUMERIC(10,2) NOT NULL DEFAULT 138.75,
+        texas         NUMERIC(10,2) NOT NULL DEFAULT 99,
+        pkg_solo      NUMERIC(10,2) NOT NULL DEFAULT 495,
+        pkg_starter   NUMERIC(10,2) NOT NULL DEFAULT 499,
+        pkg_pro       NUMERIC(10,2) NOT NULL DEFAULT 645,
+        pkg_allin     NUMERIC(10,2) NOT NULL DEFAULT 1199,
+        exchange_rate NUMERIC(10,4) NOT NULL DEFAULT 5.11,
+        updated_at    TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+      )
+    `);
+    await db.query(`INSERT INTO pitch_pricing (id) VALUES (1) ON CONFLICT (id) DO NOTHING`);
 
     console.log('✅ Migraciones completadas');
   } catch (err) {
