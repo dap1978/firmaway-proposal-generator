@@ -66,7 +66,7 @@ const CONTENT = {
         { name: 'Nuevo México', addOn: 0,      note: 'El más económico. Ideal para socio único.' },
         { name: 'Delaware',     addOn: 300,    note: 'Preferido por startups con inversores o venture capital.' },
         { name: 'Florida',      addOn: 138.75, note: 'Para negocios con operación física en el estado.' },
-        { name: 'Texas',        addOn: 0,      note: 'Para quienes ya operan en Texas.' },
+        { name: 'Texas',        addOn: 99,     note: 'Para quienes ya operan en Texas.' },
       ],
     },
     timeline: {
@@ -184,7 +184,7 @@ const CONTENT = {
         { name: 'Novo México',  addOn: 0,    note: 'O mais econômico. Ideal para sócio único.' },
         { name: 'Delaware',     addOn: 1530, note: 'Preferido por startups com investidores ou venture capital.' },
         { name: 'Flórida',      addOn: 710,  note: 'Para negócios com operação física no estado.' },
-        { name: 'Texas',        addOn: 0,    note: 'Para quem já opera no Texas.' },
+        { name: 'Texas',        addOn: 505,  note: 'Para quem já opera no Texas.' },
       ],
     },
     timeline: {
