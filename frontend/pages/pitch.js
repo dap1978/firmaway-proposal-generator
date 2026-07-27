@@ -58,14 +58,15 @@ const CONTENT = {
       title: 'Elegimos el estado según tu negocio.',
       currency: 'USD',
       obligLabel: 'Obligaciones anuales',
-      oblig: '699',
+      oblig: 699,
       obligNote: '+ fee estatal, según el estado elegido.',
+      perYear: '/año',
       items: [
-        { name: 'Wyoming',      fee: '$62/año',         note: 'Privacidad de socios. El más recomendado para Pro y All In.' },
-        { name: 'Nuevo México', fee: 'Sin fee estatal', note: 'El más económico. Ideal para socio único.' },
-        { name: 'Delaware',     fee: '$300/año',        note: 'Preferido por startups con inversores o venture capital.' },
-        { name: 'Florida',      fee: '$138,75/año',     note: 'Para negocios con operación física en el estado.' },
-        { name: 'Texas',        fee: 'Sin fee estatal', note: 'Para quienes ya operan en Texas.' },
+        { name: 'Wyoming',      addOn: 62,     note: 'Privacidad de socios. El más recomendado para Pro y All In.' },
+        { name: 'Nuevo México', addOn: 0,      note: 'El más económico. Ideal para socio único.' },
+        { name: 'Delaware',     addOn: 300,    note: 'Preferido por startups con inversores o venture capital.' },
+        { name: 'Florida',      addOn: 138.75, note: 'Para negocios con operación física en el estado.' },
+        { name: 'Texas',        addOn: 0,      note: 'Para quienes ya operan en Texas.' },
       ],
     },
     timeline: {
@@ -175,14 +176,15 @@ const CONTENT = {
       title: 'Escolhemos o estado de acordo com o seu negócio.',
       currency: 'R$',
       obligLabel: 'Obrigações anuais',
-      oblig: '3.570',
+      oblig: 3570,
       obligNote: '+ taxa estadual, conforme o estado escolhido.',
+      perYear: '/ano',
       items: [
-        { name: 'Wyoming',      fee: 'R$320/ano',         note: 'Privacidade dos sócios. O mais recomendado para Pro e All In.' },
-        { name: 'Novo México',  fee: 'Sem taxa estadual', note: 'O mais econômico. Ideal para sócio único.' },
-        { name: 'Delaware',     fee: 'R$1.530/ano',       note: 'Preferido por startups com investidores ou venture capital.' },
-        { name: 'Flórida',      fee: 'R$710/ano',         note: 'Para negócios com operação física no estado.' },
-        { name: 'Texas',        fee: 'Sem taxa estadual', note: 'Para quem já opera no Texas.' },
+        { name: 'Wyoming',      addOn: 320,  note: 'Privacidade dos sócios. O mais recomendado para Pro e All In.' },
+        { name: 'Novo México',  addOn: 0,    note: 'O mais econômico. Ideal para sócio único.' },
+        { name: 'Delaware',     addOn: 1530, note: 'Preferido por startups com investidores ou venture capital.' },
+        { name: 'Flórida',      addOn: 710,  note: 'Para negócios com operação física no estado.' },
+        { name: 'Texas',        addOn: 0,    note: 'Para quem já opera no Texas.' },
       ],
     },
     timeline: {
@@ -377,6 +379,11 @@ function SlidePackages({ theme, lang }) {
   );
 }
 
+function formatMoney(n) {
+  const hasDecimals = Math.round(n * 100) % 100 !== 0;
+  return n.toLocaleString('es-AR', { minimumFractionDigits: hasDecimals ? 2 : 0, maximumFractionDigits: 2 });
+}
+
 function SlideStates({ theme, lang }) {
   const t = CONTENT[lang].states;
   return (
@@ -392,10 +399,10 @@ function SlideStates({ theme, lang }) {
           padding: '30px 22px', boxShadow: `4px 4px 0px 0px ${C.orange}`,
         }}>
           <div style={{ fontSize: 10.5, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em', color: C.orange, marginBottom: 12 }}>{t.obligLabel}</div>
-          <div style={{ fontSize: 32, fontWeight: 800, color: C.ink, letterSpacing: '-0.03em', lineHeight: 1.1 }}>{t.currency} {t.oblig}</div>
+          <div style={{ fontSize: 32, fontWeight: 800, color: C.ink, letterSpacing: '-0.03em', lineHeight: 1.1 }}>{t.currency} {formatMoney(t.oblig)}</div>
           <div style={{ fontSize: 12.5, color: C.muted, marginTop: 10, lineHeight: 1.4 }}>{t.obligNote}</div>
         </div>
-        {/* Derecha: estados con su fee */}
+        {/* Derecha: estados con el total (obligación + fee estatal) */}
         <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 14 }}>
           {t.items.map(s => (
             <div key={s.name} style={{
@@ -404,8 +411,10 @@ function SlideStates({ theme, lang }) {
               boxShadow: `3px 3px 0px 0px ${C.border}`,
             }}>
               <div style={{ fontSize: 16, fontWeight: 700, color: C.ink, width: 130, flexShrink: 0, letterSpacing: '-0.01em' }}>{s.name}</div>
-              <div style={{ fontSize: 13.5, fontWeight: 700, color: C.orange, width: 120, flexShrink: 0 }}>{s.fee}</div>
               <div style={{ fontSize: 13, color: '#4B505A', lineHeight: 1.4, flex: 1 }}>{s.note}</div>
+              <div style={{ fontSize: 15, fontWeight: 800, color: C.orange, flexShrink: 0, textAlign: 'right', letterSpacing: '-0.01em' }}>
+                {t.currency} {formatMoney(t.oblig + s.addOn)}{t.perYear}
+              </div>
             </div>
           ))}
         </div>
