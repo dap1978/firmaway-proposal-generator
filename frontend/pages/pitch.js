@@ -62,7 +62,7 @@ const CONTENT = {
       obligNote: '+ fee estatal, según el estado elegido.',
       perYear: '/año',
       items: [
-        { name: 'Wyoming',      addOn: 62,     note: 'Privacidad de socios. El más recomendado para Pro y All In.' },
+        { name: 'Wyoming',      addOn: 63,     note: 'Privacidad de socios. El más recomendado para Pro y All In.' },
         { name: 'Nuevo México', addOn: 0,      note: 'El más económico. Ideal para socio único.' },
         { name: 'Delaware',     addOn: 300,    note: 'Preferido por startups con inversores o venture capital.' },
         { name: 'Florida',      addOn: 138.75, note: 'Para negocios con operación física en el estado.' },
@@ -180,7 +180,7 @@ const CONTENT = {
       obligNote: '+ taxa estadual, conforme o estado escolhido.',
       perYear: '/ano',
       items: [
-        { name: 'Wyoming',      addOn: 320,  note: 'Privacidade dos sócios. O mais recomendado para Pro e All In.' },
+        { name: 'Wyoming',      addOn: 322,  note: 'Privacidade dos sócios. O mais recomendado para Pro e All In.' },
         { name: 'Novo México',  addOn: 0,    note: 'O mais econômico. Ideal para sócio único.' },
         { name: 'Delaware',     addOn: 1530, note: 'Preferido por startups com investidores ou venture capital.' },
         { name: 'Flórida',      addOn: 710,  note: 'Para negócios com operação física no estado.' },
