@@ -10,23 +10,23 @@ const C = {
 };
 
 const PACKAGES_ES = [
-  { value: 'solo_llc', label: 'Solo LLC — USD 495' },
-  { value: 'starter',  label: 'Starter — USD 499' },
-  { value: 'pro',      label: 'Pro — USD 645' },
-  { value: 'all_in',   label: 'All In — USD 1.199' },
+  { value: 'solo_llc', label: 'Solo LLC — USD 595' },
+  { value: 'starter',  label: 'Starter — USD 599' },
+  { value: 'pro',      label: 'Pro — USD 745' },
+  { value: 'all_in',   label: 'All In — USD 1.299' },
 ];
 const PACKAGES_PT = [
-  { value: 'starter', label: 'Essencial — R$ 2.599' },
-  { value: 'pro',     label: 'Pro — R$ 3.299' },
-  { value: 'all_in',  label: 'Completo — R$ 6.099' },
+  { value: 'starter', label: 'Essencial — R$ 3.109' },
+  { value: 'pro',     label: 'Pro — R$ 3.809' },
+  { value: 'all_in',  label: 'Completo — R$ 6.609' },
 ];
 
 const STATES = [
-  { value: 'wyoming',    label: 'Wyoming',     fee: 62  },
+  { value: 'wyoming',    label: 'Wyoming',     fee: 63  },
   { value: 'new_mexico', label: 'Nuevo México', fee: 0   },
   { value: 'delaware',   label: 'Delaware',     fee: 300 },
   { value: 'florida',    label: 'Florida',      fee: 138.75 },
-  { value: 'texas',      label: 'Texas',        fee: 0   },
+  { value: 'texas',      label: 'Texas',        fee: 99   },
 ];
 
 const STATE_NAMES = {
@@ -60,12 +60,12 @@ function buildEmailDraft(edits, pkg, aiData, publicLink) {
 
   const pkgNamesEs  = { solo_llc: 'Solo LLC', starter: 'Starter', pro: 'Pro', all_in: 'All In'   };
   const pkgNamesPt  = { starter: 'Essencial', pro: 'Pro',         all_in: 'Completo' };
-  const pkgPricesEs = { solo_llc: 495, starter: 499, pro: 645,  all_in: 1199 };
-  const pkgPricesPt = { starter: 2599,         pro: 3299,         all_in: 6099 };
+  const pkgPricesEs = { solo_llc: 595, starter: 599, pro: 745,  all_in: 1299 };
+  const pkgPricesPt = { starter: 3109,         pro: 3809,         all_in: 6609 };
 
   const name      = edits.lead_name || 'Lead';
   const pkgName   = isPt ? (pkgNamesPt[pkg] || 'Pro') : (pkgNamesEs[pkg] || 'Pro');
-  const price     = isPt ? (pkgPricesPt[pkg] || 3299)  : (pkgPricesEs[pkg] || 645);
+  const price     = isPt ? (pkgPricesPt[pkg] || 3809)  : (pkgPricesEs[pkg] || 745);
   const currency  = isPt ? 'R$' : 'USD';
   const stateName = STATE_NAMES[edits.state_recommended || 'wyoming'] || 'Wyoming';
   const linkLine  = publicLink ? `${publicLink}\n\n` : '';
