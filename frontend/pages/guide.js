@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 
@@ -47,7 +48,8 @@ const STYLE = `
 @media print{.guide-doc .page{padding:0;}.no-print{display:none !important;}}
 `;
 
-const BODY_HTML = `
+const BODY_HTML = {
+  es: `
 <div class="page">
 
   <div class="top">
@@ -130,14 +132,113 @@ const BODY_HTML = `
   </div>
 
 </div>
-`;
+`,
+  pt: `
+<div class="page">
+
+  <div class="top">
+    <span class="logo">Firmaway<span>.</span></span>
+    <span class="label">Guia rápido comercial · Deixe ao lado do monitor</span>
+  </div>
+
+  <h1>Antes, durante e ao fechar cada chamada</h1>
+  <p class="subtitle">O mínimo indispensável. O guia completo por perfil fica como material de estudo.</p>
+
+  <div class="nono">
+    <h2>Os 4 inegociáveis de toda chamada</h2>
+    <ul>
+      <li><strong>Prepare-se:</strong> antes da chamada, veja o site ou o Instagram do prospect. Nunca entre no frio.</li>
+      <li><strong>Discovery real:</strong> pergunte antes de explicar. Entenda a dor concreta, não só "quer uma LLC".</li>
+      <li><strong>Quantifique o impacto:</strong> traduza o problema em dinheiro. Quanto ele perde ou deixa de ganhar sem resolver isso.</li>
+      <li><strong>Encerre com uma segunda data:</strong> nunca termine com "te mando a proposta e ficamos em contato".</li>
+    </ul>
+  </div>
+
+  <div class="cierre" style="background:var(--orange-soft);border-color:var(--orange);box-shadow:3px 3px 0 0 var(--orange);">
+    <h2>Passo 1 · 4 perguntas gatilho: revele o perfil</h2>
+    <div class="step"><b>1 · Contexto</b><span class="say">"O que você faz?"</span></div>
+    <div class="step"><b>2 · Modelo</b><span class="say">"Você vende produtos ou serviços? Online ou físico?"</span></div>
+    <div class="step"><b>3 · Estado</b><span class="say">"Você já está faturando ou é um projeto novo?"</span></div>
+    <div class="step"><b>4 · Gatilho</b><span class="say">"Por que você está buscando a LLC agora?" (te dá a urgência)</span></div>
+    <div class="step" style="margin-top:8px;"><span style="font-size:10.5px;color:var(--ink-light);">Com essas 4 você já sabe qual perfil tem na frente. Passe para as 3 perguntas desse perfil.</span></div>
+  </div>
+
+  <div class="perfiles">
+    <h2>Passo 2 · 3 perguntas-chave por perfil</h2>
+    <div class="cols">
+      <div>
+        <div class="perfil">
+          <div class="pname">Amazon FBA</div>
+          <ol><li>Você vende no seu nome pessoal ou de uma entidade? Qual problema te trouxe até aqui?</li><li>Quanto você fatura ou projeta faturar em 6 meses?</li><li>Você opera só online ou tem depósito/funcionários nos EUA?</li></ol>
+        </div>
+        <div class="perfil">
+          <div class="pname">SaaS / Freelancer tech</div>
+          <ol><li>Algum cliente já pediu para você faturar como empresa ou dos EUA?</li><li>Você já perdeu oportunidades por não ter entidade ou conta lá?</li><li>Quanto vale seu contrato médio nos EUA?</li></ol>
+        </div>
+        <div class="perfil">
+          <div class="pname">Serviços / Consultoria</div>
+          <ol><li>Que clientes você quer atrair que hoje não consegue alcançar?</li><li>Algum lead já hesitou por você não ter uma estrutura formal?</li><li>Quanto você aumentaria sua tarifa com respaldo internacional?</li></ol>
+        </div>
+      </div>
+      <div>
+        <div class="perfil">
+          <div class="pname">Proteção de ativos / Holding</div>
+          <ol><li>O que você quer proteger e de qual cenário concreto?</li><li>Entidade operacional ou holding que só administra?</li><li>Você trabalha com um contador que precise participar da conversa?</li></ol>
+        </div>
+        <div class="perfil">
+          <div class="pname">E-commerce próprio (Shopify)</div>
+          <ol><li>Seu processador de pagamentos já bloqueou ou reteve fundos?</li><li>Quanto você investe em ads? Os pagamentos travam sua escala?</li><li>Qual mercado você quer abrir que hoje não consegue?</li></ol>
+        </div>
+        <div class="perfil">
+          <div class="pname">Trading / Cripto</div>
+          <ol><li>Alguma plataforma exige entidade para operar ou sacar?</li><li>Você busca acesso, organização da operação, ou separar risco?</li><li>O que te preocupa mais: acesso, impostos ou segurança jurídica?</li></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="cierre" style="margin-top:12px;">
+    <h2>Passo 3 · O fechamento, passo a passo</h2>
+    <div class="step"><b>1 · Resuma</b><span class="say">"Pelo que você me contou, o que mais te serve é [pacote] porque [dor que ele mencionou]."</span></div>
+    <div class="step"><b>2 · Proposta + data concreta</b><span class="say">"Te mando a proposta hoje e te chamo no [dia] às [hora] para tirar dúvidas e, se fizer sentido, avançamos. Fica bom pra você?"</span></div>
+    <div class="step"><b>3 · Compromisso sim/não</b><span class="say">"Nesse dia você me confirma se avança ou não, assim eu não fico te perseguindo com mensagens. Combinado?"</span></div>
+    <div class="step"><b>4 · Registre no HubSpot</b><span>Cadastre o próximo contato agendado e adicione o follow-up. Mínimo 6 toques antes de considerar perdido.</span></div>
+  </div>
+
+  <div class="fiscal">
+    <b>Regra de ouro · Não prometer demais</b>
+    <p>Nunca prometa "zero impostos" nem "sem obrigações". Toda LLC de dono único estrangeiro apresenta o Form 5472 todo ano (mesmo sem receita) e não fazer isso tem multa a partir de USD 25.000. Use isso para posicionar o All-in, não como argumento de medo. Toda pergunta fiscal específica deve ser direcionada à equipe de Filings. Em Trading/Cripto, máxima prudência: não dê nenhuma afirmação fiscal.</p>
+  </div>
+
+  <div class="footer">
+    <span>Firmaway · Uso interno da equipe comercial</span>
+    <span>Não compartilhar com leads</span>
+  </div>
+
+</div>
+`,
+};
+
+const TITLES = { es: 'Chuleta Comercial — Firmaway', pt: 'Guia Comercial — Firmaway' };
 
 export default function Guide() {
   const router = useRouter();
+  const [lang, setLang] = useState('es');
+
+  useEffect(() => {
+    const stored = localStorage.getItem('fw_guide_lang');
+    if (stored === 'es' || stored === 'pt') setLang(stored);
+  }, []);
+
+  function changeLang(next) {
+    setLang(next);
+    localStorage.setItem('fw_guide_lang', next);
+  }
+
   return (
     <>
       <Head>
-        <title>Chuleta Comercial — Firmaway</title>
+        <title>{TITLES[lang]}</title>
         <style dangerouslySetInnerHTML={{ __html: STYLE }} />
       </Head>
       <button
@@ -152,7 +253,29 @@ export default function Guide() {
       >
         ‹ Inicio
       </button>
-      <div className="guide-doc" dangerouslySetInnerHTML={{ __html: BODY_HTML }} />
+      <div
+        className="no-print"
+        style={{
+          position: 'fixed', top: 16, right: 16, zIndex: 10,
+          display: 'flex', gap: 4, background: 'rgba(49,53,61,0.06)', borderRadius: 8, padding: 3,
+        }}
+      >
+        {[{ value: 'es', label: 'ES' }, { value: 'pt', label: 'PT' }].map(opt => (
+          <button
+            key={opt.value}
+            onClick={() => changeLang(opt.value)}
+            style={{
+              padding: '5px 12px', borderRadius: 6, border: 'none', cursor: 'pointer',
+              fontSize: 12, fontWeight: 700, fontFamily: '"Inter", system-ui, sans-serif',
+              background: lang === opt.value ? '#F15A2F' : 'transparent',
+              color: lang === opt.value ? '#fff' : '#31353D',
+            }}
+          >
+            {opt.label}
+          </button>
+        ))}
+      </div>
+      <div className="guide-doc" dangerouslySetInnerHTML={{ __html: BODY_HTML[lang] }} />
     </>
   );
 }
