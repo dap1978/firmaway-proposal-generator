@@ -1,8 +1,9 @@
 # /interno
 
-Herramientas de uso interno. Hoy: `politicas-billeteras` (consola comercial:
-exposición informativa y trato de la LLC por mercado). El botón vive en la
-home junto al resto de las herramientas comerciales.
+Herramientas de uso interno. Hoy: `politicas-billeteras`, una guía de
+referencia sobre FATCA, CRS, CARF y regímenes locales de billeteras por
+país. El botón vive en la home junto al resto de las herramientas
+comerciales.
 
 ## Compuerta de acceso
 
@@ -24,8 +25,13 @@ obstáculo cosmético. No hace falta la advertencia de esa opción acá.
 
 ## Contenido
 
-`internal-content/politicas-billeteras.html` es el archivo original sin
-tocar (mismos bytes). `pages/interno/politicas-billeteras.js` lo lee del
+`internal-content/politicas-billeteras.html` arrancó como el archivo
+original del encargo, sin tocar. Después Daniel pidió reescribir el
+enfoque: menos "guion de venta" (se sacaron las frases prohibidas, la
+frase lista para copiar y los criterios de descalificación) y más guía de
+referencia (glosario de FATCA, CRS y CARF con fecha de vigencia de cada
+uno, más la matriz de adhesión por país). El buscador de plataformas se
+mantuvo igual. `pages/interno/politicas-billeteras.js` lee el HTML del
 disco en `getServerSideProps` y lo devuelve tal cual, sin envolverlo en el
 layout de React, para no duplicar `<html>/<head>/<body>`.
 

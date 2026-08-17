@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
-<title>Firmaway · Consola comercial: exposición informativa y trato de la LLC por mercado</title>
+<title>Firmaway · Guía interna: FATCA, CRS y billeteras digitales por país</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 :root{--cream:#FFFBF5;--warm:#FEF1E0;--orange:#F15A2F;--soft:#FDEEE9;--ink:#31353D;
@@ -39,7 +39,6 @@ header{position:sticky;top:0;z-index:60;background:var(--cream);border-bottom:1.
 .alert p+p{margin-top:8px}
 
 .g2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:16px}
-.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:16px}
 .card{background:var(--warm);border:1.5px solid var(--ink);border-radius:14px;padding:16px 18px;box-shadow:4px 4px 0 0 var(--ink)}
 .card.acc{background:var(--soft);border-color:var(--orange);box-shadow:4px 4px 0 0 var(--orange)}
 .card h3{margin-bottom:7px}
@@ -56,16 +55,6 @@ header{position:sticky;top:0;z-index:60;background:var(--cream);border-bottom:1.
 .row b{display:block;font-size:13px;font-weight:600;line-height:18px}
 .row b i{font-style:normal;font-weight:500;color:var(--light);font-size:10px;text-transform:uppercase;letter-spacing:.06em;margin-left:5px}
 .row p{font-size:12.5px;line-height:18px;color:var(--light);margin-top:2px}
-
-.say{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:16px}
-.say .col{border:1.5px solid var(--ink);border-radius:14px;padding:16px 18px;background:var(--warm);box-shadow:4px 4px 0 0 var(--ink)}
-.say .col.no{background:var(--dark);border-color:var(--dark);box-shadow:4px 4px 0 0 var(--ink)}
-.say .col.no h3,.say .col.no li{color:var(--white)}
-.say .col.no .chip{border-color:var(--white);color:var(--white);background:transparent}
-
-.quote{border-left:4px solid var(--orange);background:var(--soft);border-radius:0 12px 12px 0;padding:14px 17px;margin-top:12px;font-size:13.5px;line-height:20px}
-.copy{cursor:pointer;font:inherit;font-size:11px;font-weight:600;margin-top:10px;background:var(--ink);color:var(--cream);border:none;border-radius:999px;padding:6px 14px}
-.copy.ok{background:var(--orange)}
 
 section{padding:44px 0 0}
 .sh{display:flex;align-items:baseline;gap:11px;flex-wrap:wrap;margin-bottom:4px}
@@ -89,12 +78,14 @@ summary::after{content:"+";color:var(--orange);font-weight:700;font-size:18px;li
 details[open] summary::after{content:"–"}
 details .b{padding-top:10px;font-size:13.5px;line-height:20px}
 details .b p+p{margin-top:8px}
+.glosario{background:var(--white);border:1.5px solid var(--ink);border-radius:12px;padding:4px 16px;margin-top:16px}
+.glosario details:first-child{border-top:none}
 
 footer{margin-top:48px;border-top:1.5px solid var(--ink);padding:22px 0 40px;font-size:11.5px;line-height:18px;color:var(--light)}
 footer b{color:var(--ink)}
 footer ul{margin:7px 0 0 15px}
 [hidden]{display:none!important}
-@media(max-width:820px){.g2,.g3,.say{grid-template-columns:1fr}h2{font-size:22px}.res{grid-template-columns:1fr}}
+@media(max-width:820px){.g2{grid-template-columns:1fr}h2{font-size:22px}.res{grid-template-columns:1fr}}
 @media(prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
 </head>
@@ -109,16 +100,42 @@ footer ul{margin:7px 0 0 15px}
 
 <div class="wrap">
   <section style="padding-top:30px">
-    <div class="sh"><span class="label">Paso 1</span></div>
-    <h2>¿En qué mercado está el lead?</h2>
-    <p style="max-width:66ch;margin-top:7px">El argumento cambia de signo según el país. Elegí el mercado antes de abrir la boca en la llamada.</p>
-    <div class="tabs" id="tabs" role="group" aria-label="Mercado"></div>
+    <div class="sh"><span class="label">Conceptos</span></div>
+    <h2>Qué es cada mecanismo, antes de mirar los países</h2>
+    <p style="max-width:66ch;margin-top:7px">Cuatro cosas distintas que se suelen mezclar. Cada una reporta información diferente, a través de un canal diferente, y no todos los países adhieren a todas.</p>
+    <div class="glosario">
+      <details open><summary>¿Qué es FATCA?</summary><div class="b">
+        <p>Ley de Estados Unidos de 2010. Obliga a bancos y fintechs de todo el mundo a identificar cuentas de personas estadounidenses y avisarle al IRS. Para que funcione, EEUU firma acuerdos bilaterales (IGA) con cada país. Cuando el acuerdo es Modelo 1 recíproco, el intercambio va en las dos direcciones: ese país también recibe datos de sus residentes con cuentas en EEUU.</p>
+        <p>Qué informa: rentas acreditadas en la cuenta, como intereses o dividendos. No informa el saldo.</p>
+        <p>Dato relevante para una LLC: si es de un solo dueño extranjero, la entidad es transparente a efectos fiscales, y la lectura habitual es que el banco puede llegar hasta esa persona por esta vía.</p>
+      </div></details>
+      <details><summary>¿Qué es CRS, y por qué se habla de "CRS 2.0"?</summary><div class="b">
+        <p>Estándar de intercambio automático de información creado por la OCDE en 2014, con los primeros intercambios reales desde 2017. Lo firmaron más de cien países. Cada uno junta datos de cuentas de no residentes y se los manda al país donde vive el titular.</p>
+        <p>"CRS 2.0" es como se le dice a la actualización que la OCDE aprobó en 2023, que suma dinero electrónico y billeteras digitales al alcance del estándar. Antes solo cubría cuentas bancarias y de inversión tradicionales. Los países que la adoptan empiezan a recolectar estos datos desde 2026, con primer intercambio en 2027.</p>
+        <p>Estados Unidos nunca adhirió a CRS. Una cuenta a nombre de una LLC estadounidense queda fuera de este canal en particular.</p>
+      </div></details>
+      <details><summary>¿Qué es CARF?</summary><div class="b">
+        <p>El equivalente de CRS pero para criptoactivos, también de la OCDE, aprobado en 2022. Obliga a exchanges y proveedores de cripto a reportar las operaciones de sus usuarios al país donde viven.</p>
+        <p>No lo firmaron todos los países de la región. Cuál sí y cuál no está en la matriz de cada mercado, más abajo.</p>
+      </div></details>
+      <details><summary>¿Qué son los regímenes locales de billeteras?</summary><div class="b">
+        <p>Además de los estándares internacionales, cada país puede tener su propio régimen para que las billeteras y plataformas de pago informen a su fisco, puertas adentro, sin que dependa de ningún acuerdo con el exterior.</p>
+        <p>Ejemplo concreto: en Argentina, la RG ARCA 5804/2025 obliga a billeteras y proveedores de pago a informar todos los meses a los usuarios que superan cierto umbral. No tiene relación con CRS ni con FATCA, es un régimen aparte.</p>
+      </div></details>
+    </div>
+  </section>
+
+  <section>
+    <div class="sh"><span class="label">Por país</span></div>
+    <h2>Seleccioná un país</h2>
+    <p style="max-width:66ch;margin-top:7px">Cómo trata cada mecanismo, y cómo se trata la LLC ahí.</p>
+    <div class="tabs" id="tabs" role="group" aria-label="País"></div>
   </section>
 
   <div id="panel" aria-live="polite"></div>
 
   <section id="plataformas" hidden>
-    <div class="sh"><span class="label">Paso 2, opcional</span><span class="chip chip-d" id="verifLvl"></span></div>
+    <div class="sh"><span class="label">Plataformas</span><span class="chip chip-d" id="verifLvl"></span></div>
     <h2>¿Qué plataforma usa hoy?</h2>
     <div class="sb">
       <svg width="18" height="18" viewBox="0 0 20 20" fill="none"><circle cx="8.5" cy="8.5" r="6" stroke="#31353D" stroke-width="1.8"/><path d="M13 13l4.5 4.5" stroke="#31353D" stroke-width="1.8" stroke-linecap="round"/></svg>
@@ -128,43 +145,8 @@ footer ul{margin:7px 0 0 15px}
     <div id="pdet"></div>
   </section>
 
-  <section>
-    <div class="sh"><span class="label">Transversal</span></div>
-    <h2>Objeciones que aparecen en cualquier mercado</h2>
-    <div style="margin-top:12px">
-      <details><summary>"Yo ya declaro todo, entonces me da igual"</summary><div class="b">
-        <p>Ese cliente compra mejor. Con él el argumento no es la exposición, es la operación. Preguntale cuánto pierde por cada cobro que entra convertido a moneda local, cuántos clientes del exterior le pidieron factura de una empresa y no de una persona, y qué pasa si mañana una plataforma le cierra la cuenta personal por volumen inconsistente con su perfil.</p>
-      </div></details>
-      <details><summary>"Quiero que el fisco no vea nada"</summary><div class="b">
-        <p>Frená ahí. Está comprando algo que no vendemos y es el que después genera el reclamo. Decilo directo: la LLC no lo saca del radar y tampoco es su función. Si sigue interesado después de la aclaración, el lead es sano. Si se va, mejor que se vaya antes de pagar.</p>
-      </div></details>
-      <details><summary>"Factura poco, ¿le conviene?"</summary><div class="b">
-        <p>Poné el costo real arriba de la mesa: constitución, mantenimiento anual del estado y la presentación en Estados Unidos todos los años. Contra eso, cuánto cobra por mes del exterior y a qué costo lo convierte hoy. Si el número no cierra, decíselo. Vuelve cuando le sirve.</p>
-      </div></details>
-      <details><summary>Un miembro o dos: dónde importa de verdad</summary><div class="b">
-        <p>En Estados Unidos, un solo miembro extranjero implica 5472 más 1120. Dos o más, 1065 con K-1 por socio. Son cargas distintas, no una mejor que la otra.</p>
-        <p>En el canal FATCA, la lectura habitual de los estudios que trabajan el tema es que una LLC de un solo miembro es transparente y el banco puede llegar al residente detrás, mientras que con dos o más la sociedad firma W-9 como entidad de Estados Unidos. Se presenta como interpretación a validar con el contador del cliente, nunca como garantía nuestra.</p>
-        <p>Ojo en Brasil: ahí el tema de la transparencia juega en contra, ver el panel de ese mercado.</p>
-      </div></details>
-      <details><summary>Por qué no vendemos opacidad</summary><div class="b">
-        <p>Porque tiene fecha de vencimiento. Argentina puede firmar CARF cuando quiera, Bolivia puede adherir a CRS, la reciprocidad de FATCA puede ampliarse. Cualquier venta apoyada en lo que hoy no se informa se cae cuando cambia una resolución.</p>
-        <p>Lo que no se cae: una empresa constituida, con cuenta propia, contabilidad presentada y participación declarada.</p>
-      </div></details>
-    </div>
-  </section>
-
-  <section>
-    <div class="sh"><span class="label">Igual en los cinco mercados</span></div>
-    <h2>Lo que Estados Unidos exige, sin importar de dónde sea el cliente</h2>
-    <div class="g3">
-      <div class="card"><h4>5472 más 1120</h4><p>LLC de un solo miembro con dueño extranjero: todos los años, aun sin actividad. Multa desde USD 25.000. Con dos o más miembros, 1065 con K-1 por socio.</p></div>
-      <div class="card"><h4>Mantenimiento del estado</h4><p>Informe anual o tasa según el estado, agente registrado vigente, dirección válida. Si se cae, la LLC queda irregular y la cuenta bancaria en riesgo.</p></div>
-      <div class="card acc"><h4>Beneficiarios finales: buena noticia</h4><p>Desde el 14 de agosto de 2026, la regla final de FinCEN dejó exentas de reportar beneficiarios finales a todas las entidades constituidas en Estados Unidos, incluso con dueños extranjeros. Sirve para los cinco mercados.</p></div>
-    </div>
-  </section>
-
   <footer>
-    <p><b>Material de apoyo comercial interno. No es asesoramiento fiscal ni legal.</b> Cada caso lo cierra el contador del cliente en su país. No compartir con prospectos: contiene criterios de descalificación y frases prohibidas que fuera de contexto se leen mal.</p>
+    <p><b>Material de estudio interno. No es asesoramiento fiscal ni legal.</b> Cada caso lo cierra el contador del cliente en su país. No compartir con prospectos: es un documento de trabajo del equipo, no una pieza terminada para mostrar afuera.</p>
     <p style="margin-top:8px"><b>Nivel de verificación.</b> El detalle plataforma por plataforma está verificado con normativa para Argentina. Para Brasil, España, Colombia y Bolivia el nivel de país está verificado, y el nivel de plataforma es una derivación por categoría y jurisdicción, no una consulta a los registros locales.</p>
     <p style="margin-top:8px"><b>Pendientes antes de tratar esto como definitivo:</b></p>
     <ul>
@@ -178,100 +160,50 @@ footer ul{margin:7px 0 0 15px}
 </div>
 
 <script>
-const CH={local:"Régimen informativo local",crs:"CRS 2.0",carf:"CARF cripto",fatca:"FATCA hacia el país"};
-const L={si:"Reporta",parcial:"Parcial",no:"No reporta",na:"No aplica"};
+const CH={local:"Régimen local de billeteras",crs:"CRS",carf:"CARF (cripto)",fatca:"FATCA"};
+const L={si:"Adhiere",parcial:"Parcial",no:"No adhiere",na:"No aplica"};
 
 const M={
-ar:{n:"Argentina",s:"Renta mundial",fuerza:"Media",idioma:"español, vos",
- canales:{local:["si","RG ARCA 5804/2025 sobre RG 4614/2019. Plataformas y proveedores de servicios de pago informan mensualmente titulares, ingresos, egresos y saldo de cierre. Umbrales: ARS 50.000.000 personas humanas, ARS 30.000.000 jurídicas. Vigente con vencimientos desde mayo de 2026."],
+ar:{n:"Argentina",s:"Renta mundial",
+ canales:{local:["si","RG ARCA 5804/2025 sobre RG 4614/2019. Plataformas y proveedores de pago informan mensualmente titulares, ingresos, egresos y saldo de cierre. Umbrales: ARS 50.000.000 personas humanas, ARS 30.000.000 jurídicas. Vigente con vencimientos desde mayo de 2026."],
   crs:["si","Adherida. Recolección desde enero de 2026 con dinero electrónico y billeteras digitales incluidos. Primer intercambio en septiembre de 2027."],
   carf:["no","Argentina no firmó el acuerdo que activa el intercambio. Hoy no hay envío automático de datos cripto hacia ARCA por esta vía."],
   fatca:["parcial","IGA Modelo 1 recíproco. Primer intercambio efectivo en septiembre de 2025 con datos de 2024. Viaja titular, identificación fiscal, número de cuenta, entidad y rentas acreditadas. Los saldos no."]},
- llc:{t:"Transparencia fiscal internacional",d:"Participación en Bienes Personales, análisis de la renta en Ganancias por transparencia fiscal internacional, y régimen informativo de sociedades del exterior. Aplica aunque la LLC no haya facturado nada en el año."},
- si:["Argentina no firmó CARF, así que hoy no hay intercambio automático de datos cripto hacia ARCA por esa vía.",
-   "Estados Unidos nunca adoptó CRS: una cuenta a nombre de la LLC queda fuera de ese canal.",
-   "FATCA reporta rentas acreditadas, no saldos de cuenta.",
-   "Las plataformas locales informan mes a mes cuando pasás el umbral. La LLC saca la operación de ese circuito, sin sacarte de la obligación de declarar."],
- no:["Que la LLC te saca del radar o queda invisible.",
-   "Que no hay que declarar nada en Argentina.",
-   "Que lo de CARF es permanente: puede firmarse en cualquier momento.",
-   "Cero impuestos, en cualquier variante."],
- frase:"La LLC es una estructura declarable, no una forma de esconderse. Si sos residente fiscal argentino, la participación va en Bienes Personales y la renta se analiza en Ganancias. Lo que cambia es cómo cobrás y con qué respaldo, no si declarás.",
- desc:["Pide explícitamente no declarar.","Espera cero impuestos y no acepta la aclaración."]},
+ llc:{t:"Transparencia fiscal internacional",d:"La participación se declara en Bienes Personales, y la renta se analiza en Ganancias por el régimen de transparencia fiscal internacional, más el régimen informativo de sociedades del exterior. Aplica aunque la LLC no haya facturado nada en el año."}},
 
-br:{n:"Brasil",s:"Renta mundial",fuerza:"Baja",idioma:"portugués",
- alerta:{t:"Regime fiscal privilegiado: 15% anual sin distribución",
+br:{n:"Brasil",s:"Renta mundial",
+ nota:{t:"Cambio normativo reciente: 15% de IRPF aunque no se distribuya",
   p:["El 15 de abril de 2026 la Receita publicó la Solução de Consulta COSIT nº 56/2026. Definió que una LLC compuesta por no residentes en Estados Unidos y tratada como transparente allá queda caracterizada como regime fiscal privilegiado, por el art. 2 inciso VII de la IN RFB 1.037/2010. El caso consultado era una LLC de California de un residente brasileño con esposa e hijos, también residentes.",
-   "Consecuencia: pasa a ser controlada calificada bajo el art. 5 de la Lei 14.754/2023, y los lucros se gravan al 15% de IRPF cada 31 de diciembre en cabeza de la persona física, aunque no se distribuya nada. El diferimiento que existía antes de 2024 se terminó.",
-   "Si vendiste en Brasil con el argumento de pagar solo al retirar, sacalo del discurso hoy y revisá qué se le prometió a los clientes cerrados desde 2024."]},
+   "Consecuencia: pasa a ser controlada calificada bajo el art. 5 de la Lei 14.754/2023, y los lucros se gravan al 15% de IRPF cada 31 de diciembre en cabeza de la persona física, aunque no se distribuya nada. El diferimiento que existía antes de 2024 ya no aplica desde esta resolución."]},
  canales:{local:["si","La Receita recibe información de instituciones de pago y proveedores de criptoactivos por régimen propio. El detalle exacto de los regímenes vigentes está pendiente de verificar con contador brasileño."],
   crs:["si","Adherida y con intercambio activo desde hace años."],
   carf:["si","Brasil firmó el acuerdo. Los datos cripto terminan llegando por esta vía."],
   fatca:["si","IGA Modelo 1, operativo desde 2015."]},
- llc:{t:"Regime fiscal privilegiado y controlada calificada",d:"15% de IRPF anual sobre los lucros apurados al 31 de diciembre, sin necesidad de distribución. Se declara en la Declaração de Ajuste Anual. Existe la opción de declarar los bienes de la entidad como detentados directamente por la persona física, que según el caso puede convenir o no: eso lo decide su contador."},
- si:["Cuenta en dólares a nombre de una empresa, no de una persona.",
-   "Acceso a procesadores de pago internacionales en versión business.",
-   "Contratos firmados por una entidad, con responsabilidad limitada y separación patrimonial.",
-   "Una estructura que un cliente, proveedor o inversor de Estados Unidos reconoce y acepta.",
-   "Todo esto vale igual con el 15% encima."],
- no:["Diferimiento, o pagar solo cuando se retira. Vencido desde abril de 2026.",
-   "Comparaciones de carga fiscal contra el régimen brasileño sin contador local.",
-   "Mencionar la discusión de constitucionalidad del art. 5 como si fuera una defensa que ofrecemos.",
-   "Cero impuestos, en cualquier variante."],
- frase:"A LLC é uma estrutura declarável. Desde 2024, os lucros de entidade controlada no exterior são tributados a 15% de IRPF em 31 de dezembro, mesmo sem distribuição, e a Receita confirmou esse enquadramento para LLCs transparentes em abril de 2026. O que a LLC resolve é a operação: conta em dólares no nome da empresa, contratos assinados por uma entidade e acesso a processadores de pagamento internacionais. A parte fiscal deve ser fechada com o seu contador.",
- desc:["Espera diferimiento y no acepta el 15%.","Viene de otro proveedor que le prometió lo contrario y no quiere escuchar la corrección."]},
+ llc:{t:"Regime fiscal privilegiado y controlada calificada",d:"15% de IRPF anual sobre los lucros apurados al 31 de diciembre, sin necesidad de distribución. Se declara en la Declaração de Ajuste Anual. Existe la opción de declarar los bienes de la entidad como detentados directamente por la persona física, que según el caso puede convenir o no: eso lo decide su contador."}},
 
-es:{n:"España",s:"Renta mundial",fuerza:"Baja",idioma:"español formal, sin tutear",
- alerta:{t:"Riesgo de establecimiento permanente",
+es:{n:"España",s:"Renta mundial",
+ nota:{t:"Punto a tener en cuenta: riesgo de establecimiento permanente",
   p:["Si el cliente vive en España, gestiona desde España, decide desde España y atiende a sus clientes desde España, Hacienda puede sostener que hay actividad económica en territorio español y reclamar Impuesto de Sociedades retroactivo.",
-   "Un freelancer que opera todo desde Madrid con una LLC es exactamente el perfil expuesto. Este punto se plantea en la llamada. Si no se dice y aparece después, el reclamo es nuestro."]},
+   "Un freelancer que opera todo desde Madrid con una LLC es el perfil expuesto a este escenario."]},
  canales:{local:["si","Modelo 720 para bienes y derechos en el extranjero arriba de 50.000 euros, Modelo 721 para criptoactivos en el exterior, Modelos 172 y 173 para proveedores españoles."],
   crs:["si","Adherida, y con DAC8 aplicando directo desde enero de 2026."],
   carf:["si","Dentro por DAC8. Las plataformas europeas recolectan desde enero de 2026."],
   fatca:["si","IGA Modelo 1, operativo."]},
- llc:{t:"Depende de la calificación, y la DGT evalúa caso a caso",d:"Dos caminos posibles. Uno: régimen de atribución de rentas del art. 87 LIRPF, donde los beneficios se imputan al socio y tributan en IRPF a escala progresiva aunque queden en la cuenta de la LLC, con posible Modelo 184. Dos: tributación solo por rentas efectivamente distribuidas, si se sostiene que la LLC tiene personalidad jurídica propia, con consultas de la DGT en esa línea como la V3074-22 y la V0681-25. La participación se informa en Modelo 720 y entra en Impuesto sobre el Patrimonio, valorada según el art. 16 de la Ley del Impuesto sobre el Patrimonio."},
- si:["Cobro internacional ordenado y cuenta en dólares a nombre de la empresa.",
-   "Acceso a plataformas y procesadores que piden entidad estadounidense.",
-   "Estructura para vender a clientes de Estados Unidos con una entidad que reconocen.",
-   "Que el trato fiscal admite más de una lectura y hay que analizarlo con su asesor. Decirlo suma credibilidad, no la resta."],
- no:["Que se tributa solo al distribuir, presentado como un hecho cerrado.",
-   "Que la LLC evita IRPF.",
-   "Que no hace falta presentar el Modelo 720.",
-   "Omitir el riesgo de establecimiento permanente cuando el cliente opera todo desde España."],
- frase:"La LLC es una estructura declarable. Le corresponde informar la participación en el Modelo 720 y tributar en IRPF, y ahí hay más de una lectura posible según cómo se califique la entidad: eso debe revisarlo su asesor fiscal antes de decidir. Conviene analizar también el riesgo de establecimiento permanente si toda la gestión se realiza desde España. Lo que la LLC resuelve con certeza es la operación: cuenta en dólares a nombre de la empresa, contratos firmados por una entidad y acceso a plataformas que exigen entidad estadounidense.",
- desc:["Opera al 100% desde España y no quiere oír hablar de establecimiento permanente.","Busca que la LLC reemplace su tributación en IRPF."]},
+ llc:{t:"Depende de la calificación, y la DGT evalúa caso a caso",d:"Dos caminos posibles. Uno: régimen de atribución de rentas del art. 87 LIRPF, donde los beneficios se imputan al socio y tributan en IRPF a escala progresiva aunque queden en la cuenta de la LLC, con posible Modelo 184. Dos: tributación solo por rentas efectivamente distribuidas, si se sostiene que la LLC tiene personalidad jurídica propia, con consultas de la DGT en esa línea como la V3074-22 y la V0681-25. La participación se informa en Modelo 720 y entra en Impuesto sobre el Patrimonio, valorada según el art. 16 de la Ley del Impuesto sobre el Patrimonio."}},
 
-co:{n:"Colombia",s:"Renta mundial",fuerza:"Media",idioma:"español formal, sin tutear",
+co:{n:"Colombia",s:"Renta mundial",
  canales:{local:["si","Declaración anual de activos en el exterior por Formulario 160 según umbral en UVT, más impuesto al patrimonio si corresponde. Umbrales vigentes pendientes de confirmar."],
   crs:["si","Adherida, con intercambio activo."],
   carf:["si","Colombia firmó el acuerdo."],
   fatca:["si","IGA Modelo 1, operativo."]},
- llc:{t:"Régimen ECE: se atribuyen las rentas pasivas, no las activas",d:"Arts. 882 a 893 del Estatuto Tributario. Se activa con participación directa o indirecta del 10% o más. Según el Concepto DIAN 9193 de 2018, si la entidad obtiene exclusivamente rentas de actividades económicas reales, el accionista colombiano no declara renta bajo este régimen por esa entidad. El detalle a mirar: el art. 884 lista taxativamente qué es renta pasiva y hay lectura de que ciertos servicios prestados en el exterior pueden caer ahí, lo cual afecta a una LLC de consultoría o servicios."},
- si:["Si el negocio es operativo real, con clientes propios y actividad sustantiva, el régimen ECE en general no atribuye esas rentas hasta la distribución. Siempre sujeto a validación local.",
-   "Cuenta en dólares a nombre de la empresa y acceso a procesadores internacionales.",
-   "Contratos firmados por una entidad, con separación patrimonial."],
- no:["Que la LLC no genera obligaciones en Colombia.",
-   "Que no hay que reportar activos en el exterior.",
-   "Afirmar que un negocio de servicios queda afuera del ECE sin que lo valide un contador colombiano.",
-   "Cero impuestos, en cualquier variante."],
- frase:"La LLC es una estructura declarable. El régimen ECE atribuye al residente colombiano las rentas pasivas, no las activas, y se activa con una participación del 10% o más. Si su negocio es operativo real eso suele jugar a favor, pero la calificación de sus ingresos la tiene que confirmar su contador antes de avanzar, sobre todo si factura servicios. También corresponde reportar activos en el exterior según el umbral vigente.",
- desc:["Espera que la LLC lo saque del régimen ECE sin analizar sus ingresos.","Pide explícitamente no reportar activos en el exterior."]},
+ llc:{t:"Régimen ECE: se atribuyen las rentas pasivas, no las activas",d:"Arts. 882 a 893 del Estatuto Tributario. Se activa con participación directa o indirecta del 10% o más. Según el Concepto DIAN 9193 de 2018, si la entidad obtiene exclusivamente rentas de actividades económicas reales, el accionista colombiano no declara renta bajo este régimen por esa entidad. El detalle a mirar: el art. 884 lista taxativamente qué es renta pasiva, y hay lectura de que ciertos servicios prestados en el exterior pueden caer ahí, lo cual afecta a una LLC de consultoría o servicios."}},
 
-bo:{n:"Bolivia",s:"Territorial, solo fuente local",fuerza:"Alta",idioma:"español formal, sin tutear",
+bo:{n:"Bolivia",s:"Territorial, solo fuente local",
  canales:{local:["parcial","El BCB habilitó operaciones con activos virtuales a través del sistema financiero en junio de 2024, después de años de prohibición. Régimen informativo local pendiente de verificar en detalle."],
   crs:["no","Bolivia no participa. Entró al Foro Global de la OCDE como miembro 172, pero no hay cronograma de implementación publicado."],
   carf:["no","No firmó."],
   fatca:["parcial","Situación pendiente de verificar caso a caso."]},
- llc:{t:"Renta de fuente extranjera, en general no alcanzada",d:"Bolivia grava por fuente. Solo se reputan de fuente boliviana las utilidades provenientes de capitales situados, colocados o utilizados económicamente en el país, por el art. 42 de la Ley 843 y el DS 24051. La renta de origen extranjero de un residente boliviano, en general, queda afuera. Es el mercado donde el argumento es más fuerte, y también donde más tentación hay de exagerar."},
- si:["Bolivia grava por fuente y no participa del intercambio automático de información. Son hechos verificables.",
-   "La escasez de dólares hace que la demanda de cuentas en el exterior sea real y no haya que inventarla.",
-   "Cuenta en dólares a nombre de la empresa, contratos y acceso a procesadores internacionales."],
- no:["Que el estatus es permanente: Bolivia puede adherir a CRS y cambia.",
-   "Armar todo el pitch alrededor de la opacidad. Si compra por eso, compra mal.",
-   "Que las obligaciones en Estados Unidos desaparecen. El 5472 se presenta igual.",
-   "Cero impuestos, en cualquier variante."],
- frase:"Bolivia grava por fuente, de modo que la renta de origen extranjero en general no queda alcanzada, y el país hoy no participa del intercambio automático de información. Eso puede cambiar, así que no conviene construir la decisión solo sobre ese punto. Lo que se mantiene en cualquier escenario son las obligaciones en Estados Unidos: el formulario 5472 se presenta todos los años, aun sin actividad, y la multa por no hacerlo arranca en USD 25.000.",
- desc:["Compra solo por la opacidad y no le interesa ningún argumento operativo.","No quiere asumir el mantenimiento anual en Estados Unidos."]}
+ llc:{t:"Renta de fuente extranjera, en general no alcanzada",d:"Bolivia grava por fuente. Solo se reputan de fuente boliviana las utilidades provenientes de capitales situados, colocados o utilizados económicamente en el país, por el art. 42 de la Ley 843 y el DS 24051. La renta de origen extranjero de un residente boliviano, en general, queda afuera. Esto puede cambiar si Bolivia adhiere a CRS más adelante, así que conviene mirarlo como una foto de hoy, no como algo permanente."}}
 };
 
 const P=[
@@ -335,44 +267,19 @@ function chRow(k,v){return `<div class="row"><span class="dot d-${v[0]}"></span>
 function panel(k){
   const m=M[k];
   $("panel").innerHTML=`
-  ${m.alerta?`<div class="alert"><span class="chip">Atención antes de llamar</span><h3>${esc(m.alerta.t)}</h3>
-    ${m.alerta.p.map(p=>`<p>${esc(p)}</p>`).join("")}</div>`:""}
+  ${m.nota?`<div class="alert"><span class="chip">Dato a tener en cuenta</span><h3>${esc(m.nota.t)}</h3>
+    ${m.nota.p.map(p=>`<p>${esc(p)}</p>`).join("")}</div>`:""}
 
   <section><div class="sh"><span class="label">${esc(m.n)}</span>
-    <span class="chip chip-d">Fuerza del pitch de exposición: ${esc(m.fuerza)}</span>
-    <span class="chip chip-d">Registro: ${esc(m.idioma)}</span></div>
+    <span class="chip chip-d">Régimen: ${esc(m.s)}</span></div>
   <h2>Cómo trata ${esc(m.n)} a la LLC</h2>
   <div class="g2">
     <div class="card acc"><h3>${esc(m.llc.t)}</h3><p>${esc(m.llc.d)}</p></div>
-    <div class="card"><span class="label">Canales de reporte</span><div style="margin-top:9px">
+    <div class="card"><span class="label">Adhesión por mecanismo</span><div style="margin-top:9px">
       ${["local","crs","carf","fatca"].map(c=>chRow(c,m.canales[c])).join("")}</div></div>
-  </div>
-
-  <div class="say">
-    <div class="col"><span class="chip">Se puede decir</span><h3 style="margin-top:9px">Argumentos sostenibles</h3>
-      <ul>${m.si.map(s=>`<li>${esc(s)}</li>`).join("")}</ul></div>
-    <div class="col no"><span class="chip">No se dice</span><h3 style="margin-top:9px">Frases que generan el reclamo</h3>
-      <ul>${m.no.map(s=>`<li>${esc(s)}</li>`).join("")}</ul></div>
-  </div>
-
-  <div class="card" style="margin-top:16px">
-    <span class="label">Frase lista para la llamada, en ${esc(m.idioma)}</span>
-    <div class="quote" id="fr">${esc(m.frase)}</div>
-    <button class="copy" id="cp">Copiar</button>
-  </div>
-
-  <div class="card" style="margin-top:14px">
-    <h4>Cuándo descalificar el lead</h4>
-    <ul>${m.desc.map(s=>`<li>${esc(s)}</li>`).join("")}</ul>
-    <p style="margin-top:9px">Un lead que se va antes de pagar cuesta mucho menos que uno que pide reembolso a los seis meses.</p>
   </div>
   </section>`;
 
-  $("cp").onclick=async e=>{
-    try{await navigator.clipboard.writeText(m.frase);e.target.textContent="Copiado";e.target.classList.add("ok");
-      setTimeout(()=>{e.target.textContent="Copiar";e.target.classList.remove("ok")},1600)}
-    catch{e.target.textContent="Copiá a mano"}
-  };
   $("verifLvl").textContent = k==="ar" ? "Verificado con normativa" : "Nivel país verificado, plataforma derivada";
   $("plataformas").hidden=false;
 }
@@ -383,7 +290,7 @@ function list(){
     (!q||nz(p.n+" "+p.t+" "+p.j+" "+p.a.join(" ")).includes(nz(q))));
   $("res").innerHTML=l.length?l.map(p=>`<button class="pc" data-n="${esc(p.n)}" aria-pressed="${sel===p.n}">
     <b>${esc(p.n)}</b><small>${esc(p.t)} · ${esc(p.j)}</small></button>`).join("")
-    : `<p class="empty">No la tengo cargada para este mercado. Decime cuál y la agrego.</p>`;
+    : `<p class="empty">No la tengo cargada para este país. Decime cuál y la agrego.</p>`;
 }
 
 function pdet(p){
@@ -394,8 +301,8 @@ function pdet(p){
       <p style="margin-top:9px">${esc(p.x)}</p></div>
     <div class="card acc"><span class="label">Con LLC</span><h3 style="margin-top:5px">Cuenta a nombre de la empresa</h3>
       <p style="color:var(--light);font-size:12.5px">Persona jurídica de Estados Unidos</p>
-      <p style="margin-top:9px">Estados Unidos no adoptó CRS, así que ese canal no aplica. Queda FATCA, que reporta rentas acreditadas pero no saldos de cuenta. Sumás cuenta en dólares propia, contratos firmados por la entidad y gastos que pasan por la empresa.</p>
-      <p style="margin-top:9px"><b>Lo que no cambia en ${esc(m.n)}:</b> ${esc(m.llc.t.toLowerCase())}. Ver el panel de arriba antes de prometer nada.</p></div>
+      <p style="margin-top:9px">Estados Unidos no adoptó CRS, así que ese canal no aplica. Queda FATCA, que reporta rentas acreditadas pero no saldos de cuenta.</p>
+      <p style="margin-top:9px"><b>Lo que no cambia en ${esc(m.n)}:</b> ${esc(m.llc.t.toLowerCase())}. Ver el panel de arriba.</p></div>
   </div>`;
 }
 
