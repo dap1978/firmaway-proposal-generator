@@ -61,6 +61,14 @@ const TOOLS = [
     desc: 'Analiza las conversaciones online por colaborador, país de origen, intención de compra y nivel de frustración.',
     action: () => window.open('https://web-production-0cb8e.up.railway.app/', '_blank', 'noopener,noreferrer'),
   },
+  {
+    key: 'politicas-billeteras',
+    num: '07',
+    title: 'Políticas billeteras',
+    sub: 'Info comercial para ayudarte',
+    desc: 'Exposición informativa y trato de la LLC por mercado.',
+    action: (router) => router.push('/interno/politicas-billeteras'),
+  },
 ];
 
 export default function Home() {
