@@ -3,6 +3,7 @@ import { NextResponse } from 'next/server';
 // Rutas que NO requieren autenticación
 const PUBLIC_PREFIXES = [
   '/p/',           // propuestas públicas para leads
+  '/b/',           // link fijo compartido de la consola de billeteras (token en WALLETS_SHARE_TOKEN)
   '/lock',         // pantalla de acceso
   '/api/unlock',   // endpoint que valida la clave
   '/_next/',       // assets de Next.js

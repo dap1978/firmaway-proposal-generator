@@ -137,7 +137,7 @@ footer ul{margin:7px 0 0 15px}
     </div>
   </section>
 
-  <section>
+  <section id="secPorPais">
     <div class="sh"><span class="label">Por país</span></div>
     <h2>Seleccioná un país</h2>
     <p style="max-width:66ch;margin-top:7px">Cómo trata cada mecanismo, y cómo se trata la LLC ahí.</p>
@@ -399,6 +399,8 @@ let mk=null, sel=null, gsel=null;
 const $=i=>document.getElementById(i);
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const nz=s=>s.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"");
+
+if(window.__SCOPED__){const s=$("secPorPais");if(s)s.style.display="none";}
 
 $("tabs").innerHTML=Object.entries(M).map(([k,v])=>
 `<button class="tab" data-k="${k}" aria-pressed="false"><b>${esc(v.n)}</b><small>${esc(v.s)}</small></button>`).join("");
