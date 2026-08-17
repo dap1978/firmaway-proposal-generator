@@ -160,12 +160,14 @@ footer ul{margin:7px 0 0 15px}
   <footer>
     <p><b>Material de estudio interno. No es asesoramiento fiscal ni legal.</b> Cada caso lo cierra el contador del cliente en su país. No compartir con prospectos: es un documento de trabajo del equipo, no una pieza terminada para mostrar afuera.</p>
     <p style="margin-top:8px"><b>Nivel de verificación.</b> El detalle plataforma por plataforma está verificado con normativa para Argentina. Para Brasil, España, Colombia y Bolivia el nivel de país está verificado, y el nivel de plataforma es una derivación por categoría y jurisdicción, no una consulta a los registros locales.</p>
+    <p style="margin-top:8px"><b>Fuente del listado de PSAV argentinos.</b> Las 136 plataformas de la pestaña Argentina salen del registro público de PSAV de la Comisión Nacional de Valores (CNV), consultado a través de dinero-libre.com el 17 de agosto de 2026. "Registrada" significa que figura con matrícula vigente en ese registro (o que la fuente la marca como dada de alta recientemente); "figuró pero no vigente" son entidades que estuvieron en el registro y hoy no aparecen como activas; "no registrada" es todo lo que no tiene coincidencia. Cuando una marca tiene más de una razón social registrada (por ejemplo Ripio o Fiwind), se muestran juntas bajo un solo resultado. Catorce registros de la fuente no tenían un dominio público identificable y quedaron afuera de este listado por no ser buscables por nombre de plataforma.</p>
     <p style="margin-top:8px"><b>Pendientes antes de tratar esto como definitivo:</b></p>
     <ul>
       <li>Regímenes informativos locales de billeteras y cripto en Brasil, España y Colombia, al nivel de detalle con que está revisado el caso argentino.</li>
       <li>Umbrales vigentes del Formulario 160 en Colombia.</li>
       <li>Situación de FATCA respecto de Bolivia.</li>
       <li>Confirmar con contador brasileño el alcance práctico de la Solução de Consulta COSIT 56/2026 y si hubo reacción posterior de la Receita.</li>
+      <li>El listado de PSAV se generó con datos del 17 de agosto de 2026: la CNV sigue dando de alta y de baja registrantes, conviene re-chequear cada tanto.</li>
     </ul>
     <p style="margin-top:8px">Responsable de actualización: Daniel Palacios. Revisión por trimestre y cada vez que salga normativa que toque el tema.</p>
   </footer>
@@ -225,15 +227,142 @@ const P=[
 {n:"Personal Pay",m:"ar",cat:"pago",t:"Billetera virtual",j:"Argentina",r:"si",a:["personal pay"],x:"Dentro del régimen mensual de proveedores de servicios de pago (RG ARCA), no del registro PSAV."},
 {n:"Naranja X",m:"ar",cat:"pago",t:"Billetera virtual",j:"Argentina",r:"si",a:["naranja","naranjax"],x:"Dentro del régimen mensual de proveedores de servicios de pago (RG ARCA), no del registro PSAV."},
 {n:"Brubank",m:"ar",cat:"pago",t:"Banco digital",j:"Argentina",r:"si",a:["brubank"],x:"Los bancos quedaron afuera de este régimen puntual porque informan por el régimen bancario. El resultado para el cliente es el mismo."},
-{n:"Lemon Cash",m:"ar",cat:"psav",t:"Exchange local inscripto",j:"Argentina",r:"si",a:["lemon"],x:"Inscripta como PSAV en la CNV. Informa mensualmente saldos y movimientos en pesos, dólares y cripto cuando se pasa el umbral."},
-{n:"Belo",m:"ar",cat:"psav",t:"Exchange local inscripto",j:"Argentina",r:"si",a:["belo"],x:"Inscripta como PSAV en la CNV. Los movimientos en pesos que cruzan el sistema bancario además son trazables por otra vía."},
-{n:"Buenbit",m:"ar",cat:"psav",t:"Exchange local inscripto",j:"Argentina",r:"si",a:["buenbit"],x:"Inscripta como PSAV en la CNV desde 2022. Su integración con el sistema bancario argentino hace que buena parte de la operación ya sea trazable."},
-{n:"Ripio",m:"ar",cat:"psav",t:"Exchange local inscripto",j:"Argentina",r:"si",a:["ripio"],x:"Inscripta como PSAV en la CNV. Opera en Argentina desde 2014 y fue de las primeras en inscribirse."},
-{n:"SatoshiTango",m:"ar",cat:"psav",t:"Exchange local inscripto",j:"Argentina",r:"si",a:["satoshi"],x:"Inscripta como PSAV en la CNV, dentro del régimen mensual."},
-{n:"Fiwind",m:"ar",cat:"psav",t:"Exchange local inscripto",j:"Argentina",r:"si",a:["fiwind"],x:"Inscripta como PSAV en la CNV en 2024, dentro del régimen mensual."},
-{n:"Cocos Crypto",m:"ar",cat:"psav",t:"Exchange local inscripto",j:"Argentina",r:"si",a:["cocos"],x:"Con registro PSAV en la CNV, mismo esquema que el resto."},
-{n:"Binance Argentina",m:"ar",cat:"psav",t:"Exchange local inscripto",j:"Argentina",r:"si",a:["binance arg"],x:"La operación por la entidad local quedó dentro del registro PSAV desde septiembre de 2024. El contenido que circula diciendo lo contrario está viejo."},
-{n:"Bybit",m:"ar",cat:"psav",t:"Exchange internacional",j:"Fuera de Argentina",r:"no",a:["bybit"],x:"Sin registro PSAV en la CNV. Que no reporte no exime al cliente: la tenencia se declara en Bienes Personales y la ganancia en Ganancias, y el registro lo tiene que armar él."},
+{n:"Ag Crypto",m:"ar",cat:"psav",t:"Exchange local",j:"Argentina",r:"no",a:["ag crypto","ag-crypto"],x:"Figuró en el registro de PSAV, pero hoy no aparece como vigente. Razón social: ADMINISTRATION GROUP SAS."},
+{n:"Agrotoken",m:"ar",cat:"psav",t:"Exchange local",j:"Argentina",r:"no",a:["agrotoken"],x:"Figuró en el registro de PSAV, pero hoy no aparece como vigente. Razón social: Tech Demeter S.A."},
+{n:"Aimtech",m:"ar",cat:"psav",t:"Exchange internacional",j:"Fuera de Argentina",r:"no",a:["aimtech"],x:"Figuró en el registro de PSAV, pero hoy no aparece como vigente. Razón social: AimTech CJSC."},
+{n:"Airtm",m:"ar",cat:"psav",t:"Exchange internacional inscripto",j:"Fuera de Argentina",r:"si",a:["airtm"],x:"Registrada como PSAV en la CNV (matrícula 82), alta el 2024-09-20. Razón social: AirConnect LLC."},
+{n:"Allariacrypto",m:"ar",cat:"psav",t:"Exchange local inscripto",j:"Argentina",r:"si",a:["allariacrypto"],x:"Registrada como PSAV en la CNV (matrícula 132), alta el 2025-03-06. Razón social: Allaria Crypto S.A."},
+{n:"Alpaca",m:"ar",cat:"psav",t:"Exchange local",j:"Argentina",r:"no",a:["alpaca"],x:"Figuró en el registro de PSAV, pero hoy no aparece como vigente. Razón social: QSL PRODUCCIONES SRL."},
+{n:"Anclap",m:"ar",cat:"psav",t:"Exchange local",j:"Argentina",r:"no",a:["anclap"],x:"Figuró en el registro de PSAV, pero hoy no aparece como vigente. Razón social: Grupo Anchor SA."},
+{n:"Arex",m:"ar",cat:"psav",t:"Exchange local inscripto",j:"Argentina",r:"si",a:["arex"],x:"Registrada como PSAV en la CNV (matrícula 1), alta el 2024-04-25. Razón social: Arex Activos Digitales S.A."},
+{n:"ARQ Finance (ex DolarApp)",m:"ar",cat:"psav",t:"Exchange internacional",j:"Fuera de Argentina",r:"no",featured:true,a:["arq finance (ex dolarapp)","arqfinance"],x:"No está registrada como PSAV en la CNV a la fecha de esta revisión. Razón social: ARQ FINANCE (ex DolarApp)."},
+{n:"Atomico3",m:"ar",cat:"psav",t:"Exchange internacional",j:"Fuera de Argentina",r:"no",a:["atomico3"],x:"Figuró en el registro de PSAV, pero hoy no aparece como vigente. Razón social: ATOMICO3 S.A."},
+{n:"Aura",m:"ar",cat:"psav",t:"Exchange local inscripto",j:"Argentina",r:"si",a:["aura"],x:"Registrada como PSAV en la CNV (matrícula 136), alta el 2025-03-25. Razón social: Aura Legal SRL."},
+{n:"Aurum41sas",m:"ar",cat:"psav",t:"Exchange local",j:"Argentina",r:"no",a:["aurum41sas"],x:"Figuró en el registro de PSAV, pero hoy no aparece como vigente. Razón social: AURUM 41 SAS."},
+{n:"Austral Whale",m:"ar",cat:"psav",t:"Exchange local inscripto",j:"Argentina",r:"si",a:["austral whale"],x:"Registrada como PSAV en la CNV (matrícula 68), alta el 2024-08-16. Razón social: AUSTRAL WHALE S.A.S."},
+{n:"Baola",m:"ar",cat:"psav",t:"Exchange internacional inscripto",j:"Fuera de Argentina",r:"si",a:["baola"],x:"Registrada como PSAV en la CNV (matrícula 134), alta el 2025-03-06. Razón social: NUVO EL SALVADOR, SOCIEDAD ANONIMA DE CAPITAL VARIABLE."},
+{n:"BCrypto",m:"ar",cat:"psav",t:"Exchange local inscripto",j:"Argentina",r:"si",a:["bcrypto"],x:"Registrada como PSAV en la CNV (matrícula 2), alta el 2024-04-25. Razón social: BCRYPTO S.A."},
+{n:"Beetransfer",m:"ar",cat:"psav",t:"Exchange local",j:"Argentina",r:"no",a:["beetransfer"],x:"Figuró en el registro de PSAV, pero hoy no aparece como vigente. Razón social: BEEHIVE SOFT SAS."},
+{n:"Belo",m:"ar",cat:"psav",t:"Exchange local inscripto",j:"Argentina",r:"si",featured:true,a:["belo"],x:"Registrada como PSAV en la CNV (matrícula 52), alta el 2024-07-19. Razón social: Belo Argentina S.A."},
+{n:"BEN",m:"ar",cat:"psav",t:"Exchange local inscripto",j:"Argentina",r:"si",a:["ben"],x:"Registrada como PSAV en la CNV, alta el 2026-04-17. Razón social: BEN."},
+{n:"Berryinvesting",m:"ar",cat:"psav",t:"Exchange local",j:"Argentina",r:"no",a:["berryinvesting"],x:"Figuró en el registro de PSAV, pero hoy no aparece como vigente. Razón social: Frambue SAS."},
+{n:"Billete",m:"ar",cat:"psav",t:"Exchange local",j:"Argentina",r:"no",a:["billete"],x:"Figuró en el registro de PSAV, pero hoy no aparece como vigente. Razón social: BILLETE ARGENTINA SRL."},
+{n:"Binance",m:"ar",cat:"psav",t:"Exchange internacional inscripto",j:"Fuera de Argentina",r:"si",featured:true,a:["binance"],x:"Registrada como PSAV en la CNV (matrícula 76), alta el 2024-09-11. Razón social: Binance Services Latinoamerica S.A. de C.V."},
+{n:"Bit2Me (España)",m:"ar",cat:"psav",t:"Exchange internacional inscripto",j:"Fuera de Argentina",r:"si",a:["bit2me (españa)","bit2me"],x:"Registrada como PSAV en la CNV (matrícula 56), alta el 2024-08-05. Razón social: BITCOINFORME SL."},
+{n:"Bit2Me Argentina",m:"ar",cat:"psav",t:"Exchange local inscripto",j:"Argentina",r:"si",a:["bit2me argentina","bit2me"],x:"Registrada como PSAV en la CNV, alta el 2025-03-10. Razón social: B2M ARGENTINA."},
+{n:"Bitbase",m:"ar",cat:"psav",t:"Exchange local inscripto",j:"Argentina",r:"si",a:["bitbase"],x:"Registrada como PSAV en la CNV (matrícula 97), alta el 2024-12-20. Razón social: BIT BASE ARGENTINA SA."},
+{n:"Bitfinex",m:"ar",cat:"psav",t:"Exchange internacional",j:"Fuera de Argentina",r:"no",a:["bitfinex"],x:"Figuró en el registro de PSAV, pero hoy no aparece como vigente. Razón social: BFXWW Inc."},
+{n:"Bitget",m:"ar",cat:"psav",t:"Exchange internacional inscripto",j:"Fuera de Argentina",r:"si",a:["bitget"],x:"Registrada como PSAV en la CNV (matrícula 153), alta el 2025-05-09. Razón social: BITGET POLAND LIMITED LIABILITY COMPANY."},
+{n:"Bitsign",m:"ar",cat:"psav",t:"Exchange local",j:"Argentina",r:"no",a:["bitsign","app"],x:"Figuró en el registro de PSAV, pero hoy no aparece como vigente. Razón social: Bitsign."},
+{n:"Bitso",m:"ar",cat:"psav",t:"Exchange internacional inscripto",j:"Fuera de Argentina",r:"si",a:["bitso"],x:"Registrada como PSAV en la CNV (matrícula 51), alta el 2024-07-19. Razón social: The Badger Technology Company Limited."},
+{n:"Blockey",m:"ar",cat:"psav",t:"Exchange local",j:"Argentina",r:"no",a:["blockey"],x:"Figuró en el registro de PSAV, pero hoy no aparece como vigente. Razón social: BLOCKEY SAS."},
+{n:"Blocktrade",m:"ar",cat:"psav",t:"Exchange local inscripto",j:"Argentina",r:"si",a:["blocktrade"],x:"Registrada como PSAV en la CNV, alta el 2026-03-27. Razón social: BLOCKTRADE."},
+{n:"Bnka",m:"ar",cat:"psav",t:"Exchange local inscripto",j:"Argentina",r:"si",a:["bnka"],x:"Registrada como PSAV en la CNV (matrícula 55), alta el 2024-07-24. Razón social: DIGITAL TRADING SA."},
+{n:"BtcTurk",m:"ar",cat:"psav",t:"Exchange internacional",j:"Fuera de Argentina",r:"no",a:["btcturk","global"],x:"Figuró en el registro de PSAV, pero hoy no aparece como vigente. Razón social: BtcTurk Global Inc."},
+{n:"Buenbit",m:"ar",cat:"psav",t:"Exchange local inscripto",j:"Argentina",r:"si",featured:true,a:["buenbit"],x:"Registrada como PSAV en la CNV (matrícula 39), alta el 2024-06-12. Razón social: BUENBIT CRIPTO S.A / Oware SAS."},
+{n:"Bullbitcoin",m:"ar",cat:"psav",t:"Exchange internacional",j:"Fuera de Argentina",r:"no",a:["bullbitcoin"],x:"Figuró en el registro de PSAV, pero hoy no aparece como vigente. Razón social: TORO PAGOS S.A. de C.V."},
+{n:"Bybit",m:"ar",cat:"psav",t:"Exchange internacional",j:"Fuera de Argentina",r:"no",featured:true,a:["bybit"],x:"No está registrada como PSAV en la CNV a la fecha de esta revisión. Razón social: BYBIT."},
+{n:"Cajacrypto",m:"ar",cat:"psav",t:"Exchange local inscripto",j:"Argentina",r:"si",a:["cajacrypto"],x:"Registrada como PSAV en la CNV (matrícula 80), alta el 2024-09-20. Razón social: CAJA CRYPTO SA."},
+{n:"Canal Street",m:"ar",cat:"psav",t:"Exchange local inscripto",j:"Argentina",r:"si",a:["canal street","canalstreet"],x:"Registrada como PSAV en la CNV, alta el 2026-04-27. Razón social: Canal Street."},
+{n:"Cash Inversiones",m:"ar",cat:"psav",t:"Exchange local inscripto",j:"Argentina",r:"si",a:["cash inversiones","cashinversiones"],x:"Registrada como PSAV en la CNV (matrícula 70), alta el 2024-08-22. Razón social: CASH FINANZAS S.A."},
+{n:"Circuit P",m:"ar",cat:"psav",t:"Exchange local inscripto",j:"Argentina",r:"si",a:["circuit p","circuit-p"],x:"Registrada como PSAV en la CNV (matrícula 106), alta el 2025-01-31. Razón social: Circuit Pay S.A."},
+{n:"Cocos Crypto",m:"ar",cat:"psav",t:"Exchange local inscripto",j:"Argentina",r:"si",featured:true,a:["cocos crypto","cocoscrypto"],x:"Registrada como PSAV en la CNV (matrícula 14), alta el 2024-05-08. Razón social: Cocos Crypto SA."},
+{n:"Coinbase",m:"ar",cat:"psav",t:"Exchange local inscripto",j:"Argentina",r:"si",a:["coinbase"],x:"Registrada como PSAV en la CNV (matrícula 104), alta el 2025-01-24. Razón social: Coinbase Bermuda Services Limited."},
+{n:"Comunyt",m:"ar",cat:"psav",t:"Exchange local",j:"Argentina",r:"no",a:["comunyt"],x:"Figuró en el registro de PSAV, pero hoy no aparece como vigente. Razón social: Comunity Trust S.A."},
+{n:"Condorcapitals",m:"ar",cat:"psav",t:"Exchange local inscripto",j:"Argentina",r:"si",a:["condorcapitals"],x:"Registrada como PSAV en la CNV (matrícula 44), alta el 2024-06-24. Razón social: CONDOR OTC S.A."},
+{n:"Coper Technologies",m:"ar",cat:"psav",t:"Exchange local inscripto",j:"Argentina",r:"si",a:["coper technologies","copertechnologies"],x:"Registrada como PSAV en la CNV (matrícula 87), alta el 2024-10-25. Razón social: Coper Technologies S.R.L."},
+{n:"Correta",m:"ar",cat:"psav",t:"Exchange local",j:"Argentina",r:"no",a:["correta"],x:"Figuró en el registro de PSAV, pero hoy no aparece como vigente. Razón social: EL CORRETA S.A.U."},
+{n:"Cripoint",m:"ar",cat:"psav",t:"Exchange local inscripto",j:"Argentina",r:"si",a:["cripoint"],x:"Registrada como PSAV en la CNV (matrícula 50), alta el 2024-07-05. Razón social: Americansas Group S.A."},
+{n:"Criptoinvestments",m:"ar",cat:"psav",t:"Exchange local",j:"Argentina",r:"no",a:["criptoinvestments"],x:"Figuró en el registro de PSAV, pero hoy no aparece como vigente. Razón social: CRIPTOINVESTMENTS SAS."},
+{n:"Crossing",m:"ar",cat:"psav",t:"Exchange local",j:"Argentina",r:"no",a:["crossing"],x:"Figuró en el registro de PSAV, pero hoy no aparece como vigente. Razón social: CROSSING CAPITAL S.A."},
+{n:"Cryptanz",m:"ar",cat:"psav",t:"Exchange local inscripto",j:"Argentina",r:"si",a:["cryptanz"],x:"Registrada como PSAV en la CNV (matrícula 22), alta el 2024-05-16. Razón social: VITUALPAYS SAU."},
+{n:"Crypto.com",m:"ar",cat:"psav",t:"Exchange internacional inscripto",j:"Fuera de Argentina",r:"si",a:["crypto.com","crypto"],x:"Registrada como PSAV en la CNV (matrícula 133), alta el 2025-03-06. Razón social: Foris DAX Middle East FZE."},
+{n:"CryptoMKT",m:"ar",cat:"psav",t:"Exchange local inscripto",j:"Argentina",r:"si",a:["cryptomkt"],x:"Registrada como PSAV en la CNV (matrícula 67), alta el 2024-08-16. Razón social: CryptoMKT S.A / DYSOPSIS LIMITED."},
+{n:"Daio",m:"ar",cat:"psav",t:"Exchange local",j:"Argentina",r:"no",a:["daio"],x:"Figuró en el registro de PSAV, pero hoy no aparece como vigente. Razón social: Selmiro S.A.U."},
+{n:"Daynight",m:"ar",cat:"psav",t:"Exchange local",j:"Argentina",r:"no",a:["daynight"],x:"Figuró en el registro de PSAV, pero hoy no aparece como vigente. Razón social: PEER2PEER S.A."},
+{n:"Decrypto",m:"ar",cat:"psav",t:"Exchange local inscripto",j:"Argentina",r:"si",a:["decrypto"],x:"Registrada como PSAV en la CNV (matrícula 8), alta el 2024-04-29. Razón social: Cobon OTC SA."},
+{n:"Dfcex",m:"ar",cat:"psav",t:"Exchange internacional",j:"Fuera de Argentina",r:"no",a:["dfcex"],x:"Figuró en el registro de PSAV, pero hoy no aparece como vigente. Razón social: DEFICO SP ZOO."},
+{n:"DolarApp",m:"ar",cat:"psav",t:"Exchange internacional inscripto",j:"Fuera de Argentina",r:"si",featured:true,a:["dolarapp"],x:"Registrada como PSAV en la CNV (matrícula 92), alta el 2024-11-20. Razón social: DolarApp México S.A. de C.V."},
+{n:"Dolarizate",m:"ar",cat:"psav",t:"Exchange local inscripto",j:"Argentina",r:"si",a:["dolarizate"],x:"Registrada como PSAV en la CNV (matrícula 20), alta el 2024-05-15. Razón social: AMG CAPITAL GROUP SA."},
+{n:"Dynaria",m:"ar",cat:"psav",t:"Exchange local inscripto",j:"Argentina",r:"si",a:["dynaria","dinaria"],x:"Registrada como PSAV en la CNV, alta el 2025-10-22. Razón social: DYNARIA S.R.L."},
+{n:"Eldorado",m:"ar",cat:"psav",t:"Exchange local inscripto",j:"Argentina",r:"si",a:["eldorado"],x:"Registrada como PSAV en la CNV (matrícula 63), alta el 2024-08-05. Razón social: EL DORADO LABS SRL."},
+{n:"Eluter",m:"ar",cat:"psav",t:"Exchange local inscripto",j:"Argentina",r:"si",a:["eluter"],x:"Registrada como PSAV en la CNV (matrícula 64), alta el 2024-08-09. Razón social: ELUTER / ADBLIDAI OÜ."},
+{n:"ExchangeCopter",m:"ar",cat:"psav",t:"Exchange local inscripto",j:"Argentina",r:"si",a:["exchangecopter","app"],x:"Registrada como PSAV en la CNV (matrícula 6), alta el 2024-04-25. Razón social: PAYEX SRL."},
+{n:"Factoscapital",m:"ar",cat:"psav",t:"Exchange internacional",j:"Fuera de Argentina",r:"no",a:["factoscapital"],x:"Figuró en el registro de PSAV, pero hoy no aparece como vigente. Razón social: Factos SAS."},
+{n:"Finbloom",m:"ar",cat:"psav",t:"Exchange local",j:"Argentina",r:"no",a:["finbloom"],x:"Figuró en el registro de PSAV, pero hoy no aparece como vigente. Razón social: FINBLOOM ARGENTINA S.A."},
+{n:"Fiwind",m:"ar",cat:"psav",t:"Exchange local inscripto",j:"Argentina",r:"si",featured:true,a:["fiwind"],x:"Registrada como PSAV en la CNV (matrícula 75), alta el 2024-09-06. Razón social: FIWIND LLC / FINANCEWIND S.A."},
+{n:"Fiwind OTC",m:"ar",cat:"psav",t:"Exchange local inscripto",j:"Argentina",r:"si",a:["fiwind otc","fiwind-otc"],x:"Registrada como PSAV en la CNV (matrícula 23), alta el 2024-05-17. Razón social: FWOTC S.A."},
+{n:"Forestblock",m:"ar",cat:"psav",t:"Exchange local",j:"Argentina",r:"no",a:["forestblock"],x:"Figuró en el registro de PSAV, pero hoy no aparece como vigente. Razón social: Shale Synergy SA."},
+{n:"Gate",m:"ar",cat:"psav",t:"Exchange internacional",j:"Fuera de Argentina",r:"no",a:["gate"],x:"Figuró en el registro de PSAV, pero hoy no aparece como vigente. Razón social: Gate Global UAB."},
+{n:"Geotax",m:"ar",cat:"psav",t:"Exchange local",j:"Argentina",r:"no",a:["geotax"],x:"Figuró en el registro de PSAV, pero hoy no aparece como vigente. Razón social: GEO-TAX SAS."},
+{n:"Global Flow",m:"ar",cat:"psav",t:"Exchange local inscripto",j:"Argentina",r:"si",a:["global flow","globalflow"],x:"Registrada como PSAV en la CNV (matrícula 54), alta el 2024-07-19. Razón social: Global Flow S. A."},
+{n:"Ideas Out Solution",m:"ar",cat:"psav",t:"Exchange local inscripto",j:"Argentina",r:"si",a:["ideas out solution","ideasoutsolution"],x:"Registrada como PSAV en la CNV (matrícula 128), alta el 2025-02-19. Razón social: Ideas Out S.A."},
+{n:"Intuición y Acción SAS (dominio no identificable)",m:"ar",cat:"psav",t:"Exchange internacional",j:"Fuera de Argentina",r:"no",a:["intuición y acción sas (dominio no identificable)","https"],x:"Figuró en el registro de PSAV, pero hoy no aparece como vigente. Razón social: INTUICION Y ACCION SAS."},
+{n:"Jobchain",m:"ar",cat:"psav",t:"Exchange local inscripto",j:"Argentina",r:"si",a:["jobchain"],x:"Registrada como PSAV en la CNV (matrícula 124), alta el 2025-02-19. Razón social: Jobchain SAS."},
+{n:"Koibanx",m:"ar",cat:"psav",t:"Exchange local inscripto",j:"Argentina",r:"si",a:["koibanx"],x:"Registrada como PSAV en la CNV (matrícula 13), alta el 2024-05-07. Razón social: Koibanx El Salvador S.A. de C.V. (SSE)."},
+{n:"Koker",m:"ar",cat:"psav",t:"Exchange local inscripto",j:"Argentina",r:"si",a:["koker"],x:"Registrada como PSAV en la CNV (matrícula 77), alta el 2024-09-13. Razón social: Koker Exchange SA."},
+{n:"Koywe",m:"ar",cat:"psav",t:"Exchange local inscripto",j:"Argentina",r:"si",a:["koywe"],x:"Registrada como PSAV en la CNV (matrícula 24), alta el 2024-05-17. Razón social: ALERCE ARGENTINA SRL."},
+{n:"Kraken",m:"ar",cat:"psav",t:"Exchange internacional inscripto",j:"Fuera de Argentina",r:"si",a:["kraken"],x:"Registrada como PSAV en la CNV (matrícula 155), alta el 2025-05-09. Razón social: Payward Trading Ltd."},
+{n:"Kripton Market",m:"ar",cat:"psav",t:"Exchange local inscripto",j:"Argentina",r:"si",a:["kripton market","kriptonmarket"],x:"Registrada como PSAV en la CNV (matrícula 27), alta el 2024-05-20. Razón social: NALUSO S.A."},
+{n:"Kulipa",m:"ar",cat:"psav",t:"Exchange local inscripto",j:"Argentina",r:"si",a:["kulipa"],x:"Registrada como PSAV en la CNV (matrícula 33), alta el 2024-05-27. Razón social: Kulipa S.R.L."},
+{n:"Landu",m:"ar",cat:"psav",t:"Exchange local",j:"Argentina",r:"no",a:["landu"],x:"Figuró en el registro de PSAV, pero hoy no aparece como vigente. Razón social: TOKEN RAIZ SA."},
+{n:"Lbfinanzas",m:"ar",cat:"psav",t:"Exchange local",j:"Argentina",r:"no",a:["lbfinanzas"],x:"No está registrada como PSAV en la CNV a la fecha de esta revisión. Razón social: LB FINANZAS."},
+{n:"Lemon",m:"ar",cat:"psav",t:"Exchange local inscripto",j:"Argentina",r:"si",featured:true,a:["lemon"],x:"Registrada como PSAV en la CNV (matrícula 47), alta el 2024-07-02. Razón social: BAY TREASURE CARAMEL S. A / The Place S.A. de C.V."},
+{n:"Lionhaus",m:"ar",cat:"psav",t:"Exchange local",j:"Argentina",r:"no",a:["lionhaus"],x:"Figuró en el registro de PSAV, pero hoy no aparece como vigente. Razón social: Seis Cinco Ocho SA."},
+{n:"Lirium",m:"ar",cat:"psav",t:"Exchange local inscripto",j:"Argentina",r:"si",a:["lirium"],x:"Registrada como PSAV en la CNV (matrícula 66), alta el 2024-08-14. Razón social: Lirium AG / Lirium Argentina SA."},
+{n:"Luzpay",m:"ar",cat:"psav",t:"Exchange local inscripto",j:"Argentina",r:"si",a:["luzpay"],x:"Registrada como PSAV en la CNV (matrícula 48), alta el 2024-07-02. Razón social: LUZPAY SAS."},
+{n:"Madesolutions",m:"ar",cat:"psav",t:"Exchange local inscripto",j:"Argentina",r:"si",a:["madesolutions"],x:"Registrada como PSAV en la CNV (matrícula 45), alta el 2024-06-26. Razón social: INSIGHTFULL MADE SOLUTIONS S.R.L."},
+{n:"Mangocash",m:"ar",cat:"psav",t:"Exchange local inscripto",j:"Argentina",r:"si",a:["mangocash"],x:"Registrada como PSAV en la CNV (matrícula 135), alta el 2025-03-25. Razón social: Mango Cash S.A."},
+{n:"Mar Exchange",m:"ar",cat:"psav",t:"Exchange local inscripto",j:"Argentina",r:"si",a:["mar exchange","mar-exchange"],x:"Registrada como PSAV en la CNV (matrícula 18), alta el 2024-05-13. Razón social: mar exchange sa."},
+{n:"Metro Futuro",m:"ar",cat:"psav",t:"Exchange local inscripto",j:"Argentina",r:"si",a:["metro futuro","metro-futuro"],x:"Registrada como PSAV en la CNV (matrícula 100), alta el 2025-01-07. Razón social: Metro Futuro SRL."},
+{n:"Miactivo",m:"ar",cat:"psav",t:"Exchange local inscripto",j:"Argentina",r:"si",a:["miactivo"],x:"Registrada como PSAV en la CNV (matrícula 11), alta el 2024-05-03. Razón social: Miactivo s.a."},
+{n:"Micasa",m:"ar",cat:"psav",t:"Exchange local",j:"Argentina",r:"no",a:["micasa"],x:"Figuró en el registro de PSAV, pero hoy no aparece como vigente. Razón social: TECH REALTY S.A."},
+{n:"Misaldo",m:"ar",cat:"psav",t:"Exchange local inscripto",j:"Argentina",r:"si",a:["misaldo"],x:"Registrada como PSAV en la CNV (matrícula 34), alta el 2024-05-27. Razón social: Mi saldo srl."},
+{n:"Moneyflap",m:"ar",cat:"psav",t:"Exchange internacional inscripto",j:"Fuera de Argentina",r:"si",a:["moneyflap"],x:"Registrada como PSAV en la CNV (matrícula 69), alta el 2024-08-21. Razón social: MoneyFlap Digital Labs, Inc."},
+{n:"Nauttfinance",m:"ar",cat:"psav",t:"Exchange internacional",j:"Fuera de Argentina",r:"no",a:["nauttfinance"],x:"Figuró en el registro de PSAV, pero hoy no aparece como vigente. Razón social: NAUTT SOLUCOES EM TECNOLOGIA FINANCEIRA LTDA."},
+{n:"Neban",m:"ar",cat:"psav",t:"Exchange local",j:"Argentina",r:"no",a:["neban"],x:"Figuró en el registro de PSAV, pero hoy no aparece como vigente. Razón social: Wallet Transfer S.A."},
+{n:"Nebeus",m:"ar",cat:"psav",t:"Exchange local inscripto",j:"Argentina",r:"si",a:["nebeus"],x:"Registrada como PSAV en la CNV (matrícula 145), alta el 2025-04-28. Razón social: RINTRAL TRADING SL S.A."},
+{n:"Nexbridge",m:"ar",cat:"psav",t:"Exchange internacional",j:"Fuera de Argentina",r:"no",a:["nexbridge"],x:"Figuró en el registro de PSAV, pero hoy no aparece como vigente. Razón social: NexBridge Digital Financial Solutions S.A de C.V."},
+{n:"Nexo Finance",m:"ar",cat:"psav",t:"Exchange local inscripto",j:"Argentina",r:"si",a:["nexo finance","nexofinance"],x:"Registrada como PSAV en la CNV (matrícula 159), alta el 2025-10-14. Razón social: NEXO SERVICES S.A."},
+{n:"Nexplace",m:"ar",cat:"psav",t:"Exchange internacional",j:"Fuera de Argentina",r:"no",a:["nexplace"],x:"Figuró en el registro de PSAV, pero hoy no aparece como vigente. Razón social: NexPlace S.A de C.V."},
+{n:"Okx",m:"ar",cat:"psav",t:"Exchange internacional inscripto",j:"Fuera de Argentina",r:"si",a:["okx"],x:"Registrada como PSAV en la CNV (matrícula 141), alta el 2025-04-21. Razón social: OKX Fintech, S.A. de C.V. (Sucursal Argentina)."},
+{n:"Parfin",m:"ar",cat:"psav",t:"Exchange internacional inscripto",j:"Fuera de Argentina",r:"si",a:["parfin"],x:"Registrada como PSAV en la CNV (matrícula 107), alta el 2025-01-31. Razón social: PARFIN DIGITAL ASSETS LTDA."},
+{n:"Pluscrypto",m:"ar",cat:"psav",t:"Exchange local inscripto",j:"Argentina",r:"si",a:["pluscrypto"],x:"Registrada como PSAV en la CNV (matrícula 7), alta el 2024-04-25. Razón social: PLUS FINTECH S.A."},
+{n:"PM Capitales",m:"ar",cat:"psav",t:"Exchange local inscripto",j:"Argentina",r:"si",a:["pm capitales","pmcapitales"],x:"Registrada como PSAV en la CNV (matrícula 10), alta el 2024-05-02. Razón social: PMSA Capitales SA."},
+{n:"Polynomium",m:"ar",cat:"psav",t:"Exchange local inscripto",j:"Argentina",r:"si",a:["polynomium"],x:"Registrada como PSAV en la CNV (matrícula 91), alta el 2024-11-20. Razón social: Cavaliere Group Corporate S.R.L."},
+{n:"Poseidonx",m:"ar",cat:"psav",t:"Exchange internacional",j:"Fuera de Argentina",r:"no",a:["poseidonx"],x:"Figuró en el registro de PSAV, pero hoy no aparece como vigente. Razón social: FlatStone Capital Markets LLC."},
+{n:"Pozitiva",m:"ar",cat:"psav",t:"Exchange local",j:"Argentina",r:"no",a:["pozitiva"],x:"Figuró en el registro de PSAV, pero hoy no aparece como vigente. Razón social: INTRAPOLAR S.A."},
+{n:"Puntoia",m:"ar",cat:"psav",t:"Exchange local",j:"Argentina",r:"no",a:["puntoia"],x:"Figuró en el registro de PSAV, pero hoy no aparece como vigente. Razón social: PC INVERSIONES S.A."},
+{n:"Qswap",m:"ar",cat:"psav",t:"Exchange local inscripto",j:"Argentina",r:"si",a:["qswap"],x:"Registrada como PSAV en la CNV (matrícula 74), alta el 2024-09-06. Razón social: BIT.AR S.A."},
+{n:"Qubitcapitals",m:"ar",cat:"psav",t:"Exchange local inscripto",j:"Argentina",r:"si",a:["qubitcapitals"],x:"Registrada como PSAV en la CNV (matrícula 59), alta el 2024-08-05. Razón social: QUBIT CAPITALS S.R.L."},
+{n:"R3al",m:"ar",cat:"psav",t:"Exchange local",j:"Argentina",r:"no",a:["r3al"],x:"Figuró en el registro de PSAV, pero hoy no aparece como vigente. Razón social: R3AL.IO S.A.S."},
+{n:"Ramelax",m:"ar",cat:"psav",t:"Exchange local",j:"Argentina",r:"no",a:["ramelax"],x:"Figuró en el registro de PSAV, pero hoy no aparece como vigente. Razón social: RamelaxAI S.R.L."},
+{n:"Raya",m:"ar",cat:"psav",t:"Exchange local inscripto",j:"Argentina",r:"si",a:["raya"],x:"Registrada como PSAV en la CNV (matrícula 58), alta el 2024-08-05. Razón social: Raya Cash S.A."},
+{n:"Rebus Group (vía Instagram, sin sitio propio)",m:"ar",cat:"psav",t:"Exchange local inscripto",j:"Argentina",r:"si",a:["rebus group (vía instagram, sin sitio propio)","instagram"],x:"Registrada como PSAV en la CNV (matrícula 113), alta el 2025-02-19. Razón social: REBUS GROUP S.A."},
+{n:"Redotpay",m:"ar",cat:"psav",t:"Exchange internacional inscripto",j:"Fuera de Argentina",r:"si",a:["redotpay"],x:"Registrada como PSAV en la CNV (matrícula 144), alta el 2025-04-28. Razón social: RedotX (Tango) Limited."},
+{n:"Ripio",m:"ar",cat:"psav",t:"Exchange local inscripto",j:"Argentina",r:"si",featured:true,a:["ripio"],x:"Registrada como PSAV en la CNV (matrícula 37), alta el 2024-06-05. Razón social: Moonbird SRL / OTC Investment Solutions SA."},
+{n:"SatoshiTango",m:"ar",cat:"psav",t:"Exchange local inscripto",j:"Argentina",r:"si",featured:true,a:["satoshitango"],x:"Registrada como PSAV en la CNV (matrícula 4), alta el 2024-04-25. Razón social: Fintech S.A."},
+{n:"Scenium",m:"ar",cat:"psav",t:"Exchange internacional",j:"Fuera de Argentina",r:"no",a:["scenium"],x:"Figuró en el registro de PSAV, pero hoy no aparece como vigente. Razón social: Scenium Global Inc."},
+{n:"Settle Network",m:"ar",cat:"psav",t:"Exchange local inscripto",j:"Argentina",r:"si",a:["settle network","settlenetwork"],x:"Registrada como PSAV en la CNV (matrícula 29), alta el 2023-05-23. Razón social: Settle Arg SAS."},
+{n:"Sharkaction",m:"ar",cat:"psav",t:"Exchange internacional",j:"Fuera de Argentina",r:"no",a:["sharkaction"],x:"Figuró en el registro de PSAV, pero hoy no aparece como vigente. Razón social: SHARKACTION, SL."},
+{n:"Soberanum",m:"ar",cat:"psav",t:"Exchange local",j:"Argentina",r:"no",a:["soberanum"],x:"Figuró en el registro de PSAV, pero hoy no aparece como vigente. Razón social: BITSOBERANUM S.A.S."},
+{n:"Socios.com",m:"ar",cat:"psav",t:"Exchange internacional",j:"Fuera de Argentina",r:"no",a:["socios.com","socios"],x:"Figuró en el registro de PSAV, pero hoy no aparece como vigente. Razón social: Socios Services Baltics, UAB."},
+{n:"Soliduscapital",m:"ar",cat:"psav",t:"Exchange local",j:"Argentina",r:"no",a:["soliduscapital"],x:"Figuró en el registro de PSAV, pero hoy no aparece como vigente. Razón social: LIQUID ARG S.A.S."},
+{n:"Takenos",m:"ar",cat:"psav",t:"Exchange local",j:"Argentina",r:"no",featured:true,a:["takenos"],x:"No está registrada como PSAV en la CNV a la fecha de esta revisión. Razón social: GLOBAL FLOW S.A.U. (Takenos)."},
+{n:"Telcoin",m:"ar",cat:"psav",t:"Exchange internacional inscripto",j:"Fuera de Argentina",r:"si",a:["telcoin","telco"],x:"Registrada como PSAV en la CNV (matrícula 99), alta el 2025-01-06. Razón social: TELCOIN HOLDINGS PTE. LTD."},
+{n:"Tienda Crypto",m:"ar",cat:"psav",t:"Exchange local inscripto",j:"Argentina",r:"si",a:["tienda crypto","tiendacrypto"],x:"Registrada como PSAV en la CNV (matrícula 21), alta el 2024-05-16. Razón social: Sixalime SAS."},
+{n:"Tokelab",m:"ar",cat:"psav",t:"Exchange internacional",j:"Fuera de Argentina",r:"no",a:["tokelab"],x:"Figuró en el registro de PSAV, pero hoy no aparece como vigente. Razón social: TOKELAB LLC."},
+{n:"Trubit",m:"ar",cat:"psav",t:"Exchange internacional inscripto",j:"Fuera de Argentina",r:"si",a:["trubit"],x:"Registrada como PSAV en la CNV (matrícula 30), alta el 2024-05-24. Razón social: GALACTIC HOLDINGS INC."},
+{n:"Universal Coins",m:"ar",cat:"psav",t:"Exchange local inscripto",j:"Argentina",r:"si",a:["universal coins","universalcoins"],x:"Registrada como PSAV en la CNV (matrícula 98), alta el 2024-12-20. Razón social: The Reserve SA / UC Group S.A."},
+{n:"Usaibis",m:"ar",cat:"psav",t:"Exchange internacional",j:"Fuera de Argentina",r:"no",a:["usaibis"],x:"Figuró en el registro de PSAV, pero hoy no aparece como vigente. Razón social: IBIS PAYMENTS LLC."},
+{n:"Uvix",m:"ar",cat:"psav",t:"Exchange local inscripto",j:"Argentina",r:"si",a:["uvix"],x:"Registrada como PSAV en la CNV (matrícula 102), alta el 2025-01-21. Razón social: UVIX S.A.S."},
+{n:"Vita Wallet",m:"ar",cat:"psav",t:"Exchange local inscripto",j:"Argentina",r:"si",a:["vita wallet","vitawallet"],x:"Registrada como PSAV en la CNV (matrícula 9), alta el 2024-05-02. Razón social: Vita Digital SRL."},
+{n:"Vol Smart",m:"ar",cat:"psav",t:"Exchange local inscripto",j:"Argentina",r:"si",a:["vol smart","volsmart"],x:"Registrada como PSAV en la CNV (matrícula 85), alta el 2024-10-21. Razón social: VOL PRO S.R.L."},
+{n:"Xbo",m:"ar",cat:"psav",t:"Exchange internacional",j:"Fuera de Argentina",r:"no",a:["xbo"],x:"Figuró en el registro de PSAV, pero hoy no aparece como vigente. Razón social: Clickjoint B.V."},
+{n:"Xcoex",m:"ar",cat:"psav",t:"Exchange internacional",j:"Fuera de Argentina",r:"no",a:["xcoex"],x:"Figuró en el registro de PSAV, pero hoy no aparece como vigente. Razón social: Digital Prime System Limited S.A. de C.V."},
+{n:"Yellowcash",m:"ar",cat:"psav",t:"Exchange local inscripto",j:"Argentina",r:"si",a:["yellowcash"],x:"Registrada como PSAV en la CNV (matrícula 60), alta el 2024-08-05. Razón social: YELLOW CASH S.A."},
+{n:"Youhodler",m:"ar",cat:"psav",t:"Exchange internacional inscripto",j:"Fuera de Argentina",r:"si",a:["youhodler"],x:"Registrada como PSAV en la CNV (matrícula 65), alta el 2024-08-09. Razón social: YouHodler S.A."},
+{n:"Zero Hash",m:"ar",cat:"psav",t:"Exchange internacional inscripto",j:"Fuera de Argentina",r:"si",a:["zero hash","zerohash"],x:"Registrada como PSAV en la CNV (matrícula 150), alta el 2025-05-07. Razón social: Zero Hash LLC / Zero Hash Worldwide Ltd."},
 
 {n:"Nubank",m:"br",t:"Banco digital",j:"Brasil",r:"si",a:["nubank","nu"],x:"Institución financiera brasileña: informa a la Receita por régimen propio. Derivación por categoría, no verificada al detalle."},
 {n:"PicPay",m:"br",t:"Billetera virtual",j:"Brasil",r:"si",a:["picpay"],x:"Institución de pago brasileña, dentro de los regímenes informativos locales. Derivación por categoría."},
@@ -307,10 +436,19 @@ function list(){
     (!q||nz(p.n+" "+p.t+" "+p.j+" "+p.a.join(" ")).includes(nz(q))));
   if(!l.length){$("res").innerHTML=`<p class="empty">No la tengo cargada para este país. Decime cuál y la agrego.</p>`;return}
   const groups=[...new Set(l.map(p=>p.cat||""))];
-  $("res").innerHTML = groups.length>1
-    ? groups.map((g,i)=>`<div style="grid-column:1/-1;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--light);margin-top:${i===0?"0":"10px"}">${esc(CATN[g]||"Otras")}</div>`
-        + l.filter(p=>(p.cat||"")===g).map(pcBtn).join("")).join("")
-    : l.map(pcBtn).join("");
+  $("res").innerHTML = groups.map((g,i)=>{
+    let items=l.filter(p=>(p.cat||"")===g);
+    let note="";
+    if(!q && items.length>15){
+      const featured=items.filter(p=>p.featured);
+      if(featured.length){
+        note=`<p style="grid-column:1/-1;font-size:12px;color:var(--light);margin:${i===0?"0":"8px"} 0 2px">Mostrando las más conocidas de ${items.length} registradas. Escribí un nombre arriba para buscar el resto.</p>`;
+        items=featured;
+      }
+    }
+    const header=groups.length>1?`<div style="grid-column:1/-1;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--light);margin-top:${i===0?"0":"10px"}">${esc(CATN[g]||"Otras")}</div>`:"";
+    return header+note+items.map(pcBtn).join("");
+  }).join("");
 }
 
 function pdet(p){
