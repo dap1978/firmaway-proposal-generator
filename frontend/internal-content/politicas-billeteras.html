@@ -100,6 +100,18 @@ footer ul{margin:7px 0 0 15px}
 
 <div class="wrap">
   <section style="padding-top:30px">
+    <div class="sh"><span class="label">Buscador rápido</span></div>
+    <h2>¿Está alcanzada esta plataforma?</h2>
+    <p style="max-width:66ch;margin-top:7px">Escribí el nombre de una billetera, banco o exchange y fijate al instante si hoy está alcanzada por algún mecanismo de reporte, sin tener que elegir un país primero.</p>
+    <div class="sb">
+      <svg width="18" height="18" viewBox="0 0 20 20" fill="none"><circle cx="8.5" cy="8.5" r="6" stroke="#31353D" stroke-width="1.8"/><path d="M13 13l4.5 4.5" stroke="#31353D" stroke-width="1.8" stroke-linecap="round"/></svg>
+      <input id="gq" type="search" autocomplete="off" placeholder="Buscar por nombre…" aria-label="Buscar plataforma en todos los países">
+    </div>
+    <div class="res" id="gres"></div>
+    <div id="gdet"></div>
+  </section>
+
+  <section>
     <div class="sh"><span class="label">Conceptos</span></div>
     <h2>Qué es cada mecanismo, antes de mirar los países</h2>
     <p style="max-width:66ch;margin-top:7px">Cuatro cosas distintas que se suelen mezclar. Cada una reporta información diferente, a través de un canal diferente, y no todos los países adhieren a todas.</p>
@@ -120,7 +132,7 @@ footer ul{margin:7px 0 0 15px}
       </div></details>
       <details><summary>¿Qué son los regímenes locales de billeteras?</summary><div class="b">
         <p>Además de los estándares internacionales, cada país puede tener su propio régimen para que las billeteras y plataformas de pago informen a su fisco, puertas adentro, sin que dependa de ningún acuerdo con el exterior.</p>
-        <p>Ejemplo concreto: en Argentina, la RG ARCA 5804/2025 obliga a billeteras y proveedores de pago a informar todos los meses a los usuarios que superan cierto umbral. No tiene relación con CRS ni con FATCA, es un régimen aparte.</p>
+        <p>En Argentina conviven dos regímenes locales que no son lo mismo. Uno es la RG ARCA 5804/2025, que obliga a billeteras y proveedores de pago (Mercado Pago, Ualá, Brubank, etc.) a informar todos los meses a los usuarios que superan cierto umbral. El otro es el registro PSAV de la CNV, específico para exchanges y custodios de cripto (Lemon, Buenbit, Ripio, entre otros). Uno no reemplaza al otro, y ninguno de los dos tiene relación con CRS ni con FATCA.</p>
       </div></details>
     </div>
   </section>
@@ -162,6 +174,7 @@ footer ul{margin:7px 0 0 15px}
 <script>
 const CH={local:"Régimen local de billeteras",crs:"CRS",carf:"CARF (cripto)",fatca:"FATCA"};
 const L={si:"Adhiere",parcial:"Parcial",no:"No adhiere",na:"No aplica"};
+const RL={si:"Alcanzada",parcial:"Alcanzada parcial",no:"No alcanzada"};
 
 const M={
 ar:{n:"Argentina",s:"Renta mundial",
@@ -207,53 +220,53 @@ bo:{n:"Bolivia",s:"Territorial, solo fuente local",
 };
 
 const P=[
-{n:"Mercado Pago",m:"ar",t:"Billetera virtual",j:"Argentina",a:["mercadopago","mp"],x:"Proveedor de servicios de pago con cuentas de pago: informa titulares, altas y bajas, ingresos, egresos y saldo de cierre del mes. El caso más frecuente entre clientes que cobran del exterior en pesos."},
-{n:"Ualá",m:"ar",t:"Billetera virtual",j:"Argentina",a:["uala"],x:"Dentro del régimen mensual de proveedores de servicios de pago."},
-{n:"Personal Pay",m:"ar",t:"Billetera virtual",j:"Argentina",a:["personal pay"],x:"Dentro del régimen mensual de proveedores de servicios de pago."},
-{n:"Naranja X",m:"ar",t:"Billetera virtual",j:"Argentina",a:["naranja","naranjax"],x:"Dentro del régimen mensual de proveedores de servicios de pago."},
-{n:"Brubank",m:"ar",t:"Banco digital",j:"Argentina",a:["brubank"],x:"Los bancos quedaron afuera de este régimen puntual porque informan por el régimen bancario. El resultado para el cliente es el mismo."},
-{n:"Lemon Cash",m:"ar",t:"Exchange local inscripto",j:"Argentina",a:["lemon"],x:"Inscripta como PSAV. Informa mensualmente saldos y movimientos en pesos, dólares y cripto cuando se pasa el umbral."},
-{n:"Belo",m:"ar",t:"Exchange local inscripto",j:"Argentina",a:["belo"],x:"Inscripta como PSAV. Los movimientos en pesos que cruzan el sistema bancario además son trazables por otra vía."},
-{n:"Buenbit",m:"ar",t:"Exchange local inscripto",j:"Argentina",a:["buenbit"],x:"Inscripta desde 2022. Su integración con el sistema bancario argentino hace que buena parte de la operación ya sea trazable."},
-{n:"Ripio",m:"ar",t:"Exchange local inscripto",j:"Argentina",a:["ripio"],x:"Opera en Argentina desde 2014 y fue de las primeras en inscribirse."},
-{n:"SatoshiTango",m:"ar",t:"Exchange local inscripto",j:"Argentina",a:["satoshi"],x:"Inscripta como PSAV, dentro del régimen mensual."},
-{n:"Fiwind",m:"ar",t:"Exchange local inscripto",j:"Argentina",a:["fiwind"],x:"Inscripta en 2024, dentro del régimen mensual."},
-{n:"Cocos Crypto",m:"ar",t:"Exchange local inscripto",j:"Argentina",a:["cocos"],x:"Con registro en la CNV, mismo esquema que el resto."},
-{n:"Binance Argentina",m:"ar",t:"Exchange local inscripto",j:"Argentina",a:["binance arg"],x:"La operación por la entidad local quedó dentro del régimen desde septiembre de 2024. El contenido que circula diciendo lo contrario está viejo."},
-{n:"Bybit",m:"ar",t:"Exchange internacional",j:"Fuera de Argentina",a:["bybit"],x:"Sin registro en la CNV. Que no reporte no exime al cliente: la tenencia se declara en Bienes Personales y la ganancia en Ganancias, y el registro lo tiene que armar él."},
+{n:"Mercado Pago",m:"ar",cat:"pago",t:"Billetera virtual",j:"Argentina",r:"si",a:["mercadopago","mp"],x:"Proveedor de servicios de pago con cuentas de pago: informa titulares, altas y bajas, ingresos, egresos y saldo de cierre del mes. El caso más frecuente entre clientes que cobran del exterior en pesos."},
+{n:"Ualá",m:"ar",cat:"pago",t:"Billetera virtual",j:"Argentina",r:"si",a:["uala"],x:"Dentro del régimen mensual de proveedores de servicios de pago (RG ARCA), no del registro PSAV: no es un exchange de cripto."},
+{n:"Personal Pay",m:"ar",cat:"pago",t:"Billetera virtual",j:"Argentina",r:"si",a:["personal pay"],x:"Dentro del régimen mensual de proveedores de servicios de pago (RG ARCA), no del registro PSAV."},
+{n:"Naranja X",m:"ar",cat:"pago",t:"Billetera virtual",j:"Argentina",r:"si",a:["naranja","naranjax"],x:"Dentro del régimen mensual de proveedores de servicios de pago (RG ARCA), no del registro PSAV."},
+{n:"Brubank",m:"ar",cat:"pago",t:"Banco digital",j:"Argentina",r:"si",a:["brubank"],x:"Los bancos quedaron afuera de este régimen puntual porque informan por el régimen bancario. El resultado para el cliente es el mismo."},
+{n:"Lemon Cash",m:"ar",cat:"psav",t:"Exchange local inscripto",j:"Argentina",r:"si",a:["lemon"],x:"Inscripta como PSAV en la CNV. Informa mensualmente saldos y movimientos en pesos, dólares y cripto cuando se pasa el umbral."},
+{n:"Belo",m:"ar",cat:"psav",t:"Exchange local inscripto",j:"Argentina",r:"si",a:["belo"],x:"Inscripta como PSAV en la CNV. Los movimientos en pesos que cruzan el sistema bancario además son trazables por otra vía."},
+{n:"Buenbit",m:"ar",cat:"psav",t:"Exchange local inscripto",j:"Argentina",r:"si",a:["buenbit"],x:"Inscripta como PSAV en la CNV desde 2022. Su integración con el sistema bancario argentino hace que buena parte de la operación ya sea trazable."},
+{n:"Ripio",m:"ar",cat:"psav",t:"Exchange local inscripto",j:"Argentina",r:"si",a:["ripio"],x:"Inscripta como PSAV en la CNV. Opera en Argentina desde 2014 y fue de las primeras en inscribirse."},
+{n:"SatoshiTango",m:"ar",cat:"psav",t:"Exchange local inscripto",j:"Argentina",r:"si",a:["satoshi"],x:"Inscripta como PSAV en la CNV, dentro del régimen mensual."},
+{n:"Fiwind",m:"ar",cat:"psav",t:"Exchange local inscripto",j:"Argentina",r:"si",a:["fiwind"],x:"Inscripta como PSAV en la CNV en 2024, dentro del régimen mensual."},
+{n:"Cocos Crypto",m:"ar",cat:"psav",t:"Exchange local inscripto",j:"Argentina",r:"si",a:["cocos"],x:"Con registro PSAV en la CNV, mismo esquema que el resto."},
+{n:"Binance Argentina",m:"ar",cat:"psav",t:"Exchange local inscripto",j:"Argentina",r:"si",a:["binance arg"],x:"La operación por la entidad local quedó dentro del registro PSAV desde septiembre de 2024. El contenido que circula diciendo lo contrario está viejo."},
+{n:"Bybit",m:"ar",cat:"psav",t:"Exchange internacional",j:"Fuera de Argentina",r:"no",a:["bybit"],x:"Sin registro PSAV en la CNV. Que no reporte no exime al cliente: la tenencia se declara en Bienes Personales y la ganancia en Ganancias, y el registro lo tiene que armar él."},
 
-{n:"Nubank",m:"br",t:"Banco digital",j:"Brasil",a:["nubank","nu"],x:"Institución financiera brasileña: informa a la Receita por régimen propio. Derivación por categoría, no verificada al detalle."},
-{n:"PicPay",m:"br",t:"Billetera virtual",j:"Brasil",a:["picpay"],x:"Institución de pago brasileña, dentro de los regímenes informativos locales. Derivación por categoría."},
-{n:"Mercado Pago Brasil",m:"br",t:"Billetera virtual",j:"Brasil",a:["mercado pago br"],x:"Institución de pago brasileña. Derivación por categoría."},
-{n:"Mercado Bitcoin",m:"br",t:"Exchange local",j:"Brasil",a:["mercado bitcoin"],x:"Proveedor de criptoactivos brasileño, sujeto a régimen informativo local. Brasil además firmó CARF."},
-{n:"Binance Brasil",m:"br",t:"Exchange local",j:"Brasil",a:["binance br"],x:"Opera bajo regulación brasileña. Brasil firmó CARF, así que el canal internacional también se activa."},
-{n:"Wise",m:"br",t:"Fintech internacional",j:"Bélgica y Reino Unido",a:["wise"],x:"Entidad europea con dinero electrónico dentro del alcance ampliado de CRS. Brasil está adherido, así que el dato llega."},
+{n:"Nubank",m:"br",t:"Banco digital",j:"Brasil",r:"si",a:["nubank","nu"],x:"Institución financiera brasileña: informa a la Receita por régimen propio. Derivación por categoría, no verificada al detalle."},
+{n:"PicPay",m:"br",t:"Billetera virtual",j:"Brasil",r:"si",a:["picpay"],x:"Institución de pago brasileña, dentro de los regímenes informativos locales. Derivación por categoría."},
+{n:"Mercado Pago Brasil",m:"br",t:"Billetera virtual",j:"Brasil",r:"si",a:["mercado pago br"],x:"Institución de pago brasileña. Derivación por categoría."},
+{n:"Mercado Bitcoin",m:"br",t:"Exchange local",j:"Brasil",r:"si",a:["mercado bitcoin"],x:"Proveedor de criptoactivos brasileño, sujeto a régimen informativo local. Brasil además firmó CARF."},
+{n:"Binance Brasil",m:"br",t:"Exchange local",j:"Brasil",r:"si",a:["binance br"],x:"Opera bajo regulación brasileña. Brasil firmó CARF, así que el canal internacional también se activa."},
+{n:"Wise",m:"br",t:"Fintech internacional",j:"Bélgica y Reino Unido",r:"si",a:["wise"],x:"Entidad europea con dinero electrónico dentro del alcance ampliado de CRS. Brasil está adherido, así que el dato llega."},
 
-{n:"Revolut",m:"es",t:"Fintech internacional",j:"Lituania",a:["revolut"],x:"Entidad de la Unión Europea. España está dentro de CRS y de DAC8: el intercambio es directo entre países de la Unión."},
-{n:"N26",m:"es",t:"Banco digital",j:"Alemania",a:["n26"],x:"Banco de la Unión Europea, plenamente dentro del intercambio automático."},
-{n:"Wise",m:"es",t:"Fintech internacional",j:"Bélgica y Reino Unido",a:["wise"],x:"Dinero electrónico dentro del alcance ampliado de CRS, con DAC8 aplicando desde enero de 2026."},
-{n:"Bit2Me",m:"es",t:"Exchange local",j:"España",a:["bit2me"],x:"Proveedor español de criptoactivos: reporta por Modelos 172 y 173, y queda dentro de DAC8."},
-{n:"Coinbase",m:"es",t:"Exchange internacional",j:"Irlanda o EE.UU.",a:["coinbase"],x:"Si la cuenta está en la entidad europea, queda dentro de DAC8 desde enero de 2026."},
-{n:"PayPal",m:"es",t:"Fintech internacional",j:"Luxemburgo o EE.UU.",a:["paypal"],x:"El encuadre depende de la entidad y del producto. Conviene revisar caso a caso."},
+{n:"Revolut",m:"es",t:"Fintech internacional",j:"Lituania",r:"si",a:["revolut"],x:"Entidad de la Unión Europea. España está dentro de CRS y de DAC8: el intercambio es directo entre países de la Unión."},
+{n:"N26",m:"es",t:"Banco digital",j:"Alemania",r:"si",a:["n26"],x:"Banco de la Unión Europea, plenamente dentro del intercambio automático."},
+{n:"Wise",m:"es",t:"Fintech internacional",j:"Bélgica y Reino Unido",r:"si",a:["wise"],x:"Dinero electrónico dentro del alcance ampliado de CRS, con DAC8 aplicando desde enero de 2026."},
+{n:"Bit2Me",m:"es",t:"Exchange local",j:"España",r:"si",a:["bit2me"],x:"Proveedor español de criptoactivos: reporta por Modelos 172 y 173, y queda dentro de DAC8."},
+{n:"Coinbase",m:"es",t:"Exchange internacional",j:"Irlanda o EE.UU.",r:"si",a:["coinbase"],x:"Si la cuenta está en la entidad europea, queda dentro de DAC8 desde enero de 2026."},
+{n:"PayPal",m:"es",t:"Fintech internacional",j:"Luxemburgo o EE.UU.",r:"parcial",a:["paypal"],x:"El encuadre depende de la entidad y del producto. Conviene revisar caso a caso."},
 
-{n:"Nequi",m:"co",t:"Billetera virtual",j:"Colombia",a:["nequi"],x:"Entidad colombiana, dentro de los regímenes informativos locales. Derivación por categoría, no verificada al detalle."},
-{n:"Daviplata",m:"co",t:"Billetera virtual",j:"Colombia",a:["daviplata"],x:"Entidad colombiana. Derivación por categoría."},
-{n:"Bancolombia",m:"co",t:"Banco",j:"Colombia",a:["bancolombia"],x:"Banco colombiano, informa por régimen bancario local."},
-{n:"Binance",m:"co",t:"Exchange internacional",j:"Fuera de Colombia",a:["binance"],x:"Colombia firmó CARF, así que el canal cripto internacional se activa. Además el cliente declara activos en el exterior por Formulario 160."},
-{n:"Wise",m:"co",t:"Fintech internacional",j:"Bélgica y Reino Unido",a:["wise"],x:"Dinero electrónico dentro del alcance ampliado de CRS. Colombia está adherida."},
-{n:"Payoneer",m:"co",t:"Fintech internacional",j:"Irlanda o EE.UU.",a:["payoneer"],x:"Según qué entidad del grupo tenga la cuenta. Con la europea, el alcance ampliado la puede incluir."},
+{n:"Nequi",m:"co",t:"Billetera virtual",j:"Colombia",r:"si",a:["nequi"],x:"Entidad colombiana, dentro de los regímenes informativos locales. Derivación por categoría, no verificada al detalle."},
+{n:"Daviplata",m:"co",t:"Billetera virtual",j:"Colombia",r:"si",a:["daviplata"],x:"Entidad colombiana. Derivación por categoría."},
+{n:"Bancolombia",m:"co",t:"Banco",j:"Colombia",r:"si",a:["bancolombia"],x:"Banco colombiano, informa por régimen bancario local."},
+{n:"Binance",m:"co",t:"Exchange internacional",j:"Fuera de Colombia",r:"si",a:["binance"],x:"Colombia firmó CARF, así que el canal cripto internacional se activa. Además el cliente declara activos en el exterior por Formulario 160."},
+{n:"Wise",m:"co",t:"Fintech internacional",j:"Bélgica y Reino Unido",r:"si",a:["wise"],x:"Dinero electrónico dentro del alcance ampliado de CRS. Colombia está adherida."},
+{n:"Payoneer",m:"co",t:"Fintech internacional",j:"Irlanda o EE.UU.",r:"parcial",a:["payoneer"],x:"Según qué entidad del grupo tenga la cuenta. Con la europea, el alcance ampliado la puede incluir."},
 
-{n:"Banco Unión",m:"bo",t:"Banco",j:"Bolivia",a:["banco union","union"],x:"Banco boliviano. Bolivia no participa de CRS, así que no hay intercambio automático hacia afuera ni desde afuera."},
-{n:"Tigo Money",m:"bo",t:"Billetera virtual",j:"Bolivia",a:["tigo","tigo money"],x:"Billetera local. Régimen informativo boliviano pendiente de verificar al detalle."},
-{n:"Binance",m:"bo",t:"Exchange internacional",j:"Fuera de Bolivia",a:["binance"],x:"Bolivia no firmó CARF ni participa de CRS. El BCB habilitó operaciones con activos virtuales por el sistema financiero en junio de 2024."},
-{n:"Wise",m:"bo",t:"Fintech internacional",j:"Bélgica y Reino Unido",a:["wise"],x:"Bolivia no participa de CRS, así que el canal de intercambio automático no está activo hacia Bolivia."},
+{n:"Banco Unión",m:"bo",t:"Banco",j:"Bolivia",r:"no",a:["banco union","union"],x:"Banco boliviano. Bolivia no participa de CRS, así que no hay intercambio automático hacia afuera ni desde afuera."},
+{n:"Tigo Money",m:"bo",t:"Billetera virtual",j:"Bolivia",r:"parcial",a:["tigo","tigo money"],x:"Billetera local. Régimen informativo boliviano pendiente de verificar al detalle."},
+{n:"Binance",m:"bo",t:"Exchange internacional",j:"Fuera de Bolivia",r:"no",a:["binance"],x:"Bolivia no firmó CARF ni participa de CRS. El BCB habilitó operaciones con activos virtuales por el sistema financiero en junio de 2024."},
+{n:"Wise",m:"bo",t:"Fintech internacional",j:"Bélgica y Reino Unido",r:"no",a:["wise"],x:"Bolivia no participa de CRS, así que el canal de intercambio automático no está activo hacia Bolivia."},
 
-{n:"Mercury",m:"*",t:"Banco de EE.UU. para empresas",j:"Estados Unidos",a:["mercury"],x:"Donde suele terminar la cuenta de la LLC. Estados Unidos no adoptó CRS: ese canal no existe. Queda FATCA, que reporta rentas acreditadas pero no saldos, y que llega al dueño si la LLC es de un solo miembro y por lo tanto transparente."},
-{n:"Relay",m:"*",t:"Banco de EE.UU. para empresas",j:"Estados Unidos",a:["relay"],x:"Mismo canal acotado que el resto de las cuentas en Estados Unidos."},
-{n:"Stripe",m:"*",t:"Procesador de pagos",j:"Estados Unidos",a:["stripe"],x:"Procesa cobros y liquida a una cuenta bancaria. El intercambio, si aplica, es sobre la cuenta que recibe, no sobre el procesador."}
+{n:"Mercury",m:"*",t:"Banco de EE.UU. para empresas",j:"Estados Unidos",r:"parcial",a:["mercury"],x:"Donde suele terminar la cuenta de la LLC. Estados Unidos no adoptó CRS: ese canal no existe. Queda FATCA, que reporta rentas acreditadas pero no saldos, y que llega al dueño si la LLC es de un solo miembro y por lo tanto transparente."},
+{n:"Relay",m:"*",t:"Banco de EE.UU. para empresas",j:"Estados Unidos",r:"parcial",a:["relay"],x:"Mismo canal acotado que el resto de las cuentas en Estados Unidos."},
+{n:"Stripe",m:"*",t:"Procesador de pagos",j:"Estados Unidos",r:"parcial",a:["stripe"],x:"Procesa cobros y liquida a una cuenta bancaria. El intercambio, si aplica, es sobre la cuenta que recibe, no sobre el procesador."}
 ];
 
-let mk=null, sel=null;
+let mk=null, sel=null, gsel=null;
 const $=i=>document.getElementById(i);
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const nz=s=>s.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"");
@@ -284,13 +297,20 @@ function panel(k){
   $("plataformas").hidden=false;
 }
 
+const CATN={psav:"PSAV · cripto (CNV)",pago:"Billeteras de pago (RG ARCA)"};
+function pcBtn(p){return `<button class="pc" data-n="${esc(p.n)}" aria-pressed="${sel===p.n}">
+    <b>${esc(p.n)}</b><small>${esc(p.t)} · ${esc(p.j)}</small></button>`}
+
 function list(){
   const q=$("q").value.trim();
   const l=P.filter(p=>(p.m===mk||p.m==="*") &&
     (!q||nz(p.n+" "+p.t+" "+p.j+" "+p.a.join(" ")).includes(nz(q))));
-  $("res").innerHTML=l.length?l.map(p=>`<button class="pc" data-n="${esc(p.n)}" aria-pressed="${sel===p.n}">
-    <b>${esc(p.n)}</b><small>${esc(p.t)} · ${esc(p.j)}</small></button>`).join("")
-    : `<p class="empty">No la tengo cargada para este país. Decime cuál y la agrego.</p>`;
+  if(!l.length){$("res").innerHTML=`<p class="empty">No la tengo cargada para este país. Decime cuál y la agrego.</p>`;return}
+  const groups=[...new Set(l.map(p=>p.cat||""))];
+  $("res").innerHTML = groups.length>1
+    ? groups.map((g,i)=>`<div style="grid-column:1/-1;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--light);margin-top:${i===0?"0":"10px"}">${esc(CATN[g]||"Otras")}</div>`
+        + l.filter(p=>(p.cat||"")===g).map(pcBtn).join("")).join("")
+    : l.map(pcBtn).join("");
 }
 
 function pdet(p){
@@ -306,6 +326,29 @@ function pdet(p){
   </div>`;
 }
 
+function mktName(m){return m==="*"?"EE.UU. / global":(M[m]?M[m].n:m)}
+
+function gsearch(){
+  const q=$("gq").value.trim();
+  if(!q){$("gres").innerHTML="";$("gdet").innerHTML="";gsel=null;return}
+  const l=P.filter(p=>nz(p.n+" "+p.t+" "+p.j+" "+p.a.join(" ")).includes(nz(q)));
+  $("gres").innerHTML=l.length?l.map(p=>`<button class="pc" data-n="${esc(p.n)}" data-m="${esc(p.m)}" aria-pressed="${gsel===p}">
+    <b>${esc(p.n)} <span class="dot d-${p.r}" style="display:inline-block;vertical-align:middle;margin-left:4px"></span></b>
+    <small>${esc(p.t)} · ${esc(mktName(p.m))}</small></button>`).join("")
+    : `<p class="empty">No la tengo cargada. Decime cuál y la agrego.</p>`;
+}
+
+function gdet(p){
+  $("gdet").innerHTML=`<div class="card${p.r==="si"?" acc":""}" style="margin-top:14px">
+    <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:6px">
+      <span class="dot d-${p.r}"></span><h3 style="margin:0">${esc(p.n)}</h3>
+      <span class="chip chip-d">${esc(RL[p.r])}</span>
+    </div>
+    <p style="color:var(--light);font-size:12.5px">${esc(p.t)} · ${esc(p.j)} · mercado: ${esc(mktName(p.m))}</p>
+    <p style="margin-top:9px">${esc(p.x)}</p>
+  </div>`;
+}
+
 $("tabs").onclick=e=>{const b=e.target.closest(".tab");if(!b)return;
   mk=b.dataset.k;sel=null;
   [...$("tabs").children].forEach(c=>c.setAttribute("aria-pressed",c.dataset.k===mk));
@@ -313,6 +356,11 @@ $("tabs").onclick=e=>{const b=e.target.closest(".tab");if(!b)return;
 $("res").onclick=e=>{const b=e.target.closest(".pc");if(!b)return;
   sel=b.dataset.n;list();pdet(P.find(p=>p.n===sel&&(p.m===mk||p.m==="*")));};
 $("q").oninput=list;
+
+$("gres").onclick=e=>{const b=e.target.closest(".pc");if(!b)return;
+  const p=P.find(x=>x.n===b.dataset.n&&x.m===b.dataset.m);
+  gsel=p;gsearch();gdet(p);};
+$("gq").oninput=gsearch;
 </script>
 </body>
 </html>
