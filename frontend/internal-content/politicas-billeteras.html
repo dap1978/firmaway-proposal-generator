@@ -100,10 +100,17 @@ footer ul{margin:7px 0 0 15px}
 
 <div class="wrap">
   <section style="padding-top:30px">
+    <div class="sh"><span class="label">Cómo usar esta guía</span></div>
+    <h2>Elegí una plataforma y mirá dónde está alcanzada.</h2>
+    <p style="max-width:66ch;margin-top:7px">Tocá uno de los botones de abajo, o buscá cualquier otra billetera, banco o exchange por su nombre. Vas a ver, país por país, si hoy está alcanzada por algún mecanismo de reporte y por cuál. Si primero querés entender qué es cada mecanismo, el glosario de más abajo lo explica en criollo.</p>
+  </section>
+
+  <section>
     <div class="sh"><span class="label">Buscador rápido</span></div>
     <h2>¿Está alcanzada esta plataforma?</h2>
-    <p style="max-width:66ch;margin-top:7px">Escribí el nombre de una billetera, banco o exchange y fijate al instante si hoy está alcanzada por algún mecanismo de reporte, sin tener que elegir un país primero.</p>
-    <div class="sb">
+    <p style="max-width:66ch;margin-top:7px">Las más consultadas, o escribí cualquier otra.</p>
+    <div class="tabs" id="featBtns" role="group" aria-label="Billeteras principales"></div>
+    <div class="sb" style="margin-top:18px">
       <svg width="18" height="18" viewBox="0 0 20 20" fill="none"><circle cx="8.5" cy="8.5" r="6" stroke="#31353D" stroke-width="1.8"/><path d="M13 13l4.5 4.5" stroke="#31353D" stroke-width="1.8" stroke-linecap="round"/></svg>
       <input id="gq" type="search" autocomplete="off" placeholder="Buscar por nombre…" aria-label="Buscar plataforma en todos los países">
     </div>
@@ -145,17 +152,6 @@ footer ul{margin:7px 0 0 15px}
   </section>
 
   <div id="panel" aria-live="polite"></div>
-
-  <section id="plataformas" hidden>
-    <div class="sh"><span class="label">Plataformas</span><span class="chip chip-d" id="verifLvl"></span></div>
-    <h2>¿Qué plataforma usa hoy?</h2>
-    <div class="sb">
-      <svg width="18" height="18" viewBox="0 0 20 20" fill="none"><circle cx="8.5" cy="8.5" r="6" stroke="#31353D" stroke-width="1.8"/><path d="M13 13l4.5 4.5" stroke="#31353D" stroke-width="1.8" stroke-linecap="round"/></svg>
-      <input id="q" type="search" autocomplete="off" placeholder="Buscar plataforma…" aria-label="Buscar plataforma">
-    </div>
-    <div class="res" id="res"></div>
-    <div id="pdet"></div>
-  </section>
 
   <footer>
     <p><b>Material de estudio interno. No es asesoramiento fiscal ni legal.</b> Cada caso lo cierra el contador del cliente en su país. No compartir con prospectos: es un documento de trabajo del equipo, no una pieza terminada para mostrar afuera.</p>
@@ -395,15 +391,26 @@ const P=[
 {n:"Stripe",m:"*",t:"Procesador de pagos",j:"Estados Unidos",r:"parcial",a:["stripe"],x:"Procesa cobros y liquida a una cuenta bancaria. El intercambio, si aplica, es sobre la cuenta que recibe, no sobre el procesador."}
 ];
 
-let mk=null, sel=null, gsel=null;
+let mk=null, activeKey=null;
 const $=i=>document.getElementById(i);
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-const nz=s=>s.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"");
+const nz=s=>s.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,"");
 
-if(window.__SCOPED__){const s=$("secPorPais");if(s)s.style.display="none";}
+const BRAND_ALIAS={"Binance Argentina":"Binance","Binance Brasil":"Binance"};
+function brandKey(p){return (BRAND_ALIAS[p.n]||p.n).toLowerCase();}
+function brandLabel(p){return BRAND_ALIAS[p.n]||p.n;}
+const BRANDS=new Map();
+P.forEach(p=>{const k=brandKey(p);if(!BRANDS.has(k))BRANDS.set(k,[]);BRANDS.get(k).push(p);});
+
+function mktName(m){return m==="*"?"EE.UU. / global":(M[m]?M[m].n:m)}
 
 $("tabs").innerHTML=Object.entries(M).map(([k,v])=>
 `<button class="tab" data-k="${k}" aria-pressed="false"><b>${esc(v.n)}</b><small>${esc(v.s)}</small></button>`).join("");
+
+const seenFeat=new Set();
+const featuredList=[];
+P.forEach(p=>{if(!p.featured)return;const k=brandKey(p);if(seenFeat.has(k))return;seenFeat.add(k);featuredList.push({key:k,label:brandLabel(p)});});
+$("featBtns").innerHTML=featuredList.map(f=>`<button class="tab" data-key="${esc(f.key)}"><b>${esc(f.label)}</b></button>`).join("");
 
 function chRow(k,v){return `<div class="row"><span class="dot d-${v[0]}"></span><div>
 <b>${CH[k]} <i>${L[v[0]]}</i></b><p>${esc(v[1])}</p></div></div>`}
@@ -423,83 +430,48 @@ function panel(k){
       ${["local","crs","carf","fatca"].map(c=>chRow(c,m.canales[c])).join("")}</div></div>
   </div>
   </section>`;
-
-  $("verifLvl").textContent = k==="ar" ? "Verificado con normativa" : "Nivel país verificado, plataforma derivada";
-  $("plataformas").hidden=false;
 }
 
-const CATN={psav:"PSAV · cripto (CNV)",pago:"Billeteras de pago (RG ARCA)"};
-function pcBtn(p){return `<button class="pc" data-n="${esc(p.n)}" aria-pressed="${sel===p.n}">
-    <b>${esc(p.n)}</b><small>${esc(p.t)} · ${esc(p.j)}</small></button>`}
-
-function list(){
-  const q=$("q").value.trim();
-  const l=P.filter(p=>(p.m===mk||p.m==="*") &&
-    (!q||nz(p.n+" "+p.t+" "+p.j+" "+p.a.join(" ")).includes(nz(q))));
-  if(!l.length){$("res").innerHTML=`<p class="empty">No la tengo cargada para este país. Decime cuál y la agrego.</p>`;return}
-  const groups=[...new Set(l.map(p=>p.cat||""))];
-  $("res").innerHTML = groups.map((g,i)=>{
-    let items=l.filter(p=>(p.cat||"")===g);
-    let note="";
-    if(!q && items.length>15){
-      const featured=items.filter(p=>p.featured);
-      if(featured.length){
-        note=`<p style="grid-column:1/-1;font-size:12px;color:var(--light);margin:${i===0?"0":"8px"} 0 2px">Mostrando las más conocidas de ${items.length} registradas. Escribí un nombre arriba para buscar el resto.</p>`;
-        items=featured;
-      }
-    }
-    const header=groups.length>1?`<div style="grid-column:1/-1;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--light);margin-top:${i===0?"0":"10px"}">${esc(CATN[g]||"Otras")}</div>`:"";
-    return header+note+items.map(pcBtn).join("");
-  }).join("");
-}
-
-function pdet(p){
-  const m=M[mk];
-  $("pdet").innerHTML=`<div class="g2" style="margin-top:16px">
-    <div class="card"><span class="label">Hoy usa</span><h3 style="margin-top:5px">${esc(p.n)}</h3>
-      <p style="color:var(--light);font-size:12.5px">${esc(p.t)} · ${esc(p.j)} · titular: la persona</p>
-      <p style="margin-top:9px">${esc(p.x)}</p></div>
-    <div class="card acc"><span class="label">Con LLC</span><h3 style="margin-top:5px">Cuenta a nombre de la empresa</h3>
-      <p style="color:var(--light);font-size:12.5px">Persona jurídica de Estados Unidos</p>
-      <p style="margin-top:9px">Estados Unidos no adoptó CRS, así que ese canal no aplica. Queda FATCA, que reporta rentas acreditadas pero no saldos de cuenta.</p>
-      <p style="margin-top:9px"><b>Lo que no cambia en ${esc(m.n)}:</b> ${esc(m.llc.t.toLowerCase())}. Ver el panel de arriba.</p></div>
+function brandCard(key){
+  const entries=BRANDS.get(key);
+  if(!entries||!entries.length){$("gdet").innerHTML="";return}
+  const label=brandLabel(entries[0]);
+  const rows=entries.map(p=>`<div class="row"><span class="dot d-${p.r}"></span><div>
+    <b>${esc(mktName(p.m))} <i>${esc(RL[p.r])}</i></b>
+    <p>${esc(p.t)} · ${esc(p.j)}</p>
+    <p>${esc(p.x)}</p></div></div>`).join("");
+  $("gdet").innerHTML=`<div class="card" style="margin-top:16px">
+    <h3 style="margin-bottom:2px">${esc(label)}</h3>
+    <div style="margin-top:9px">${rows}</div>
   </div>`;
 }
-
-function mktName(m){return m==="*"?"EE.UU. / global":(M[m]?M[m].n:m)}
 
 function gsearch(){
   const q=$("gq").value.trim();
-  if(!q){$("gres").innerHTML="";$("gdet").innerHTML="";gsel=null;return}
-  const l=P.filter(p=>nz(p.n+" "+p.t+" "+p.j+" "+p.a.join(" ")).includes(nz(q)));
-  $("gres").innerHTML=l.length?l.map(p=>`<button class="pc" data-n="${esc(p.n)}" data-m="${esc(p.m)}" aria-pressed="${gsel===p}">
-    <b>${esc(p.n)} <span class="dot d-${p.r}" style="display:inline-block;vertical-align:middle;margin-left:4px"></span></b>
-    <small>${esc(p.t)} · ${esc(mktName(p.m))}</small></button>`).join("")
+  if(!q){$("gres").innerHTML="";return}
+  const nq=nz(q);
+  const seen=new Set();
+  const matches=[];
+  BRANDS.forEach((entries,key)=>{
+    if(seen.has(key))return;
+    const hit=entries.some(p=>nz(p.n+" "+p.t+" "+p.j+" "+p.a.join(" ")).includes(nq));
+    if(hit){seen.add(key);matches.push({key,label:brandLabel(entries[0])});}
+  });
+  $("gres").innerHTML=matches.length?matches.map(m=>`<button class="pc" data-key="${esc(m.key)}" aria-pressed="${activeKey===m.key}">
+    <b>${esc(m.label)}</b></button>`).join("")
     : `<p class="empty">No la tengo cargada. Decime cuál y la agrego.</p>`;
 }
 
-function gdet(p){
-  $("gdet").innerHTML=`<div class="card${p.r==="si"?" acc":""}" style="margin-top:14px">
-    <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:6px">
-      <span class="dot d-${p.r}"></span><h3 style="margin:0">${esc(p.n)}</h3>
-      <span class="chip chip-d">${esc(RL[p.r])}</span>
-    </div>
-    <p style="color:var(--light);font-size:12.5px">${esc(p.t)} · ${esc(p.j)} · mercado: ${esc(mktName(p.m))}</p>
-    <p style="margin-top:9px">${esc(p.x)}</p>
-  </div>`;
-}
-
-$("tabs").onclick=e=>{const b=e.target.closest(".tab");if(!b)return;
-  mk=b.dataset.k;sel=null;
+$("tabs").onclick=e=>{const b=e.target.closest(".tab[data-k]");if(!b)return;
+  mk=b.dataset.k;
   [...$("tabs").children].forEach(c=>c.setAttribute("aria-pressed",c.dataset.k===mk));
-  panel(mk);$("q").value="";$("pdet").innerHTML="";list();};
-$("res").onclick=e=>{const b=e.target.closest(".pc");if(!b)return;
-  sel=b.dataset.n;list();pdet(P.find(p=>p.n===sel&&(p.m===mk||p.m==="*")));};
-$("q").oninput=list;
-
+  panel(mk);};
+$("featBtns").onclick=e=>{const b=e.target.closest(".tab[data-key]");if(!b)return;
+  activeKey=b.dataset.key;
+  [...$("featBtns").children].forEach(c=>c.setAttribute("aria-pressed",c.dataset.key===activeKey));
+  brandCard(activeKey);};
 $("gres").onclick=e=>{const b=e.target.closest(".pc");if(!b)return;
-  const p=P.find(x=>x.n===b.dataset.n&&x.m===b.dataset.m);
-  gsel=p;gsearch();gdet(p);};
+  activeKey=b.dataset.key;gsearch();brandCard(activeKey);};
 $("gq").oninput=gsearch;
 </script>
 </body>

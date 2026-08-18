@@ -1,8 +1,8 @@
 import fs from 'fs';
 import path from 'path';
 
-// Link publico y fijo para compartir solo la parte de billeteras de la consola
-// interna (buscador + glosario), sin el panel de tratamiento fiscal por pais.
+// Link publico y fijo para compartir la consola de billeteras completa
+// (buscador, glosario y el panel por pais), sin pedir la clave del sitio.
 // El token vive en la variable de entorno WALLETS_SHARE_TOKEN, nunca en el repo.
 export async function getServerSideProps({ params, res }) {
   const expected = process.env.WALLETS_SHARE_TOKEN;
@@ -13,8 +13,7 @@ export async function getServerSideProps({ params, res }) {
     return { props: {} };
   }
   const filePath = path.join(process.cwd(), 'internal-content', 'politicas-billeteras.html');
-  let html = fs.readFileSync(filePath, 'utf8');
-  html = html.replace('<body>', '<body><script>window.__SCOPED__=true;</script>');
+  const html = fs.readFileSync(filePath, 'utf8');
   res.setHeader('Content-Type', 'text/html; charset=utf-8');
   res.write(html);
   res.end();
