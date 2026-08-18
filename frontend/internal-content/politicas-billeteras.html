@@ -183,7 +183,7 @@ ar:{n:"Argentina",s:"Renta mundial",
  llc:{t:"Transparencia fiscal internacional",d:"La participación se declara en Bienes Personales, y la renta se analiza en Ganancias por el régimen de transparencia fiscal internacional, más el régimen informativo de sociedades del exterior. Aplica aunque la LLC no haya facturado nada en el año."}},
 
 br:{n:"Brasil",s:"Renta mundial",
- nota:{t:"Cambio normativo reciente: 15% de IRPF aunque no se distribuya",
+ nota:{t:"Cambio normativo reciente: 15% de IRPF, o Imposto sobre a Renda das Pessoas Físicas, aunque no se distribuya",
   p:["El 15 de abril de 2026 la Receita publicó la Solução de Consulta COSIT nº 56/2026. Definió que una LLC compuesta por no residentes en Estados Unidos y tratada como transparente allá queda caracterizada como regime fiscal privilegiado, por el art. 2 inciso VII de la IN RFB 1.037/2010. El caso consultado era una LLC de California de un residente brasileño con esposa e hijos, también residentes.",
    "Consecuencia: pasa a ser controlada calificada bajo el art. 5 de la Lei 14.754/2023, y los lucros se gravan al 15% de IRPF cada 31 de diciembre en cabeza de la persona física, aunque no se distribuya nada. El diferimiento que existía antes de 2024 ya no aplica desde esta resolución."]},
  canales:{local:["si","La Receita recibe información de instituciones de pago y proveedores de criptoactivos por régimen propio. El detalle exacto de los regímenes vigentes está pendiente de verificar con contador brasileño."],
@@ -200,7 +200,7 @@ es:{n:"España",s:"Renta mundial",
   crs:["si","Adherida, y con DAC8 aplicando directo desde enero de 2026."],
   carf:["si","Dentro por DAC8. Las plataformas europeas recolectan desde enero de 2026."],
   fatca:["si","IGA Modelo 1, operativo."]},
- llc:{t:"Depende de la calificación, y la DGT evalúa caso a caso",d:"Dos caminos posibles. Uno: régimen de atribución de rentas del art. 87 LIRPF, donde los beneficios se imputan al socio y tributan en IRPF a escala progresiva aunque queden en la cuenta de la LLC, con posible Modelo 184. Dos: tributación solo por rentas efectivamente distribuidas, si se sostiene que la LLC tiene personalidad jurídica propia, con consultas de la DGT en esa línea como la V3074-22 y la V0681-25. La participación se informa en Modelo 720 y entra en Impuesto sobre el Patrimonio, valorada según el art. 16 de la Ley del Impuesto sobre el Patrimonio."}},
+ llc:{t:"Depende de la calificación, y la DGT evalúa caso a caso",d:"Dos caminos posibles. Uno: régimen de atribución de rentas del art. 87 LIRPF, donde los beneficios se imputan al socio y tributan en IRPF, Impuesto sobre la Renta de las Personas Físicas, a escala progresiva y no a una tasa fija (no confundir con el 15% de Brasil), aunque queden en la cuenta de la LLC, con posible Modelo 184. Dos: tributación solo por rentas efectivamente distribuidas, si se sostiene que la LLC tiene personalidad jurídica propia, con consultas de la DGT en esa línea como la V3074-22 y la V0681-25. La participación se informa en Modelo 720 y entra en Impuesto sobre el Patrimonio, valorada según el art. 16 de la Ley del Impuesto sobre el Patrimonio."}},
 
 co:{n:"Colombia",s:"Renta mundial",
  canales:{local:["si","Declaración anual de activos en el exterior por Formulario 160 según umbral en UVT, más impuesto al patrimonio si corresponde. Umbrales vigentes pendientes de confirmar."],
@@ -432,14 +432,25 @@ function panel(k){
   </section>`;
 }
 
+const ARCA_L={si:"Informa a ARCA",parcial:"Informa a ARCA (parcial)",no:"No informa a ARCA"};
+
 function brandCard(key){
   const entries=BRANDS.get(key);
   if(!entries||!entries.length){$("gdet").innerHTML="";return}
   const label=brandLabel(entries[0]);
-  const rows=entries.map(p=>`<div class="row"><span class="dot d-${p.r}"></span><div>
+  const rows=entries.map(p=>{
+    if(p.cat==="psav"){
+      return `<div class="row"><span class="dot d-${p.r}"></span><div>
+        <b>${esc(mktName(p.m))}</b>
+        <p style="margin-top:4px"><span class="label">Registro CNV (PSAV)</span><br>${esc(p.x)}</p>
+        <p style="margin-top:8px;padding-top:8px;border-top:1px dashed var(--line)"><span class="label">${esc(ARCA_L[p.r])}</span><br>Régimen informativo de ARCA (RG 5804/2025). Es un trámite distinto del registro en la CNV, no una consecuencia de él.</p>
+      </div></div>`;
+    }
+    return `<div class="row"><span class="dot d-${p.r}"></span><div>
     <b>${esc(mktName(p.m))} <i>${esc(RL[p.r])}</i></b>
     <p>${esc(p.t)} · ${esc(p.j)}</p>
-    <p>${esc(p.x)}</p></div></div>`).join("");
+    <p>${esc(p.x)}</p></div></div>`;
+  }).join("");
   $("gdet").innerHTML=`<div class="card" style="margin-top:16px">
     <h3 style="margin-bottom:2px">${esc(label)}</h3>
     <div style="margin-top:9px">${rows}</div>
