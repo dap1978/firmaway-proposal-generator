@@ -148,6 +148,17 @@
   .cta-subtitle { font-size: 13px; color: rgba(255,255,255,0.6); }
   .cta-button { background: var(--orange); color: var(--white); font-size: 13px; font-weight: 700; padding: 12px 20px; border-radius: 10px; text-decoration: none; white-space: nowrap; letter-spacing: -0.01em; }
   /* DISCLAIMER */
+  /* Alcance del servicio, en version compacta al pie de la pagina de cierre.
+     Va en recuadro claro sobre el fondo oscuro: texto chico y gris sobre oscuro
+     se lee mal, sobre todo impreso. Va debajo del CTA a proposito, para que el
+     ojo pegue primero en el boton y despues en la letra chica. */
+  .scope-mini { margin-top: 20px; background: var(--cream); border-radius: 12px; padding: 14px 18px; }
+  .scope-mini-head { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; color: var(--ink); margin-bottom: 7px; }
+  .scope-mini-intro { font-size: 9.5px; line-height: 1.5; color: var(--ink); margin-bottom: 9px; }
+  .scope-mini-list { list-style: none; display: flex; flex-wrap: wrap; gap: 7px 18px; }
+  .scope-mini-list li { flex: 1 1 45%; font-size: 9px; line-height: 1.45; color: var(--ink-light); }
+  .scope-mini-list li strong { color: var(--ink); font-weight: 700; }
+
   .disclaimer-scope { background: #F0F9FF; border: 1.5px solid #BAE6FD; border-radius: 12px; padding: 16px 20px; margin-bottom: 22px; }
   .disclaimer-scope p { font-size: 12.5px; line-height: 1.55; color: #0369A1; font-weight: 600; margin: 0; }
   .disclaimer-list { list-style: none; display: flex; flex-direction: column; gap: 14px; max-width: 620px; }
@@ -284,7 +295,7 @@
   </div>
   <div class="page-footer">
     <div class="footer-client">{{NOMBRE_CLIENTE}}</div>
-    <div class="footer-page">02 / 08</div>
+    <div class="footer-page">02 / 07</div>
   </div>
 </div>
 
@@ -315,7 +326,7 @@
   </div>
   <div class="page-footer">
     <div class="footer-client">{{NOMBRE_CLIENTE}}</div>
-    <div class="footer-page">03 / 08</div>
+    <div class="footer-page">03 / 07</div>
   </div>
 </div>
 
@@ -351,7 +362,7 @@
   </div>
   <div class="page-footer">
     <div class="footer-client">{{NOMBRE_CLIENTE}}</div>
-    <div class="footer-page">04 / 08</div>
+    <div class="footer-page">04 / 07</div>
   </div>
 </div>
 
@@ -393,7 +404,7 @@
   </div>
   <div class="page-footer">
     <div class="footer-client">{{NOMBRE_CLIENTE}}</div>
-    <div class="footer-page">05 / 08</div>
+    <div class="footer-page">05 / 07</div>
   </div>
 </div>
 
@@ -455,7 +466,7 @@
   </div>
   <div class="page-footer">
     <div class="footer-client">{{NOMBRE_CLIENTE}}</div>
-    <div class="footer-page">06 / 08</div>
+    <div class="footer-page">06 / 07</div>
   </div>
 </div>
 
@@ -497,37 +508,18 @@
         {{CTA_BOTON}} {{COMERCIAL_APODO}} →
       </a>
     </div>
+
+    <div class="scope-mini">
+      <div class="scope-mini-head">* {{SCOPE_LABEL}}</div>
+      <div class="scope-mini-intro">{{SCOPE_INTRO}}</div>
+      <ul class="scope-mini-list">
+        {{SCOPE_ITEMS}}
+      </ul>
+    </div>
   </div>
   <div class="page-footer" style="border-top: 1px solid rgba(255,255,255,0.1);">
     <div class="footer-client" style="color:rgba(255,255,255,0.5);">{{NOMBRE_CLIENTE}}</div>
-    <div class="footer-page" style="color:rgba(255,255,255,0.5);">07 / 08</div>
-  </div>
-</div>
-
-<!-- PÁGINA 8: ALCANCE DEL SERVICIO -->
-<div class="page">
-  <div class="page-header">
-    <div class="logo">Firmaway<span>.</span></div>
-    <div class="page-meta">Propuesta {{PROPUESTA_ID}}</div>
-  </div>
-  <div class="page-content">
-    <div class="chapter-label">
-      <span class="chip chip-dark">{{SCOPE_CHIP}}</span>
-      <span class="chapter-number">{{SCOPE_LABEL}}</span>
-    </div>
-    <h2 class="chapter-title" style="font-size:24px;">{{SCOPE_TITLE}}</h2>
-
-    <div class="disclaimer-scope">
-      <p>{{SCOPE_INTRO}}</p>
-    </div>
-
-    <ul class="disclaimer-list">
-      {{SCOPE_ITEMS}}
-    </ul>
-  </div>
-  <div class="page-footer">
-    <div class="footer-client">{{NOMBRE_CLIENTE}}</div>
-    <div class="footer-page">08 / 08</div>
+    <div class="footer-page" style="color:rgba(255,255,255,0.5);">07 / 07</div>
   </div>
 </div>
 
