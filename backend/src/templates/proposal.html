@@ -183,6 +183,9 @@
   .bal-word { font-size: 21px; font-weight: 700; letter-spacing: -0.03em; color: var(--ink); }
   .bal-word span { color: var(--orange); }
   .bal-free { background: var(--orange-soft); border: 1.5px solid var(--orange); color: var(--orange); border-radius: 999px; padding: 4px 12px; font-size: 10.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; }
+  /* El link va como texto visible, no solo como href: en papel un enlace
+     invisible no sirve de nada. */
+  .bal-link { margin-left: auto; font-size: 12.5px; font-weight: 600; color: var(--orange); text-decoration: none; }
   .bal-steps { display: flex; gap: 12px; margin-top: 24px; align-items: stretch; }
   .bal-step { flex: 1; background: var(--cream-warm); border: 1.5px solid var(--ink); border-radius: 14px; padding: 16px; box-shadow: 4px 4px 0px 0px var(--ink); }
   .bal-step-num { width: 23px; height: 23px; border-radius: 50%; background: var(--orange); color: var(--white); font-size: 11.5px; font-weight: 800; display: flex; align-items: center; justify-content: center; margin-bottom: 12px; }
@@ -415,6 +418,7 @@
       </div>
       <div class="bal-word"><span>/:</span>balancito<span>.</span></div>
       <span class="bal-free">{{BAL_GRATIS}}</span>
+      <a href="https://www.balancito.app/home" class="bal-link" target="_blank" rel="noopener noreferrer">balancito.app →</a>
     </div>
 
     <p class="plat-body">{{BAL_BODY}}</p>
