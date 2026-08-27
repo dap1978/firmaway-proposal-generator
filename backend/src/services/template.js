@@ -4,19 +4,29 @@ const path = require('path');
 const TEMPLATE_PATH = path.join(__dirname, '../templates/proposal.html');
 const WHITELABEL_TEMPLATE_PATH = path.join(__dirname, '../templates/proposal_whitelabel.html');
 const MERCURY_IMG_PATH = path.join(__dirname, '../templates/assets/mercury-demo.png');
+const PLATAFORMA_IMG_PATH = path.join(__dirname, '../templates/assets/plataforma-demo.png');
 
-// Imagen de Mercury embebida como data URI: se ve igual en la web y en el PDF (Puppeteer),
-// sin depender de un servidor externo. Se lee una sola vez y se cachea en memoria.
+// Imagenes embebidas como data URI: se ven igual en la web y en el PDF (Puppeteer),
+// sin depender de un servidor externo. Se leen una sola vez y se cachean en memoria.
+function imageDataUri(filePath) {
+  try {
+    const buf = fs.readFileSync(filePath);
+    return `data:image/png;base64,${buf.toString('base64')}`;
+  } catch (err) {
+    return '';
+  }
+}
+
 let _mercuryImgCache = null;
 function mercuryImageDataUri() {
-  if (_mercuryImgCache !== null) return _mercuryImgCache;
-  try {
-    const buf = fs.readFileSync(MERCURY_IMG_PATH);
-    _mercuryImgCache = `data:image/png;base64,${buf.toString('base64')}`;
-  } catch (err) {
-    _mercuryImgCache = '';
-  }
+  if (_mercuryImgCache === null) _mercuryImgCache = imageDataUri(MERCURY_IMG_PATH);
   return _mercuryImgCache;
+}
+
+let _plataformaImgCache = null;
+function plataformaImageDataUri() {
+  if (_plataformaImgCache === null) _plataformaImgCache = imageDataUri(PLATAFORMA_IMG_PATH);
+  return _plataformaImgCache;
 }
 
 // Textos fijos de la propuesta whitelabel (mismo template para todos los socios).
@@ -224,12 +234,12 @@ const i18n = {
     footerPreparada: 'Preparada por',
     footerFecha: 'Fecha',
     cap01Chip: 'Cap. 01',
-    cap01Sub: 'Tu situación',
-    cap01Titulo: 'Entendemos\ntu negocio.',
-    beneficiosTitulo: 'Lo que incluye tu paquete',
+    cap01Sub: 'Su situación',
+    cap01Titulo: 'Entendemos\nsu negocio.',
+    beneficiosTitulo: 'Lo que incluye el paquete',
     cap02Chip: 'Cap. 02',
     cap02Sub: 'Tabla comparativa',
-    cap02Titulo: 'Elegí el plan\nque mejor te queda.',
+    cap02Titulo: 'Elija el plan\nque mejor le quede.',
     tablaNota: '* Paquete recomendado destacado en naranja.',
     cap03Chip: 'Cap. 03',
     cap03Sub: 'Por qué <strong>Firmaway</strong>',
@@ -243,18 +253,31 @@ const i18n = {
     test2Texto: 'Atención 10 puntos, efectividad muy complaciente. Sin dudas la mejor opción a día de hoy para abrir y emprender tu LLC en Estados Unidos.',
     test2Autor: 'Guido B. · AR · 5 estrellas',
     ctaTitulo: '¿Listo para arrancar',
-    ctaSubtitulo: 'Respondé este mensaje y arrancamos hoy.',
-    ctaBoton: 'Escribile a',
+    ctaSubtitulo: 'Responda este mensaje y arrancamos hoy.',
+    ctaBoton: 'Escríbale a',
     waText: 'Hola%2C+quiero+arrancar+con+mi+LLC',
     mercuryChip: 'Banca',
-    mercurySub: 'Tu cuenta bancaria',
-    mercuryTitulo: 'Así vas a operar\ntu cuenta.',
-    mercuryBody: 'Tu LLC opera con Mercury, el banco elegido por startups y empresas remotas en todo el mundo. Todo se gestiona en dólares, desde cualquier país, sin pisar Estados Unidos.',
+    mercurySub: 'Su cuenta bancaria',
+    mercuryTitulo: 'Así va a operar\nsu cuenta.',
+    mercuryBody: 'Su LLC opera con Mercury, el banco elegido por startups y empresas remotas en todo el mundo. Todo se gestiona en dólares, desde cualquier país, sin pisar Estados Unidos.',
     mercuryFeature1: 'Tarjeta de débito Visa física y virtual.',
     mercuryFeature2: 'Transferencias ACH y SWIFT para operar globalmente.',
     mercuryFeature3: 'Apertura 100% remota, sin viajar a Estados Unidos.',
     mercuryCaption: 'Vista del entorno de demostración de Mercury. Los montos son de ejemplo.',
     mercuryBoton: 'Ver demo en vivo',
+    // Pagina de plataforma. Registro formal: sin tutear y sin vosear.
+    plataformaChip: 'Plataforma',
+    plataformaSub: 'Seguimiento del trámite',
+    plataformaTitulo: 'Todo el trámite en<br>un solo panel.',
+    plataformaBody: 'Desde el primer día hay acceso a la plataforma de Firmaway. Ahí se ve en qué paso está la LLC y en qué paso está la cuenta bancaria, sin necesidad de escribir para preguntar.',
+    plataformaFeature1: 'Estado del trámite en vivo, paso por paso.',
+    plataformaFeature2: '<a href="https://www.balancito.app/home" class="inline-link" target="_blank" rel="noopener noreferrer">Balancito</a> incluido y sin costo aparte, para llevar la contabilidad de la LLC al día.',
+    plataformaFeature3: 'Soporte gratis e ilimitado, con personas reales del otro lado.',
+    plataformaCaption: 'Vista real del panel de Firmaway. Los datos que aparecen son de ejemplo.',
+    extra1Label: 'Centro de recursos',
+    extra1Text: 'Material sobre cómo operar una LLC, con acceso gratuito.',
+    extra2Label: 'Modelos de invoice',
+    extra2Text: 'Plantillas de facturación listas para usar, para no arrancar de cero.',
     paqueteNombres: { solo_llc: 'Solo LLC', starter: 'Starter', pro: 'Pro', all_in: 'All In' },
     tablaHeader: 'Qué incluye',
     tablaInversion: 'Inversión total',
@@ -266,7 +289,7 @@ const i18n = {
       'Operating Agreement',
       'Soporte gratis e ilimitado',
       'Obligaciones año 1 incluidas',
-      'Te responden personas reales',
+      'Responden personas reales',
       'Estado de formación',
       'Miembros',
     ],
@@ -280,7 +303,7 @@ const i18n = {
         ['LLC en Wyoming', 'el estado más recomendado: privacidad de socios y baja burocracia.'],
         ['Cuenta Mercury incluida', 'el mejor banco para operar con una LLC, tarjeta de débito Visa física y virtual, ACH y SWIFT para operar globalmente.'],
         ['EIN / Tax ID federal', 'número de identificación fiscal necesario para abrir la cuenta bancaria y operar ante el IRS.'],
-        ['Soporte gratis e ilimitado', 'equipo disponible de lunes a viernes para cualquier consulta sobre tu LLC.'],
+        ['Soporte gratis e ilimitado', 'equipo disponible de lunes a viernes para cualquier consulta sobre su LLC.'],
       ],
       all_in: [
         ['LLC en Wyoming', 'privacidad de socios y baja burocracia.'],
@@ -297,7 +320,7 @@ const i18n = {
     scopeItems: [
       ['Cuentas de inversión y brokers.', 'No damos soporte ni orientación sobre cuentas de inversión ni brokers, ni planificación financiera o patrimonial.'],
       ['Tiempos y aprobaciones.', 'Los plazos son estimados. La apertura bancaria y la reserva de nombre dependen del Estado y del banco, no de Firmaway.'],
-      ['Gestión externa.', 'No respondemos requerimientos de terceros ni formularios externos ajenos a tu trámite activo.'],
+      ['Gestión externa.', 'No respondemos requerimientos de terceros ni formularios externos ajenos a su trámite activo.'],
       ['Errores de datos.', 'Las correcciones derivadas de información incorrecta provista por el cliente pueden generar costos adicionales.'],
     ],
   },
@@ -342,6 +365,19 @@ const i18n = {
     mercuryFeature3: 'Abertura 100% remota, sem viajar aos Estados Unidos.',
     mercuryCaption: 'Visão do ambiente de demonstração da Mercury. Os valores são de exemplo.',
     mercuryBoton: 'Ver demo ao vivo',
+    // Pagina de plataforma. Em portugues o registro padrao com "voce" se mantem.
+    plataformaChip: 'Plataforma',
+    plataformaSub: 'Acompanhamento do processo',
+    plataformaTitulo: 'Todo o processo em<br>um só painel.',
+    plataformaBody: 'Desde o primeiro dia você tem acesso à plataforma da Firmaway. Lá você vê em que etapa está a LLC e em que etapa está a conta bancária, sem precisar escrever para perguntar.',
+    plataformaFeature1: 'Status do processo ao vivo, etapa por etapa.',
+    plataformaFeature2: '<a href="https://www.balancito.app/home" class="inline-link" target="_blank" rel="noopener noreferrer">Balancito</a> incluído e sem custo à parte, para manter a contabilidade da LLC em dia.',
+    plataformaFeature3: 'Suporte gratuito e ilimitado, com pessoas reais do outro lado.',
+    plataformaCaption: 'Visão real do painel da Firmaway. Os dados exibidos são de exemplo.',
+    extra1Label: 'Central de recursos',
+    extra1Text: 'Material sobre como operar uma LLC, com acesso gratuito.',
+    extra2Label: 'Modelos de invoice',
+    extra2Text: 'Modelos de faturamento prontos para usar, para não começar do zero.',
     paqueteNombres: { starter: 'Essencial', pro: 'Pro', all_in: 'Completo' },
     tablaHeader: 'O que inclui',
     tablaInversion: 'Investimento total',
@@ -559,10 +595,10 @@ function buildTimeline(lang) {
 
   const steps = isEs
     ? [
-        ['1', 'Confirmación de datos',  'Completamos tu perfil y validamos la documentación.',           'Día 1'],
+        ['1', 'Confirmación de datos',  'Completamos su perfil y validamos la documentación.',           'Día 1'],
         ['2', 'Formación de la LLC',    'Presentamos la constitución al estado que elegiste.',           'Días 2–5'],
-        ['3', 'Obtención del EIN',      'Gestionamos tu Tax ID federal ante el IRS.',                   'Días 5–10'],
-        ['4', 'Apertura de Mercury',    'Activamos tu cuenta bancaria y tarjeta de débito Visa.',       'Días 10–15'],
+        ['3', 'Obtención del EIN',      'Gestionamos su Tax ID federal ante el IRS.',                   'Días 5–10'],
+        ['4', 'Apertura de Mercury',    'Activamos su cuenta bancaria y tarjeta de débito Visa.',       'Días 10–15'],
       ]
     : [
         ['1', 'Confirmação dos dados',  'Completamos o perfil e validamos a documentação.',             'Dia 1'],
@@ -601,7 +637,7 @@ function buildAnnualObligations(pkg, state, lang) {
   if (pkg === 'all_in') {
     const title = isEs ? 'Obligaciones anuales' : 'Obrigações anuais';
     const text  = isEs
-      ? 'Las obligaciones del año 1 ya están incluidas en tu paquete All In. ✓'
+      ? 'Las obligaciones del año 1 ya están incluidas en su paquete All In. ✓'
       : 'As obrigações do ano 1 já estão incluídas no seu pacote All In. ✓';
     return `
 <div style="margin-top:20px; padding:14px 16px; background:#F0FDF4; border:1.5px solid #86EFAC; border-radius:8px;">
@@ -634,7 +670,7 @@ function buildRequirements(lang) {
   const items = isEs
     ? [
         'Pasaporte vigente',
-        'Factura de servicio básico a tu nombre',
+        'Factura de servicio básico a su nombre',
         'Extracto bancario personal con no más de 60 días de antigüedad',
         'LinkedIn personal o corporativo',
       ]
@@ -890,6 +926,19 @@ function renderTemplate(data) {
     MERCURY_CAPTION: t.mercuryCaption,
     MERCURY_BOTON: t.mercuryBoton,
     MERCURY_IMG: mercuryImageDataUri(),
+    PLATAFORMA_CHIP: t.plataformaChip,
+    PLATAFORMA_SUB: t.plataformaSub,
+    PLATAFORMA_TITULO: t.plataformaTitulo,
+    PLATAFORMA_BODY: t.plataformaBody,
+    PLATAFORMA_FEATURE1: t.plataformaFeature1,
+    PLATAFORMA_FEATURE2: t.plataformaFeature2,
+    PLATAFORMA_FEATURE3: t.plataformaFeature3,
+    PLATAFORMA_CAPTION: t.plataformaCaption,
+    PLATAFORMA_IMG: plataformaImageDataUri(),
+    EXTRA1_LABEL: t.extra1Label,
+    EXTRA1_TEXT: t.extra1Text,
+    EXTRA2_LABEL: t.extra2Label,
+    EXTRA2_TEXT: t.extra2Text,
     CAP03_CHIP: t.cap03Chip,
     CAP03_SUB: t.cap03Sub,
     CAP03_TITULO: t.cap03Titulo,
