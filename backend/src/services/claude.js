@@ -13,9 +13,19 @@ function buildSystemPrompt(language, hasTranscript = true) {
     ? 'una transcripción de llamada de ventas'
     : 'las notas que escribió el vendedor sobre el cliente';
 
+  // Quien lee la propuesta es el cliente. En trato de usted la tercera persona y
+  // la segunda se conjugan igual ('Ana busca' / 'Ana, busca'), asi que sin esta
+  // regla el modelo termina describiendo al cliente en vez de hablarle.
+  const dirigido =
+    'ESTE PÁRRAFO VA DIRIGIDO AL CLIENTE, que es quien lee la propuesta. Hay que HABLARLE, no hablar DE él. Abrir nombrándolo, con coma después del nombre, y seguir en trato de usted. PROHIBIDO describirlo en tercera persona como si el lector fuera otra persona. Acá no aplica la opción impersonal de la regla 2 de registro: este párrafo se dirige al lector.\n' +
+    '   Mal: "Ana busca una solución que le permita operar con una cuenta bancaria sólida."\n' +
+    '   Bien: "Ana, busca una cuenta bancaria en regla para cobrar sus alquileres sin depender de billeteras."\n' +
+    '   Mal: "El cliente necesita facturar en dólares y le preocupa el costo anual."\n' +
+    '   Bien: "Ana, necesita facturar en dólares y le preocupa cuánto cuesta mantener la empresa cada año."';
+
   const cuerpoInstr = hasTranscript
-    ? 'MÁXIMO 2 oraciones. Su única función es demostrar que escuchamos la llamada: nombrar la situación concreta del lead y la duda puntual que trajo, con los detalles reales que dijo (su actividad, su ciudad, los nombres que mencionó, lo que hoy lo frena).'
-    : 'MÁXIMO 2 oraciones. No hubo llamada: el vendedor describió al cliente a mano. Usar SOLO los datos que el vendedor escribió, sin inventar ni rellenar con supuestos. Si escribió poco, escribir una sola oración corta antes que inventar contexto.';
+    ? `MÁXIMO 2 oraciones. ${dirigido}\n   Su función es demostrar que escuchamos la llamada: nombrar su situación concreta y la duda puntual que trajo, con los detalles reales que dijo (su actividad, su ciudad, los nombres que mencionó, lo que hoy lo frena).`
+    : `MÁXIMO 2 oraciones. ${dirigido}\n   No hubo llamada: el vendedor describió al cliente a mano. Usar SOLO los datos que el vendedor escribió, sin inventar ni rellenar con supuestos. Si escribió poco, escribir una sola oración corta antes que inventar contexto.`;
 
   const nombreInstr = hasTranscript
     ? 'Nombre completo del lead extraído de la transcripción'
@@ -113,7 +123,7 @@ OUTPUT: SOLO JSON VÁLIDO, SIN MARKDOWN, SIN TEXTO ADICIONAL
   "headline_line1": "Primera línea del titular de portada (máx 4 palabras)",
   "headline_line2": "Segunda línea del titular (máx 5 palabras)",
   "headline_highlight": "Frase final destacada en naranja en la portada (ej: LLC en EE.UU.)",
-  "cuerpo_cap01": "${cuerpoInstr} PROHIBIDO incluir acá la cantidad de LLCs formadas, el plazo en días hábiles, precios, el nombre del paquete, el estado recomendado, o beneficios genéricos de tener una LLC: todo eso ya aparece en bloques fijos de la propuesta y repetirlo hace que el párrafo suene a plantilla. Prueba de calidad: si este párrafo se puede copiar y pegar tal cual a otro lead, está mal escrito.",
+  "cuerpo_cap01": "${cuerpoInstr}\n   NO METER ACÁ POR INICIATIVA PROPIA: la cantidad de LLCs formadas, el plazo en días hábiles, precios, el nombre del paquete, el estado recomendado, Mercury y sus características, Balancito, ni beneficios genéricos de tener una LLC. Todo eso ya tiene su propia página, y meterlo acá gasta el único párrafo personalizado del documento en algo que el cliente va a leer igual más adelante. EXCEPCIÓN: si el vendedor pide alguna de esas cosas en su contexto, incorporarla. Su instrucción manda sobre esta lista.\n   FUENTES VÁLIDAS, las tres: las reglas de negocio de arriba, lo que dijo el cliente, y lo que escribió el vendedor en su contexto. Lo que escribe el vendedor es información que él ya verificó y se usa con confianza, aunque no figure en las reglas de negocio. Lo que no está en ninguna de esas tres fuentes NO se afirma: no inventar seguros, coberturas, garantías, plazos ni cifras por cuenta propia.\n   Prueba de calidad: si este párrafo se puede copiar y pegar tal cual a otro cliente, está mal escrito.",
   "package": "starter | pro | all_in",
   "state_recommended": "new_mexico | wyoming | delaware | florida | texas (el estado más conveniente según el perfil del lead)",
   "urgency_score": "alto | medio | bajo",
