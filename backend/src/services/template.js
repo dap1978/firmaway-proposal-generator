@@ -271,13 +271,31 @@ const i18n = {
     plataformaTitulo: 'Todo el trámite en<br>un solo panel.',
     plataformaBody: 'Desde el primer día hay acceso a la plataforma de Firmaway. Ahí se ve en qué paso está la LLC y en qué paso está la cuenta bancaria, sin necesidad de escribir para preguntar.',
     plataformaFeature1: 'Estado del trámite en vivo, paso por paso.',
-    plataformaFeature2: '<a href="https://www.balancito.app/home" class="inline-link" target="_blank" rel="noopener noreferrer">Balancito</a> incluido y sin costo aparte, para llevar la contabilidad de la LLC al día.',
+    plataformaFeature2: 'Todos los documentos de la LLC en un solo lugar, listos para descargar.',
     plataformaFeature3: 'Soporte gratis e ilimitado, con personas reales del otro lado.',
     plataformaCaption: 'Vista real del panel de Firmaway. Los datos que aparecen son de ejemplo.',
     extra1Label: 'Centro de recursos',
     extra1Text: 'Material sobre cómo operar una LLC, con acceso gratuito.',
     extra2Label: 'Modelos de invoice',
     extra2Text: 'Plantillas de facturación listas para usar, para no arrancar de cero.',
+    // Pagina de Balancito. Datos tomados de balancito.app. No se usa el "100% de
+    // exactitud" que figura en su landing: es una promesa mas fuerte de lo que
+    // conviene firmar en una propuesta comercial.
+    balChip: 'Incluido',
+    balSub: 'Contabilidad de la LLC',
+    balTitulo: 'La contabilidad al día,<br>sin tocar Excel.',
+    balGratis: 'Gratis',
+    balBody: 'Balancito se conecta con la cuenta de Mercury e importa los movimientos solo. Una inteligencia artificial los clasifica y arma el balance contable listo para entregarle al contador. Viene incluido con la LLC, sin costo aparte.',
+    balStep1T: 'Se vincula la cuenta',
+    balStep1D: 'Enlace seguro con Mercury. Las transacciones se importan solas.',
+    balStep2T: 'La IA clasifica',
+    balStep2D: 'Sugiere la clasificación de cada movimiento, y queda la opción de revisarla y ajustarla.',
+    balStep3T: 'El balance queda listo',
+    balStep3D: 'Se descarga completo en Excel, listo para el contador o para la declaración.',
+    balStat1: 'Balances generados',
+    balStat2: 'Tiempo promedio',
+    balStat3: 'Disponible online',
+    balStat4: 'Incluido con la LLC',
     paqueteNombres: { solo_llc: 'Solo LLC', starter: 'Starter', pro: 'Pro', all_in: 'All In' },
     tablaHeader: 'Qué incluye',
     tablaInversion: 'Inversión total',
@@ -371,13 +389,29 @@ const i18n = {
     plataformaTitulo: 'Todo o processo em<br>um só painel.',
     plataformaBody: 'Desde o primeiro dia você tem acesso à plataforma da Firmaway. Lá você vê em que etapa está a LLC e em que etapa está a conta bancária, sem precisar escrever para perguntar.',
     plataformaFeature1: 'Status do processo ao vivo, etapa por etapa.',
-    plataformaFeature2: '<a href="https://www.balancito.app/home" class="inline-link" target="_blank" rel="noopener noreferrer">Balancito</a> incluído e sem custo à parte, para manter a contabilidade da LLC em dia.',
+    plataformaFeature2: 'Todos os documentos da LLC em um só lugar, prontos para baixar.',
     plataformaFeature3: 'Suporte gratuito e ilimitado, com pessoas reais do outro lado.',
     plataformaCaption: 'Visão real do painel da Firmaway. Os dados exibidos são de exemplo.',
     extra1Label: 'Central de recursos',
     extra1Text: 'Material sobre como operar uma LLC, com acesso gratuito.',
     extra2Label: 'Modelos de invoice',
     extra2Text: 'Modelos de faturamento prontos para usar, para não começar do zero.',
+    // Pagina do Balancito. Dados de balancito.app.
+    balChip: 'Incluído',
+    balSub: 'Contabilidade da LLC',
+    balTitulo: 'A contabilidade em dia,<br>sem abrir o Excel.',
+    balGratis: 'Grátis',
+    balBody: 'O Balancito se conecta à conta da Mercury e importa as movimentações sozinho. Uma inteligência artificial classifica tudo e monta o balanço contábil pronto para entregar ao contador. Vem incluído com a LLC, sem custo à parte.',
+    balStep1T: 'Conecte a conta',
+    balStep1D: 'Conecta de forma segura com a Mercury e importa todas as transações.',
+    balStep2T: 'A IA classifica',
+    balStep2D: 'Sugere a classificação de cada movimentação, e fica a opção de revisar e ajustar.',
+    balStep3T: 'O balanço fica pronto',
+    balStep3D: 'Baixa completo em Excel, pronto para o contador ou para a declaração.',
+    balStat1: 'Balanços gerados',
+    balStat2: 'Tempo médio',
+    balStat3: 'Disponível online',
+    balStat4: 'Incluído com a LLC',
     paqueteNombres: { starter: 'Essencial', pro: 'Pro', all_in: 'Completo' },
     tablaHeader: 'O que inclui',
     tablaInversion: 'Investimento total',
@@ -851,6 +885,66 @@ function renderTemplateWhitelabel(data) {
 }
 
 // ── Función principal ──────────────────────────────────────────────────────
+// Vista de ejemplo del balance que entrega Balancito. Los movimientos son
+// inventados a proposito y genericos: las reglas de negocio prohiben nombrar
+// procesadores de pago. Los montos suman exacto para que el total sea creible.
+const BAL_PREVIEW_I18N = {
+  es: {
+    titulo: 'Balance contable · Enero 2026',
+    tag: 'Clasificado por IA',
+    th: ['Fecha', 'Descripción', 'Categoría', 'Monto'],
+    total: 'Resultado del mes',
+    caption: 'Ejemplo ilustrativo del balance que genera Balancito. Los movimientos y los montos son de ejemplo.',
+    filas: [
+      ['03/01', 'Transferencia recibida', 'Ingresos', '$4,820.00'],
+      ['05/01', 'Suscripción de software', 'Gastos operativos', '-$312.40'],
+      ['09/01', 'Cobro de cliente', 'Ingresos', '$1,150.00'],
+      ['12/01', 'Agente registrado', 'Gastos legales', '-$62.00'],
+      ['18/01', 'Publicidad online', 'Marketing', '-$240.00'],
+    ],
+    totalMonto: '$5,355.60',
+  },
+  pt: {
+    titulo: 'Balanço contábil · Janeiro 2026',
+    tag: 'Classificado por IA',
+    th: ['Data', 'Descrição', 'Categoria', 'Valor'],
+    total: 'Resultado do mês',
+    caption: 'Exemplo ilustrativo do balanço que o Balancito gera. As movimentações e os valores são de exemplo.',
+    filas: [
+      ['03/01', 'Transferência recebida', 'Receitas', '$4,820.00'],
+      ['05/01', 'Assinatura de software', 'Despesas operacionais', '-$312.40'],
+      ['09/01', 'Recebimento de cliente', 'Receitas', '$1,150.00'],
+      ['12/01', 'Agente registrado', 'Despesas legais', '-$62.00'],
+      ['18/01', 'Publicidade online', 'Marketing', '-$240.00'],
+    ],
+    totalMonto: '$5,355.60',
+  },
+};
+
+function buildBalancePreview(lang) {
+  const t = BAL_PREVIEW_I18N[lang] || BAL_PREVIEW_I18N.es;
+  const filas = t.filas
+    .map(
+      ([fecha, desc, cat, monto]) =>
+        `<tr><td>${fecha}</td><td>${desc}</td><td><span class="bal-cat">${cat}</span></td><td class="num">${monto}</td></tr>`
+    )
+    .join('');
+  return `<div class="bal-out">
+      <div class="bal-out-head">
+        <div class="bal-out-title">${t.titulo}</div>
+        <div class="bal-out-tag">${t.tag}</div>
+      </div>
+      <table class="bal-table">
+        <thead><tr>${t.th.map((h, i) => `<th${i === 3 ? ' class="num"' : ''}>${h}</th>`).join('')}</tr></thead>
+        <tbody>
+          ${filas}
+          <tr class="bal-total"><td colspan="3">${t.total}</td><td class="num">${t.totalMonto}</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="plat-caption">${t.caption}</div>`;
+}
+
 function renderTemplate(data) {
   if (data.proposal_type === 'whitelabel') {
     return renderTemplateWhitelabel(data);
@@ -939,6 +1033,22 @@ function renderTemplate(data) {
     EXTRA1_TEXT: t.extra1Text,
     EXTRA2_LABEL: t.extra2Label,
     EXTRA2_TEXT: t.extra2Text,
+    BAL_CHIP: t.balChip,
+    BAL_SUB: t.balSub,
+    BAL_TITULO: t.balTitulo,
+    BAL_GRATIS: t.balGratis,
+    BAL_BODY: t.balBody,
+    BAL_STEP1_T: t.balStep1T,
+    BAL_STEP1_D: t.balStep1D,
+    BAL_STEP2_T: t.balStep2T,
+    BAL_STEP2_D: t.balStep2D,
+    BAL_STEP3_T: t.balStep3T,
+    BAL_STEP3_D: t.balStep3D,
+    BAL_PREVIEW: buildBalancePreview(lang),
+    BAL_STAT1: t.balStat1,
+    BAL_STAT2: t.balStat2,
+    BAL_STAT3: t.balStat3,
+    BAL_STAT4: t.balStat4,
     CAP03_CHIP: t.cap03Chip,
     CAP03_SUB: t.cap03Sub,
     CAP03_TITULO: t.cap03Titulo,
