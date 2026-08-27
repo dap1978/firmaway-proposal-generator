@@ -64,8 +64,15 @@ router.post('/generate', async (req, res) => {
     }
   }
 
-  if (!transcript || transcript.trim().length < 50) {
-    return res.status(400).json({ error: 'La transcripción es demasiado corta.' });
+  // La transcripción dejó de ser obligatoria: alcanza con una de las dos fuentes.
+  // El vendedor puede adjuntar la llamada, o describir al cliente a mano.
+  const hasTranscript = Boolean(transcript && transcript.trim().length >= 50);
+  const hasNotes = Boolean(notes && notes.trim().length >= 20);
+
+  if (!hasTranscript && !hasNotes) {
+    return res.status(400).json({
+      error: 'Hace falta la transcripción de la llamada o, si no la tenés, una descripción del cliente en el campo de personalización.',
+    });
   }
 
   try {
@@ -76,8 +83,10 @@ router.post('/generate', async (req, res) => {
     aiData.commercial_nickname = nickname;
 
     // Firmar el mensaje de WhatsApp con el nombre real del que envía
+    // Sin guion largo: este texto lo lee el cliente y se agrega despues de que el
+    // limpiador de claude.js ya corrio, asi que aca no lo alcanza.
     if (aiData.whatsapp_draft && !aiData.whatsapp_draft.includes(nickname)) {
-      aiData.whatsapp_draft = aiData.whatsapp_draft.trimEnd() + `\n— ${nickname}`;
+      aiData.whatsapp_draft = aiData.whatsapp_draft.trimEnd() + `\n${nickname}`;
     }
 
     const proposalNumber = await nextProposalNumber();

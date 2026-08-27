@@ -3,8 +3,23 @@ const { llcPrices } = require('./template');
 
 const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
 
-function buildSystemPrompt(language) {
+// hasTranscript = false cuando el vendedor no adjunta la llamada y arma la
+// propuesta solo con lo que escribe a mano. El prompt cambia en dos puntos:
+// de donde saca los datos y que se le pide a cuerpo_cap01.
+function buildSystemPrompt(language, hasTranscript = true) {
   const isPortuguese = language === 'pt';
+
+  const fuente = hasTranscript
+    ? 'una transcripción de llamada de ventas'
+    : 'las notas que escribió el vendedor sobre el cliente';
+
+  const cuerpoInstr = hasTranscript
+    ? 'MÁXIMO 2 oraciones. Su única función es demostrar que escuchamos la llamada: nombrar la situación concreta del lead y la duda puntual que trajo, con los detalles reales que dijo (su actividad, su ciudad, los nombres que mencionó, lo que hoy lo frena).'
+    : 'MÁXIMO 2 oraciones. No hubo llamada: el vendedor describió al cliente a mano. Usar SOLO los datos que el vendedor escribió, sin inventar ni rellenar con supuestos. Si escribió poco, escribir una sola oración corta antes que inventar contexto.';
+
+  const nombreInstr = hasTranscript
+    ? 'Nombre completo del lead extraído de la transcripción'
+    : "Nombre del cliente según lo que escribió el vendedor. Si no menciona ningún nombre, devolver string vacío ''. NUNCA inventar un nombre.";
 
   const plazo = isPortuguese ? '15-20 dias úteis' : '15-20 días hábiles';
   const soporte = isPortuguese ? 'gratuito e ilimitado' : 'gratis e ilimitado';
@@ -20,7 +35,7 @@ function buildSystemPrompt(language) {
   // Tampoco escribir las instrucciones en voseo ni en tuteo, usar infinitivos.
   return `Eres el asistente de generación de propuestas comerciales de Firmaway, empresa especializada en formación de LLCs en EE.UU. para no residentes.
 
-Tu tarea: analizar una transcripción de llamada de ventas y extraer información estructurada para generar una propuesta comercial personalizada.
+Tu tarea: analizar ${fuente} y extraer información estructurada para generar una propuesta comercial personalizada.
 
 ══════════════════════════════════════════════════
 REGLAS DE NEGOCIO FIRMAWAY: OBLIGATORIAS, NUNCA MODIFICAR
@@ -92,13 +107,13 @@ IDIOMA DE OUTPUT: ${isPortuguese ? 'PORTUGUÉS BRASILEÑO. Todo el contenido gen
 OUTPUT: SOLO JSON VÁLIDO, SIN MARKDOWN, SIN TEXTO ADICIONAL
 ══════════════════════════════════════════════════
 {
-  "lead_name": "Nombre completo del lead extraído de la transcripción",
+  "lead_name": "${nombreInstr}",
   "lead_detail": "Descripción corta: tipo de negocio o actividad · país o ciudad",
   "lead_email": "Email del lead SOLO si se menciona explícitamente en la transcripción. Si no aparece, string vacío ''.",
   "headline_line1": "Primera línea del titular de portada (máx 4 palabras)",
   "headline_line2": "Segunda línea del titular (máx 5 palabras)",
   "headline_highlight": "Frase final destacada en naranja en la portada (ej: LLC en EE.UU.)",
-  "cuerpo_cap01": "MÁXIMO 2 oraciones. Su única función es demostrar que escuchamos la llamada: nombrar la situación concreta del lead y la duda puntual que trajo, con los detalles reales que dijo (su actividad, su ciudad, los nombres que mencionó, lo que hoy lo frena). PROHIBIDO incluir acá la cantidad de LLCs formadas, el plazo en días hábiles, precios, el nombre del paquete, el estado recomendado, o beneficios genéricos de tener una LLC: todo eso ya aparece en bloques fijos de la propuesta y repetirlo hace que el párrafo suene a plantilla. Prueba de calidad: si este párrafo se puede copiar y pegar tal cual a otro lead, está mal escrito. Si la transcripción no alcanza para 2 oraciones específicas, escribir una sola.",
+  "cuerpo_cap01": "${cuerpoInstr} PROHIBIDO incluir acá la cantidad de LLCs formadas, el plazo en días hábiles, precios, el nombre del paquete, el estado recomendado, o beneficios genéricos de tener una LLC: todo eso ya aparece en bloques fijos de la propuesta y repetirlo hace que el párrafo suene a plantilla. Prueba de calidad: si este párrafo se puede copiar y pegar tal cual a otro lead, está mal escrito.",
   "package": "starter | pro | all_in",
   "state_recommended": "new_mexico | wyoming | delaware | florida | texas (el estado más conveniente según el perfil del lead)",
   "urgency_score": "alto | medio | bajo",
@@ -158,22 +173,26 @@ function sanitizeProposal(data) {
 }
 
 async function generateProposal(transcript, language = 'es', notes = '') {
-  const systemPrompt = buildSystemPrompt(language);
+  const hasTranscript = Boolean(transcript && transcript.trim().length >= 50);
+  const systemPrompt = buildSystemPrompt(language, hasTranscript);
+
+  const notesLabel = hasTranscript
+    ? 'CONTEXTO ADICIONAL DEL VENDEDOR (prioridad alta, incorporar en la propuesta)'
+    : 'DATOS DEL CLIENTE ESCRITOS POR EL VENDEDOR (unica fuente disponible)';
 
   const notesBlock = notes?.trim()
-    ? `\n\n══════════════════════════════════════════════════\nCONTEXTO ADICIONAL DEL VENDEDOR (prioridad alta, incorporar en la propuesta)\n══════════════════════════════════════════════════\n${notes.trim()}`
+    ? `\n\n══════════════════════════════════════════════════\n${notesLabel}\n══════════════════════════════════════════════════\n${notes.trim()}`
     : '';
+
+  const userContent = hasTranscript
+    ? `Analiza esta transcripción de llamada de ventas y genera la propuesta comercial en formato JSON:${notesBlock}\n\n══════════════════════════════════════════════════\nTRANSCRIPCIÓN\n══════════════════════════════════════════════════\n${transcript}`
+    : `No hay transcripción de llamada. Genera la propuesta comercial en formato JSON usando unicamente los datos que escribió el vendedor. No inventes detalles del cliente que no estén ahí.${notesBlock}`;
 
   const message = await client.messages.create({
     model: 'claude-sonnet-4-6',
     max_tokens: 4096,
     system: systemPrompt,
-    messages: [
-      {
-        role: 'user',
-        content: `Analiza esta transcripción de llamada de ventas y genera la propuesta comercial en formato JSON:${notesBlock}\n\n══════════════════════════════════════════════════\nTRANSCRIPCIÓN\n══════════════════════════════════════════════════\n${transcript}`,
-      },
-    ],
+    messages: [{ role: 'user', content: userContent }],
   });
 
   const rawText = message.content[0].text.trim();
@@ -192,8 +211,12 @@ async function generateProposal(transcript, language = 'es', notes = '') {
     throw new Error(`Claude no devolvió JSON válido: ${err.message}\n\nRespuesta recibida:\n${cleaned.substring(0, 500)}`);
   }
 
-  // Validar campos mínimos requeridos
-  const required = ['lead_name', 'package', 'cuerpo_cap01', 'email_draft', 'whatsapp_draft'];
+  // Validar campos mínimos requeridos. Sin transcripción el nombre puede no estar
+  // en ningún lado: preferimos que quede vacío y lo complete el vendedor en el
+  // editor, antes que hacer fallar la generación o que el modelo invente un nombre.
+  const required = hasTranscript
+    ? ['lead_name', 'package', 'cuerpo_cap01', 'email_draft', 'whatsapp_draft']
+    : ['package', 'cuerpo_cap01', 'email_draft', 'whatsapp_draft'];
   for (const field of required) {
     if (!data[field]) {
       throw new Error(`Campo requerido faltante en respuesta de Claude: ${field}`);

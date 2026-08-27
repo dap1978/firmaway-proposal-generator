@@ -28,9 +28,12 @@ export default function Generate() {
   const [error, setError] = useState('');
 
   const isWhitelabel = proposalType === 'whitelabel';
+  // La transcripción dejó de ser obligatoria: alcanza con una de las dos fuentes.
+  const hasTranscript = transcript.trim().length >= 50;
+  const hasNotes = notes.trim().length >= 20;
   const canGenerate = isWhitelabel
     ? clientName.trim().length > 0
-    : transcript.trim().length >= 50;
+    : hasTranscript || hasNotes;
 
   useEffect(() => {
     if (!router.isReady) return;
@@ -49,8 +52,8 @@ export default function Generate() {
       setError('Ingresá el nombre del socio.');
       return;
     }
-    if (!isWhitelabel && transcript.trim().length < 50) {
-      setError('La transcripción es demasiado corta. Pegá la llamada completa.');
+    if (!isWhitelabel && !hasTranscript && !hasNotes) {
+      setError('Adjuntá la transcripción de la llamada o, si no la tenés, describí al cliente en el campo de personalización.');
       return;
     }
     setError('');
@@ -233,7 +236,7 @@ export default function Generate() {
           <div>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
               <label style={{ fontSize: 11, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.07em', color: C.muted }}>
-                Transcripción de la llamada
+                Transcripción de la llamada <span style={{ fontWeight: 400, textTransform: 'none', letterSpacing: 0 }}>(opcional)</span>
               </label>
               <label style={{
                 display: 'inline-flex', alignItems: 'center', gap: 6,
@@ -245,6 +248,9 @@ export default function Generate() {
                 <input type="file" accept=".txt" onChange={handleFile} style={{ display: 'none' }} />
               </label>
             </div>
+            <p style={{ fontSize: 12, color: C.muted, marginBottom: 8, lineHeight: 1.5 }}>
+              Adjuntá el .txt si querés personalizar con lo que se habló en la llamada. Si no la tenés, dejá esto vacío y escribí la personalización abajo.
+            </p>
             <textarea
               value={transcript}
               onChange={e => setTranscript(e.target.value)}
@@ -267,15 +273,20 @@ export default function Generate() {
           {/* Contexto adicional */}
           <div style={{ marginTop: 24, paddingTop: 24, borderTop: `1px solid ${C.border}` }}>
             <label style={{ display: 'block', fontSize: 11, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.07em', color: C.muted, marginBottom: 4 }}>
-              Contexto adicional <span style={{ fontWeight: 400, textTransform: 'none', letterSpacing: 0 }}>(opcional)</span>
+              Personalización
+              {hasTranscript && <span style={{ fontWeight: 400, textTransform: 'none', letterSpacing: 0 }}> (opcional)</span>}
             </label>
             <p style={{ fontSize: 12, color: C.muted, marginBottom: 8, lineHeight: 1.5 }}>
-              Agregá lo que no quedó en la transcripción: la vibe del lead, objeciones clave, qué querés que Claude enfatice.
+              {hasTranscript
+                ? 'Agregá lo que no quedó en la transcripción: la vibe del lead, objeciones clave, qué querés que Claude enfatice.'
+                : 'Sin transcripción, esto es lo único con lo que se arma la propuesta. Contá quién es el cliente: nombre, a qué se dedica, de dónde es y qué lo frena. Lo que no escribas acá no se inventa.'}
             </p>
             <textarea
               value={notes}
               onChange={e => setNotes(e.target.value)}
-              placeholder="Ej: El lead ya tiene clientes en USA y está convencido, pero le preocupa el costo anual. Quiero que el párrafo de cap. 01 sea directo y enfocado en la simplicidad del proceso."
+              placeholder={hasTranscript
+                ? 'Ej: El lead ya tiene clientes en USA y está convencido, pero le preocupa el costo anual. Quiero que el párrafo de cap. 01 sea directo y enfocado en la simplicidad del proceso.'
+                : 'Ej: Ana Torres, de Bogotá, alquila propiedades y cobra en dólares. Hoy usa billeteras y le preocupa la parte impositiva. Quiere abrir la LLC este mes.'}
               rows={4}
               style={{
                 width: '100%', padding: '12px 14px', borderRadius: 10,
