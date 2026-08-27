@@ -610,6 +610,8 @@ function buildPricingTable(pkg, lang) {
 }
 
 // ── Lista de beneficios ────────────────────────────────────────────────────
+// OJO: hoy no se usa, ninguna plantilla tiene su placeholder. Se deja porque
+// puede volver a engancharse, ya sin el guion largo que tenia.
 function buildBenefitsList(pkg, lang) {
   const t = i18n[lang];
   const items = t.beneficios[pkg] || t.beneficios.pro;
@@ -618,7 +620,7 @@ function buildBenefitsList(pkg, lang) {
   return items.map(([title, desc]) => `
     <li>
       <div class="check-icon">${svgCheck}</div>
-      <div><strong>${title}</strong> — ${desc}</div>
+      <div><strong>${title}</strong> ${desc}</div>
     </li>`).join('');
 }
 
@@ -630,7 +632,7 @@ function buildTimeline(lang) {
   const steps = isEs
     ? [
         ['1', 'Confirmación de datos',  'Completamos su perfil y validamos la documentación.',           'Día 1'],
-        ['2', 'Formación de la LLC',    'Presentamos la constitución al estado que elegiste.',           'Días 2–5'],
+        ['2', 'Formación de la LLC',    'Presentamos la constitución al estado que eligió.',             'Días 2–5'],
         ['3', 'Obtención del EIN',      'Gestionamos su Tax ID federal ante el IRS.',                   'Días 5–10'],
         ['4', 'Apertura de Mercury',    'Activamos su cuenta bancaria y tarjeta de débito Visa.',       'Días 10–15'],
       ]

@@ -10,15 +10,15 @@ const C = {
 };
 
 const PACKAGES_ES = [
-  { value: 'solo_llc', label: 'Solo LLC — USD 595' },
-  { value: 'starter',  label: 'Starter — USD 599' },
-  { value: 'pro',      label: 'Pro — USD 745' },
-  { value: 'all_in',   label: 'All In — USD 1.299' },
+  { value: 'solo_llc', label: 'Solo LLC · USD 595' },
+  { value: 'starter',  label: 'Starter · USD 599' },
+  { value: 'pro',      label: 'Pro · USD 745' },
+  { value: 'all_in',   label: 'All In · USD 1.299' },
 ];
 const PACKAGES_PT = [
-  { value: 'starter', label: 'Essencial — R$ 3.109' },
-  { value: 'pro',     label: 'Pro — R$ 3.809' },
-  { value: 'all_in',  label: 'Completo — R$ 6.609' },
+  { value: 'starter', label: 'Essencial · R$ 3.109' },
+  { value: 'pro',     label: 'Pro · R$ 3.809' },
+  { value: 'all_in',  label: 'Completo · R$ 6.609' },
 ];
 
 const STATES = [
@@ -71,10 +71,10 @@ function buildEmailDraft(edits, pkg, aiData, publicLink) {
   const linkLine  = publicLink ? `${publicLink}\n\n` : '';
 
   if (isPt) {
-    return `Olá ${name},\n\nObrigado pelo seu tempo hoje. Foi muito bom conversar e entender o que você precisa — estamos preparados para acompanhá-lo em cada etapa.\n\nSegue o link com a sua proposta personalizada — pacote ${pkgName} (${currency} ${price.toLocaleString('pt-BR')}), abertura em ${stateName}. Pode abrí-lo de qualquer dispositivo, a qualquer momento:\n\n${linkLine}Qualquer dúvida, me chame pelo WhatsApp ou responda este e-mail.`;
+    return `Olá ${name},\n\nObrigado pelo seu tempo hoje. Foi muito bom conversar e entender o que você precisa: estamos preparados para acompanhá-lo em cada etapa.\n\nSegue o link com a sua proposta personalizada, pacote ${pkgName} (${currency} ${price.toLocaleString('pt-BR')}), abertura em ${stateName}. Pode abrí-lo de qualquer dispositivo, a qualquer momento:\n\n${linkLine}Qualquer dúvida, me chame pelo WhatsApp ou responda este e-mail.`;
   }
 
-  return `Hola ${name},\n\nGracias por tu tiempo hoy. Fue muy bueno conversar y entender lo que necesitás — estamos listos para acompañarte en cada paso.\n\nTe comparto el link con tu propuesta personalizada — paquete ${pkgName} (${currency} ${price.toLocaleString('es-AR')}), formación en ${stateName}. Podés abrirlo desde cualquier dispositivo, en cualquier momento:\n\n${linkLine}Cualquier consulta, escribime por WhatsApp o respondé este mail.`;
+  return `Hola ${name},\n\nGracias por tu tiempo hoy. Fue muy bueno conversar y entender lo que necesitás: estamos listos para acompañarte en cada paso.\n\nTe comparto el link con tu propuesta personalizada, paquete ${pkgName} (${currency} ${price.toLocaleString('es-AR')}), formación en ${stateName}. Podés abrirlo desde cualquier dispositivo, en cualquier momento:\n\n${linkLine}Cualquier consulta, escribime por WhatsApp o respondé este mail.`;
 }
 
 // ── Whitelabel: contacto + email (cliente-side) ───────────────────────────
@@ -100,9 +100,10 @@ function buildWhitelabelEmail(edits, commercialName, publicLink, language) {
 function buildFollowUp(edits, aiData, delay) {
   const name     = edits.lead_name || 'Lead';
   const nickname = aiData.commercial_nickname || 'Seba';
-  if (delay === 24) return `Hola ${name}, ¿llegó bien la propuesta que te mandé?\n\nCualquier consulta que tengas, estoy disponible. — ${nickname}`;
-  if (delay === 48) return `Hola ${name}, quería saber si tuviste tiempo de revisar la propuesta.\n\nSi tenés alguna duda o querés ajustar algo, avisame. — ${nickname}`;
-  return `Hola ${name}, ¿todo bien? Me quedo disponible por si querés retomar cuando tengas un momento. Sin apuro. — ${nickname}`;
+  // La firma va en su propia linea, sin guion largo: estos mensajes los lee el cliente.
+  if (delay === 24) return `Hola ${name}, ¿llegó bien la propuesta que te mandé?\n\nCualquier consulta que tengas, estoy disponible.\n\n${nickname}`;
+  if (delay === 48) return `Hola ${name}, quería saber si tuviste tiempo de revisar la propuesta.\n\nSi tenés alguna duda o querés ajustar algo, avisame.\n\n${nickname}`;
+  return `Hola ${name}, ¿todo bien? Me quedo disponible por si querés retomar cuando tengas un momento. Sin apuro.\n\n${nickname}`;
 }
 
 // ── Componentes ───────────────────────────────────────────────────────────
@@ -400,7 +401,7 @@ export default function Preview() {
             </div>
             <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
               <span style={{ fontSize: 15, fontWeight: 800, color: urgencyColor.text, textTransform: 'uppercase' }}>{urgency}</span>
-              <span style={{ fontSize: 12, color: urgencyColor.text, opacity: 0.8 }}>— {aiData.urgency_reason || ''}</span>
+              <span style={{ fontSize: 12, color: urgencyColor.text, opacity: 0.8 }}>{aiData.urgency_reason || ''}</span>
             </div>
           </div>
           )}
@@ -563,7 +564,7 @@ export default function Preview() {
             >
               {STATES.map(s => (
                 <option key={s.value} value={s.value}>
-                  {s.label}{s.fee > 0 ? ` – $${s.fee} est.` : ' – gratis'}
+                  {s.label}{s.fee > 0 ? ` · ${s.fee} est.` : ' · gratis'}
                 </option>
               ))}
             </select>
