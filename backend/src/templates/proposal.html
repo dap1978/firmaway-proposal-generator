@@ -152,11 +152,14 @@
      Va en recuadro claro sobre el fondo oscuro: texto chico y gris sobre oscuro
      se lee mal, sobre todo impreso. Va debajo del CTA a proposito, para que el
      ojo pegue primero en el boton y despues en la letra chica. */
-  .scope-mini { margin-top: 20px; background: var(--cream); border-radius: 12px; padding: 14px 18px; }
-  .scope-mini-head { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; color: var(--ink); margin-bottom: 7px; }
-  .scope-mini-intro { font-size: 9.5px; line-height: 1.5; color: var(--ink); margin-bottom: 9px; }
-  .scope-mini-list { list-style: none; display: flex; flex-wrap: wrap; gap: 7px 18px; }
-  .scope-mini-list li { flex: 1 1 45%; font-size: 9px; line-height: 1.45; color: var(--ink-light); }
+  /* La pagina de cierre se vuelve columna flex para poder anclar la letra chica
+     abajo del todo con margin-top:auto, en vez de dejarla flotando bajo el CTA. */
+  .dark-page .page-content { display: flex; flex-direction: column; }
+  .scope-mini { margin-top: auto; background: var(--cream); border-radius: 10px; padding: 11px 15px; }
+  .scope-mini-head { font-size: 8.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; color: var(--ink); margin-bottom: 5px; }
+  .scope-mini-intro { font-size: 8.5px; line-height: 1.45; color: var(--ink); margin-bottom: 7px; }
+  .scope-mini-list { list-style: none; display: flex; flex-wrap: wrap; gap: 5px 16px; }
+  .scope-mini-list li { flex: 1 1 45%; font-size: 8px; line-height: 1.4; color: var(--ink-light); }
   .scope-mini-list li strong { color: var(--ink); font-weight: 700; }
 
   .disclaimer-scope { background: #F0F9FF; border: 1.5px solid #BAE6FD; border-radius: 12px; padding: 16px 20px; margin-bottom: 22px; }
