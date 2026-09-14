@@ -245,6 +245,7 @@
 
   <div class="tabs">
     <button class="tab-btn active" data-tab="calc-pt">Calculadora</button>
+    <button class="tab-btn" data-tab="perfis-pt">Fiscalidade brasileira</button>
     <button class="tab-btn" data-tab="faq-pt">Perguntas Frequentes</button>
     <button class="tab-btn" data-tab="checklist-pt">Checklist Anual</button>
     <button class="tab-btn" data-tab="fontes-pt">Fontes</button>
@@ -288,6 +289,37 @@
     </div>
     <div class="results" id="results-pt"></div>
     <div class="note-box">Cálculo simplificado para orientar a conversa comercial — não é um cálculo fiscal definitivo nem substitui um contador. Foco 100% na carga tributária no Brasil; valores de constituição e manutenção da LLC nos EUA ficam para a conversa comercial. Toda conversão de USD para BRL está sujeita a IOF (hoje ~0,38% para recebimento do exterior em conta própria), independente da estrutura escolhida. Valores de referência de set/2026.</div>
+  </section>
+
+  <section class="tab-panel" id="tab-perfis-pt">
+    <div class="card">
+      <h3>Fiscalidade brasileira por perfil de lead</h3>
+      <p style="font-size:14px;margin:0 0 10px">Estes são os três perfis que mais aparecem nas calls. A obrigação anual no Brasil (COSIT 56/2026) vale para os três, sem exceção. O que muda de um para o outro é <strong>com o que a LLC se compara</strong> e <strong>o que você precisa perguntar antes de dar qualquer número</strong>.</p>
+      <p style="font-size:14px;margin:0">Regra que vale para todos: se o lead já tem empresa no Simples Nacional, <strong>essa empresa não pode ser sócia da LLC</strong>. Quem entra como sócio é a pessoa física. Se a empresa do Simples aparecer no capital da LLC, ela é excluída do Simples a partir do mês seguinte (LC 123/2006, art. 3º, §4º, VII).</p>
+    </div>
+
+    <details class="faq" open>
+      <summary>Perfil 1: consultoria e prestação de serviços</summary>
+      <p><strong>É o caso mais limpo dos três.</strong> Serviço prestado de fora dos EUA, sem mercadoria envolvida, normalmente sem renda conectada aos EUA (ECI). A aba Calculadora serve inteira para este perfil: o Anexo III e a presunção de 32% são exatamente as regras de prestação de serviço.</p>
+      <p><strong>Perguntar antes de dar número:</strong> já tem PJ no Brasil? Em qual regime? A folha de pagamento chega a 28% do faturamento (Fator R)? Sem Fator R a atividade provavelmente cai no Anexo V, e aí o Simples fica bem mais caro do que o número que a calculadora mostra.</p>
+      <p><strong>Onde a LLC ganha:</strong> conta e operação em dólar, acesso a processadores de pagamento americanos, credibilidade com cliente de fora. <strong>Onde ela custa:</strong> o lucro é tributado no Brasil todo ano de qualquer forma, e ainda somam a taxa estadual, o registered agent e o Form 5472.</p>
+    </details>
+
+    <details class="faq">
+      <summary>Perfil 2: compra e venda, ponte entre comprador e vendedor</summary>
+      <p><strong>Antes de qualquer cálculo, separar dois cenários que parecem o mesmo e não são:</strong></p>
+      <p><strong>a) Cobra comissão por intermediar.</strong> Isso é prestação de serviço. Cai no mesmo tratamento do Perfil 1 e a Calculadora vale normalmente.</p>
+      <p><strong>b) Compra e revende mercadoria de verdade.</strong> Aqui a pergunta decisiva é: <strong>a mercadoria passa pelo Brasil?</strong> Se a LLC compra de um fornecedor e vende para um comprador sem a mercadoria tocar o Brasil, a operação é natural para a LLC e o que o Brasil tributa é só o lucro anual dela. Se a mercadoria entra no Brasil, entra junto toda a tributação de importação, que este guia não cobre.</p>
+      <div class="warn-box">A Calculadora assume prestação de serviço nas duas colunas brasileiras: o Simples usa as faixas do <strong>Anexo III</strong> e o Lucro Presumido usa a presunção de <strong>32%</strong>. Comércio de mercadoria tem enquadramento diferente nos dois regimes. <strong>Para lead que compra e revende mercadoria, não mostrar os números do Simples e do Lucro Presumido desta tela.</strong> Usar só a coluna da LLC e encaminhar o resto ao contador parceiro.</div>
+    </details>
+
+    <details class="faq">
+      <summary>Perfil 3: cursos e mentorias (infoprodutos)</summary>
+      <p><strong>A pergunta que define tudo: o cliente final é brasileiro ou é de fora?</strong></p>
+      <p><strong>Se vende para fora do Brasil:</strong> é exportação de serviço, cai no tratamento do Perfil 1, e a LLC faz sentido operacional de verdade (receber em dólar, checkout internacional, plataforma de pagamento americana).</p>
+      <p><strong>Se vende para brasileiros:</strong> é o cenário mais delicado dos três, e também o mais comum em infoproduto. O dinheiro sai do Brasil e volta, a LLC não faz essa receita deixar de ser tributável no Brasil, e faturar para brasileiro a partir de uma estrutura no exterior é justamente o tipo de arranjo que a fiscalização olha de perto. <strong>Não fechar esse caso só com a nossa conversa:</strong> encaminhar ao contador parceiro antes de prometer qualquer estrutura.</p>
+      <p><strong>Perguntar também:</strong> tem equipe registrada ou trabalha sozinho? Isso define o Fator R, e sem Fator R o Simples vai para o Anexo V.</p>
+    </details>
   </section>
 
   <section class="tab-panel" id="tab-faq-pt">
@@ -430,6 +462,7 @@
 
   <div class="tabs">
     <button class="tab-btn active" data-tab="calc-es">Calculadora</button>
+    <button class="tab-btn" data-tab="perfis-es">Fiscalidad brasilera</button>
     <button class="tab-btn" data-tab="faq-es">Preguntas Frecuentes</button>
     <button class="tab-btn" data-tab="checklist-es">Checklist Anual</button>
     <button class="tab-btn" data-tab="fontes-es">Fuentes</button>
@@ -473,6 +506,37 @@
     </div>
     <div class="results" id="results-es"></div>
     <div class="note-box">Cálculo simplificado para orientar la conversación comercial — no es un cálculo fiscal definitivo ni reemplaza a un contador. Foco 100% en la carga tributaria en Brasil; los valores de constitución y mantenimiento de la LLC en EEUU quedan para la conversación comercial. Toda conversión de USD a BRL está sujeta a IOF (hoy ~0,38% para recepción desde el exterior en cuenta propia), independiente de la estructura elegida. Valores de referencia de sep/2026.</div>
+  </section>
+
+  <section class="tab-panel" id="tab-perfis-es">
+    <div class="card">
+      <h3>Fiscalidad brasilera por perfil de lead</h3>
+      <p style="font-size:14px;margin:0 0 10px">Estos son los tres perfiles que más aparecen en las calls. La obligación anual en Brasil (COSIT 56/2026) aplica a los tres, sin excepción. Lo que cambia de uno a otro es <strong>contra qué se compara la LLC</strong> y <strong>qué tenés que preguntar antes de tirar cualquier número</strong>.</p>
+      <p style="font-size:14px;margin:0">Regla que vale para todos: si el lead ya tiene empresa en el Simples Nacional, <strong>esa empresa no puede ser socia de la LLC</strong>. Quien entra como socio es la persona física. Si la empresa del Simples aparece en el capital de la LLC, queda excluida del Simples desde el mes siguiente (LC 123/2006, art. 3º, §4º, VII).</p>
+    </div>
+
+    <details class="faq" open>
+      <summary>Perfil 1: consultoría y prestación de servicios</summary>
+      <p><strong>Es el caso más limpio de los tres.</strong> Servicio prestado desde fuera de EEUU, sin mercadería de por medio, normalmente sin renta conectada a EEUU (ECI). La pestaña Calculadora sirve entera para este perfil: el Anexo III y la presunción del 32% son exactamente las reglas de prestación de servicios.</p>
+      <p><strong>Preguntar antes de tirar un número:</strong> ¿ya tiene PJ en Brasil? ¿En qué régimen? ¿La nómina llega al 28% de la facturación (Fator R)? Sin Fator R la actividad probablemente cae en el Anexo V, y ahí el Simples queda bastante más caro que el número que muestra la calculadora.</p>
+      <p><strong>Dónde gana la LLC:</strong> cuenta y operación en dólares, acceso a procesadores de pago estadounidenses, credibilidad con cliente de afuera. <strong>Dónde cuesta:</strong> la ganancia tributa en Brasil todos los años igual, y encima se suman la tasa estatal, el registered agent y el Form 5472.</p>
+    </details>
+
+    <details class="faq">
+      <summary>Perfil 2: compra y venta, puente entre comprador y vendedor</summary>
+      <p><strong>Antes de cualquier cálculo, separar dos escenarios que parecen lo mismo y no lo son:</strong></p>
+      <p><strong>a) Cobra comisión por intermediar.</strong> Eso es prestación de servicios. Cae en el mismo tratamiento del Perfil 1 y la Calculadora vale normalmente.</p>
+      <p><strong>b) Compra y revende mercadería de verdad.</strong> Acá la pregunta decisiva es: <strong>¿la mercadería pasa por Brasil?</strong> Si la LLC le compra a un proveedor y le vende a un comprador sin que la mercadería toque Brasil, la operación es natural para la LLC y lo que Brasil grava es solo su ganancia anual. Si la mercadería entra a Brasil, entra con ella toda la tributación de importación, que esta guía no cubre.</p>
+      <div class="warn-box">La Calculadora asume prestación de servicios en las dos columnas brasileras: el Simples usa los tramos del <strong>Anexo III</strong> y el Lucro Presumido usa la presunción del <strong>32%</strong>. El comercio de mercadería tiene un encuadramiento distinto en los dos regímenes. <strong>Para un lead que compra y revende mercadería, no mostrar los números del Simples ni del Lucro Presumido de esta pantalla.</strong> Usar solo la columna de la LLC y derivar el resto al contador socio.</div>
+    </details>
+
+    <details class="faq">
+      <summary>Perfil 3: cursos y mentorías (infoproductos)</summary>
+      <p><strong>La pregunta que define todo: ¿el cliente final es brasileño o es de afuera?</strong></p>
+      <p><strong>Si vende fuera de Brasil:</strong> es exportación de servicios, cae en el tratamiento del Perfil 1, y la LLC tiene sentido operativo real (cobrar en dólares, checkout internacional, plataforma de pago estadounidense).</p>
+      <p><strong>Si vende a brasileños:</strong> es el escenario más delicado de los tres, y también el más común en infoproducto. La plata sale de Brasil y vuelve, la LLC no hace que ese ingreso deje de ser gravable en Brasil, y facturarle a un brasileño desde una estructura en el exterior es justamente el tipo de armado que la fiscalización mira de cerca. <strong>No cerrar ese caso solo con nuestra conversación:</strong> derivar al contador socio antes de prometer cualquier estructura.</p>
+      <p><strong>Preguntar también:</strong> ¿tiene equipo registrado o trabaja solo? Eso define el Fator R, y sin Fator R el Simples se va al Anexo V.</p>
+    </details>
   </section>
 
   <section class="tab-panel" id="tab-faq-es">
