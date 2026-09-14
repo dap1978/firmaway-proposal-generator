@@ -285,11 +285,8 @@
       </div>
     </div>
     <div class="results" id="results-pt"></div>
+    <div id="reframe-pt" style="margin-top:16px"></div>
     <div class="note-box">Cálculo simplificado para orientar a conversa comercial, não é um cálculo fiscal definitivo nem substitui um contador. Foco 100% na carga tributária no Brasil; valores de constituição e manutenção da LLC nos EUA ficam para a conversa comercial. Toda conversão de USD para BRL está sujeita a IOF (hoje ~0,38% para recebimento do exterior em conta própria), independente da estrutura escolhida. Valores de referência de set/2026.</div>
-    <div class="card" style="margin-top:16px; border-color:var(--orange); box-shadow:4px 4px 0px 0px var(--orange)">
-      <h3>A LLC ficou mais cara em imposto? A conversa não acaba aí.</h3>
-      <p style="font-size:14px;margin:0">O imposto é uma dimensão. Veja a aba <strong>Além do imposto</strong> para o que a LLC entrega e que nenhuma estrutura brasileira dá: conta em dólar, Stripe e Payoneer, operar lá fora sem CNPJ.</p>
-    </div>
   </section>
 
   <section class="tab-panel" id="tab-alem-pt">
@@ -538,11 +535,8 @@
       </div>
     </div>
     <div class="results" id="results-es"></div>
+    <div id="reframe-es" style="margin-top:16px"></div>
     <div class="note-box">Cálculo simplificado para orientar la conversación comercial, no es un cálculo fiscal definitivo ni reemplaza a un contador. Foco 100% en la carga tributaria en Brasil; los valores de constitución y mantenimiento de la LLC en EEUU quedan para la conversación comercial. Toda conversión de USD a BRL está sujeta a IOF (hoy ~0,38% para recepción desde el exterior en cuenta propia), independiente de la estructura elegida. Valores de referencia de sep/2026.</div>
-    <div class="card" style="margin-top:16px; border-color:var(--orange); box-shadow:4px 4px 0px 0px var(--orange)">
-      <h3>¿La LLC quedó más cara en impuesto? La conversación no termina ahí.</h3>
-      <p style="font-size:14px;margin:0">El impuesto es una dimensión. Mirá la pestaña <strong>Más allá del impuesto</strong> para lo que la LLC resuelve y ninguna estructura brasilera te da: cuenta en dólares, Stripe y Payoneer, operar afuera sin CNPJ.</p>
-    </div>
   </section>
 
   <section class="tab-panel" id="tab-alem-es">
@@ -766,7 +760,13 @@
       pisCofinsIsento: 'isento (exportação)',
       presumidoNote: 'Presunção de 32% sobre o faturamento para serviços (Lei 9.249/95), com adicional de 10% de IRPJ sobre o que exceder R$240.000/ano de lucro presumido. Empresas com faturamento acima de R$5 mi/ano têm parte da presunção majorada (LC 224/2025), não calculado aqui. Se não for exportação, some também o ISS municipal (2% a 5%, não incluído).',
       pessoaFisicaTitle: 'Pessoa física (autônomo, carnê-leão)',
-      pessoaFisicaNote: 'Estimativa com a tabela progressiva do IR aplicada mês a mês sobre o lucro (assume distribuição uniforme ao longo do ano). Não inclui a redução adicional da Lei 15.270/2025 para rendas menores, nem a contribuição ao INSS como contribuinte individual (11% a 20% sobre uma base escolhida entre o salário mínimo e o teto, obrigatória e à parte deste valor).'
+      pessoaFisicaNote: 'Estimativa com a tabela progressiva do IR aplicada mês a mês sobre o lucro (assume distribuição uniforme ao longo do ano). Não inclui a redução adicional da Lei 15.270/2025 para rendas menores, nem a contribuição ao INSS como contribuinte individual (11% a 20% sobre uma base escolhida entre o salário mínimo e o teto, obrigatória e à parte deste valor).',
+      reframeBR: { simples: 'o Simples Nacional', lp: 'o Lucro Presumido', pf: 'a pessoa física' },
+      reframeLoseTitle: 'Neste caso, {br} paga menos imposto que a LLC.',
+      reframeLoseBody: 'Não feche pelo imposto, e tudo bem. A LLC ganha em outra coisa: conta em dólar, Stripe e Payoneer, projeção internacional, separação de patrimônio e operar sem CNPJ. Leve a conversa para lá.',
+      reframeLink: 'Ver a aba Além do imposto',
+      reframeWinTitle: 'Aqui a LLC também é a mais barata em imposto.',
+      reframeWinBody: 'Some o operacional (conta em dólar, Stripe, projeção internacional) e a LLC fica imbatível: argumento de imposto e de estrutura, os dois a favor.'
     },
     es: {
       llcTitle: 'LLC en EEUU (carga tributaria en Brasil)', perYear: ' / año',
@@ -786,7 +786,13 @@
       pisCofinsIsento: 'exento (exportación)',
       presumidoNote: 'Presunción del 32% sobre la facturación para servicios (Ley 9.249/95), con adicional del 10% de IRPJ sobre lo que exceda R$240.000/año de ganancia presumida. Empresas con facturación superior a R$5 M/año tienen parte de la presunción incrementada (LC 224/2025), no calculado acá. Si no es exportación, sumar también el ISS municipal (2% a 5%, no incluido).',
       pessoaFisicaTitle: 'Persona física (autónomo, carnê-leão)',
-      pessoaFisicaNote: 'Estimación con la tabla progresiva del IR aplicada mes a mes sobre la ganancia (asume distribución uniforme durante el año). No incluye la reducción adicional de la Ley 15.270/2025 para rentas menores, ni el aporte al INSS como contribuyente individual (11% a 20% sobre una base elegida entre el salario mínimo y el techo, obligatorio y aparte de este valor).'
+      pessoaFisicaNote: 'Estimación con la tabla progresiva del IR aplicada mes a mes sobre la ganancia (asume distribución uniforme durante el año). No incluye la reducción adicional de la Ley 15.270/2025 para rentas menores, ni el aporte al INSS como contribuyente individual (11% a 20% sobre una base elegida entre el salario mínimo y el techo, obligatorio y aparte de este valor).',
+      reframeBR: { simples: 'el Simples Nacional', lp: 'el Lucro Presumido', pf: 'la persona física' },
+      reframeLoseTitle: 'En este caso, {br} paga menos impuesto que la LLC.',
+      reframeLoseBody: 'No cierres por el impuesto, y está bien. La LLC gana en otra cosa: cuenta en dólares, Stripe y Payoneer, proyección internacional, separación de patrimonio y operar sin CNPJ. Llevá la charla para ahí.',
+      reframeLink: 'Ver la pestaña Más allá del impuesto',
+      reframeWinTitle: 'Acá la LLC también es la más barata en impuesto.',
+      reframeWinBody: 'Sumale lo operativo (cuenta en dólares, Stripe, proyección internacional) y la LLC queda imbatible: argumento de impuesto y de estructura, los dos a favor.'
     }
   };
 
@@ -894,7 +900,52 @@
     html += '</div>';
 
     document.getElementById('results-' + lang).innerHTML = html;
+
+    renderReframe(lang, {
+      llc: regimeBR === 'opaco' ? lucroBRL * 0.15 : null,
+      simples: efetiva === null ? null : faturamentoBRL * efetiva,
+      lp: lp.total,
+      pf: pf,
+    });
   }
+
+  // Recuadro contextual debajo de los resultados: cambia segun si la LLC es o no
+  // la mas barata en impuesto. Cuando una estructura brasilera paga menos, corre
+  // el argumento a lo operativo (aba Alem do imposto).
+  function renderReframe(lang, v) {
+    const box = document.getElementById('reframe-' + lang);
+    if (!box) return;
+    const s = STR[lang];
+    const br = [];
+    if (v.simples !== null) br.push({ key: 'simples', val: v.simples });
+    br.push({ key: 'lp', val: v.lp });
+    br.push({ key: 'pf', val: v.pf });
+    const baratoBR = br.reduce((a, b) => (b.val < a.val ? b : a));
+    const llcGana = v.llc !== null && v.llc <= baratoBR.val;
+
+    if (llcGana) {
+      box.innerHTML = '<div class="card" style="border-color:var(--green); box-shadow:4px 4px 0px 0px var(--green)">'
+        + '<h3>' + s.reframeWinTitle + '</h3>'
+        + '<p style="font-size:14px;margin:0">' + s.reframeWinBody + '</p></div>';
+    } else {
+      box.innerHTML = '<div class="card" style="border-color:var(--orange); box-shadow:4px 4px 0px 0px var(--orange)">'
+        + '<h3>' + s.reframeLoseTitle.replace('{br}', s.reframeBR[baratoBR.key]) + '</h3>'
+        + '<p style="font-size:14px;margin:0 0 8px">' + s.reframeLoseBody + '</p>'
+        + '<p style="font-size:13px;margin:0"><a href="#" class="reframe-link" data-lang="' + lang + '">' + s.reframeLink + '</a></p></div>';
+    }
+  }
+
+  function abrirAlem(lang) {
+    const wrap = document.getElementById('wrap-' + lang);
+    if (!wrap) return;
+    const btn = wrap.querySelector('.tab-btn[data-tab="alem-' + lang + '"]');
+    if (btn) { btn.click(); btn.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+  }
+
+  document.addEventListener('click', function (e) {
+    const a = e.target.closest && e.target.closest('.reframe-link');
+    if (a) { e.preventDefault(); abrirAlem(a.dataset.lang); }
+  });
 
   ['pt', 'es'].forEach(lang => {
     document.querySelectorAll('#tab-calc-' + lang + ' input, #tab-calc-' + lang + ' select').forEach(el => {
