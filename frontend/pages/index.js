@@ -69,6 +69,15 @@ const TOOLS = [
     desc: 'Exposición informativa y trato de la LLC por mercado.',
     action: (router) => router.push('/interno/politicas-billeteras'),
   },
+  {
+    key: 'guia-brasil',
+    num: '08',
+    title: 'Fiscalidad Brasil',
+    sub: 'Antes de hablar con un lead brasileño',
+    desc: 'Qué responder sobre impuestos, calculadora comparativa y los tres perfiles de lead. En portugués y español.',
+    // Archivo estatico en /public, fuera del router de Next: se abre en pestana nueva.
+    action: () => window.open('/guia-tributario-llc-brasil.html', '_blank', 'noopener,noreferrer'),
+  },
 ];
 
 export default function Home() {
