@@ -1,0 +1,857 @@
+<!DOCTYPE html>
+<html lang="pt-BR" id="htmlRoot">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Guia Tributário LLC EUA — Brasil / Guía Tributaria LLC EEUU — Brasil · Firmaway</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #FFFBF5;
+    --cream-warm: #FEF1E0;
+    --orange: #F15A2F;
+    --orange-soft: #FDEEE9;
+    --ink: #31353D;
+    --ink-light: rgba(49,53,61,0.55);
+    --dark-surface: #3A4557;
+    --white: #FFFFFF;
+    --green: #2F7A4F;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--cream);
+    color: var(--ink);
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: var(--orange); }
+
+  header.top {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    background: var(--cream);
+    border-bottom: 1.5px solid var(--ink);
+    padding: 14px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .logo { font-weight: 700; font-size: 18px; letter-spacing: -0.03em; }
+  .logo span { color: var(--orange); }
+  .lang-switch { display: flex; gap: 6px; }
+  .lang-btn {
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 700;
+    padding: 6px 12px;
+    border-radius: 999px;
+    border: 1.5px solid var(--ink);
+    background: var(--white);
+    color: var(--ink);
+    cursor: pointer;
+  }
+  .lang-btn.active { background: var(--orange); border-color: var(--orange); color: var(--white); }
+
+  main { max-width: 880px; margin: 0 auto; padding: 32px 20px 40px; }
+
+  h1 {
+    font-weight: 800;
+    font-size: 34px;
+    line-height: 1.12;
+    letter-spacing: -0.03em;
+    margin: 0 0 12px;
+  }
+  .hero-sub {
+    font-size: 16px;
+    color: var(--ink-light);
+    max-width: 62ch;
+    margin: 0 0 28px;
+  }
+
+  .alert-card {
+    background: var(--orange-soft);
+    border: 1.5px solid var(--orange);
+    border-radius: 14px;
+    box-shadow: 4px 4px 0px 0px var(--orange);
+    padding: 22px 24px;
+    margin-bottom: 32px;
+  }
+  .alert-card .chip {
+    display: inline-block;
+    background: var(--cream);
+    border: 2px solid var(--orange);
+    border-radius: 999px;
+    padding: 4px 12px;
+    font-size: 10.5px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--orange);
+    margin-bottom: 12px;
+  }
+  .alert-card h2 { font-size: 19px; margin: 0 0 10px; font-weight: 700; }
+  .alert-card p { margin: 0 0 10px; font-size: 14.5px; }
+  .alert-card .dont-do {
+    background: var(--cream);
+    border-radius: 10px;
+    padding: 12px 14px;
+    margin-top: 12px;
+    font-size: 14px;
+  }
+  .dont-do strong.no { color: #B23A2E; }
+  .dont-do strong.yes { color: var(--green); }
+  .src-inline { font-size: 12px; }
+
+  .tabs {
+    display: flex;
+    gap: 6px;
+    border-bottom: 1.5px solid var(--ink);
+    margin-bottom: 28px;
+    flex-wrap: wrap;
+  }
+  .tab-btn {
+    background: none;
+    border: none;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--ink-light);
+    padding: 10px 14px;
+    cursor: pointer;
+    border-bottom: 3px solid transparent;
+    margin-bottom: -1.5px;
+  }
+  .tab-btn:hover { color: var(--ink); }
+  .tab-btn.active { color: var(--ink); border-bottom-color: var(--orange); }
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
+
+  .card {
+    background: var(--cream-warm);
+    border: 1.5px solid var(--ink);
+    border-radius: 14px;
+    padding: 20px 22px;
+    box-shadow: 4px 4px 0px 0px var(--ink);
+    margin-bottom: 20px;
+  }
+  .card h3 { margin: 0 0 10px; font-size: 16px; font-weight: 700; }
+
+  .calc-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+  }
+  @media (max-width: 620px) { .calc-grid { grid-template-columns: 1fr; } }
+  .field { display: flex; flex-direction: column; gap: 6px; margin-bottom: 4px; }
+  .field label { font-size: 12.5px; font-weight: 600; color: var(--ink); }
+  .field .hint { font-size: 11.5px; color: var(--ink-light); font-weight: 400; }
+  .field input[type=number], .field select {
+    font-family: inherit;
+    font-size: 14px;
+    padding: 9px 10px;
+    border-radius: 8px;
+    border: 1.5px solid var(--ink);
+    background: var(--white);
+    color: var(--ink);
+  }
+  .checkbox-row { display: flex; align-items: center; gap: 8px; font-size: 13.5px; font-weight: 500; }
+  .checkbox-row input { width: 16px; height: 16px; }
+
+  .btn-primary { background: var(--orange); color: var(--white); border: none; border-radius: 8px; padding: 10px 18px; font-family: inherit; font-weight: 700; font-size: 13.5px; cursor: pointer; }
+  .btn-primary:hover { opacity: 0.9; }
+  .ask-input { width: 100%; font-family: inherit; font-size: 14px; padding: 10px 12px; border-radius: 8px; border: 1.5px solid var(--ink); background: var(--white); color: var(--ink); }
+
+  .results { margin-top: 24px; display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 620px) { .results { grid-template-columns: 1fr; } }
+  .result-card {
+    background: var(--white);
+    border: 1.5px solid var(--ink);
+    border-radius: 14px;
+    padding: 18px 20px;
+  }
+  .result-card.highlight { border-color: var(--orange); background: var(--orange-soft); }
+  .result-card h4 { margin: 0 0 4px; font-size: 14px; font-weight: 700; }
+  .result-card .total { font-weight: 800; font-size: 26px; letter-spacing: -0.02em; margin: 6px 0 10px; }
+  .result-line { display: flex; justify-content: space-between; font-size: 13px; padding: 4px 0; border-top: 1px solid rgba(49,53,61,0.1); }
+  .result-line span:first-child { color: var(--ink-light); }
+  .note-box { font-size: 12.5px; color: var(--ink-light); background: var(--cream-warm); border-radius: 8px; padding: 10px 12px; margin-top: 14px; }
+  .warn-box { font-size: 12.5px; background: #FBEAEA; border: 1px solid #D98A81; border-radius: 8px; padding: 10px 12px; margin-top: 10px; color: #7A2E24; }
+
+  details.faq { background: var(--white); border: 1.5px solid var(--ink); border-radius: 12px; padding: 14px 16px; margin-bottom: 10px; }
+  details.faq summary { font-weight: 700; font-size: 14.5px; cursor: pointer; list-style: none; }
+  details.faq summary::-webkit-details-marker { display: none; }
+  details.faq summary::before { content: "+ "; color: var(--orange); font-weight: 800; }
+  details.faq[open] summary::before { content: "– "; }
+  details.faq p { font-size: 14px; margin: 10px 0 2px; }
+
+  .checklist-group { margin-bottom: 22px; }
+  .checklist-group h3 { font-size: 15px; margin-bottom: 10px; }
+  .checklist-item { display: flex; gap: 10px; align-items: flex-start; background: var(--white); border: 1.5px solid var(--ink); border-radius: 10px; padding: 12px 14px; margin-bottom: 8px; font-size: 13.5px; }
+  .checklist-item .dot { flex-shrink: 0; width: 8px; height: 8px; border-radius: 50%; background: var(--orange); margin-top: 6px; }
+  .checklist-item strong { display: block; margin-bottom: 2px; }
+
+  .source-item { font-size: 13px; padding: 10px 0; border-top: 1px solid rgba(49,53,61,0.12); }
+  .source-item:first-child { border-top: none; }
+  .source-item .src-title { font-weight: 600; display: block; margin-bottom: 3px; }
+  .source-item a { word-break: break-all; font-size: 12px; }
+
+  footer { max-width: 880px; margin: 0 auto; padding: 20px 20px 50px; font-size: 12px; color: var(--ink-light); border-top: 1px solid rgba(49,53,61,0.15); }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <span class="logo">Firmaway<span>.</span></span>
+  <div class="lang-switch">
+    <button class="lang-btn active" id="btn-lang-pt" onclick="setLang('pt')">PT</button>
+    <button class="lang-btn" id="btn-lang-es" onclick="setLang('es')">ES</button>
+  </div>
+</header>
+
+<!-- ============================================================ -->
+<!-- ======================  VERSAO PORTUGUES  ==================== -->
+<!-- ============================================================ -->
+<div class="lang-wrap" id="wrap-pt">
+<main>
+  <h1>O que responder quando um lead do Brasil pergunta sobre impostos</h1>
+  <p class="hero-sub">Ferramenta de apoio para a conversa com leads brasileiros sobre a LLC nos EUA. Calculadora comparativa + respostas prontas para as perguntas mais comuns. Última atualização: 14 de setembro de 2026.</p>
+
+  <div class="alert-card">
+    <span class="chip">Correção urgente de discurso</span>
+    <h2>A Receita Federal mudou o entendimento sobre LLCs em abril de 2026</h2>
+    <p>A Solução de Consulta <strong>COSIT nº 56/2026</strong> definiu que uma LLC americana com sócio não residente nos EUA, tratada como "transparente" para o fisco americano — ou seja, a própria LLC não paga imposto federal, e sim os sócios — é automaticamente enquadrada como <strong>"regime fiscal privilegiado"</strong> pela Receita Federal do Brasil. Isso é exatamente o perfil da LLC de sócio único que vendemos, e vale mesmo quando o negócio é 100% operacional (consultoria, e-commerce, SaaS) — a classificação não depende do tipo de renda. <span class="src-inline">(<a href="https://www.conjur.com.br/2026-abr-29/llcs-regime-fiscal-privilegiado-e-a-solucao-de-consulta-cosit-no-56/" target="_blank">Conjur</a>)</span></p>
+    <p>Na prática: o lucro da LLC passa a ser considerado tributável no Brasil todo ano (apurado em 31/12), <strong>mesmo que o cliente não traga o dinheiro para o Brasil.</strong></p>
+    <div class="dont-do">
+      <p style="margin-bottom:6px"><strong class="no">Não dizer mais:</strong> "você só paga imposto no Brasil quando trouxer o dinheiro para cá."</p>
+      <p style="margin-bottom:0"><strong class="yes">Dizer em vez disso:</strong> "a LLC gera uma obrigação fiscal anual conhecida e planejável no Brasil, é totalmente legal, e recomendamos estruturar isso com um contador desde o início — nós indicamos um parceiro."</p>
+    </div>
+  </div>
+
+  <div class="alert-card">
+    <span class="chip">Segunda correção: material antigo com 2 erros</span>
+    <h2>O comparativo "PJ no Simples dona da LLC" não é viável — e a isenção de R$35 mil não existe mais</h2>
+    <p><strong>1) Empresa no Simples Nacional não pode ter participação na LLC.</strong> A LC 123/2006 (art. 3º, §4º, VII) proíbe que uma empresa optante do Simples Nacional participe do capital de qualquer outra pessoa jurídica — nacional ou estrangeira. Se isso acontecer, a empresa é <strong>excluída do Simples</strong> a partir do mês seguinte. O cenário "CNPJ no Simples + LLC = 2% de carga efetiva" que aparece em materiais antigos descreve uma estrutura que a Receita não permite dentro do Simples — não usar esse número na venda.</p>
+    <p><strong>2) A isenção de R$35 mil/mês sobre ganho cambial acabou em 2024.</strong> Essa isenção existia até 31/12/2023 para aplicações financeiras no exterior e foi revogada pela Lei 14.754/2023. Hoje só existe uma isenção bem menor e específica: até <strong>US$5.000/ano</strong> sobre variação cambial de <strong>moeda em espécie</strong> (dinheiro físico) — não vale para saldo em conta, nem para o lucro da LLC.</p>
+    <div class="dont-do">
+      <p style="margin-bottom:6px"><strong class="no">Não dizer mais:</strong> "se a LLC for da sua empresa brasileira no Simples, a carga cai para uns 2%" ou "você tem isenção de R$35 mil por mês para trazer o dinheiro."</p>
+      <p style="margin-bottom:0"><strong class="yes">Dizer em vez disso:</strong> use a Calculadora com os números reais do lead — Simples, Lucro Presumido, pessoa física e LLC, sem misturar estruturas que a lei não permite.</p>
+    </div>
+  </div>
+
+  <div class="tabs">
+    <button class="tab-btn active" data-tab="calc-pt">Calculadora</button>
+    <button class="tab-btn" data-tab="faq-pt">Perguntas Frequentes</button>
+    <button class="tab-btn" data-tab="checklist-pt">Checklist Anual</button>
+    <button class="tab-btn" data-tab="fontes-pt">Fontes</button>
+    <button class="tab-btn" data-tab="perguntar-pt">Perguntar</button>
+  </div>
+
+  <section class="tab-panel active" id="tab-calc-pt">
+    <div class="card">
+      <h3>Dados do negócio do lead</h3>
+      <div class="calc-grid">
+        <div class="field">
+          <label>Faturamento anual estimado (USD)</label>
+          <input type="number" id="faturamento-pt" value="60000" min="0" step="1000">
+        </div>
+        <div class="field">
+          <label>Margem de lucro estimada (%)</label>
+          <span class="hint">Quanto sobra de lucro sobre o faturamento</span>
+          <input type="number" id="margem-pt" value="70" min="1" max="100" step="1">
+        </div>
+        <div class="field">
+          <label>Cotação USD → BRL</label>
+          <span class="hint">Ajuste para a cotação do dia</span>
+          <input type="number" id="cambio-pt" value="5.30" min="0" step="0.01">
+        </div>
+        <div class="field">
+          <label>Regime de tributação da LLC no Brasil</label>
+          <select id="regimeBR-pt">
+            <option value="opaco">Opaco — 15% fixo sobre o lucro anual (padrão)</option>
+            <option value="transparente">Transparente — tabela progressiva (até 27,5%)</option>
+          </select>
+        </div>
+      </div>
+      <div class="checkbox-row" style="margin-top:10px">
+        <input type="checkbox" id="fatorR-pt" checked>
+        <label>O negócio atinge o Fator R ≥ 28% (folha de pagamento / faturamento) — define Anexo III ou V no Simples</label>
+      </div>
+      <div class="checkbox-row" style="margin-top:6px">
+        <input type="checkbox" id="isExport-pt" checked>
+        <label>Exportação de serviços (isenção de ISS/PIS/COFINS)</label>
+      </div>
+    </div>
+    <div class="results" id="results-pt"></div>
+    <div class="note-box">Cálculo simplificado para orientar a conversa comercial — não é um cálculo fiscal definitivo nem substitui um contador. Foco 100% na carga tributária no Brasil; valores de constituição e manutenção da LLC nos EUA ficam para a conversa comercial. Toda conversão de USD para BRL está sujeita a IOF (hoje ~0,38% para recebimento do exterior em conta própria), independente da estrutura escolhida. Valores de referência de set/2026.</div>
+  </section>
+
+  <section class="tab-panel" id="tab-faq-pt">
+    <details class="faq" open>
+      <summary>Vou pagar imposto nos Estados Unidos?</summary>
+      <p>Normalmente não há imposto federal americano sobre o lucro se a LLC não tiver "renda conectada aos EUA" (ECI) — ou seja, se a atividade for remota/fora dos EUA (consultoria, e-commerce para fora dos EUA, SaaS), que é o perfil da maioria dos nossos clientes. Ainda assim, a LLC precisa entregar todo ano o <strong>Form 5472 + um "pro forma" Form 1120</strong> ao IRS, mesmo com lucro zero. Não entregar gera multa de <strong>US$25.000</strong> por formulário por ano. Também existe uma taxa estadual anual (Delaware ou Wyoming) e o custo do registered agent.</p>
+    </details>
+    <details class="faq">
+      <summary>Só pago imposto no Brasil quando eu trouxer o dinheiro para cá?</summary>
+      <p><strong>Não é mais assim.</strong> Desde a Lei das Offshores (Lei 14.754/2023) e, principalmente, desde a Solução de Consulta COSIT nº 56/2026 (abril de 2026), a Receita Federal exige que o lucro da LLC seja declarado e tributado todo ano no Brasil (apurado em 31/12), mesmo que o dinheiro fique nos EUA. Vale para negócio operacional, não só para investimentos.</p>
+    </details>
+    <details class="faq">
+      <summary>Quanto o cliente paga de imposto no Brasil sobre o lucro da LLC?</summary>
+      <p>Regra geral, regime <strong>"opaco"</strong> (o padrão, se o cliente não escolher outro): <strong>15%</strong> sobre o lucro anual apurado, declarado na Declaração de Ajuste Anual (DAA) do ano seguinte.</p>
+      <p>Existe uma alternativa, o regime <strong>"transparente"</strong>: troca os 15% fixos pela tabela progressiva do IR (que pode chegar a 27,5%), tratando os bens da LLC como se fossem do próprio sócio. A escolha é feita por LLC e <strong>não pode ser desfeita depois</strong> — por isso vale decidir com apoio do contador, e não é algo que respondemos no primeiro contato com o lead.</p>
+    </details>
+    <details class="faq">
+      <summary>O que é "regime fiscal privilegiado"? Meu cliente está sonegando algo?</summary>
+      <p>Não, é um rótulo técnico da Receita Federal, não uma acusação de fraude. Ele indica que, nos EUA, a LLC em si não paga imposto federal (quem paga são os sócios) — e por isso o Brasil passa a tratar a LLC como as demais estruturas no exterior para fins de tributação anual. A classificação é estrutural e automática, independente de o cliente ter ou não intenção de reduzir impostos, e independente do tipo de renda (ativa ou passiva).</p>
+    </details>
+    <details class="faq">
+      <summary>Trazer o dinheiro para o Brasil tem custo extra?</summary>
+      <p>Sim, o <strong>IOF</strong> incide sobre a operação de câmbio — hoje em torno de <strong>0,38%</strong> para recebimento do exterior em conta própria (esse percentual já mudou mais de uma vez nos últimos anos; confirme com o banco/corretora no momento da remessa). O imposto de renda sobre esse valor, em princípio, já foi pago no ano em que o lucro foi apurado (regime opaco ou transparente) — a remessa em si não gera um novo fato gerador de IR.</p>
+    </details>
+    <details class="faq">
+      <summary>Vale mais a pena abrir uma empresa no Brasil em vez da LLC?</summary>
+      <p>Depende do negócio. Uma empresa brasileira no Simples Nacional (Anexo III, exportação de serviços) pode ter uma carga tributária mais simples e evita totalmente essa discussão de tributação de controlada no exterior — porque não existe LLC nenhuma envolvida. Mas a LLC continua tendo vantagens que o Simples não dá: conta e operação em dólar, acesso a processadores de pagamento americanos (Stripe, PayPal, Payoneer), credibilidade com clientes e marketplaces americanos, e não exige estrutura formal no Brasil. Use a aba Calculadora para comparar LLC, Simples Nacional, Lucro Presumido e pessoa física lado a lado com os números do lead.</p>
+    </details>
+    <details class="faq">
+      <summary>Isso muda o que a gente fala na venda?</summary>
+      <p>Sim. Não usar mais a frase "você só paga quando trouxer o dinheiro pro Brasil". Em vez disso: a LLC gera uma obrigação fiscal anual conhecida e planejável no Brasil, ela continua sendo 100% legal, e recomendamos sempre estruturar isso com um contador especializado desde o início — temos um parceiro para indicar.</p>
+    </details>
+    <details class="faq">
+      <summary>Que declarações o cliente precisa entregar todo ano?</summary>
+      <p><strong>Nos EUA:</strong> Form 5472 + pro forma Form 1120 (mesmo com lucro zero) — prazo 15/abril, ou 15/outubro com extensão via Form 7004; taxa estadual anual.</p>
+      <p><strong>No Brasil:</strong> Declaração de Ajuste Anual (DAA), na ficha de bens e rendimentos no exterior/controladas, geralmente entre março e maio; escolha do regime opaco ou transparente (irrevogável por controlada).</p>
+    </details>
+    <details class="faq">
+      <summary>Essa interpretação da Receita Federal (COSIT 56/2026) é definitiva?</summary>
+      <p>É o entendimento oficial vigente da Receita Federal, e é o que deve orientar a nossa conversa comercial hoje. Formalmente, uma Solução de Consulta vincula diretamente quem fez a consulta, mas reflete a posição que a fiscalização tende a aplicar em casos parecidos. Vários escritórios de advocacia tributária consideram essa interpretação questionável e possível de ser contestada — o tema ainda pode evoluir. Para leads com faturamento relevante, sempre encaminhar para conversa com contador antes de fechar.</p>
+    </details>
+    <details class="faq">
+      <summary>Preciso declarar a LLC também no Banco Central (CBE)?</summary>
+      <p>Só se o total de bens no exterior (LLC + contas + outros ativos) ultrapassar <strong>US$1 milhão</strong> na data-base de 31/12 — nesse caso, a Declaração de Capitais Brasileiros no Exterior (CBE/DCBE) é obrigatória todo ano, entregue ao Banco Central entre meados de fevereiro e início de abril do ano seguinte (declaração trimestral só acima de US$100 milhões). A maioria dos clientes recém-abertos não atinge esse valor no início, mas vale monitorar conforme o negócio cresce. É uma declaração diferente da DAA — uma vai para o Banco Central, a outra para a Receita Federal. Multa por não entregar ou entregar errado: de R$2.500 a R$250.000.</p>
+    </details>
+    <details class="faq">
+      <summary>O que acontece se o cliente não declarar a LLC no Brasil?</summary>
+      <p>Se regularizar por conta própria, atrasado: multa de mora de 0,33% ao dia, limitada a 20% do imposto devido, mais juros Selic. Se a Receita identificar primeiro, por fiscalização: multa de ofício de 75% sobre o imposto não pago — podendo chegar a 150% se houver indício de fraude ou sonegação.</p>
+    </details>
+    <details class="faq">
+      <summary>A Receita Federal fica sabendo automaticamente que o cliente abriu uma LLC?</summary>
+      <p>Não existe um alerta automático só por constituir a LLC. Mas Brasil e Estados Unidos têm um acordo de troca de informações (FATCA/IGA), pelo qual bancos e corretoras americanas podem reportar ao IRS dados de conta e pagamentos (juros, dividendos, saldos) de titulares que sejam residentes fiscais no Brasil — e essa informação pode chegar à Receita Federal. Não é motivo para alarmar o lead, mas reforça que o caminho correto é declarar certo desde o início, não tentar não declarar.</p>
+    </details>
+  </section>
+
+  <section class="tab-panel" id="tab-checklist-pt">
+    <div class="checklist-group">
+      <h3>Nos Estados Unidos — todo ano</h3>
+      <div class="checklist-item"><span class="dot"></span><div><strong>Form 5472 + pro forma Form 1120</strong>Obrigatório mesmo com lucro zero. Prazo padrão: 15 de abril (ano seguinte). Multa por não entregar: US$25.000 por formulário. Extensão possível até 15/out via Form 7004, se pedida até 15/abr.</div></div>
+      <div class="checklist-item"><span class="dot"></span><div><strong>Taxa estadual anual</strong>Wyoming: relatório anual, US$60 mínimo. Delaware: franchise tax, US$400/ano (subiu de US$300 a partir do ano fiscal 2026).</div></div>
+      <div class="checklist-item"><span class="dot"></span><div><strong>Registered agent</strong>Renovação anual, tipicamente US$100–300/ano dependendo do provedor.</div></div>
+    </div>
+    <div class="checklist-group">
+      <h3>No Brasil — todo ano</h3>
+      <div class="checklist-item"><span class="dot"></span><div><strong>Declaração de Ajuste Anual (DAA)</strong>Declarar a participação na LLC e o lucro apurado em 31/12, na ficha de bens e direitos/controladas no exterior. Período usual de entrega: março a maio do ano seguinte.</div></div>
+      <div class="checklist-item"><span class="dot"></span><div><strong>Escolha do regime: opaco ou transparente</strong>Decisão por LLC, irrevogável enquanto o sócio mantiver a participação. Definir com apoio de contador antes da primeira declaração.</div></div>
+      <div class="checklist-item"><span class="dot"></span><div><strong>IOF sobre remessas</strong>Toda vez que o dinheiro entrar ou sair do Brasil, confirmar a alíquota vigente com o banco/corretora (hoje em torno de 0,38% para recebimento do exterior em conta própria).</div></div>
+      <div class="checklist-item"><span class="dot"></span><div><strong>CBE ao Banco Central (só acima de US$1 milhão)</strong>Se o total de bens no exterior ultrapassar US$1 milhão em 31/12, declaração anual obrigatória entre meados de fevereiro e início de abril do ano seguinte. Multa de R$2.500 a R$250.000 por não entregar ou entregar errado.</div></div>
+    </div>
+    <div class="checklist-group">
+      <h3>Antes de fechar a venda</h3>
+      <div class="checklist-item"><span class="dot"></span><div><strong>Sinalizar a obrigação fiscal anual no Brasil</strong>Não prometer isenção nem "só paga quando trouxer o dinheiro". Ser transparente sobre o regime de tributação da controlada.</div></div>
+      <div class="checklist-item"><span class="dot"></span><div><strong>Oferecer o contador parceiro</strong>Para leads com faturamento relevante ou dúvidas específicas de estruturação, encaminhar para o parceiro de contabilidade antes de decisões finais.</div></div>
+    </div>
+  </section>
+
+  <section class="tab-panel" id="tab-fontes-pt">
+    <div class="card">
+      <h3>Base legal e fontes consultadas (set/2026)</h3>
+      <div class="source-item"><span class="src-title">Lei nº 14.754/2023 (Lei das Offshores)</span>Institui a tributação anual (regime opaco 15% ou transparente) sobre lucros de entidades controladas no exterior por pessoa física residente no Brasil. <a href="https://www.gov.br/fazenda/pt-br/assuntos/noticias/2023/dezembro/20-12-2023-mf-qa-lei-14754-offshores-limpo.pdf" target="_blank">Ministério da Fazenda (Q&amp;A oficial)</a></div>
+      <div class="source-item"><span class="src-title">Opaco vs. transparente — mecânica e alíquotas</span><a href="https://www.westchester.eu/single-post/lei-14-754-23-tratamento-fiscal-transparente-x-opaco" target="_blank">Westchester</a> · <a href="https://dinai.capital/blog/lei-14754-tributacao-offshore-2026" target="_blank">Dinai Capital</a></div>
+      <div class="source-item"><span class="src-title">Instrução Normativa RFB nº 1.037/2010, art. 2º, VII</span>Define os critérios de "regime fiscal privilegiado" usados pela COSIT para enquadrar as LLCs.</div>
+      <div class="source-item"><span class="src-title">Solução de Consulta COSIT nº 56/2026 (abril/2026)</span>Classifica LLCs americanas transparentes com sócio não residente nos EUA como "regime fiscal privilegiado". <a href="https://www.conjur.com.br/2026-abr-29/llcs-regime-fiscal-privilegiado-e-a-solucao-de-consulta-cosit-no-56/" target="_blank">Conjur</a> · <a href="https://www.legisweb.com.br/legislacao/?id=494207" target="_blank">LegisWeb (texto da SC)</a> · <a href="https://marizadvogados.com.br/cosit-define-que-llcs-em-regime-de-transparencia-sao-caracterizadas-como-regime-fiscal-privilegiado-rfp/" target="_blank">Mariz Advogados (análise crítica)</a></div>
+      <div class="source-item"><span class="src-title">Lei Complementar nº 123/2006 — Simples Nacional, Anexo III e Fator R</span>Tabela de faixas e alíquotas usada na comparação com a empresa brasileira. <a href="https://artigos.agilize.com.br/tabela-simples-nacional-anexos-aliquotas/" target="_blank">Agilize Contabilidade</a></div>
+      <div class="source-item"><span class="src-title">Lei nº 9.249/1995, arts. 15 e 20 — Lucro Presumido (presunção de 32% para serviços, IRPJ 15%+10% adicional, CSLL 9%)</span><a href="https://planning.com.br/lucro-presumido-irpj-csll/" target="_blank">Planning</a> · <a href="https://cidesp.com.br/v2/tabela-lucro-presumido-2026" target="_blank">CIDESP</a></div>
+      <div class="source-item"><span class="src-title">Tabela progressiva mensal do IRPF 2026 (pessoa física/carnê-leão)</span><a href="https://rolmyjuncontabilidade.com.br/imposto-de-renda/tabela-do-imposto-de-renda-2026/" target="_blank">Rolmy Jun Contabilidade</a></div>
+      <div class="source-item"><span class="src-title">INSS contribuinte individual (autônomo) 2026 — 11% a 20%, teto R$8.475,55</span><a href="https://www.contabilizei.com.br/contabilidade-online/teto-inss/" target="_blank">Contabilizei</a></div>
+      <div class="source-item"><span class="src-title">Form 5472 + pro forma Form 1120 — obrigação e multa de US$25.000</span><a href="https://www.taxesforexpats.com/articles/foreign-business/form-5472-penalty.html" target="_blank">Taxes for Expats</a></div>
+      <div class="source-item"><span class="src-title">Decreto nº 6.306/2007 — IOF sobre operações de câmbio</span>Base legal das alíquotas de IOF sobre remessas internacionais (sujeitas a alterações frequentes). <a href="https://www.minhacontabilidadeonline.com.br/post-blog/tributacao-brasil-envio-dinheiro-exterior-residente-iof-imposto-renda-doacao-remessa-2025-2026/" target="_blank">Minha Contabilidade Online</a></div>
+      <div class="source-item"><span class="src-title">Lei Complementar nº 123/2006, art. 3º §4º, VII — vedação a empresa do Simples participar do capital de outra PJ</span><a href="https://www.migalhas.com.br/depeso/362628/vedacao-da-participacao-de-empresas-optantes-pelo-simples-nacional" target="_blank">Migalhas</a> · <a href="https://www.portaltributario.com.br/guia/simples_vedacoes.html" target="_blank">Portal Tributário</a></div>
+      <div class="source-item"><span class="src-title">Fim da isenção de R$35 mil/mês para ganho cambial no exterior (Lei 14.754/2023) — hoje só US$5.000/ano p/ moeda em espécie (art. 4º, IN RFB 2.180/2024)</span><a href="https://www.contabeis.com.br/noticias/79114/irpf-receita-confirma-fim-da-isencao-de-r-35-mil-para-aplicacoes-no-exterior/" target="_blank">Contábeis</a> · <a href="https://www.conjur.com.br/2024-abr-12/novo-contorno-da-tributacao-sobre-variacao-cambial-para-investimentos-no-exterior/" target="_blank">Conjur</a></div>
+      <div class="source-item"><span class="src-title">Declaração de Capitais Brasileiros no Exterior (CBE/DCBE) — Resolução BCB nº 279/2022, Lei nº 14.286/2021</span>Limite de US$1 milhão (anual) e US$100 milhões (trimestral), multa de R$2.500 a R$250.000. <a href="https://www.nomadglobal.com/portal/artigos/declaracao-cbe" target="_blank">Nomad</a></div>
+      <div class="source-item"><span class="src-title">Lei nº 9.430/1996, art. 44 e 61 — multa de mora (0,33%/dia, teto 20%) e multa de ofício (75%, até 150% em fraude)</span><a href="https://www.jettax.com.br/blog/multa-de-mora/" target="_blank">Jettax</a></div>
+      <div class="source-item"><span class="src-title">Taxas estaduais anuais — Delaware e Wyoming</span><a href="https://www.breakwatercorp.com/delaware-franchise-tax-annual-report-filing-guide/" target="_blank">Breakwater (Delaware, aumento p/ US$400 em 2026)</a> · <a href="https://www.statebusinesscompliance.com/blog/wyoming-llc-taxes-annual-fees-2026" target="_blank">State Business Compliance (Wyoming)</a></div>
+    </div>
+    <div class="warn-box">Este guia foi montado a partir de pesquisa em fontes públicas e escritórios de advocacia tributária brasileiros e americanos — não é uma consulta jurídica formal. A interpretação da COSIT 56/2026 é recente e vem sendo discutida por tributaristas. Para casos concretos, sempre confirmar com o contador parceiro.</div>
+  </section>
+
+  <section class="tab-panel" id="tab-perguntar-pt">
+    <div class="card">
+      <h3>Pergunte à ferramenta</h3>
+      <p style="font-size:13.5px;color:var(--ink-light);margin:-4px 0 12px">Busca apenas no conteúdo desta página (avisos, Perguntas Frequentes e Checklist) — não inventa resposta. Se não encontrar nada relevante, avisa que não sabe.</p>
+      <input type="text" id="pergunta-input-pt" class="ask-input" placeholder="Ex.: preciso trocar minha residência fiscal para abrir uma LLC?">
+      <button id="pergunta-btn-pt" class="btn-primary" style="margin-top:10px">Perguntar</button>
+    </div>
+    <div id="pergunta-resultado-pt"></div>
+  </section>
+</main>
+</div>
+
+<!-- ============================================================ -->
+<!-- ========================  VERSION ESPANOL  ==================== -->
+<!-- ============================================================ -->
+<div class="lang-wrap" id="wrap-es" style="display:none">
+<main>
+  <h1>Qué responder cuando un lead de Brasil pregunta sobre impuestos</h1>
+  <p class="hero-sub">Herramienta de apoyo para la conversación con leads brasileños sobre la LLC en EEUU. Calculadora comparativa + respuestas listas para las preguntas más comunes. Última actualización: 14 de septiembre de 2026.</p>
+
+  <div class="alert-card">
+    <span class="chip">Corrección urgente de discurso</span>
+    <h2>La Receita Federal cambió el criterio sobre las LLC en abril de 2026</h2>
+    <p>La Solución de Consulta <strong>COSIT n.º 56/2026</strong> estableció que una LLC estadounidense con socio no residente en EEUU, tratada como "transparente" por el fisco estadounidense — es decir, la LLC en sí no paga impuesto federal, sino los socios — queda automáticamente encuadrada como <strong>"régimen fiscal privilegiado"</strong> por la Receita Federal de Brasil. Este es exactamente el perfil de la LLC unipersonal que vendemos, y aplica incluso cuando el negocio es 100% operativo (consultoría, e-commerce, SaaS) — la clasificación no depende del tipo de renta. <span class="src-inline">(<a href="https://www.conjur.com.br/2026-abr-29/llcs-regime-fiscal-privilegiado-e-a-solucao-de-consulta-cosit-no-56/" target="_blank">Conjur</a>)</span></p>
+    <p>En la práctica: la ganancia de la LLC pasa a considerarse gravable en Brasil todos los años (calculada al 31/12), <strong>aunque el cliente no traiga el dinero a Brasil.</strong></p>
+    <div class="dont-do">
+      <p style="margin-bottom:6px"><strong class="no">No decir más:</strong> "vos solo pagás impuesto en Brasil cuando traés el dinero."</p>
+      <p style="margin-bottom:0"><strong class="yes">Decir en cambio:</strong> "la LLC genera una obligación fiscal anual conocida y planificable en Brasil, es totalmente legal, y recomendamos estructurarlo con un contador desde el inicio — tenemos un socio para recomendar."</p>
+    </div>
+  </div>
+
+  <div class="alert-card">
+    <span class="chip">Segunda corrección: material antiguo con 2 errores</span>
+    <h2>El comparativo "PJ en el Simples dueña de la LLC" no es viable — y la exención de R$35 mil ya no existe</h2>
+    <p><strong>1) Una empresa en el Simples Nacional no puede tener participación en la LLC.</strong> La LC 123/2006 (art. 3º, §4º, VII) prohíbe que una empresa optante del Simples Nacional participe en el capital de cualquier otra persona jurídica — nacional o extranjera. Si eso ocurre, la empresa queda <strong>excluida del Simples</strong> desde el mes siguiente. El escenario "CNPJ en el Simples + LLC = 2% de carga efectiva" que aparece en materiales antiguos describe una estructura que la Receita no permite dentro del Simples — no usar ese número en la venta.</p>
+    <p><strong>2) La exención de R$35 mil/mes sobre ganancia cambiaria terminó en 2024.</strong> Esa exención existía hasta el 31/12/2023 para aplicaciones financieras en el exterior y fue derogada por la Ley 14.754/2023. Hoy solo queda una exención mucho más chica y específica: hasta <strong>US$5.000/año</strong> sobre variación cambiaria de <strong>moneda en especie</strong> (efectivo físico) — no aplica a saldo en cuenta, ni a la ganancia de la LLC.</p>
+    <div class="dont-do">
+      <p style="margin-bottom:6px"><strong class="no">No decir más:</strong> "si la LLC es de tu empresa brasileña en el Simples, la carga baja a un 2%" o "tenés exención de R$35 mil por mes para traer el dinero."</p>
+      <p style="margin-bottom:0"><strong class="yes">Decir en cambio:</strong> usá la Calculadora con los números reales del lead — Simples, Lucro Presumido, persona física y LLC, sin mezclar estructuras que la ley no permite.</p>
+    </div>
+  </div>
+
+  <div class="tabs">
+    <button class="tab-btn active" data-tab="calc-es">Calculadora</button>
+    <button class="tab-btn" data-tab="faq-es">Preguntas Frecuentes</button>
+    <button class="tab-btn" data-tab="checklist-es">Checklist Anual</button>
+    <button class="tab-btn" data-tab="fontes-es">Fuentes</button>
+    <button class="tab-btn" data-tab="perguntar-es">Preguntar</button>
+  </div>
+
+  <section class="tab-panel active" id="tab-calc-es">
+    <div class="card">
+      <h3>Datos del negocio del lead</h3>
+      <div class="calc-grid">
+        <div class="field">
+          <label>Facturación anual estimada (USD)</label>
+          <input type="number" id="faturamento-es" value="60000" min="0" step="1000">
+        </div>
+        <div class="field">
+          <label>Margen de ganancia estimado (%)</label>
+          <span class="hint">Cuánto queda de ganancia sobre la facturación</span>
+          <input type="number" id="margem-es" value="70" min="1" max="100" step="1">
+        </div>
+        <div class="field">
+          <label>Cotización USD → BRL</label>
+          <span class="hint">Ajustar según la cotización del día</span>
+          <input type="number" id="cambio-es" value="5.30" min="0" step="0.01">
+        </div>
+        <div class="field">
+          <label>Régimen de tributación de la LLC en Brasil</label>
+          <select id="regimeBR-es">
+            <option value="opaco">Opaco — 15% fijo sobre la ganancia anual (por defecto)</option>
+            <option value="transparente">Transparente — tabla progresiva (hasta 27,5%)</option>
+          </select>
+        </div>
+      </div>
+      <div class="checkbox-row" style="margin-top:10px">
+        <input type="checkbox" id="fatorR-es" checked>
+        <label>El negocio alcanza el Fator R ≥ 28% (nómina / facturación) — define Anexo III o V en el Simples</label>
+      </div>
+      <div class="checkbox-row" style="margin-top:6px">
+        <input type="checkbox" id="isExport-es" checked>
+        <label>Exportación de servicios (exención de ISS/PIS/COFINS)</label>
+      </div>
+    </div>
+    <div class="results" id="results-es"></div>
+    <div class="note-box">Cálculo simplificado para orientar la conversación comercial — no es un cálculo fiscal definitivo ni reemplaza a un contador. Foco 100% en la carga tributaria en Brasil; los valores de constitución y mantenimiento de la LLC en EEUU quedan para la conversación comercial. Toda conversión de USD a BRL está sujeta a IOF (hoy ~0,38% para recepción desde el exterior en cuenta propia), independiente de la estructura elegida. Valores de referencia de sep/2026.</div>
+  </section>
+
+  <section class="tab-panel" id="tab-faq-es">
+    <details class="faq" open>
+      <summary>¿Voy a pagar impuestos en Estados Unidos?</summary>
+      <p>Normalmente no hay impuesto federal estadounidense sobre la ganancia si la LLC no tiene "renta conectada a EEUU" (ECI) — es decir, si la actividad es remota/fuera de EEUU (consultoría, e-commerce para fuera de EEUU, SaaS), que es el perfil de la mayoría de nuestros clientes. Aun así, la LLC debe presentar todos los años el <strong>Form 5472 + un "pro forma" Form 1120</strong> ante el IRS, incluso con ganancia cero. No presentarlo genera una multa de <strong>US$25.000</strong> por formulario por año. También existe una tasa estatal anual (Delaware o Wyoming) y el costo del registered agent.</p>
+    </details>
+    <details class="faq">
+      <summary>¿Solo pago impuestos en Brasil cuando traigo el dinero?</summary>
+      <p><strong>Ya no es así.</strong> Desde la Ley de Offshores (Ley 14.754/2023) y, sobre todo, desde la Solución de Consulta COSIT n.º 56/2026 (abril de 2026), la Receita Federal exige que la ganancia de la LLC se declare y tribute todos los años en Brasil (calculada al 31/12), aunque el dinero quede en EEUU. Aplica para negocio operativo, no solo para inversiones.</p>
+    </details>
+    <details class="faq">
+      <summary>¿Cuánto paga el cliente de impuesto en Brasil sobre la ganancia de la LLC?</summary>
+      <p>Regla general, régimen <strong>"opaco"</strong> (el que aplica por defecto si el cliente no elige otro): <strong>15%</strong> sobre la ganancia anual determinada, declarada en la Declaración de Ajuste Anual (DAA) del año siguiente.</p>
+      <p>Existe una alternativa, el régimen <strong>"transparente"</strong>: cambia el 15% fijo por la tabla progresiva del impuesto a la renta (que puede llegar a 27,5%), tratando los bienes de la LLC como si fueran del propio socio. La elección se hace por LLC y <strong>no se puede deshacer después</strong> — por eso conviene decidirla con apoyo del contador, y no es algo que respondemos en el primer contacto con el lead.</p>
+    </details>
+    <details class="faq">
+      <summary>¿Qué es el "régimen fiscal privilegiado"? ¿Mi cliente está evadiendo algo?</summary>
+      <p>No, es una etiqueta técnica de la Receita Federal, no una acusación de fraude. Indica que, en EEUU, la LLC en sí no paga impuesto federal (lo pagan los socios) — y por eso Brasil pasa a tratar la LLC como las demás estructuras en el exterior a efectos de tributación anual. La clasificación es estructural y automática, independientemente de que el cliente tenga o no intención de reducir impuestos, y del tipo de renta (activa o pasiva).</p>
+    </details>
+    <details class="faq">
+      <summary>¿Traer el dinero a Brasil tiene un costo extra?</summary>
+      <p>Sí, el <strong>IOF</strong> incide sobre la operación de cambio — hoy alrededor de <strong>0,38%</strong> para recepción desde el exterior en cuenta propia (este porcentaje ya cambió más de una vez en los últimos años; confirmar con el banco/casa de cambio al momento de la remesa). El impuesto a la renta sobre ese valor, en principio, ya se pagó en el año en que se determinó la ganancia (régimen opaco o transparente) — la remesa en sí no genera un nuevo hecho imponible de IR.</p>
+    </details>
+    <details class="faq">
+      <summary>¿Conviene más abrir una empresa en Brasil en vez de la LLC?</summary>
+      <p>Depende del negocio. Una empresa brasileña en el Simples Nacional (Anexo III, exportación de servicios) puede tener una carga tributaria más simple y evita por completo esta discusión de tributación de controlada en el exterior — porque no hay ninguna LLC involucrada. Pero la LLC sigue teniendo ventajas que el Simples no da: cuenta y operación en dólares, acceso a procesadores de pago estadounidenses (Stripe, PayPal, Payoneer), credibilidad con clientes y marketplaces de EEUU, y no exige estructura formal en Brasil. Usá la pestaña Calculadora para comparar LLC, Simples Nacional, Lucro Presumido y persona física lado a lado con los números del lead.</p>
+    </details>
+    <details class="faq">
+      <summary>¿Esto cambia lo que decimos en la venta?</summary>
+      <p>Sí. Dejar de usar la frase "vos solo pagás cuando traés el dinero a Brasil". En cambio: la LLC genera una obligación fiscal anual conocida y planificable en Brasil, sigue siendo 100% legal, y recomendamos siempre estructurarlo con un contador especializado desde el inicio — tenemos un socio para recomendar.</p>
+    </details>
+    <details class="faq">
+      <summary>¿Qué declaraciones tiene que presentar el cliente todos los años?</summary>
+      <p><strong>En EEUU:</strong> Form 5472 + pro forma Form 1120 (incluso con ganancia cero) — plazo 15 de abril, o 15 de octubre con extensión vía Form 7004; tasa estatal anual.</p>
+      <p><strong>En Brasil:</strong> Declaración de Ajuste Anual (DAA), en la ficha de bienes y rentas en el exterior/controladas, generalmente entre marzo y mayo; elección del régimen opaco o transparente (irrevocable por controlada).</p>
+    </details>
+    <details class="faq">
+      <summary>¿Esta interpretación de la Receita Federal (COSIT 56/2026) es definitiva?</summary>
+      <p>Es el criterio oficial vigente de la Receita Federal, y es el que debe orientar nuestra conversación comercial hoy. Formalmente, una Solución de Consulta vincula directamente a quien la solicitó, pero refleja la posición que la fiscalización tiende a aplicar en casos similares. Varios estudios de abogacía tributaria consideran esta interpretación discutible y posible de ser cuestionada — el tema todavía puede evolucionar. Para leads con facturación relevante, siempre derivar a una conversación con el contador antes de cerrar.</p>
+    </details>
+    <details class="faq">
+      <summary>¿Hay que declarar la LLC también ante el Banco Central (CBE)?</summary>
+      <p>Solo si el total de bienes en el exterior (LLC + cuentas + otros activos) supera <strong>US$1 millón</strong> en la fecha base del 31/12 — en ese caso, la Declaración de Capitales Brasileños en el Exterior (CBE/DCBE) es obligatoria todos los años, presentada ante el Banco Central entre mediados de febrero y principios de abril del año siguiente (la declaración trimestral solo aplica arriba de US$100 millones). La mayoría de los clientes recién abiertos no llega a ese valor al inicio, pero conviene monitorear a medida que el negocio crece. Es una declaración distinta de la DAA — una va al Banco Central, la otra a la Receita Federal. Multa por no presentarla o presentarla mal: de R$2.500 a R$250.000.</p>
+    </details>
+    <details class="faq">
+      <summary>¿Qué pasa si el cliente no declara la LLC en Brasil?</summary>
+      <p>Si regulariza por su cuenta, atrasado: multa de mora del 0,33% por día, limitada al 20% del impuesto adeudado, más intereses Selic. Si la Receita lo detecta primero, por fiscalización: multa de oficio del 75% sobre el impuesto no pagado — pudiendo llegar al 150% si hay indicio de fraude o evasión.</p>
+    </details>
+    <details class="faq">
+      <summary>¿La Receita Federal se entera automáticamente de que el cliente abrió una LLC?</summary>
+      <p>No existe una alerta automática solo por constituir la LLC. Pero Brasil y Estados Unidos tienen un acuerdo de intercambio de información (FATCA/IGA), por el cual bancos y brokers estadounidenses pueden reportar al IRS datos de cuenta y pagos (intereses, dividendos, saldos) de titulares que sean residentes fiscales en Brasil — y esa información puede llegar a la Receita Federal. No es motivo para alarmar al lead, pero refuerza que el camino correcto es declarar bien desde el inicio, no intentar no declarar.</p>
+    </details>
+  </section>
+
+  <section class="tab-panel" id="tab-checklist-es">
+    <div class="checklist-group">
+      <h3>En Estados Unidos — todos los años</h3>
+      <div class="checklist-item"><span class="dot"></span><div><strong>Form 5472 + pro forma Form 1120</strong>Obligatorio incluso con ganancia cero. Plazo estándar: 15 de abril (año siguiente). Multa por no presentarlo: US$25.000 por formulario. Extensión posible hasta el 15/oct vía Form 7004, si se pide antes del 15/abr.</div></div>
+      <div class="checklist-item"><span class="dot"></span><div><strong>Tasa estatal anual</strong>Wyoming: reporte anual, US$60 mínimo. Delaware: franchise tax, US$400/año (subió de US$300 a partir del año fiscal 2026).</div></div>
+      <div class="checklist-item"><span class="dot"></span><div><strong>Registered agent</strong>Renovación anual, típicamente US$100–300/año según el proveedor.</div></div>
+    </div>
+    <div class="checklist-group">
+      <h3>En Brasil — todos los años</h3>
+      <div class="checklist-item"><span class="dot"></span><div><strong>Declaración de Ajuste Anual (DAA)</strong>Declarar la participación en la LLC y la ganancia determinada al 31/12, en la ficha de bienes y derechos/controladas en el exterior. Período habitual de presentación: marzo a mayo del año siguiente.</div></div>
+      <div class="checklist-item"><span class="dot"></span><div><strong>Elección del régimen: opaco o transparente</strong>Decisión por LLC, irrevocable mientras el socio mantenga la participación. Definir con apoyo del contador antes de la primera declaración.</div></div>
+      <div class="checklist-item"><span class="dot"></span><div><strong>IOF sobre remesas</strong>Cada vez que el dinero entra o sale de Brasil, confirmar la alícuota vigente con el banco/casa de cambio (hoy alrededor de 0,38% para recepción desde el exterior en cuenta propia).</div></div>
+      <div class="checklist-item"><span class="dot"></span><div><strong>CBE ante el Banco Central (solo por encima de US$1 millón)</strong>Si el total de bienes en el exterior supera US$1 millón al 31/12, declaración anual obligatoria entre mediados de febrero y principios de abril del año siguiente. Multa de R$2.500 a R$250.000 por no presentarla o presentarla mal.</div></div>
+    </div>
+    <div class="checklist-group">
+      <h3>Antes de cerrar la venta</h3>
+      <div class="checklist-item"><span class="dot"></span><div><strong>Señalar la obligación fiscal anual en Brasil</strong>No prometer exención ni "solo paga cuando trae el dinero". Ser transparente sobre el régimen de tributación de la controlada.</div></div>
+      <div class="checklist-item"><span class="dot"></span><div><strong>Ofrecer el contador socio</strong>Para leads con facturación relevante o dudas específicas de estructuración, derivar al socio contable antes de decisiones finales.</div></div>
+    </div>
+  </section>
+
+  <section class="tab-panel" id="tab-fontes-es">
+    <div class="card">
+      <h3>Base legal y fuentes consultadas (sep/2026)</h3>
+      <div class="source-item"><span class="src-title">Ley n.º 14.754/2023 (Ley de Offshores)</span>Establece la tributación anual (régimen opaco 15% o transparente) sobre ganancias de entidades controladas en el exterior por persona física residente en Brasil. <a href="https://www.gov.br/fazenda/pt-br/assuntos/noticias/2023/dezembro/20-12-2023-mf-qa-lei-14754-offshores-limpo.pdf" target="_blank">Ministério da Fazenda (Q&amp;A oficial)</a></div>
+      <div class="source-item"><span class="src-title">Opaco vs. transparente — mecánica y alícuotas</span><a href="https://www.westchester.eu/single-post/lei-14-754-23-tratamento-fiscal-transparente-x-opaco" target="_blank">Westchester</a> · <a href="https://dinai.capital/blog/lei-14754-tributacao-offshore-2026" target="_blank">Dinai Capital</a></div>
+      <div class="source-item"><span class="src-title">Instrução Normativa RFB n.º 1.037/2010, art. 2º, VII</span>Define los criterios de "régimen fiscal privilegiado" usados por la COSIT para encuadrar las LLC.</div>
+      <div class="source-item"><span class="src-title">Solución de Consulta COSIT n.º 56/2026 (abril/2026)</span>Clasifica LLC estadounidenses transparentes con socio no residente en EEUU como "régimen fiscal privilegiado". <a href="https://www.conjur.com.br/2026-abr-29/llcs-regime-fiscal-privilegiado-e-a-solucao-de-consulta-cosit-no-56/" target="_blank">Conjur</a> · <a href="https://www.legisweb.com.br/legislacao/?id=494207" target="_blank">LegisWeb (texto de la SC)</a> · <a href="https://marizadvogados.com.br/cosit-define-que-llcs-em-regime-de-transparencia-sao-caracterizadas-como-regime-fiscal-privilegiado-rfp/" target="_blank">Mariz Advogados (análisis crítico)</a></div>
+      <div class="source-item"><span class="src-title">Ley Complementar n.º 123/2006 — Simples Nacional, Anexo III y Fator R</span>Tabla de tramos y alícuotas usada en la comparación con la empresa brasileña. <a href="https://artigos.agilize.com.br/tabela-simples-nacional-anexos-aliquotas/" target="_blank">Agilize Contabilidade</a></div>
+      <div class="source-item"><span class="src-title">Ley n.º 9.249/1995, arts. 15 y 20 — Lucro Presumido (presunción del 32% para servicios, IRPJ 15%+10% adicional, CSLL 9%)</span><a href="https://planning.com.br/lucro-presumido-irpj-csll/" target="_blank">Planning</a> · <a href="https://cidesp.com.br/v2/tabela-lucro-presumido-2026" target="_blank">CIDESP</a></div>
+      <div class="source-item"><span class="src-title">Tabla progresiva mensual del IRPF 2026 (persona física/carnê-leão)</span><a href="https://rolmyjuncontabilidade.com.br/imposto-de-renda/tabela-do-imposto-de-renda-2026/" target="_blank">Rolmy Jun Contabilidade</a></div>
+      <div class="source-item"><span class="src-title">INSS contribuyente individual (autónomo) 2026 — 11% a 20%, techo R$8.475,55</span><a href="https://www.contabilizei.com.br/contabilidade-online/teto-inss/" target="_blank">Contabilizei</a></div>
+      <div class="source-item"><span class="src-title">Form 5472 + pro forma Form 1120 — obligación y multa de US$25.000</span><a href="https://www.taxesforexpats.com/articles/foreign-business/form-5472-penalty.html" target="_blank">Taxes for Expats</a></div>
+      <div class="source-item"><span class="src-title">Decreto n.º 6.306/2007 — IOF sobre operaciones de cambio</span>Base legal de las alícuotas de IOF sobre remesas internacionales (sujetas a cambios frecuentes). <a href="https://www.minhacontabilidadeonline.com.br/post-blog/tributacao-brasil-envio-dinheiro-exterior-residente-iof-imposto-renda-doacao-remessa-2025-2026/" target="_blank">Minha Contabilidade Online</a></div>
+      <div class="source-item"><span class="src-title">Ley Complementar n.º 123/2006, art. 3º §4º, VII — prohibición de que una empresa del Simples participe en el capital de otra PJ</span><a href="https://www.migalhas.com.br/depeso/362628/vedacao-da-participacao-de-empresas-optantes-pelo-simples-nacional" target="_blank">Migalhas</a> · <a href="https://www.portaltributario.com.br/guia/simples_vedacoes.html" target="_blank">Portal Tributário</a></div>
+      <div class="source-item"><span class="src-title">Fin de la exención de R$35 mil/mes por ganancia cambiaria en el exterior (Ley 14.754/2023) — hoy solo US$5.000/año para moneda en especie (art. 4º, IN RFB 2.180/2024)</span><a href="https://www.contabeis.com.br/noticias/79114/irpf-receita-confirma-fim-da-isencao-de-r-35-mil-para-aplicacoes-no-exterior/" target="_blank">Contábeis</a> · <a href="https://www.conjur.com.br/2024-abr-12/novo-contorno-da-tributacao-sobre-variacao-cambial-para-investimentos-no-exterior/" target="_blank">Conjur</a></div>
+      <div class="source-item"><span class="src-title">Declaración de Capitales Brasileños en el Exterior (CBE/DCBE) — Resolución BCB n.º 279/2022, Ley n.º 14.286/2021</span>Límite de US$1 millón (anual) y US$100 millones (trimestral), multa de R$2.500 a R$250.000. <a href="https://www.nomadglobal.com/portal/artigos/declaracao-cbe" target="_blank">Nomad</a></div>
+      <div class="source-item"><span class="src-title">Ley n.º 9.430/1996, art. 44 y 61 — multa de mora (0,33%/día, techo 20%) y multa de oficio (75%, hasta 150% en fraude)</span><a href="https://www.jettax.com.br/blog/multa-de-mora/" target="_blank">Jettax</a></div>
+      <div class="source-item"><span class="src-title">Tasas estatales anuales — Delaware y Wyoming</span><a href="https://www.breakwatercorp.com/delaware-franchise-tax-annual-report-filing-guide/" target="_blank">Breakwater (Delaware, aumento a US$400 en 2026)</a> · <a href="https://www.statebusinesscompliance.com/blog/wyoming-llc-taxes-annual-fees-2026" target="_blank">State Business Compliance (Wyoming)</a></div>
+    </div>
+    <div class="warn-box">Esta guía fue armada a partir de investigación en fuentes públicas y estudios de abogacía tributaria brasileños y estadounidenses — no es una consulta jurídica formal. La interpretación de la COSIT 56/2026 es reciente y está siendo discutida por especialistas tributarios. Para casos concretos, siempre confirmar con el contador socio.</div>
+  </section>
+
+  <section class="tab-panel" id="tab-perguntar-es">
+    <div class="card">
+      <h3>Preguntale a la herramienta</h3>
+      <p style="font-size:13.5px;color:var(--ink-light);margin:-4px 0 12px">Busca solo en el contenido de esta página (avisos, Preguntas Frecuentes y Checklist) — no inventa respuestas. Si no encuentra nada relevante, avisa que no sabe.</p>
+      <input type="text" id="pergunta-input-es" class="ask-input" placeholder="Ej.: ¿necesito cambiar mi residencia fiscal para abrir una LLC?">
+      <button id="pergunta-btn-es" class="btn-primary" style="margin-top:10px">Preguntar</button>
+    </div>
+    <div id="pergunta-resultado-es"></div>
+  </section>
+</main>
+</div>
+
+<footer id="footer-text">Uso interno Firmaway · Conteúdo educativo, não constitui aconselhamento tributário ou jurídico · Revisar periodicamente, especialmente a interpretação da COSIT 56/2026</footer>
+
+<script>
+  function setLang(lang) {
+    document.getElementById('wrap-pt').style.display = lang === 'pt' ? 'block' : 'none';
+    document.getElementById('wrap-es').style.display = lang === 'es' ? 'block' : 'none';
+    document.getElementById('btn-lang-pt').classList.toggle('active', lang === 'pt');
+    document.getElementById('btn-lang-es').classList.toggle('active', lang === 'es');
+    document.getElementById('htmlRoot').lang = lang === 'pt' ? 'pt-BR' : 'es';
+    document.getElementById('footer-text').textContent = lang === 'pt'
+      ? 'Uso interno Firmaway · Conteúdo educativo, não constitui aconselhamento tributário ou jurídico · Revisar periodicamente, especialmente a interpretação da COSIT 56/2026'
+      : 'Uso interno Firmaway · Contenido educativo, no constituye asesoramiento tributario ni legal · Revisar periódicamente, especialmente la interpretación de la COSIT 56/2026';
+  }
+
+  document.querySelectorAll('.lang-wrap').forEach(wrap => {
+    wrap.querySelectorAll('.tab-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        wrap.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        wrap.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+        btn.classList.add('active');
+        wrap.querySelector('#tab-' + btn.dataset.tab).classList.add('active');
+      });
+    });
+  });
+
+  const fmtBRL = v => v.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL', maximumFractionDigits: 0 });
+  const fmtPct = v => (v * 100).toLocaleString('pt-BR', { maximumFractionDigits: 2 }) + '%';
+
+  const STR = {
+    pt: {
+      llcTitle: 'LLC nos EUA (carga tributária no Brasil)', perYear: ' / ano',
+      taxOpaco: 'Imposto Brasil sobre o lucro (15% opaco)',
+      transpNote: 'Regime transparente: tabela progressiva (até 27,5%), depende de outras rendas da pessoa e do tipo de cada ativo. Não é possível estimar um valor único aqui — use o regime opaco (15%) como piso de referência.',
+      depTable: 'Depende da tabela progressiva',
+      simplesTitle: 'Empresa no Brasil — Simples Nacional (Anexo III)',
+      outOfCap: 'Fora do teto do Simples (acima de R$4,8 mi/ano)',
+      effRate: 'Alíquota efetiva estimada (Anexo III)',
+      baseCalc: 'Base de cálculo', baseCalcVal: 'faturamento, não o lucro',
+      fatorRWarn: 'Fator R abaixo de 28%: a atividade provavelmente migra para o Anexo V, com alíquotas mais altas. Este valor é otimista — confirmar com contador.',
+      exportNoteSimples: 'Para exportação de serviços, ISS (e muitas vezes PIS/COFINS) costuma ser isento, o que reduz ainda mais essa alíquota na prática. Trate este número como teto, não como valor exato — depende do município e do enquadramento.',
+      presumidoTitle: 'Empresa no Brasil — Lucro Presumido',
+      irpjLine: 'IRPJ (15% + adicional sobre o excedente)',
+      csllLine: 'CSLL (9%)',
+      pisCofinsLine: 'PIS + COFINS (3,65%)',
+      pisCofinsIsento: 'isento (exportação)',
+      presumidoNote: 'Presunção de 32% sobre o faturamento para serviços (Lei 9.249/95), com adicional de 10% de IRPJ sobre o que exceder R$240.000/ano de lucro presumido. Empresas com faturamento acima de R$5 mi/ano têm parte da presunção majorada (LC 224/2025) — não calculado aqui. Se não for exportação, some também o ISS municipal (2% a 5%, não incluído).',
+      pessoaFisicaTitle: 'Pessoa física (autônomo, carnê-leão)',
+      pessoaFisicaNote: 'Estimativa com a tabela progressiva do IR aplicada mês a mês sobre o lucro (assume distribuição uniforme ao longo do ano). Não inclui a redução adicional da Lei 15.270/2025 para rendas menores, nem a contribuição ao INSS como contribuinte individual (11% a 20% sobre uma base escolhida entre o salário mínimo e o teto, obrigatória e à parte deste valor).'
+    },
+    es: {
+      llcTitle: 'LLC en EEUU (carga tributaria en Brasil)', perYear: ' / año',
+      taxOpaco: 'Impuesto Brasil sobre la ganancia (15% opaco)',
+      transpNote: 'Régimen transparente: tabla progresiva (hasta 27,5%), depende de otros ingresos de la persona y del tipo de cada activo. No es posible estimar un valor único acá — usar el régimen opaco (15%) como piso de referencia.',
+      depTable: 'Depende de la tabla progresiva',
+      simplesTitle: 'Empresa en Brasil — Simples Nacional (Anexo III)',
+      outOfCap: 'Fuera del techo del Simples (más de R$4,8 M/año)',
+      effRate: 'Alícuota efectiva estimada (Anexo III)',
+      baseCalc: 'Base de cálculo', baseCalcVal: 'facturación, no la ganancia',
+      fatorRWarn: 'Fator R por debajo de 28%: la actividad probablemente migra al Anexo V, con alícuotas más altas. Este valor es optimista — confirmar con contador.',
+      exportNoteSimples: 'Para exportación de servicios, el ISS (y muchas veces PIS/COFINS) suele estar exento, lo que reduce aún más esta alícuota en la práctica. Tomar este número como techo, no como valor exacto — depende del municipio y del encuadramiento.',
+      presumidoTitle: 'Empresa en Brasil — Lucro Presumido',
+      irpjLine: 'IRPJ (15% + adicional sobre el excedente)',
+      csllLine: 'CSLL (9%)',
+      pisCofinsLine: 'PIS + COFINS (3,65%)',
+      pisCofinsIsento: 'exento (exportación)',
+      presumidoNote: 'Presunción del 32% sobre la facturación para servicios (Ley 9.249/95), con adicional del 10% de IRPJ sobre lo que exceda R$240.000/año de ganancia presumida. Empresas con facturación superior a R$5 M/año tienen parte de la presunción incrementada (LC 224/2025) — no calculado acá. Si no es exportación, sumar también el ISS municipal (2% a 5%, no incluido).',
+      pessoaFisicaTitle: 'Persona física (autónomo, carnê-leão)',
+      pessoaFisicaNote: 'Estimación con la tabla progresiva del IR aplicada mes a mes sobre la ganancia (asume distribución uniforme durante el año). No incluye la reducción adicional de la Ley 15.270/2025 para rentas menores, ni el aporte al INSS como contribuyente individual (11% a 20% sobre una base elegida entre el salario mínimo y el techo, obligatorio y aparte de este valor).'
+    }
+  };
+
+  function anexoIIIEfetiva(faturamentoAnualBRL) {
+    const faixas = [
+      { limite: 180000, nominal: 0.06, deducao: 0 },
+      { limite: 360000, nominal: 0.112, deducao: 9360 },
+      { limite: 720000, nominal: 0.135, deducao: 17640 },
+      { limite: 1800000, nominal: 0.16, deducao: 35640 },
+      { limite: 3600000, nominal: 0.21, deducao: 125640 },
+      { limite: 4800000, nominal: 0.33, deducao: 648000 },
+    ];
+    if (faturamentoAnualBRL <= 0) return 0;
+    if (faturamentoAnualBRL > 4800000) return null;
+    const faixa = faixas.find(f => faturamentoAnualBRL <= f.limite);
+    return Math.max((faturamentoAnualBRL * faixa.nominal - faixa.deducao) / faturamentoAnualBRL, 0);
+  }
+
+  function lucroPresumido(faturamentoAnualBRL, isExport) {
+    const presuncao = 0.32;
+    const base = faturamentoAnualBRL * presuncao;
+    const irpjBase = base * 0.15;
+    const excedente = Math.max(base - 240000, 0); // R$60k/trimestre = R$240k/ano
+    const irpjAdicional = excedente * 0.10;
+    const csll = base * 0.09;
+    const pisCofins = isExport ? 0 : faturamentoAnualBRL * 0.0365; // 0,65% + 3%, regime cumulativo
+    return { irpj: irpjBase + irpjAdicional, csll, pisCofins, total: irpjBase + irpjAdicional + csll + pisCofins };
+  }
+
+  function irpfMensal(baseMensal) {
+    const faixas = [
+      { limite: 2428.80, aliquota: 0, deducao: 0 },
+      { limite: 2826.65, aliquota: 0.075, deducao: 182.16 },
+      { limite: 3751.05, aliquota: 0.15, deducao: 394.16 },
+      { limite: 4664.68, aliquota: 0.225, deducao: 675.49 },
+      { limite: Infinity, aliquota: 0.275, deducao: 908.73 },
+    ];
+    const faixa = faixas.find(f => baseMensal <= f.limite);
+    return Math.max(baseMensal * faixa.aliquota - faixa.deducao, 0);
+  }
+
+  function pessoaFisicaAnual(lucroAnualBRL) {
+    const lucroMensal = lucroAnualBRL / 12;
+    return irpfMensal(lucroMensal) * 12;
+  }
+
+  function calcular(lang) {
+    const id = base => document.getElementById(base + '-' + lang);
+    const s = STR[lang];
+
+    const faturamentoUSD = parseFloat(id('faturamento').value) || 0;
+    const margem = (parseFloat(id('margem').value) || 0) / 100;
+    const cambio = parseFloat(id('cambio').value) || 0;
+    const regimeBR = id('regimeBR').value;
+    const fatorR = id('fatorR').checked;
+    const isExport = id('isExport').checked;
+
+    const faturamentoBRL = faturamentoUSD * cambio;
+    const lucroBRL = faturamentoBRL * margem;
+
+    let html = '';
+
+    // Card 1: LLC (carga no Brasil apenas)
+    html += '<div class="result-card highlight"><h4>' + s.llcTitle + '</h4>';
+    if (regimeBR === 'opaco') {
+      const imposto = lucroBRL * 0.15;
+      html += '<div class="total">' + fmtBRL(imposto) + '<span style="font-size:12px;font-weight:500;color:var(--ink-light)">' + s.perYear + '</span></div>';
+      html += '<div class="result-line"><span>' + s.taxOpaco + '</span><span>' + fmtBRL(imposto) + '</span></div>';
+    } else {
+      html += '<div class="total" style="font-size:16px">' + s.depTable + '</div>';
+      html += '<div class="note-box">' + s.transpNote + '</div>';
+    }
+    html += '</div>';
+
+    // Card 2: Simples Nacional
+    html += '<div class="result-card"><h4>' + s.simplesTitle + '</h4>';
+    const efetiva = anexoIIIEfetiva(faturamentoBRL);
+    if (efetiva === null) {
+      html += '<div class="total" style="font-size:16px">' + s.outOfCap + '</div>';
+    } else {
+      const dasAnual = faturamentoBRL * efetiva;
+      html += '<div class="total">' + fmtBRL(dasAnual) + '<span style="font-size:12px;font-weight:500;color:var(--ink-light)">' + s.perYear + '</span></div>';
+      html += '<div class="result-line"><span>' + s.effRate + '</span><span>' + fmtPct(efetiva) + '</span></div>';
+      html += '<div class="result-line"><span>' + s.baseCalc + '</span><span>' + s.baseCalcVal + '</span></div>';
+      if (!fatorR) html += '<div class="warn-box">' + s.fatorRWarn + '</div>';
+      if (isExport) html += '<div class="note-box">' + s.exportNoteSimples + '</div>';
+    }
+    html += '</div>';
+
+    // Card 3: Lucro Presumido
+    html += '<div class="result-card"><h4>' + s.presumidoTitle + '</h4>';
+    const lp = lucroPresumido(faturamentoBRL, isExport);
+    html += '<div class="total">' + fmtBRL(lp.total) + '<span style="font-size:12px;font-weight:500;color:var(--ink-light)">' + s.perYear + '</span></div>';
+    html += '<div class="result-line"><span>' + s.irpjLine + '</span><span>' + fmtBRL(lp.irpj) + '</span></div>';
+    html += '<div class="result-line"><span>' + s.csllLine + '</span><span>' + fmtBRL(lp.csll) + '</span></div>';
+    html += '<div class="result-line"><span>' + s.pisCofinsLine + '</span><span>' + (isExport ? s.pisCofinsIsento : fmtBRL(lp.pisCofins)) + '</span></div>';
+    html += '<div class="note-box">' + s.presumidoNote + '</div>';
+    html += '</div>';
+
+    // Card 4: Pessoa física / autônomo
+    html += '<div class="result-card"><h4>' + s.pessoaFisicaTitle + '</h4>';
+    const pf = pessoaFisicaAnual(lucroBRL);
+    html += '<div class="total">' + fmtBRL(pf) + '<span style="font-size:12px;font-weight:500;color:var(--ink-light)">' + s.perYear + '</span></div>';
+    html += '<div class="note-box">' + s.pessoaFisicaNote + '</div>';
+    html += '</div>';
+
+    document.getElementById('results-' + lang).innerHTML = html;
+  }
+
+  ['pt', 'es'].forEach(lang => {
+    document.querySelectorAll('#tab-calc-' + lang + ' input, #tab-calc-' + lang + ' select').forEach(el => {
+      el.addEventListener('input', () => calcular(lang));
+      el.addEventListener('change', () => calcular(lang));
+    });
+    calcular(lang);
+  });
+
+  // ---- "Perguntar" — busca determinística no próprio conteúdo da página ----
+  // Não usa IA nem API externa: só encontra o que já está escrito nas abas
+  // Perguntas Frequentes, Checklist e nos avisos. Garante que nunca "inventa"
+  // resposta — funciona também fora do Claude (Vercel, arquivo local, etc.).
+
+  const STOPWORDS = {
+    pt: new Set(['de','da','do','das','dos','a','o','as','os','e','ou','que','para','com','em','no','na','nos','nas','um','uma','uns','umas','se','sua','seu','suas','seus','por','como','mais','ao','aos','é','são','ser','esta','está','estão','tem','têm','vou','minha','meu','ela','ele','isso','esse','essa','este','eu','me','mim','the','and','not','has','have','from','into','onto','via','per','sob','sobre','entre','até','aos','pelo','pela','pelos','pelas','também','já','ainda','só','tudo','todo','toda','todos','todas','brasil','eua','estados','unidos','llc','lei','imposto','impostos','anual','ano']),
+    es: new Set(['de','la','el','los','las','a','y','o','que','para','con','en','un','una','unos','unas','se','su','sus','por','como','mas','más','al','del','es','son','ser','esta','está','están','tengo','tiene','tienen','voy','mi','ella','eso','ese','esa','este','yo','me','the','and','not','has','have','from','into','onto','via','per','sobre','entre','hasta','también','ya','todavia','todavía','solo','sólo','todo','toda','todos','todas','brasil','eeuu','estados','unidos','llc','ley','impuesto','impuestos','anual','año']),
+  };
+
+  function normalizar(str) {
+    return (str || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9\s]/g, ' ');
+  }
+
+  function tokenizar(lang, texto) {
+    return normalizar(texto).split(/\s+/).filter(t => t.length >= 3 && !STOPWORDS[lang].has(t));
+  }
+
+  function construirBaseConhecimento(lang) {
+    const wrap = document.getElementById('wrap-' + lang);
+    const kb = [];
+    wrap.querySelectorAll('.faq').forEach(det => {
+      const titulo = det.querySelector('summary').textContent.trim();
+      const corpo = Array.from(det.querySelectorAll('p')).map(p => p.textContent.trim()).join(' ');
+      kb.push({ titulo, corpo, tituloTokens: tokenizar(lang, titulo), corpoTokens: tokenizar(lang, titulo + ' ' + corpo) });
+    });
+    wrap.querySelectorAll('.alert-card').forEach(card => {
+      const h2 = card.querySelector('h2');
+      const titulo = h2 ? h2.textContent.trim() : '';
+      const corpo = Array.from(card.querySelectorAll('p')).map(p => p.textContent.trim()).join(' ');
+      if (titulo) kb.push({ titulo, corpo, tituloTokens: tokenizar(lang, titulo), corpoTokens: tokenizar(lang, titulo + ' ' + corpo) });
+    });
+    wrap.querySelectorAll('.checklist-item').forEach(item => {
+      const strong = item.querySelector('strong');
+      const titulo = strong ? strong.textContent.trim() : '';
+      const corpo = item.textContent.trim().replace(titulo, '').trim();
+      if (titulo) kb.push({ titulo, corpo, tituloTokens: tokenizar(lang, titulo), corpoTokens: tokenizar(lang, titulo + ' ' + corpo) });
+    });
+    return kb;
+  }
+
+  function naoSeiHTML(lang) {
+    const msg = lang === 'pt'
+      ? 'Não sei responder isso com o conteúdo que tenho nesta página. Consulte o contador parceiro, ou revise manualmente as abas Perguntas Frequentes e Checklist Anual.'
+      : 'No sé responder eso con el contenido que tengo en esta página. Consultá al contador socio, o revisá manualmente las pestañas Preguntas Frecuentes y Checklist Anual.';
+    return '<div class="warn-box">' + msg + '</div>';
+  }
+
+  function responder(lang) {
+    const input = document.getElementById('pergunta-input-' + lang);
+    const destino = document.getElementById('pergunta-resultado-' + lang);
+    const pergunta = input.value.trim();
+    if (!pergunta) { destino.innerHTML = ''; return; }
+
+    const qTokens = tokenizar(lang, pergunta);
+    if (qTokens.length === 0) { destino.innerHTML = naoSeiHTML(lang); return; }
+
+    const kb = construirBaseConhecimento(lang);
+    const pontuados = kb.map(entrada => {
+      let score = 0;
+      qTokens.forEach(qt => {
+        if (entrada.tituloTokens.includes(qt)) score += 3;
+        else if (entrada.corpoTokens.includes(qt)) score += 1;
+      });
+      return { entrada, score };
+    }).filter(p => p.score >= 3).sort((a, b) => b.score - a.score);
+
+    if (pontuados.length === 0) { destino.innerHTML = naoSeiHTML(lang); return; }
+
+    const melhor = pontuados[0];
+    let html = '<div class="result-card highlight"><h4>' + melhor.entrada.titulo + '</h4><p style="font-size:14px;margin:8px 0 0">' + melhor.entrada.corpo + '</p></div>';
+    if (pontuados[1] && pontuados[1].score >= melhor.score * 0.6) {
+      html += '<div class="result-card" style="margin-top:12px"><h4>' + pontuados[1].entrada.titulo + '</h4><p style="font-size:14px;margin:8px 0 0">' + pontuados[1].entrada.corpo + '</p></div>';
+    }
+    destino.innerHTML = html;
+  }
+
+  ['pt', 'es'].forEach(lang => {
+    const btn = document.getElementById('pergunta-btn-' + lang);
+    const input = document.getElementById('pergunta-input-' + lang);
+    if (btn) btn.addEventListener('click', () => responder(lang));
+    if (input) input.addEventListener('keydown', e => { if (e.key === 'Enter') responder(lang); });
+  });
+</script>
+
+</body>
+</html>
