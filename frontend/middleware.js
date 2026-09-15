@@ -6,6 +6,7 @@ const PUBLIC_PREFIXES = [
   '/b/',           // link fijo compartido de la consola de billeteras (token en WALLETS_SHARE_TOKEN)
   '/lock',         // pantalla de acceso
   '/api/unlock',   // endpoint que valida la clave
+  '/guia-tributario-llc-brasil.html', // guia fiscal Brasil: uso interno, sin login para que el equipo entre directo
   '/_next/',       // assets de Next.js
   '/favicon',
 ];
