@@ -266,13 +266,6 @@
           <span class="hint">Ajuste para a cotação do dia</span>
           <input type="number" id="cambio-pt" value="5.30" min="0" step="0.01">
         </div>
-        <div class="field">
-          <label>Regime de tributação da LLC no Brasil</label>
-          <select id="regimeBR-pt">
-            <option value="opaco">Opaco: 15% fixo sobre o lucro anual (padrão)</option>
-            <option value="transparente">Transparente: tabela progressiva (até 27,5%)</option>
-          </select>
-        </div>
       </div>
       <div class="checkbox-row" style="margin-top:10px">
         <input type="checkbox" id="fatorR-pt" checked>
@@ -517,13 +510,6 @@
           <span class="hint">Ajustar según la cotización del día</span>
           <input type="number" id="cambio-es" value="5.30" min="0" step="0.01">
         </div>
-        <div class="field">
-          <label>Régimen de tributación de la LLC en Brasil</label>
-          <select id="regimeBR-es">
-            <option value="opaco">Opaco: 15% fijo sobre la ganancia anual (por defecto)</option>
-            <option value="transparente">Transparente: tabla progresiva (hasta 27,5%)</option>
-          </select>
-        </div>
       </div>
       <div class="checkbox-row" style="margin-top:10px">
         <input type="checkbox" id="fatorR-es" checked>
@@ -747,8 +733,6 @@
     pt: {
       llcTitle: 'LLC nos EUA (carga tributária no Brasil)', perYear: ' / ano',
       taxOpaco: 'Imposto Brasil sobre o lucro (15% opaco)',
-      transpNote: 'Regime transparente: tabela progressiva (até 27,5%), depende de outras rendas da pessoa e do tipo de cada ativo. Não é possível estimar um valor único aqui, use o regime opaco (15%) como piso de referência.',
-      depTable: 'Depende da tabela progressiva',
       simplesTitle: 'Empresa no Brasil: Simples Nacional (Anexo III)',
       outOfCap: 'Fora do teto do Simples (acima de R$4,8 mi/ano)',
       effRate: 'Alíquota efetiva estimada (Anexo III)',
@@ -773,8 +757,6 @@
     es: {
       llcTitle: 'LLC en EEUU (carga tributaria en Brasil)', perYear: ' / año',
       taxOpaco: 'Impuesto Brasil sobre la ganancia (15% opaco)',
-      transpNote: 'Régimen transparente: tabla progresiva (hasta 27,5%), depende de otros ingresos de la persona y del tipo de cada activo. No es posible estimar un valor único acá, usar el régimen opaco (15%) como piso de referencia.',
-      depTable: 'Depende de la tabla progresiva',
       simplesTitle: 'Empresa en Brasil: Simples Nacional (Anexo III)',
       outOfCap: 'Fuera del techo del Simples (más de R$4,8 M/año)',
       effRate: 'Alícuota efectiva estimada (Anexo III)',
@@ -848,7 +830,6 @@
     const faturamentoUSD = parseFloat(id('faturamento').value) || 0;
     const margem = (parseFloat(id('margem').value) || 0) / 100;
     const cambio = parseFloat(id('cambio').value) || 0;
-    const regimeBR = id('regimeBR').value;
     const fatorR = id('fatorR').checked;
     const isExport = id('isExport').checked;
 
@@ -857,16 +838,12 @@
 
     let html = '';
 
-    // Card 1: LLC (carga no Brasil apenas)
+    // Card 1: LLC, regime opaco (15% fixo). E o padrao e o unico que aplicamos:
+    // o transparente depende dos outros rendimentos da pessoa e e decisao de contador.
+    const impostoLLC = lucroBRL * 0.15;
     html += '<div class="result-card highlight"><h4>' + s.llcTitle + '</h4>';
-    if (regimeBR === 'opaco') {
-      const imposto = lucroBRL * 0.15;
-      html += '<div class="total">' + fmtBRL(imposto) + '<span style="font-size:12px;font-weight:500;color:var(--ink-light)">' + s.perYear + '</span></div>';
-      html += '<div class="result-line"><span>' + s.taxOpaco + '</span><span>' + fmtBRL(imposto) + '</span></div>';
-    } else {
-      html += '<div class="total" style="font-size:16px">' + s.depTable + '</div>';
-      html += '<div class="note-box">' + s.transpNote + '</div>';
-    }
+    html += '<div class="total">' + fmtBRL(impostoLLC) + '<span style="font-size:12px;font-weight:500;color:var(--ink-light)">' + s.perYear + '</span></div>';
+    html += '<div class="result-line"><span>' + s.taxOpaco + '</span><span>' + fmtBRL(impostoLLC) + '</span></div>';
     html += '</div>';
 
     // Card 2: Simples Nacional
@@ -904,7 +881,7 @@
     document.getElementById('results-' + lang).innerHTML = html;
 
     renderReframe(lang, {
-      llc: regimeBR === 'opaco' ? lucroBRL * 0.15 : null,
+      llc: lucroBRL * 0.15,
       simples: efetiva === null ? null : faturamentoBRL * efetiva,
       lp: lp.total,
       pf: pf,
@@ -923,7 +900,7 @@
     br.push({ key: 'lp', val: v.lp });
     br.push({ key: 'pf', val: v.pf });
     const baratoBR = br.reduce((a, b) => (b.val < a.val ? b : a));
-    const llcGana = v.llc !== null && v.llc <= baratoBR.val;
+    const llcGana = v.llc <= baratoBR.val;
 
     if (llcGana) {
       box.innerHTML = '<div class="card" style="border-color:var(--green); box-shadow:4px 4px 0px 0px var(--green)">'
