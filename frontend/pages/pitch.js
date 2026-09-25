@@ -31,10 +31,10 @@ const CONTENT = {
     },
     pillars: {
       eyebrow: 'Por qué Firmaway',
-      title: 'No es solo abrir una LLC. Es el camino completo.',
+      title: 'Destraba tu libertad.',
       items: [
         { t: 'Seguridad y legalidad', d: 'Procesos 100% legales en EE.UU. y en tu país. Patrimonio protegido y en moneda fuerte.' },
-        { t: 'Eficiencia y conectividad', d: 'Stripe, tarjetas corporativas y un panel para crear, operar e invertir con tu LLC.' },
+        { t: 'Eficiencia y conectividad', d: 'Cuenta Mercury, Stripe, tarjetas corporativas y un panel para crear y operar tu LLC.' },
         { t: 'Cercanía y atención', d: 'Personas reales, en tu idioma, acompañándote todo el año.' },
       ],
     },
@@ -132,7 +132,6 @@ const CONTENT = {
       title: 'No es solo abrir una LLC online.',
       items: [
         'Soporte gratis e ilimitado en todos los paquetes.',
-        'Personas reales respondiendo tus consultas, no bots.',
         'EIN gestionado directamente ante el IRS.',
         'Registered Agent incluido durante el primer año.',
         'Operating Agreement incluido en todos los paquetes.',
@@ -157,10 +156,10 @@ const CONTENT = {
     },
     pillars: {
       eyebrow: 'Por que a Firmaway',
-      title: 'Não é só abrir uma LLC. É o caminho completo.',
+      title: 'Destrave sua liberdade.',
       items: [
         { t: 'Segurança e legalidade', d: 'Processos 100% legais nos EUA e no seu país. Patrimônio protegido e em moeda forte.' },
-        { t: 'Eficiência e conectividade', d: 'Stripe, cartões corporativos e um painel para criar, operar e investir com a sua LLC.' },
+        { t: 'Eficiência e conectividade', d: 'Conta Mercury, Stripe, cartões corporativos e um painel para criar e operar a sua LLC.' },
         { t: 'Proximidade e atenção', d: 'Pessoas reais, no seu idioma, acompanhando você o ano todo.' },
       ],
     },
@@ -258,7 +257,6 @@ const CONTENT = {
       title: 'Não é só abrir uma LLC online.',
       items: [
         'Suporte gratuito e ilimitado em todos os pacotes.',
-        'Pessoas reais respondendo suas dúvidas, não bots.',
         'EIN gerenciado diretamente junto ao IRS.',
         'Registered Agent incluído durante o primeiro ano.',
         'Operating Agreement incluído em todos os pacotes.',
