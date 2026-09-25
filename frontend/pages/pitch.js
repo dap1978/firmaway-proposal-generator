@@ -29,6 +29,15 @@ const CONTENT = {
       subtitle: 'Formación de LLCs, EIN y cuenta bancaria. De principio a fin, en un solo lugar.',
       proof: 'empresas ya confían en nosotros',
     },
+    pillars: {
+      eyebrow: 'Por qué Firmaway',
+      title: 'No es solo abrir una LLC. Es el camino completo.',
+      items: [
+        { t: 'Seguridad y legalidad', d: 'Procesos 100% legales en EE.UU. y en tu país. Patrimonio protegido y en moneda fuerte.' },
+        { t: 'Eficiencia y conectividad', d: 'Stripe, tarjetas corporativas y un panel para crear, operar e invertir con tu LLC.' },
+        { t: 'Cercanía y atención', d: 'Personas reales, en tu idioma, acompañándote todo el año.' },
+      ],
+    },
     stats: {
       eyebrow: 'Respaldo',
       title: 'Los números hablan solos.',
@@ -92,6 +101,7 @@ const CONTENT = {
       btn: 'Ver demo en vivo',
       features: [
         'Tarjeta de débito Visa física y virtual.',
+        'Acceso a Stripe y plataformas de pago cerradas en tu país.',
         'Transferencias ACH y SWIFT para operar globalmente.',
         'Apertura 100% remota, sin viajar a Estados Unidos.',
         'Conexión directa vía API con Mercury en los planes Pro y All In.',
@@ -99,13 +109,12 @@ const CONTENT = {
       ],
     },
     requirements: {
-      eyebrow: 'Documentación',
-      title: 'Todo lo que necesitás saber.',
+      eyebrow: 'Requisitos',
+      title: '¿Qué necesitás para arrancar?',
       col1Title: 'Lo que necesitás para arrancar',
       col1Items: [
         'Pasaporte vigente',
         'Extracto bancario para justificar fondos',
-        'Servicio de luz, gas, etc. con menos de 60 días',
         'Página web de tu negocio',
       ],
       btn: 'Revisión de tu web',
@@ -145,6 +154,15 @@ const CONTENT = {
       headline: 'Sua empresa nos Estados Unidos.',
       subtitle: 'Formação de LLCs, EIN e conta bancária. Do início ao fim, em um só lugar.',
       proof: 'empresas já confiam na gente',
+    },
+    pillars: {
+      eyebrow: 'Por que a Firmaway',
+      title: 'Não é só abrir uma LLC. É o caminho completo.',
+      items: [
+        { t: 'Segurança e legalidade', d: 'Processos 100% legais nos EUA e no seu país. Patrimônio protegido e em moeda forte.' },
+        { t: 'Eficiência e conectividade', d: 'Stripe, cartões corporativos e um painel para criar, operar e investir com a sua LLC.' },
+        { t: 'Proximidade e atenção', d: 'Pessoas reais, no seu idioma, acompanhando você o ano todo.' },
+      ],
     },
     stats: {
       eyebrow: 'Respaldo',
@@ -209,6 +227,7 @@ const CONTENT = {
       btn: 'Ver demo ao vivo',
       features: [
         'Cartão de débito Visa físico e virtual.',
+        'Acesso ao Stripe e plataformas de pagamento fechadas no seu país.',
         'Transferências ACH e SWIFT para operar globalmente.',
         'Abertura 100% remota, sem viajar aos Estados Unidos.',
         'Conexão direta via API com a Mercury nos planos Pro e All In.',
@@ -216,13 +235,12 @@ const CONTENT = {
       ],
     },
     requirements: {
-      eyebrow: 'Documentação',
-      title: 'Tudo o que você precisa saber.',
+      eyebrow: 'Requisitos',
+      title: 'O que você precisa para começar?',
       col1Title: 'O que você precisa para começar',
       col1Items: [
         'Passaporte válido',
         'Extrato bancário para comprovar fundos',
-        'Conta de luz, gás, etc. com menos de 60 dias',
         'Site da sua empresa',
       ],
       btn: 'Revisão do seu site',
@@ -304,6 +322,29 @@ function SlideCover({ theme, lang }) {
           <span style={{ fontSize: 20, fontWeight: 800, color: C.orange, letterSpacing: '-0.03em' }}>2.000+</span>
           <span style={{ fontSize: 13, fontWeight: 600, color: theme.ink }}>{t.proof}</span>
         </div>
+      </div>
+    </div>
+  );
+}
+
+function SlidePillars({ theme, lang }) {
+  const t = CONTENT[lang].pillars;
+  return (
+    <div style={{ height: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+      <Eyebrow theme={theme} center>{t.eyebrow}</Eyebrow>
+      <Title theme={theme} size={36} center>{t.title}</Title>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 20, marginTop: 20, maxWidth: 1000, width: '100%' }}>
+        {t.items.map((p, i) => (
+          <div key={p.t} style={{
+            display: 'flex', flexDirection: 'column',
+            background: C.bg, border: `1.5px solid ${C.ink}`, borderRadius: 16,
+            padding: '26px 22px', boxShadow: `4px 4px 0px 0px ${C.orange}`,
+          }}>
+            <div style={{ fontSize: 20, fontWeight: 800, color: C.orange, letterSpacing: '0.02em', marginBottom: 14 }}>0{i + 1}</div>
+            <div style={{ fontSize: 17, fontWeight: 800, color: C.ink, marginBottom: 8, letterSpacing: '-0.01em' }}>{p.t}</div>
+            <div style={{ fontSize: 13.5, color: '#4B505A', lineHeight: 1.5 }}>{p.d}</div>
+          </div>
+        ))}
       </div>
     </div>
   );
@@ -560,39 +601,26 @@ function RequirementCard({ item }) {
 function SlideRequirements({ theme, lang }) {
   const t = CONTENT[lang].requirements;
   return (
-    <div style={{ height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-      <div style={{ maxWidth: 1080, width: '100%', margin: '0 auto' }}>
-      <Eyebrow theme={theme}>{t.eyebrow}</Eyebrow>
-      <Title theme={theme} size={38}>{t.title}</Title>
-      <div style={{ display: 'flex' }}>
-        <div style={{ flex: 1, paddingRight: 36 }}>
-          <div style={{ fontSize: 17, fontWeight: 800, color: C.ink, marginBottom: 16, letterSpacing: '-0.01em' }}>{t.col1Title}</div>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-            {t.col1Items.map(item => <RequirementCard key={item} item={item} />)}
-          </div>
-          <a href={t.btnUrl} target="_blank" rel="noopener noreferrer" style={{
-            display: 'inline-block', background: C.orange, color: '#fff', fontSize: 13, fontWeight: 700,
-            padding: '11px 20px', borderRadius: 10, textDecoration: 'none', letterSpacing: '-0.01em',
-            marginTop: 18, pointerEvents: 'auto',
-          }}>
-            {t.btn} →
-          </a>
-        </div>
-        <div style={{ flex: 1, paddingLeft: 36, borderLeft: `1.5px solid ${theme.border}` }}>
-          <div style={{ fontSize: 17, fontWeight: 800, color: C.ink, marginBottom: 6, letterSpacing: '-0.01em' }}>{t.col2Title}</div>
-          <div style={{ fontSize: 12.5, color: theme.muted, marginBottom: 14, lineHeight: 1.4 }}>{t.col2Subtitle}</div>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-            {t.col2Items.map(item => <RequirementCard key={item} item={item} />)}
-          </div>
-        </div>
+    <div style={{ height: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+      <Eyebrow theme={theme} center>{t.eyebrow}</Eyebrow>
+      <Title theme={theme} size={38} center>{t.title}</Title>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 12, marginTop: 8, maxWidth: 620, width: '100%' }}>
+        {t.col1Items.map(item => <RequirementCard key={item} item={item} />)}
       </div>
-      </div>
+      <a href={t.btnUrl} target="_blank" rel="noopener noreferrer" style={{
+        display: 'inline-block', background: C.orange, color: '#fff', fontSize: 13, fontWeight: 700,
+        padding: '11px 20px', borderRadius: 10, textDecoration: 'none', letterSpacing: '-0.01em',
+        marginTop: 22, pointerEvents: 'auto',
+      }}>
+        {t.btn} →
+      </a>
     </div>
   );
 }
 
 function SlideWhy({ theme, lang }) {
   const t = CONTENT[lang].why;
+  const r = CONTENT[lang].requirements;
   return (
     <div style={{ height: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
       <Eyebrow theme={theme} center>{t.eyebrow}</Eyebrow>
@@ -610,6 +638,16 @@ function SlideWhy({ theme, lang }) {
             <div style={{ fontSize: 16, color: C.ink, lineHeight: 1.4, fontWeight: 600 }}>{w}</div>
           </div>
         ))}
+      </div>
+      {/* Mantener: acompañamiento anual (obligaciones movidas desde el slide de requisitos) */}
+      <div style={{
+        marginTop: 20, maxWidth: 720, width: '100%',
+        background: C.orangeSoft, border: `1.5px solid ${C.orange}`, borderRadius: 14,
+        padding: '16px 22px', boxShadow: `3px 3px 0px 0px ${C.orange}`,
+      }}>
+        <div style={{ fontSize: 14.5, fontWeight: 800, color: C.ink, marginBottom: 4, letterSpacing: '-0.01em' }}>{r.col2Title}</div>
+        <div style={{ fontSize: 12.5, color: C.muted, marginBottom: 10, lineHeight: 1.4 }}>{r.col2Subtitle}</div>
+        <div style={{ fontSize: 13.5, fontWeight: 600, color: C.ink }}>{r.col2Items.join('   ·   ')}</div>
       </div>
     </div>
   );
@@ -653,14 +691,15 @@ function SlideClosing({ theme, lang }) {
 }
 
 const SLIDES = [
-  { key: 'cover',        theme: 'cream',  Component: SlideCover },
-  { key: 'stats',        theme: 'dark',   Component: SlideStats },
-  { key: 'timeline',     theme: 'dark',   Component: SlideTimeline },
-  { key: 'mercury',      theme: 'cream',  Component: SlideMercury },
-  { key: 'requirements', theme: 'cream',  Component: SlideRequirements },
-  { key: 'packages',     theme: 'cream',  Component: SlidePackages },
-  { key: 'states',       theme: 'cream',  Component: SlideStates },
-  { key: 'why',          theme: 'cream',  Component: SlideWhy },
+  { key: 'cover',        theme: 'cream',  Component: SlideCover },        // Portada
+  { key: 'pillars',      theme: 'cream',  Component: SlidePillars },      // Gancho: por qué conviene (drivers Danniela)
+  { key: 'stats',        theme: 'dark',   Component: SlideStats },        // Confianza
+  { key: 'requirements', theme: 'cream',  Component: SlideRequirements }, // Calificación (Tatiana)
+  { key: 'timeline',     theme: 'dark',   Component: SlideTimeline },     // Llegar
+  { key: 'states',       theme: 'cream',  Component: SlideStates },       // Llegar (dónde)
+  { key: 'mercury',      theme: 'cream',  Component: SlideMercury },      // Operar
+  { key: 'why',          theme: 'cream',  Component: SlideWhy },          // Mantener + diferencial
+  { key: 'packages',     theme: 'cream',  Component: SlidePackages },     // Precio
   { key: 'closing',      theme: 'dark',   Component: SlideClosing },
 ];
 
