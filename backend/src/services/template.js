@@ -98,7 +98,7 @@ const WL_I18N = {
     mercuryTitle: 'Tus clientes bancarizan<br>con Mercury.',
     mercuryCaption: 'Vista del entorno de demostración de Mercury. Los montos son de ejemplo.',
     mercuryBody: 'Cada cliente que forma su LLC a través de tu plataforma abre también su cuenta en Mercury, el banco elegido por startups y empresas remotas en todo el mundo. Vos ofrecés el servicio completo, de punta a punta.',
-    mercuryF1: 'Tarjeta de débito Visa física y virtual.',
+    mercuryF1: 'Tarjeta de débito Mastercard física y virtual.',
     mercuryF2: 'Transferencias ACH y SWIFT para operar globalmente.',
     mercuryF3: 'Apertura 100% remota, sin viajar a Estados Unidos.',
     mercuryBtn: 'Ver demo en vivo',
@@ -178,7 +178,7 @@ const WL_I18N = {
     mercuryTitle: 'Seus clientes bancarizam<br>com a Mercury.',
     mercuryCaption: 'Visão do ambiente de demonstração da Mercury. Os valores são de exemplo.',
     mercuryBody: 'Cada cliente que forma sua LLC através da sua plataforma também abre sua conta na Mercury, o banco escolhido por startups e empresas remotas em todo o mundo. Você oferece o serviço completo, de ponta a ponta.',
-    mercuryF1: 'Cartão de débito Visa físico e virtual.',
+    mercuryF1: 'Cartão de débito Mastercard físico e virtual.',
     mercuryF2: 'Transferências ACH e SWIFT para operar globalmente.',
     mercuryF3: 'Abertura 100% remota, sem viajar aos Estados Unidos.',
     mercuryBtn: 'Ver demo ao vivo',
@@ -260,7 +260,7 @@ const i18n = {
     mercurySub: 'Su cuenta bancaria',
     mercuryTitulo: 'Así va a operar\nsu cuenta.',
     mercuryBody: 'Su LLC opera con Mercury, el banco elegido por startups y empresas remotas en todo el mundo. Todo se gestiona en dólares, desde cualquier país, sin pisar Estados Unidos.',
-    mercuryFeature1: 'Tarjeta de débito Visa física y virtual.',
+    mercuryFeature1: 'Tarjeta de débito Mastercard física y virtual.',
     mercuryFeature2: 'Transferencias ACH y SWIFT para operar globalmente.',
     mercuryFeature3: 'Apertura 100% remota, sin viajar a Estados Unidos.',
     mercuryCaption: 'Vista del entorno de demostración de Mercury. Los montos son de ejemplo.',
@@ -319,13 +319,13 @@ const i18n = {
       ],
       pro: [
         ['LLC en Wyoming', 'el estado más recomendado: privacidad de socios y baja burocracia.'],
-        ['Cuenta Mercury incluida', 'el mejor banco para operar con una LLC, tarjeta de débito Visa física y virtual, ACH y SWIFT para operar globalmente.'],
+        ['Cuenta Mercury incluida', 'el mejor banco para operar con una LLC, tarjeta de débito Mastercard física y virtual, ACH y SWIFT para operar globalmente.'],
         ['EIN / Tax ID federal', 'número de identificación fiscal necesario para abrir la cuenta bancaria y operar ante el IRS.'],
         ['Soporte gratis e ilimitado', 'equipo disponible de lunes a viernes para cualquier consulta sobre su LLC.'],
       ],
       all_in: [
         ['LLC en Wyoming', 'privacidad de socios y baja burocracia.'],
-        ['Cuenta Mercury incluida', 'el mejor banco para operar con una LLC, tarjeta de débito Visa física y virtual, ACH y SWIFT.'],
+        ['Cuenta Mercury incluida', 'el mejor banco para operar con una LLC, tarjeta de débito Mastercard física y virtual, ACH y SWIFT.'],
         ['EIN / Tax ID federal', 'gestión completa ante el IRS por Firmaway.'],
         ['Obligaciones año 1 incluidas', 'declaración, renovación del agente registrado y reporte anual. Hasta 2028 sin costos adicionales.'],
         ['Soporte gratis e ilimitado', 'equipo disponible de lunes a viernes para cualquier consulta.'],
@@ -378,7 +378,7 @@ const i18n = {
     mercurySub: 'Sua conta bancária',
     mercuryTitulo: 'É assim que você vai\noperar sua conta.',
     mercuryBody: 'Sua LLC opera com a Mercury, o banco escolhido por startups e empresas remotas em todo o mundo. Tudo é gerenciado em dólares, de qualquer país, sem pisar nos Estados Unidos.',
-    mercuryFeature1: 'Cartão de débito Visa físico e virtual.',
+    mercuryFeature1: 'Cartão de débito Mastercard físico e virtual.',
     mercuryFeature2: 'Transferências ACH e SWIFT para operar globalmente.',
     mercuryFeature3: 'Abertura 100% remota, sem viajar aos Estados Unidos.',
     mercuryCaption: 'Visão do ambiente de demonstração da Mercury. Os valores são de exemplo.',
@@ -435,13 +435,13 @@ const i18n = {
       ],
       pro: [
         ['LLC no Wyoming', 'o estado mais recomendado: privacidade dos sócios e menos burocracia.'],
-        ['Conta Mercury incluída', 'o melhor banco para operar com uma LLC, cartão de débito Visa físico e virtual, ACH e SWIFT para operar globalmente.'],
+        ['Conta Mercury incluída', 'o melhor banco para operar com uma LLC, cartão de débito Mastercard físico e virtual, ACH e SWIFT para operar globalmente.'],
         ['EIN / Tax ID federal', 'número de identificação fiscal necessário para abrir a conta bancária e operar junto ao IRS.'],
         ['Suporte gratuito e ilimitado', 'equipe disponível de segunda a sexta para qualquer dúvida sobre sua LLC.'],
       ],
       all_in: [
         ['LLC no Wyoming', 'privacidade dos sócios e menos burocracia.'],
-        ['Conta Mercury incluída', 'o melhor banco para operar com uma LLC, cartão de débito Visa físico e virtual, ACH e SWIFT.'],
+        ['Conta Mercury incluída', 'o melhor banco para operar com uma LLC, cartão de débito Mastercard físico e virtual, ACH e SWIFT.'],
         ['EIN / Tax ID federal', 'gestão completa junto ao IRS pela Firmaway.'],
         ['Obrigações do ano 1 incluídas', 'declaração, renovação do agente registrado e relatório anual. Sem custos adicionais até 2028.'],
         ['Suporte gratuito e ilimitado', 'equipe disponível de segunda a sexta para qualquer dúvida.'],
@@ -634,13 +634,13 @@ function buildTimeline(lang) {
         ['1', 'Confirmación de datos',  'Completamos su perfil y validamos la documentación.',           'Día 1'],
         ['2', 'Formación de la LLC',    'Presentamos la constitución al estado que eligió.',             'Días 2–5'],
         ['3', 'Obtención del EIN',      'Gestionamos su Tax ID federal ante el IRS.',                   'Días 5–10'],
-        ['4', 'Apertura de Mercury',    'Activamos su cuenta bancaria y tarjeta de débito Visa.',       'Días 10–15'],
+        ['4', 'Apertura de Mercury',    'Activamos su cuenta bancaria y tarjeta de débito Mastercard.',       'Días 10–15'],
       ]
     : [
         ['1', 'Confirmação dos dados',  'Completamos o perfil e validamos a documentação.',             'Dia 1'],
         ['2', 'Formação da LLC',        'Enviamos a constituição ao estado que você escolheu.',         'Dias 2–5'],
         ['3', 'Obtenção do EIN',        'Gerenciamos o Tax ID federal junto ao IRS.',                   'Dias 5–10'],
-        ['4', 'Abertura da Mercury',    'Ativamos a conta bancária e o cartão de débito Visa.',         'Dias 10–15'],
+        ['4', 'Abertura da Mercury',    'Ativamos a conta bancária e o cartão de débito Mastercard.',         'Dias 10–15'],
       ];
 
   const items = steps.map(([num, stepTitle, desc, days]) => `

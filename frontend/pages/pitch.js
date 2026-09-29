@@ -91,7 +91,7 @@ const CONTENT = {
         { n: '1', title: 'Confirmación de datos', days: 'Día 1',        note: 'Completamos el perfil y validamos la documentación.' },
         { n: '2', title: 'Formación de la LLC',   days: 'Días 2 a 5',   note: 'Presentamos la constitución.', noteHighlight: 'En Pro y All In, ya iniciamos la solicitud bancaria en este paso, sin necesidad del EIN.' },
         { n: '3', title: 'Obtención del EIN',     days: 'Días 5 a 10',  note: 'Gestionamos el Tax ID federal ante el IRS.' },
-        { n: '4', title: 'Apertura de Mercury',   days: 'Días 10 a 15', note: 'Activamos la cuenta bancaria y la tarjeta de débito Visa.' },
+        { n: '4', title: 'Apertura de Mercury',   days: 'Días 10 a 15', note: 'Activamos la cuenta bancaria y la tarjeta de débito Mastercard.' },
       ],
     },
     mercury: {
@@ -100,7 +100,7 @@ const CONTENT = {
       body: 'El banco elegido por startups y empresas remotas en todo el mundo. Así se ve la cuenta que vas a operar.',
       btn: 'Ver demo en vivo',
       features: [
-        'Tarjeta de débito Visa física y virtual.',
+        'Tarjeta de débito Mastercard física y virtual.',
         'Acceso a Stripe y plataformas de pago cerradas en tu país.',
         'Transferencias ACH y SWIFT para operar globalmente.',
         'Apertura 100% remota, sin viajar a Estados Unidos.',
@@ -216,7 +216,7 @@ const CONTENT = {
         { n: '1', title: 'Confirmação dos dados', days: 'Dia 1',        note: 'Completamos o perfil e validamos a documentação.' },
         { n: '2', title: 'Formação da LLC',        days: 'Dias 2 a 5',   note: 'Apresentamos a constituição.', noteHighlight: 'Nos pacotes Pro e All In, já iniciamos a solicitação bancária nesta etapa, sem necessidade do EIN.' },
         { n: '3', title: 'Obtenção do EIN',         days: 'Dias 5 a 10',  note: 'Gerenciamos o Tax ID federal junto ao IRS.' },
-        { n: '4', title: 'Abertura da Mercury',     days: 'Dias 10 a 15', note: 'Ativamos a conta bancária e o cartão de débito Visa.' },
+        { n: '4', title: 'Abertura da Mercury',     days: 'Dias 10 a 15', note: 'Ativamos a conta bancária e o cartão de débito Mastercard.' },
       ],
     },
     mercury: {
@@ -225,7 +225,7 @@ const CONTENT = {
       body: 'O banco escolhido por startups e empresas remotas em todo o mundo. É assim que fica a conta que você vai operar.',
       btn: 'Ver demo ao vivo',
       features: [
-        'Cartão de débito Visa físico e virtual.',
+        'Cartão de débito Mastercard físico e virtual.',
         'Acesso ao Stripe e plataformas de pagamento fechadas no seu país.',
         'Transferências ACH e SWIFT para operar globalmente.',
         'Abertura 100% remota, sem viajar aos Estados Unidos.',
