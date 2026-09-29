@@ -733,11 +733,12 @@
     pt: {
       llcTitle: 'LLC nos EUA (carga tributária no Brasil)', perYear: ' / ano',
       taxOpaco: 'Imposto Brasil sobre o lucro (15% opaco)',
-      simplesTitle: 'Empresa no Brasil: Simples Nacional (Anexo III)',
+      simplesTitle: 'Empresa no Brasil: Simples Nacional',
       outOfCap: 'Fora do teto do Simples (acima de R$4,8 mi/ano)',
-      effRate: 'Alíquota efetiva estimada (Anexo III)',
+      effRate: 'Alíquota efetiva estimada',
+      regimeLine: 'Regime aplicado', anexoIIILabel: 'Anexo III (Fator R ≥ 28%)', anexoVLabel: 'Anexo V (Fator R < 28%)',
       baseCalc: 'Base de cálculo', baseCalcVal: 'faturamento, não o lucro',
-      fatorRWarn: 'Fator R abaixo de 28%: a atividade provavelmente migra para o Anexo V, com alíquotas mais altas. Este valor é otimista, confirmar com contador.',
+      fatorRWarn: 'Calculado com o Anexo V: sem folha de pagamento que atinja 28% do faturamento, a atividade não fica no Anexo III e cai em alíquotas mais altas. Confirmar o enquadramento com contador.',
       exportNoteSimples: 'Para exportação de serviços, ISS (e muitas vezes PIS/COFINS) costuma ser isento, o que reduz ainda mais essa alíquota na prática. Trate este número como teto, não como valor exato, depende do município e do enquadramento.',
       presumidoTitle: 'Empresa no Brasil: Lucro Presumido',
       irpjLine: 'IRPJ (15% + adicional sobre o excedente)',
@@ -757,11 +758,12 @@
     es: {
       llcTitle: 'LLC en EEUU (carga tributaria en Brasil)', perYear: ' / año',
       taxOpaco: 'Impuesto Brasil sobre la ganancia (15% opaco)',
-      simplesTitle: 'Empresa en Brasil: Simples Nacional (Anexo III)',
+      simplesTitle: 'Empresa en Brasil: Simples Nacional',
       outOfCap: 'Fuera del techo del Simples (más de R$4,8 M/año)',
-      effRate: 'Alícuota efectiva estimada (Anexo III)',
+      effRate: 'Alícuota efectiva estimada',
+      regimeLine: 'Régimen aplicado', anexoIIILabel: 'Anexo III (Fator R ≥ 28%)', anexoVLabel: 'Anexo V (Fator R < 28%)',
       baseCalc: 'Base de cálculo', baseCalcVal: 'facturación, no la ganancia',
-      fatorRWarn: 'Fator R por debajo de 28%: la actividad probablemente migra al Anexo V, con alícuotas más altas. Este valor es optimista, confirmar con contador.',
+      fatorRWarn: 'Calculado con el Anexo V: sin nómina que alcance el 28% de la facturación, la actividad no queda en el Anexo III y cae en alícuotas más altas. Confirmar el encuadramiento con contador.',
       exportNoteSimples: 'Para exportación de servicios, el ISS (y muchas veces PIS/COFINS) suele estar exento, lo que reduce aún más esta alícuota en la práctica. Tomar este número como techo, no como valor exacto, depende del municipio y del encuadramiento.',
       presumidoTitle: 'Empresa en Brasil: Lucro Presumido',
       irpjLine: 'IRPJ (15% + adicional sobre el excedente)',
@@ -788,6 +790,23 @@
       { limite: 1800000, nominal: 0.16, deducao: 35640 },
       { limite: 3600000, nominal: 0.21, deducao: 125640 },
       { limite: 4800000, nominal: 0.33, deducao: 648000 },
+    ];
+    if (faturamentoAnualBRL <= 0) return 0;
+    if (faturamentoAnualBRL > 4800000) return null;
+    const faixa = faixas.find(f => faturamentoAnualBRL <= f.limite);
+    return Math.max((faturamentoAnualBRL * faixa.nominal - faixa.deducao) / faturamentoAnualBRL, 0);
+  }
+
+  // Anexo V: aplica quando o Fator R (folha / faturamento) fica abaixo de 28%.
+  // Aliquotas maiores que o Anexo III. Tabela LC 123/2006, Anexo V (verificada).
+  function anexoVEfetiva(faturamentoAnualBRL) {
+    const faixas = [
+      { limite: 180000, nominal: 0.155, deducao: 0 },
+      { limite: 360000, nominal: 0.18, deducao: 4500 },
+      { limite: 720000, nominal: 0.195, deducao: 9900 },
+      { limite: 1800000, nominal: 0.205, deducao: 17100 },
+      { limite: 3600000, nominal: 0.23, deducao: 62100 },
+      { limite: 4800000, nominal: 0.305, deducao: 540000 },
     ];
     if (faturamentoAnualBRL <= 0) return 0;
     if (faturamentoAnualBRL > 4800000) return null;
@@ -846,17 +865,21 @@
     html += '<div class="result-line"><span>' + s.taxOpaco + '</span><span>' + fmtBRL(impostoLLC) + '</span></div>';
     html += '</div>';
 
-    // Card 2: Simples Nacional
+    // Card 2: Simples Nacional. O Fator R decide o anexo: >=28% -> Anexo III
+    // (aliquotas menores); <28% -> Anexo V (aliquotas maiores). O checkbox
+    // conmuta o CALCULO, nao so o aviso.
     html += '<div class="result-card"><h4>' + s.simplesTitle + '</h4>';
-    const efetiva = anexoIIIEfetiva(faturamentoBRL);
+    const usaAnexoV = !fatorR;
+    const efetiva = usaAnexoV ? anexoVEfetiva(faturamentoBRL) : anexoIIIEfetiva(faturamentoBRL);
     if (efetiva === null) {
       html += '<div class="total" style="font-size:16px">' + s.outOfCap + '</div>';
     } else {
       const dasAnual = faturamentoBRL * efetiva;
       html += '<div class="total">' + fmtBRL(dasAnual) + '<span style="font-size:12px;font-weight:500;color:var(--ink-light)">' + s.perYear + '</span></div>';
       html += '<div class="result-line"><span>' + s.effRate + '</span><span>' + fmtPct(efetiva) + '</span></div>';
+      html += '<div class="result-line"><span>' + s.regimeLine + '</span><span>' + (usaAnexoV ? s.anexoVLabel : s.anexoIIILabel) + '</span></div>';
       html += '<div class="result-line"><span>' + s.baseCalc + '</span><span>' + s.baseCalcVal + '</span></div>';
-      if (!fatorR) html += '<div class="warn-box">' + s.fatorRWarn + '</div>';
+      if (usaAnexoV) html += '<div class="warn-box">' + s.fatorRWarn + '</div>';
       if (isExport) html += '<div class="note-box">' + s.exportNoteSimples + '</div>';
     }
     html += '</div>';
