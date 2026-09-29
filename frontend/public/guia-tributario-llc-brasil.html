@@ -123,6 +123,24 @@
   .alert-card.collapsed h2 { margin-bottom: 0; }
   .alert-card.collapsed .alert-body { display: none; }
 
+  /* Instrucciones de uso de la calculadora */
+  .card-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+  .card-head h3 { margin: 0; }
+  .howto-btn {
+    background: var(--cream); border: 1.5px solid var(--orange); color: var(--orange);
+    border-radius: 999px; padding: 6px 14px; font-size: 12.5px; font-weight: 600;
+    cursor: pointer; font-family: inherit; white-space: nowrap;
+  }
+  .howto-btn:hover { background: var(--orange-soft); }
+  .howto-box {
+    background: var(--orange-soft); border: 1.5px solid var(--orange); border-radius: 12px;
+    padding: 14px 18px; margin: 14px 0 2px; font-size: 14px;
+  }
+  .howto-box ol { margin: 0; padding-left: 20px; }
+  .howto-box li { margin-bottom: 6px; line-height: 1.45; }
+  .howto-box .howto-close { margin: 10px 0 0; font-size: 13px; color: var(--ink-light); }
+  .cambio-status { display: block; margin-top: 6px; font-size: 12px; font-weight: 600; color: var(--orange); }
+
   .tabs {
     display: flex;
     gap: 6px;
@@ -266,7 +284,20 @@
 
   <section class="tab-panel active" id="tab-calc-pt">
     <div class="card">
-      <h3>Dados do negócio do lead</h3>
+      <div class="card-head">
+        <h3>Dados do negócio do lead</h3>
+        <button type="button" class="howto-btn" data-howto="pt">Como usar?</button>
+      </div>
+      <div class="howto-box" id="howto-pt" hidden>
+        <ol>
+          <li>Preencha o faturamento anual (USD), a margem de lucro (%) e a cotação do dia (preenchida automaticamente, editável).</li>
+          <li>Marque "Fator R" só se o lead paga folha que chega a 28% do que fatura. Isso define Anexo III ou V no Simples.</li>
+          <li>Marque "Exportação" se ele fatura para fora do Brasil (isenta ISS/PIS/COFINS).</li>
+          <li>Compare as 4 colunas: LLC vs Simples, Lucro Presumido e pessoa física.</li>
+          <li>Veja o quadro final: verde = a LLC também compensa no imposto; laranja = leve a conversa para o lado operacional.</li>
+        </ol>
+        <p class="howto-close">É um guia comercial, não substitui o contador. Casos sensíveis vão para a Isabela.</p>
+      </div>
       <div class="calc-grid">
         <div class="field">
           <label>Faturamento anual estimado (USD)</label>
@@ -281,6 +312,7 @@
           <label>Cotação USD → BRL</label>
           <span class="hint">Ajuste para a cotação do dia</span>
           <input type="number" id="cambio-pt" value="5.30" min="0" step="0.01">
+          <span class="cambio-status" id="cambio-status-pt"></span>
         </div>
       </div>
       <div class="checkbox-row" style="margin-top:10px">
@@ -510,7 +542,20 @@
 
   <section class="tab-panel active" id="tab-calc-es">
     <div class="card">
-      <h3>Datos del negocio del lead</h3>
+      <div class="card-head">
+        <h3>Datos del negocio del lead</h3>
+        <button type="button" class="howto-btn" data-howto="es">¿Cómo se usa?</button>
+      </div>
+      <div class="howto-box" id="howto-es" hidden>
+        <ol>
+          <li>Cargá la facturación anual (USD), el margen de ganancia (%) y la cotización del día (se completa automáticamente, editable).</li>
+          <li>Tildá "Fator R" solo si el lead paga nómina que llega al 28% de lo que factura. Eso define Anexo III o V en el Simples.</li>
+          <li>Tildá "Exportación" si factura al exterior (exime ISS/PIS/COFINS).</li>
+          <li>Compará las 4 columnas: LLC vs Simples, Lucro Presumido y persona física.</li>
+          <li>Mirá el recuadro final: verde = la LLC también conviene por impuesto; naranja = llevá la charla al lado operativo.</li>
+        </ol>
+        <p class="howto-close">Es una guía comercial, no reemplaza al contador. Los casos sensibles van a Isabela.</p>
+      </div>
       <div class="calc-grid">
         <div class="field">
           <label>Facturación anual estimada (USD)</label>
@@ -525,6 +570,7 @@
           <label>Cotización USD → BRL</label>
           <span class="hint">Ajustar según la cotización del día</span>
           <input type="number" id="cambio-es" value="5.30" min="0" step="0.01">
+          <span class="cambio-status" id="cambio-status-es"></span>
         </div>
       </div>
       <div class="checkbox-row" style="margin-top:10px">
@@ -1101,6 +1147,42 @@
     chip.addEventListener('click', toggle);
     h2.addEventListener('click', toggle);
   });
+
+  // Panel "Como usar? / ¿Cómo se usa?": muestra/oculta las instrucciones.
+  document.querySelectorAll('.howto-btn').forEach(btn => {
+    const lang = btn.getAttribute('data-howto');
+    const box = document.getElementById('howto-' + lang);
+    if (!box) return;
+    btn.addEventListener('click', () => {
+      const abrir = box.hasAttribute('hidden');
+      if (abrir) box.removeAttribute('hidden'); else box.setAttribute('hidden', '');
+    });
+  });
+
+  // Cotización USD->BRL en vivo (AwesomeAPI). Rellena el campo y recalcula.
+  // Si falla (sin internet, API caída), deja el valor manual por defecto.
+  (function () {
+    fetch('https://economia.awesomeapi.com.br/json/last/USD-BRL')
+      .then(r => r.json())
+      .then(d => {
+        const bid = parseFloat(d && d.USDBRL && d.USDBRL.bid);
+        if (!bid || !isFinite(bid)) throw new Error('sin cotización');
+        const val = bid.toFixed(2);
+        ['pt', 'es'].forEach(lang => {
+          const inp = document.getElementById('cambio-' + lang);
+          const st = document.getElementById('cambio-status-' + lang);
+          if (inp) inp.value = val;
+          if (st) st.textContent = (lang === 'pt' ? 'Cotação de hoje (automática): ' : 'Cotización de hoy (automática): ') + val;
+          if (typeof calcular === 'function') calcular(lang);
+        });
+      })
+      .catch(() => {
+        ['pt', 'es'].forEach(lang => {
+          const st = document.getElementById('cambio-status-' + lang);
+          if (st) st.textContent = (lang === 'pt' ? 'Cotação manual (ajuste se precisar)' : 'Cotización manual (ajustá si hace falta)');
+        });
+      });
+  })();
 </script>
 
 </body>
