@@ -107,6 +107,22 @@
   .dont-do strong.yes { color: var(--green); }
   .src-inline { font-size: 12px; }
 
+  /* Alertas minimizables */
+  .alert-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+  .alert-toggle {
+    background: var(--cream);
+    border: 2px solid var(--orange);
+    color: var(--orange);
+    width: 26px; height: 26px; border-radius: 999px;
+    font-size: 17px; font-weight: 700; line-height: 1;
+    cursor: pointer; flex-shrink: 0; padding: 0;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .alert-card h2 { cursor: pointer; }
+  .alert-card.collapsed { margin-bottom: 16px; }
+  .alert-card.collapsed h2 { margin-bottom: 0; }
+  .alert-card.collapsed .alert-body { display: none; }
+
   .tabs {
     display: flex;
     gap: 6px;
@@ -1039,6 +1055,51 @@
     const input = document.getElementById('pergunta-input-' + lang);
     if (btn) btn.addEventListener('click', () => responder(lang));
     if (input) input.addEventListener('keydown', e => { if (e.key === 'Enter') responder(lang); });
+  });
+
+  // Alertas minimizables: envuelve el detalle, agrega el toggle y recuerda el
+  // estado por tarjeta (localStorage, con fallback si no está disponible).
+  document.querySelectorAll('.alert-card').forEach(card => {
+    const chip = card.querySelector('.chip');
+    const h2 = card.querySelector('h2');
+    if (!chip || !h2) return;
+
+    // Envolver todo lo que sigue al h2 dentro de .alert-body
+    const body = document.createElement('div');
+    body.className = 'alert-body';
+    let n = h2.nextSibling;
+    while (n) { const next = n.nextSibling; body.appendChild(n); n = next; }
+    card.appendChild(body);
+
+    // Fila de encabezado: chip + botón toggle
+    const head = document.createElement('div');
+    head.className = 'alert-head';
+    chip.parentNode.insertBefore(head, chip);
+    head.appendChild(chip);
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'alert-toggle';
+    head.appendChild(btn);
+
+    const key = 'fw-alert-' + (chip.textContent || '').trim();
+    let collapsed = false;
+    try { collapsed = localStorage.getItem(key) === '1'; } catch (e) {}
+
+    function apply() {
+      card.classList.toggle('collapsed', collapsed);
+      btn.textContent = collapsed ? '+' : '–';
+      btn.setAttribute('aria-label', collapsed ? 'Expandir' : 'Minimizar');
+    }
+    function toggle() {
+      collapsed = !collapsed;
+      apply();
+      try { collapsed ? localStorage.setItem(key, '1') : localStorage.removeItem(key); } catch (e) {}
+    }
+    apply();
+    btn.addEventListener('click', toggle);
+    chip.style.cursor = 'pointer';
+    chip.addEventListener('click', toggle);
+    h2.addEventListener('click', toggle);
   });
 </script>
 
